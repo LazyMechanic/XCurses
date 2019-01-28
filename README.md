@@ -1,2 +1,2 @@
-# xcurses
+# XCurses
 C++ wrapper over pdcurses
