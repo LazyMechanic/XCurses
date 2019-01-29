@@ -3,8 +3,9 @@
 #include <cstdint>
 #include <memory>
 
-#include <PDCurses/curses.h>
 #include <XCurses/XBorder.h>
+
+struct WINDOW;
 
 class XWindow
 {
@@ -47,14 +48,16 @@ public:
 	 * \param bottomRightCorner Character for bottom right corner of border
 	 * \return Window status code
 	 */
-	XWindow::Status setBorder(uint32_t leftSide,
+	XWindow::Status setBorder(
+		uint32_t leftSide,
 		uint32_t rightSide,
 		uint32_t topSide,
 		uint32_t bottomSide,
 		uint32_t topLeftCorner,
 		uint32_t topRightCorner,
 		uint32_t bottomLeftCorner,
-		uint32_t bottomRightCorner);
+		uint32_t bottomRightCorner
+	);
 	
     /**
      * \brief Refresh PDCurses window

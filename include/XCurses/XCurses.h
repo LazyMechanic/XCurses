@@ -81,6 +81,18 @@ public:
 	 */
 	XCurses::Status setTerminalSize(unsigned int width, unsigned int height);
 
+    /**
+	 * \brief Inverse all colors in terminal
+	 * \return Status code
+	 */
+	XCurses::Status inverseColors();
+
+    /**
+	 * \brief Beep sound
+	 * \return Status code
+	 */
+	XCurses::Status beepSound();
+
 private:
     /**
 	 * \brief Current PDCurses config

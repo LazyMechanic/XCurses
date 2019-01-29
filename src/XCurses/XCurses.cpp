@@ -83,3 +83,13 @@ int XCurses::setTerminalSize(unsigned int width, unsigned int height)
 	m_config.terminalHeight = height;
 	return resize_term(height, width);
 }
+
+XCurses::Status XCurses::inverseColors()
+{
+	return flash();
+}
+
+XCurses::Status XCurses::beepSound()
+{
+	return beep();
+}

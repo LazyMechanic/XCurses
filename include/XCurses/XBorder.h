@@ -8,7 +8,9 @@ public:
     enum Type
     {
 		None,
-		Standard
+		Standard,
+        Advanced,
+        Double
     };
 
 	XBorder(uint32_t _leftSide,
@@ -18,7 +20,8 @@ public:
 		uint32_t _topLeftCorner,
 		uint32_t _topRightCorner,
 		uint32_t _bottomLeftCorner,
-		uint32_t _bottomRightCorner) :
+		uint32_t _bottomRightCorner
+	) :
         leftSide(_leftSide),
         rightSide(_rightSide),
         topSide(_topSide),
@@ -48,6 +51,32 @@ public:
 			topRightCorner = '+';
 			bottomLeftCorner = '+';
 			bottomRightCorner = '+';
+			break;
+		}
+		case XBorder::Type::Advanced:
+		{
+
+			leftSide = 0x2502;
+			rightSide = 0x2502;
+			topSide = 0x2500;
+			bottomSide = 0x2500;
+			topLeftCorner = 0x250c;
+			topRightCorner = 0x2510;
+			bottomLeftCorner = 0x2514;
+			bottomRightCorner = 0x2518;
+			break;
+		}
+		case XBorder::Type::Double:
+		{
+
+			leftSide = 0x2551;
+			rightSide = 0x2551;
+			topSide = 0x2550;
+			bottomSide = 0x2550;
+			topLeftCorner = 0x2554;
+			topRightCorner = 0x2557;
+			bottomLeftCorner = 0x255a;
+			bottomRightCorner = 0x255d;
 			break;
 		}
 		}
