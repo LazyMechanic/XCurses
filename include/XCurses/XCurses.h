@@ -11,7 +11,7 @@ public:
 	~XCurses();
 
     /**
-	 * \brief Initialize XCurses of default
+	 * \brief Default initialize XCurses
 	 */
 	void init();
     
