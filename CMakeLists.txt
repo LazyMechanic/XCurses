@@ -11,11 +11,11 @@ set(PROJECT_DIR ${CMAKE_SOURCE_DIR})
 # Make x64
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	set(EXTLIBS_DIR ${PROJECT_DIR}/extlibs/x64)
-    set(OUTPUT_DIR ${PROJECT_DIR}/lib/x64)
+    set(OUTPUT_DIR ${PROJECT_DIR}/bin/x64)
 # Make x86
 elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
 	set(EXTLIBS_DIR ${PROJECT_DIR}/extlibs/x86)
-    set(OUTPUT_DIR ${PROJECT_DIR}/lib/x86)
+    set(OUTPUT_DIR ${PROJECT_DIR}/bin/x86)
 endif()
 
 set(PROJECT_INC_DIR ${PROJECT_DIR}/include)
