@@ -15,17 +15,16 @@ Curses::~Curses()
 
 void Curses::init(const CursesConfig& config)
 {
-	this->setCBrake(config.enableCBreak);
-	this->setEcho(config.enableEcho);
-	this->setRaw(config.enableRaw);
-	this->setNewLine(config.enableNewLine);
-	this->setHalfDelay(config.halfDelay);
+	this->setCBrake(config.enableCBreakMode);
+	this->setEcho(config.enableEchoMode);
+	this->setRaw(config.enableRawMode);
+	this->setNewLine(config.enableNewLineMode);
 	this->setTerminalSize(config.terminalWidth, config.terminalHeight);
 }
 
 Curses::Status Curses::setCBrake(bool v)
 {
-	m_config.enableCBreak = v;
+	m_config.enableCBreakMode = v;
 	if (v) {
 		return cbreak();
 	}
@@ -36,7 +35,7 @@ Curses::Status Curses::setCBrake(bool v)
 
 Curses::Status Curses::setEcho(bool v)
 {
-	m_config.enableEcho = v;
+	m_config.enableEchoMode = v;
 	if (v) {
 		return echo();
 	}
@@ -47,7 +46,7 @@ Curses::Status Curses::setEcho(bool v)
 
 Curses::Status Curses::setRaw(bool v)
 {
-	m_config.enableRaw = v;
+	m_config.enableRawMode = v;
 	if (v) {
 		return raw();
 	}
@@ -58,19 +57,13 @@ Curses::Status Curses::setRaw(bool v)
 
 Curses::Status Curses::setNewLine(bool v)
 {
-	m_config.enableNewLine = v;
+	m_config.enableNewLineMode = v;
 	if (v) {
 		return nl();
 	}
 	else {
 		return nonl();
 	}
-}
-
-Curses::Status Curses::setHalfDelay(unsigned int delay)
-{
-	m_config.halfDelay = delay;
-	return halfdelay(delay);
 }
 
 Curses::Status Curses::setTerminalSize(unsigned int width, unsigned int height)

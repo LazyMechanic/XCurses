@@ -32,14 +32,6 @@ Color::Color(uint32_t color) :
 {
 }
 
-Color& Color::operator=(const Color& right)
-{
-	this->r = right.r;
-	this->g = right.g;
-	this->b = right.b;
-	return *this;
-}
-
 uint16_t Color::cursesRed()
 {
 	return static_cast<uint16_t>((r / 255.0f) * 1000.0f);

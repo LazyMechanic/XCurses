@@ -15,6 +15,7 @@ set(XCURSES_INCS
 set(XCURSES_SRCS
     ${XCURSES_SRC_DIR}/Curses.cpp
     ${XCURSES_SRC_DIR}/Window.cpp
+    ${XCURSES_SRC_DIR}/Border.cpp
     ${XCURSES_SRC_DIR}/Color.cpp
 )
 

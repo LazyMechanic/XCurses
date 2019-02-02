@@ -1,24 +1,91 @@
 #pragma once
 
 namespace xcur {
-struct CursesConfig
+class CursesConfig
 {
-	CursesConfig() :
-		terminalWidth(120),
-		terminalHeight(50),
-		enableCBreak(true),
-		enableEcho(false),
-		enableRaw(true),
-		enableNewLine(false),
-		halfDelay(1)
-	{}
+public:
+    /**
+	 * \brief Default config constructor
+	 */
+	CursesConfig();
 
+    /**
+	 * \brief Construct config with specific params
+	 * \param _terminalWidth Terminal width
+	 * \param _terminalHeight Terminal height
+	 * \param _inputDelay Delay value for input
+	 * \param _enableCBreakMode CBreak mode state
+	 * \param _enableEchoMode Echo mode state
+	 * \param _enableRawMode Raw mode state
+	 * \param _enableNewLineMode NewLine mode state
+	 * \param _enableColorMode Color mode state
+	 * \param _enableKeypadMode Keypad mode state
+	 * \param _enableInputDelay Delay mode state
+	 */
+	CursesConfig(
+		unsigned int _terminalWidth,
+		unsigned int _terminalHeight,
+		unsigned int _inputDelay,
+		bool _enableCBreakMode,
+		bool _enableEchoMode,
+		bool _enableRawMode,
+		bool _enableNewLineMode,
+		bool _enableColorMode,
+		bool _enableKeypadMode,
+		bool _enableInputDelay
+	);
+
+	static const CursesConfig Default;   //< Default predefined config
+
+    /**
+	 * \brief Terminal width
+	 */
 	unsigned int terminalWidth;
+
+	/**
+	 * \brief Terminal height
+	 */
 	unsigned int terminalHeight;
-	bool enableCBreak;
-	bool enableEcho;
-	bool enableRaw;
-	bool enableNewLine;
-	unsigned int halfDelay;
+
+	/**
+	 * \brief Delay value for input
+	 */
+	unsigned int inputDelay;
+
+	/**
+	 * \brief CBreak mode state
+	 */
+	bool enableCBreakMode;
+
+	/**
+	 * \brief Echo mode state
+	 */
+	bool enableEchoMode;
+
+	/**
+	 * \brief Raw mode state
+	 */
+	bool enableRawMode;
+
+	/**
+	 * \brief NewLine mode state
+	 */
+	bool enableNewLineMode;
+
+	/**
+	 * \brief Color mode state
+	 */
+	bool enableColorMode;
+
+	/**
+	 * \brief Keypad mode state
+	 */
+	bool enableKeypadMode;
+
+	/**
+	 * \brief Input delay mode state
+	 */
+	bool enableInputDelay;
+
 };
 }

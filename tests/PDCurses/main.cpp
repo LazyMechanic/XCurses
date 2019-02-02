@@ -27,16 +27,8 @@ void main() {
 
 	start_color();
 
-	nodelay(stdscr, true);
-
 	// Don't print symbols during writing
 	noecho();
-
-	keypad(stdscr, true);
-
-	flushinp();
-
-	timeout(0);
 
 	//nocbreak();
 
@@ -107,38 +99,15 @@ void main() {
 	//bottom_panel(testPanel1);
 	//top_panel(testPanel4);
 
+	nodelay(stdscr, true);
+	//halfdelay(255);
+	timeout(255);
+
 	bool isRunning = true;
 	while (isRunning) {
 		inputChar = wgetch(stdscr);
+		waddch(testWin1, 'k');
         if (inputChar != ERR) {
-			switch (inputChar & 0xffff) {
-			case '1': {
-				wmove(testWin1, 6, 0);
-				wclrtoeol(testWin1);
-				break;
-			}
-			case '[': {
-				touchwin(testWin1);
-				break;
-			}
-			case ']': {
-				touchwin(testWin4);
-				break;
-			}
-			case ';': {
-				wrefresh(testWin1);
-				break;
-			}
-			case '\'': {
-				wrefresh(testWin4);
-				break;
-			}
-			default: {
-				waddch(testWin1, inputChar);
-				waddch(testWin4, inputChar);
-			}
-			}
-
 			//waddch(testWin1, 'k');
         }
 

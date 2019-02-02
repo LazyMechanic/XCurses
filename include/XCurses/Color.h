@@ -36,12 +36,17 @@ public:
 	 */
 	Color(Color&&) = default;
 
-    /**
-	 * \brief Overload of the binary = operator
-	 * \param right Right operand
-	 * \return 
+	/**
+	 * \brief Default copy assignment operator
+	 * \return Reference to \a this
 	 */
-	Color& operator =(const Color& right);
+	Color& operator =(const Color&) = default;
+
+	/**
+	 * \brief Default move assignment operator
+	 * \return Reference to \a this
+	 */
+	Color& operator =(Color&&) = default;
 
 	/**
 	 * \brief Color destructor

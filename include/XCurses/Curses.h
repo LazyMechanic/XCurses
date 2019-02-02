@@ -13,15 +13,15 @@ public:
 
 	/**
 	 * \brief Initialize Curses with params
-	 * \param config Config container
+	 * \param config Configuration object
 	 */
-	void init(const CursesConfig& config = CursesConfig());
+	void init(const CursesConfig& config = CursesConfig::Default);
 
 	/**
 	 * \brief Toggle cbreak mode.
-	 * In cbreak mode (true), characters typed by the user are made available immediately,
+	 * In cbreak mode (\a true), characters typed by the user are made available immediately,
 	 * and erase/kill character processing is not performed.
-	 * In nocbreak mode (false), typed characters are buffered until a newline or carriage return.
+	 * In nocbreak mode (\a false), typed characters are buffered until a newline or carriage return.
 	 * Interrupt and flow control characters are unaffected by this mode.
 	 * \param v Value
 	 * \return Status code
@@ -41,7 +41,7 @@ public:
 	 * Raw mode is similar to cbreak mode, in that characters typed
 	 * are immediately passed through to the user program.
 	 * The difference is that in raw mode,
-	 * the INTR, QUIT, SUSP, and STOP characters are passed through
+	 * the \a INTR, \a QUIT, \a SUSP, and \a STOP characters are passed through
 	 * without being interpreted, and without generating a signal.
 	 * \param v Value
 	 * \return Status code
