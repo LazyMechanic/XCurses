@@ -66,7 +66,7 @@ void main() {
 	WINDOW* testWin1 = newwin(15, 15, 0, 0);
 	WINDOW* testWin2 = newwin(15, 15, 0, 5);
 	WINDOW* testWin3 = newwin(15, 15, 5, 0);
-	WINDOW* testWin4 = newwin(15, 15, 5, 5);
+	WINDOW* testWin4 = newwin(15, 15, 20, 20);
 
 	cchar_t backgroundChar = COLOR_PAIR(6) | 0x2591;
 	wbkgrndset(testWin1, &backgroundChar);
@@ -113,7 +113,8 @@ void main() {
         if (inputChar != ERR) {
 			switch (inputChar & 0xffff) {
 			case '1': {
-				resize_window(testWin1, 5, 5);
+				wmove(testWin1, 6, 0);
+				wclrtoeol(testWin1);
 				break;
 			}
 			case '[': {
