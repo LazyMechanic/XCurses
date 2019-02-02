@@ -32,14 +32,16 @@ public:
 	explicit Color(uint32_t color);
 
 	/**
-	 * \brief Copy Color contructor
-	 */
-	Color(const Color&) = default;
-
-	/**
 	 * \brief Move Color contructor
 	 */
 	Color(Color&&) = default;
+
+    /**
+	 * \brief Overload of the binary = operator
+	 * \param right Right operand
+	 * \return 
+	 */
+	Color& operator =(const Color& right);
 
 	/**
 	 * \brief Color destructor
@@ -88,4 +90,89 @@ public:
 	 */
 	uint8_t b;
 };
+
+/**
+ * \brief Overload of the == operator
+ * This operator compares two colors and check if they are equal.
+ * \param left Left operand
+ * \param right Right operand
+ * \return True if colors are equal, false if they are different
+ */
+bool operator ==(const Color& left, const Color& right);
+
+/**
+ * \brief Overload of the != operator
+ * This operator compares two colors and check if they are different.
+ * \param left Left operand
+ * \param right Right operand
+ * \return True if colors are different, false if they are equal
+ */
+bool operator !=(const Color& left, const Color& right);
+
+/**
+ * \brief Overload of the binary + operator
+ * This operator returns the component-wise sum of two colors.
+ * Components that exceed 255 are clamped to 255.
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left + \a right
+ */
+Color operator +(const Color& left, const Color& right);
+
+/**
+ * \brief Overload of the binary - operator
+ * This operator returns the component-wise subtraction of two colors.
+ * Components below 0 are clamped to 0.
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left - \a right
+ */
+Color operator -(const Color& left, const Color& right);
+
+/**
+ * \brief Overload of the binary * operator
+ * This operator returns the component-wise multiplication
+ * (also called "modulation") of two colors.
+ * Components are then divided by 255 so that the result is
+ * still in the range [0, 255].
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left * \a right
+ */
+Color operator *(const Color& left, const Color& right);
+
+/**
+ * \brief Overload of the binary += operator
+ * This operator computes the component-wise sum of two colors,
+ * and assigns the result to the left operand.
+ * Components that exceed 255 are clamped to 255.
+ * \param left Left operand
+ * \param right Right operand
+ * \return Reference to \a left
+ */
+Color& operator +=(Color& left, const Color& right);
+
+/**
+ * \brief Overload of the binary -= operator
+ * This operator computes the component-wise subtraction of two colors,
+ * and assigns the result to the left operand.
+ * Components below 0 are clamped to 0.
+ * \param left Left operand
+ * \param right Right operand
+ * \return Reference to \a left
+ */
+Color& operator -=(Color& left, const Color& right);
+
+/**
+ * \brief Overload of the binary *= operator
+ * This operator returns the component-wise multiplication
+ * (also called "modulation") of two colors, and assigns
+ * the result to the left operand.
+ * Components are then divided by 255 so that the result is
+ * still in the range [0, 255].
+ * \param left Left operand
+ * \param right Right operand
+ * \return Reference to \a left
+ */
+Color& operator *=(Color& left, const Color& right);
 }

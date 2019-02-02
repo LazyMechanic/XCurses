@@ -1,4 +1,5 @@
 #include <XCurses/Color.h>
+#include <algorithm>
 
 namespace xcur {
 const Color Color::Black(0, 0, 0);
@@ -31,6 +32,14 @@ Color::Color(uint32_t color) :
 {
 }
 
+Color& Color::operator=(const Color& right)
+{
+	this->r = right.r;
+	this->g = right.g;
+	this->b = right.b;
+	return *this;
+}
+
 uint16_t Color::cursesRed()
 {
 	return static_cast<uint16_t>((r / 255.0f) * 1000.0f);
@@ -44,5 +53,59 @@ uint16_t Color::cursesGreen()
 uint16_t Color::cursesBlue()
 {
 	return static_cast<uint16_t>((b / 255.0f) * 1000.0f);
+}
+
+bool operator==(const Color& left, const Color& right)
+{
+	return (left.r == right.r) &&
+		(left.g == right.g) &&
+		(left.b == right.b);
+}
+
+bool operator!=(const Color& left, const Color& right)
+{
+	return !(left == right);
+}
+
+Color operator+(const Color& left, const Color& right)
+{
+	return Color(
+		static_cast<uint8_t>(std::min(left.r + right.r, 255)),
+		static_cast<uint8_t>(std::min(left.g + right.g, 255)),
+		static_cast<uint8_t>(std::min(left.b + right.b, 255))
+	);
+}
+
+Color operator-(const Color& left, const Color& right)
+{
+	return Color(
+		static_cast<uint8_t>(std::max(left.r - right.r, 0)),
+		static_cast<uint8_t>(std::min(left.g - right.g, 0)),
+		static_cast<uint8_t>(std::min(left.b - right.b, 0))
+	);
+}
+
+Color operator*(const Color& left, const Color& right)
+{
+	return Color(
+		static_cast<uint8_t>(left.r * right.r / 255),
+		static_cast<uint8_t>(left.g * right.g / 255),
+		static_cast<uint8_t>(left.b * right.b / 255)
+	);
+}
+
+Color& operator+=(Color& left, const Color& right)
+{
+	return left = left + right;
+}
+
+Color& operator-=(Color& left, const Color& right)
+{
+	return left = left - right;
+}
+
+Color& operator*=(Color& left, const Color& right)
+{
+	return left = left * right;
 }
 }
