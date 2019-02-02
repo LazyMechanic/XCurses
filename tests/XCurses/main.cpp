@@ -1,4 +1,4 @@
-#include <XCurses/XCurses.h>
+#include <XCurses/Curses.h>
 
 void main() {
 

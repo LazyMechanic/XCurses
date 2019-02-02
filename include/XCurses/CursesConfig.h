@@ -1,8 +1,9 @@
 #pragma once
 
-struct XCursesConfig
+namespace xcur {
+struct CursesConfig
 {
-    XCursesConfig() : 
+	CursesConfig() :
 		terminalWidth(120),
 		terminalHeight(50),
 		enableCBreak(true),
@@ -20,3 +21,4 @@ struct XCursesConfig
 	bool enableNewLine;
 	unsigned int halfDelay;
 };
+}

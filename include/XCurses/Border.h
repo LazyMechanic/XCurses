@@ -2,18 +2,24 @@
 
 #include <cstdint>
 
-class XBorder
+namespace xcur {
+class Border
 {
 public:
-    enum Type
-    {
+	enum Type
+	{
 		None,
 		Standard,
-        Advanced,
-        Double
-    };
+		Advanced,
+		Double
+	};
 
-	XBorder(uint32_t _leftSide,
+	Border() :
+		Border(Border::Type::Advanced)
+	{
+	}
+
+	Border(uint32_t _leftSide,
 		uint32_t _rightSide,
 		uint32_t _topSide,
 		uint32_t _bottomSide,
@@ -22,28 +28,28 @@ public:
 		uint32_t _bottomLeftCorner,
 		uint32_t _bottomRightCorner
 	) :
-        leftSide(_leftSide),
-        rightSide(_rightSide),
-        topSide(_topSide),
-        bottomSide(_bottomSide),
-        topLeftCorner(_topLeftCorner),
-        topRightCorner(_topRightCorner),
-        bottomLeftCorner(_bottomLeftCorner),
-        bottomRightCorner(_bottomRightCorner)
+		leftSide(_leftSide),
+		rightSide(_rightSide),
+		topSide(_topSide),
+		bottomSide(_bottomSide),
+		topLeftCorner(_topLeftCorner),
+		topRightCorner(_topRightCorner),
+		bottomLeftCorner(_bottomLeftCorner),
+		bottomRightCorner(_bottomRightCorner)
 	{
 	}
 
-	XBorder(XBorder::Type type)
+	Border(Border::Type type)
 	{
 		switch (type) {
-		case XBorder::Type::None:
+		case Border::Type::None:
 		{
 			this->fill(' ');
 			break;
 		}
-		case XBorder::Type::Standard:
+		case Border::Type::Standard:
 		{
-            leftSide = '|';
+			leftSide = '|';
 			rightSide = '|';
 			topSide = '-';
 			bottomSide = '-';
@@ -53,7 +59,7 @@ public:
 			bottomRightCorner = '+';
 			break;
 		}
-		case XBorder::Type::Advanced:
+		case Border::Type::Advanced:
 		{
 
 			leftSide = 0x2502;
@@ -66,7 +72,7 @@ public:
 			bottomRightCorner = 0x2518;
 			break;
 		}
-		case XBorder::Type::Double:
+		case Border::Type::Double:
 		{
 
 			leftSide = 0x2551;
@@ -84,14 +90,14 @@ public:
 
 	void fill(uint32_t c)
 	{
-	    leftSide = c;
-	    rightSide = c;
-	    topSide = c;
-	    bottomSide = c;
-	    topLeftCorner = c;
-	    topRightCorner = c;
-	    bottomLeftCorner = c;
-	    bottomRightCorner = c;
+		leftSide = c;
+		rightSide = c;
+		topSide = c;
+		bottomSide = c;
+		topLeftCorner = c;
+		topRightCorner = c;
+		bottomLeftCorner = c;
+		bottomRightCorner = c;
 	}
 
 	uint32_t leftSide;
@@ -103,3 +109,4 @@ public:
 	uint32_t bottomLeftCorner;
 	uint32_t bottomRightCorner;
 };
+}

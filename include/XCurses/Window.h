@@ -3,40 +3,51 @@
 #include <cstdint>
 #include <memory>
 
-#include <XCurses/XBorder.h>
+#include <PDCurses/curses.h>
 
-struct WINDOW;
+#include <XCurses/Border.h>
 
-class XWindow
+namespace xcur {
+class Window
 {
 public:
-	using Status = int;
-	using Ptr = std::unique_ptr<XWindow>;
+	friend class XCurses;
 
-    /**
+	using Status = int;
+	using Ptr = std::unique_ptr<Window>;
+
+	Window();
+
+	Window(const Window&);
+
+	Window(Window&&);
+
+	virtual ~Window();
+
+	/**
 	 * \brief Add character in UTF-8 encoding in { x, y } point
 	 * \param ch Character
 	 * \param x Coordinate
 	 * \param y Coordinate
 	 * \return Window status code
 	 */
-	XWindow::Status addChar(uint32_t ch, int x, int y);
+	Window::Status addChar(uint32_t ch, int x, int y);
 
-    /**
+	/**
 	 * \brief Set border to window
 	 * \param border Border to set
 	 * \return Window status code
 	 */
-	XWindow::Status setBorder(const XBorder& border);
-   
-    /**
+	Window::Status setBorder(const Border& border);
+
+	/**
 	 * \brief Set border to window
-	 * \param borderType Border type from the list of the standard borders 
+	 * \param borderType Border type from the list of the standard borders
 	 * \return Window status code
 	 */
-	XWindow::Status setBorder(XBorder::Type borderType);
+	Window::Status setBorder(Border::Type borderType);
 
-    /**
+	/**
 	 * \brief Set border to window
 	 * \param leftSide Character for left side of border
 	 * \param rightSide Character for right side of border
@@ -48,7 +59,7 @@ public:
 	 * \param bottomRightCorner Character for bottom right corner of border
 	 * \return Window status code
 	 */
-	XWindow::Status setBorder(
+	Window::Status setBorder(
 		uint32_t leftSide,
 		uint32_t rightSide,
 		uint32_t topSide,
@@ -58,36 +69,37 @@ public:
 		uint32_t bottomLeftCorner,
 		uint32_t bottomRightCorner
 	);
-	
-    /**
-     * \brief Refresh PDCurses window
-     * \return Window status code
-     */
-    XWindow::Status refresh() const;
+
+	/**
+	 * \brief Refresh PDCurses window
+	 * \return Window status code
+	 */
+	Window::Status refresh() const;
 
 private:
-    /**
-	 * \brief PDCurses 
+	/**
+	 * \brief PDCurses
 	 */
 	WINDOW* m_win;
-    
-    /**
+
+	/**
 	 * \brief True - nodelay mode is ON, false - OFF
 	 */
 	bool m_nodelayMode;
 
-    /**
+	/**
 	 * \brief True - keypad mode is ON, false - OFF
 	 */
 	bool m_keypadMode;
 
-    /**
+	/**
 	 * \brief True - scrollok mode is ON, false - OFF
 	 */
 	bool m_scrollMode;
 
-    /**
+	/**
 	 * \brief PDCurses window border container
 	 */
-	XBorder m_border;
+	Border m_border;
 };
+}

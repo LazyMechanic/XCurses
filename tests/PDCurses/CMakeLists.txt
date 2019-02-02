@@ -11,6 +11,8 @@ set(TEST_SRCS
 	${TEST_SRC_DIR}/main.cpp
 )
 
+add_definitions(-DPDC_WIDE)
+
 add_executable(TestPDCurses
 	${TEST_SRCS}
 )

@@ -1,18 +1,35 @@
-#include <XCurses/XWindow.h>
-#include <PDCurses/curses.h>
+#include <XCurses/Window.h>
 
-XWindow::Status XWindow::addChar(uint32_t ch, int x, int y)
+namespace xcur {
+Window::Window()
+{
+}
+
+Window::Window(const Window&)
+{
+}
+
+Window::Window(Window&&)
+{
+}
+
+Window::~Window()
+{
+	delwin(m_win);
+}
+
+Window::Status Window::addChar(uint32_t ch, int x, int y)
 {
 	return mvaddch(y, x, ch);
 }
 
-XWindow::Status XWindow::setBorder(const XBorder& border)
+Window::Status Window::setBorder(const Border& border)
 {
 	m_border = border;
 	return wborder(
-		m_win, 
-		border.leftSide, 
-		border.rightSide, 
+		m_win,
+		border.leftSide,
+		border.rightSide,
 		border.topSide,
 		border.bottomSide,
 		border.topLeftCorner,
@@ -22,12 +39,12 @@ XWindow::Status XWindow::setBorder(const XBorder& border)
 	);
 }
 
-XWindow::Status XWindow::setBorder(XBorder::Type borderType)
+Window::Status Window::setBorder(Border::Type borderType)
 {
-	return this->setBorder(XBorder(borderType));
+	return this->setBorder(Border(borderType));
 }
 
-XWindow::Status XWindow::setBorder(
+Window::Status Window::setBorder(
 	uint32_t leftSide,
 	uint32_t rightSide,
 	uint32_t topSide,
@@ -38,7 +55,7 @@ XWindow::Status XWindow::setBorder(
 	uint32_t bottomRightCorner
 )
 {
-	return this->setBorder(XBorder(
+	return this->setBorder(Border(
 		leftSide,
 		rightSide,
 		topSide,
@@ -50,7 +67,8 @@ XWindow::Status XWindow::setBorder(
 	));
 }
 
-XWindow::Status XWindow::refresh() const
+Window::Status Window::refresh() const
 {
 	return wrefresh(m_win);
+}
 }

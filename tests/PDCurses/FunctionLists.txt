@@ -1,0 +1,1034 @@
+В PDCurses все символы хранятся в 32 битной перменной, где сам символ кодируется 2мя байтами
+в кодировке юникода UCS-2.
+chtype и cchar_t в PDCurses равны, поэтому все функции для работы с WIDE символами полностью
+могут быть заменены на обычные функции. Но для совместимости с другими библиотеками имеет
+смысл писать все либо с обычными, либо с WIDE версиями функций.
+
+=======================================addch=======================================
+/* >>> XWINDOW <<< */
+int addch(const chtype ch);
+    Добавляет символ на stdscr и перемещает курсор.
+    chtype передает как текст, так и атрибуты.
+int waddch(WINDOW *win, const chtype ch);
+    Работает как функция выше, но для конкретного окна
+int mvaddch(int y, int x, const chtype ch);
+    Перемещает курсор на позицию на stdscr и помещает символ
+int mvwaddch(WINDOW *win, int y, int x, const chtype ch);
+    Работает как функция выше, но для конкретного окна
+int echochar(const chtype ch);
+    Работает как addch() но после вызывает refresh()
+int wechochar(WINDOW *win, const chtype ch);
+    Работает как функция выше, но для конкретного окна
+
+int addrawch(chtype ch);
+int waddrawch(WINDOW *win, chtype ch);
+int mvaddrawch(int y, int x, chtype ch);
+int mvwaddrawch(WINDOW *win, int y, int x, chtype ch);
+    Эти функции печатают управляющие символы, как пустые.
+    Например при нажатии на enter введется пустой символ квадратика, как
+    будто это просто символ, а не '/n'.
+
+int add_wch(const cchar_t *wch);
+int wadd_wch(WINDOW *win, const cchar_t *wch);
+int mvadd_wch(int y, int x, const cchar_t *wch);
+int mvwadd_wch(WINDOW *win, int y, int x, const cchar_t *wch);
+int echo_wchar(const cchar_t *wch);
+int wecho_wchar(WINDOW *win, const cchar_t *wch);
+    Дубляж верхних функций для WIDE символов.
+
+    Курсор автоматически перейдет на строчку ниже, если при вводе мы находились в конце строки.
+    Если scrollok включен, тогда scrolling region прокрутится вверх на одну линию 
+    и символ вставится.
+    Иначе ввод символа выдаст ERR.
+
+    Когда PDC_WIDE определен, один символ кодируется 2мя байтами, как Unicode (UCS-2).
+    Каждый символ хранится в 32битной переменной
+
+=======================================addchstr=======================================
+/* >>> XWINDOW <<< */
+int addchstr(const chtype *ch);
+int addchnstr(const chtype *ch, int n);
+int waddchstr(WINDOW *win, const chtype *ch);
+int waddchnstr(WINDOW *win, const chtype *ch, int n);
+int mvaddchstr(int y, int x, const chtype *ch);
+int mvaddchnstr(int y, int x, const chtype *ch, int n);
+int mvwaddchstr(WINDOW *, int y, int x, const chtype *ch);
+int mvwaddchnstr(WINDOW *, int y, int x, const chtype *ch, int n);
+    Функции вставляют строку, где находится курсор, но не сдвигают его.
+    Функции без n вставляют всю строку пока длина строки окна не кончится.
+    Функции с n вставляют n символов но до тех пор, пока длины строки хватает.
+    Функции не обрабатывают символы переноса строки, вставляют их как пустые символы
+
+int add_wchstr(const cchar_t *wch);
+int add_wchnstr(const cchar_t *wch, int n);
+int wadd_wchstr(WINDOW *win, const cchar_t *wch);
+int wadd_wchnstr(WINDOW *win, const cchar_t *wch, int n);
+int mvadd_wchstr(int y, int x, const cchar_t *wch);
+int mvadd_wchnstr(int y, int x, const cchar_t *wch, int n);
+int mvwadd_wchstr(WINDOW *win, int y, int x, const cchar_t *wch);
+int mvwadd_wchnstr(WINDOW *win, int y, int x, const cchar_t *wch, int n);
+    Дубляж верхних функций для WIDE символов.
+
+=======================================addstr=======================================
+/* >>> XWINDOW <<< */
+int addstr(const char *str);
+int addnstr(const char *str, int n);
+int waddstr(WINDOW *win, const char *str);
+int waddnstr(WINDOW *win, const char *str, int n);
+int mvaddstr(int y, int x, const char *str);
+int mvaddnstr(int y, int x, const char *str, int n);
+int mvwaddstr(WINDOW *win, int y, int x, const char *str);
+int mvwaddnstr(WINDOW *win, int y, int x, const char *str, int n);
+    Функции вставляют строку, как если бы для каждого символа вызывались функция addch().
+    Каждый символ кодируется чистым char, без аттрибутов
+
+int addwstr(const wchar_t *wstr);
+int addnwstr(const wchar_t *wstr, int n);
+int waddwstr(WINDOW *win, const wchar_t *wstr);
+int waddnwstr(WINDOW *win, const wchar_t *wstr, int n);
+int mvaddwstr(int y, int x, const wchar_t *wstr);
+int mvaddnwstr(int y, int x, const wchar_t *wstr, int n);
+int mvwaddwstr(WINDOW *win, int y, int x, const wchar_t *wstr);
+int mvwaddnwstr(WINDOW *win, int y, int x, const wchar_t *wstr, int n);
+    Дубляж верхних функций для WIDE символов.
+    Если PDC_WIDE определен, тогда каждый символ вставляется как Unicode (последовательность
+    байтов, в данном случае указатель).
+
+=======================================attr=======================================
+/* >>> XWINDOW <<< */
+int attroff(chtype attrs);
+int wattroff(WINDOW *win, chtype attrs);
+    Выключить конкретные аттрибуты окна, не меняя остальные
+int attron(chtype attrs);
+int wattron(WINDOW *win, chtype attrs);
+    Включить конкретные аттрибуты окна, не меняя остальные
+int attrset(chtype attrs);
+int wattrset(WINDOW *win, chtype attrs);
+    Выставить значение аттрибутов окна с перезаписью предыдущих
+int standend(void);
+int wstandend(WINDOW *win);
+    Функция эквивалентна вызову attrset(A_NORMAL), соответственно убирает все остальные
+    аттрибуты.
+int standout(void);
+int wstandout(WINDOW *win);
+    Функция эквивалентна вызову attron(A_STANDOUT), соответственно включает этот аттрибут.
+
+    Функции могут работать с аттрибутами (комбинации констант 
+    A_STANDOUT, A_REVERSE, A_BOLD, A_DIM, A_BLINK, A_UNDERLINE) и/или с цветами.
+    Аттрибуты окна будут применены ко всем символам, которые написаны в окне с помощью waddch().
+
+
+int color_set(short color_pair, void *opts);
+int wcolor_set(WINDOW *win, short color_pair, void *opts);
+    Установить цветовую пару окна. Параметр void *opts не используется.
+
+int attr_get(attr_t *attrs, short *color_pair, void *opts);
+int attr_off(attr_t attrs, void *opts);
+int attr_on(attr_t attrs, void *opts);
+int attr_set(attr_t attrs, short color_pair, void *opts);
+int wattr_get(WINDOW *win, attr_t *attrs, short *color_pair, void *opts);
+    Получить аттрибуты и цветовую пару окна. Записываются в значение параметров 
+    attr_t *attrs и short *color_pair.
+int wattr_off(WINDOW *win, attr_t attrs, void *opts);
+int wattr_on(WINDOW *win, attr_t attrs, void *opts);
+int wattr_set(WINDOW *win, attr_t attrs, short color_pair, void *opts);
+    Все функции wattr_* работают с константами WA_*. В PDCurses A_* и WA_* константы
+    равносильны и имеют одинаковое поведение с функциями на основе аттрибутов с типом chtype.
+
+    Во всех функциях выше параметр void *opts не используется.
+
+int chgat(int n, attr_t attr, short color, const void *opts);
+int mvchgat(int y, int x, int n, attr_t attr, short color, const void *opts);
+int mvwchgat(WINDOW *win, int y, int x, int n, attr_t attr, short color, const void *opts);
+int wchgat(WINDOW *win, int n, attr_t attr, short color, const void *opts);
+    Функция устанавливает аттрибуты и цвета для n символов в строке,
+    или до конца строки, начиная с позиции курсора.
+    Если n = -1, тогда устанавливает параметры до конца строки.
+
+    Во всех функциях выше параметр void *opts не используется.
+
+chtype getattrs(WINDOW *win);
+
+=======================================beep=======================================
+/* >>> XCURSES <<< */
+int beep(void);
+    Воспроизводит звуковой сигнал. На винде - как стандартный сигнал ошибки ввода.
+int flash(void);
+    Инвертирует цвета во всем терминале (stdscr).
+
+=======================================bkgd=======================================
+/* >>> XWINDOW <<< */
+int bkgd(chtype ch);
+    Функция устанавливает в качестве заднего фона символ с аттрибутами и цветом.
+    Цвет, почему-то не работает. Изменения применяются сразу.
+void bkgdset(chtype ch);
+    Делает тоже самое, что функция выше, но изменения применяются после вызова
+    clear() либо erase().
+chtype getbkgd(WINDOW *win);
+    Получить значение заднего фона.
+int wbkgd(WINDOW *win, chtype ch);
+void wbkgdset(WINDOW *win, chtype ch);
+
+int bkgrnd(const cchar_t *wch);
+void bkgrndset(const cchar_t *wch);
+int getbkgrnd(cchar_t *wch);
+int wbkgrnd(WINDOW *win, const cchar_t *wch);
+void wbkgrndset(WINDOW *win, const cchar_t *wch);
+int wgetbkgrnd(WINDOW *win, cchar_t *wch);
+    Работают как и функции выше, но для WIDE символов.
+
+    Аттрибуты, установленные с помощью функций attrset() / attron() имеют приоретет, над
+    аттрибутами, установленными функциями выше.
+
+=======================================border=======================================
+int border(
+    chtype ls, chtype rs, htype ts, chtype bs, 
+    chtype tl, chtype tr, chtype bl, chtype br
+);
+int wborder(WINDOW *win, 
+    chtype ls, chtype rs, chtype ts, chtype bs, 
+    chtype tl, chtype tr, chtype bl, chtype br
+);
+    Функция рисует границы окна.
+    Если параметр = 0, тогда записывается стандартный, для PDCurses, символ
+    ls    left side of border             ACS_VLINE
+    rs    right side of border            ACS_VLINE
+    ts    top side of border              ACS_HLINE
+    bs    bottom side of border           ACS_HLINE
+    tl    top left corner of border       ACS_ULCORNER
+    tr    top right corner of border      ACS_URCORNER
+    bl    bottom left corner of border    ACS_LLCORNER
+    br    bottom right corner of border   ACS_LRCORNER
+int box(WINDOW *win, chtype verch, chtype horch);
+    Функция заменяет вертикальные и горизонтальные границы, не трогая угловые
+int hline(chtype ch, int n);
+int vline(chtype ch, int n);
+int whline(WINDOW *win, chtype ch, int n);
+int wvline(WINDOW *win, chtype ch, int n);
+int mvhline(int y, int x, chtype ch, int n);
+int mvvline(int y, int x, chtype ch, int n);
+int mvwhline(WINDOW *win, int y, int x, chtype ch, int n);
+int mvwvline(WINDOW *win, int y, int x, chtype ch, int n);
+    Функции рисуют вертикальную или горизонтальную линию из n символов
+    или до конца строки/столбца, начиная с позиции курсора 
+
+int border_set(
+    const cchar_t *ls, const cchar_t *rs,
+    const cchar_t *ts, const cchar_t *bs,
+    const cchar_t *tl, const cchar_t *tr,
+    const cchar_t *bl, const cchar_t *br
+);
+int wborder_set(WINDOW *win, 
+    const cchar_t *ls, const cchar_t *rs,
+    const cchar_t *ts, const cchar_t *bs,
+    const cchar_t *tl, const cchar_t *tr,
+    const cchar_t *bl, const cchar_t *br
+);
+int box_set(WINDOW *win, const cchar_t *verch, const cchar_t *horch);
+int hline_set(const cchar_t *wch, int n);
+int vline_set(const cchar_t *wch, int n);
+int whline_set(WINDOW *win, const cchar_t *wch, int n);
+int wvline_set(WINDOW *win, const cchar_t *wch, int n);
+int mvhline_set(int y, int x, const cchar_t *wch, int n);
+int mvvline_set(int y, int x, const cchar_t *wch, int n);
+int mvwhline_set(WINDOW *win, int y, int x, const cchar_t *wch, int n);
+int mvwvline_set(WINDOW *win, int y, int x, const cchar_t *wch, int n);
+    Дубляж верхних функций для WIDE символов.
+
+=======================================clear=======================================
+int erase(void);
+int werase(WINDOW *win);
+    Функция заменяет все символы в окне на символы background'а.
+int clear(void);
+int wclear(WINDOW *win);
+    Функция работает так же, как и erase(), но после вызывает clearok(), чтобы гарантировать,
+    что окно очистится при следующем вызове refresh();
+    
+int clrtobot(void);
+int wclrtobot(WINDOW *win);
+    Функция применяет erase() начиная от позиции курсора и заканчивая концом окна.
+int clrtoeol(void);
+int wclrtoeol(WINDOW *win);
+    Функция применяет erase() начиная от позиции курсора и заканчивая концом строки.
+
+=======================================color=======================================
+int start_color(void);
+    Функция инициализирует 8 базовых цветов (черный, красный, зеленый, желтый, голубой, 
+    пурпурный (magenta), цвет морской волны (cyan), белый) и 2 глобальные переменные
+    COLORS и COLOR_PAIRS, которые определяют максимальное количество цветом и максимальное
+    количество цветовых пар соответственно, которые может отображать терминал.
+    Ее необходимо вызвать перед использованием остальных из этого блока.
+bool has_colors(void);
+    Функция возвращает true, если терминал поддерживает цвета, иначе - false.
+int init_pair(short pair, short fg, short bg);
+    Функция создает цветовую пару. После инициализации пару можно будет использовать
+    с помощью макроса COLOR_PAIR(pair), как аттрибут. Параметр pair является идентификационным
+    номером пары, задается вручную. Номер пары должен быть в пределах (0, COLOR_PAIRS-1].
+    Номер цвета должен быть в пределах [0, COLORS-1].
+int pair_content(short pair, short *fg, short *bg);
+    Функция возвращает в параметры short *fg и short *bg значения цветов
+    из цветовой пары short pair.
+
+bool can_change_color(void);
+    Функция возвращает true, если терминал поддерживает изменение цветов, иначе - false.
+int init_color(short color, short red, short green, short blue);
+    Функция задает цвет из RGB палитры. Каждый компонент цвета должен кодироватся
+    в диапазоне [0, 1000].
+int color_content(short color, short *red, short *green, short *blue);
+    Функция возвращает в параметры short *red, short *green, short *blue значения компонентов
+    цвета, заданного ранее short color.
+
+int assume_default_colors(int f, int b);
+    Функция эквивалентна init_pair(0, f, b) (что не разрешено).. Она переопределяет цвета
+    по-умолчанию.
+int use_default_colors(void);
+    Функция устанавливает -1 в качестве цвета foreground / background вместе с
+    init_pair() и вызывает accept_default_colors(-1, -1). '-1' - это значение цветов
+    фона и символов по-умолчанию в терминале.
+
+int PDC_set_line_color(short color);
+    Функция устанавливает глобальный цвет для отрисовки строк для
+    аттрибутов A_UNDERLINE, A_LEFT, A_RIGHT
+
+=======================================debug=======================================
+void traceon(void);
+    Включает запись дебаг информации в файл "trace".
+void traceoff(void);
+    Выключает запись дебаг информации в файл "trace".
+
+    Функции не являются стандартом для curses, но реализованы во многих реализациях
+void PDC_debug(const char *, ...);
+    Записывает в файл, если была вызвана traceon().
+
+=======================================delch=======================================
+int delch(void);
+int wdelch(WINDOW *win);
+int mvdelch(int y, int x);
+int mvwdelch(WINDOW *win, int y, int x);
+    Функция удаляет символ на позиции курсора. Все символы в этой строке (строки ниже 
+    не двигаются) правее двигаются влево на 1 позицию (включая границу окна) и 
+    пустое место справа заполняется пустой ячейкой, определенной параметром bkgrset() у окна.
+    Позиция курсора не изменяется.
+
+=======================================deleteln=======================================
+int deleteln(void);
+int wdeleteln(WINDOW *win);
+int mvdeleteln(int y, int x);
+int mvwdeleteln(WINDOW *win, int y, int x);
+    Функция удаляет всю строку на позиции курсора, свдигая все строки лежащие снизу на
+    одну строчку вверх (включая строку с границей) и пустая строка внизу заполняется
+    пустыми ячейками, определенными параметром bkgrset() у окна.
+    Позиция курсора не изменяется
+
+int insertln(void);
+int winsertln(WINDOW *win);
+int mvinsertln(int y, int x);
+int mvwinsertln(WINDOW *win, int y, int x);
+    Функция добавляет пустую строку на позиции курсора, заполненную пустыми ячейками, 
+    определенными параметром bkgrset() у окна, сдвигая все строки ниже на одну
+    строчку вниз, самая нижняя строчка (граница) при этому удаляется.
+
+int insdelln(int n);
+int winsdelln(WINDOW *win, int n);
+    Функция работает аналогично верхней, но вставляет n пустых строк.
+
+=======================================getch=======================================
+int getch(void);
+int wgetch(WINDOW *win);
+int mvgetch(int y, int x);
+int mvwgetch(WINDOW *win, int y, int x);
+    Функция считывает вводимые символы.
+    nodelay(..., true) позволяет сделать функцию не блокирующей и, если во время вызова
+    функции ввод пустой, тогда она возвращает ERR, а не символ.
+    Если keypad(..., true), тогда нажатые функциональные клавишы (Esc, F1..F12, etc.) 
+    будут возвращать их значение.
+int ungetch(int ch);
+    Функция возвращает символ в очередь на считывание и позволяет считать его следующим
+    вызовом функции getch();
+int flushinp(void);
+    Throws away any type-ahead that has been typed by the user and has not yet been
+    read by the program.
+
+int get_wch(wint_t *wch);
+int wget_wch(WINDOW *win, wint_t *wch);
+int mvget_wch(int y, int x, wint_t *wch);
+int mvwget_wch(WINDOW *win, int y, int x, wint_t *wch);
+int unget_wch(const wchar_t wch);
+    Функции дублируют функции выше, но для WIDE символов.
+
+unsigned long PDC_get_key_modifiers(void);
+    Возвращает модификаторы клавиатуры (shift, control, alt, numlock) от последнего getch(),
+    если PDC_save_key_modifiers(true)
+int PDC_save_key_modifiers(bool flag);
+int PDC_return_key_modifiers(bool flag);
+    Если true, тогда getch() будет возвращать код нажатого модификатора (shift, alt, ...).
+
+=======================================getstr=======================================
+int getstr(char *str);
+int wgetstr(WINDOW *win, char *str);
+int mvgetstr(int y, int x, char *str);
+int mvwgetstr(WINDOW *win, int y, int x, char *str);
+    Функция вызывают getch() для создания строки, пока не будет введен символ переноса
+    строки или перевода каретки.
+int getnstr(char *str, int n);
+int wgetnstr(WINDOW *win, char *str, int n);
+int mvgetnstr(int y, int x, char *str, int n);
+int mvwgetnstr(WINDOW *win, int y, int x, char *str, int n);
+    Функции дублируют функции выше, но для n символов.
+
+int get_wstr(wint_t *wstr);
+int wget_wstr(WINDOW *win, wint_t *wstr);
+int mvget_wstr(int y, int x, wint_t *wstr);
+int mvwget_wstr(WINDOW *win, int, int, wint_t *wstr);
+int getn_wstr(wint_t *wstr, int n);
+int wgetn_wstr(WINDOW *win, wint_t *wstr, int n);
+int mvgetn_wstr(int y, int x, wint_t *wstr, int n);
+int mvwgetn_wstr(WINDOW *win, int y, int x, wint_t *wstr, int n);
+    Функции дублируют функции выше, но для WIDE символов.
+
+=======================================getyx=======================================
+int getbegy(WINDOW *win);
+int getbegx(WINDOW *win);
+    Функция возвращает координаты окна.
+int getcury(WINDOW *win);
+int getcurx(WINDOW *win);
+    Функция возвращает координаты курсора.
+int getpary(WINDOW *win);
+int getparx(WINDOW *win);
+    Функция возвращает координаты окна, относительно родительского (если окно является subwindow),
+    иначе вернет -1.
+int getmaxy(WINDOW *win);
+int getmaxx(WINDOW *win);
+    Функция возвращает размеры окна.
+
+void getyx(WINDOW *win, int y, int x);
+void getparyx(WINDOW *win, int y, int x);
+void getbegyx(WINDOW *win, int y, int x);
+void getmaxyx(WINDOW *win, int y, int x);
+    Функции дублируют функции выше, но для двух параметров.
+
+    Функции выше являются макросами, поэтому это не передача по значению, а как по ссылке
+
+void getsyx(int y, int x);
+    Возвращает координаты виртуального курсора.
+    Если leaveok() is true, тогда вернет -1, -1.
+void setsyx(int y, int x);
+    Установит виртуальный курсор по координатам.
+    Если координаты равны -1 и -1, тогда leaveok() установится в значение true, иначе - false.
+
+=======================================inch=======================================
+chtype inch(void);
+chtype winch(WINDOW *win);
+chtype mvinch(int y, int x);
+chtype mvwinch(WINDOW *win, int y, int x);
+    Функция возвращает символ с аттрибутами по координатам курсора.
+
+int in_wch(cchar_t *wcval);
+int win_wch(WINDOW *win, cchar_t *wcval);
+int mvin_wch(int y, int x, cchar_t *wcval);
+int mvwin_wch(WINDOW *win, int y, int x, cchar_t *wcval);
+    Функции дублируют функции выше, но для WIDE символов.
+
+=======================================inchstr=======================================
+int inchstr(chtype *ch);
+int inchnstr(chtype *ch, int n);
+int winchstr(WINDOW *win, chtype *ch);
+int winchnstr(WINDOW *win, chtype *ch, int n);
+int mvinchstr(int y, int x, chtype *ch);
+int mvinchnstr(int y, int x, chtype *ch, int n);
+int mvwinchstr(WINDOW *, int y, int x, chtype *ch);
+int mvwinchnstr(WINDOW *, int y, int x, chtype *ch, int n);
+    Функции возвращают целую строку, начиная с координат курсора, длинной n или до
+    конца строки (включая границу)
+
+int in_wchstr(cchar_t *wch);
+int in_wchnstr(cchar_t *wch, int n);
+int win_wchstr(WINDOW *win, cchar_t *wch);
+int win_wchnstr(WINDOW *win, cchar_t *wch, int n);
+int mvin_wchstr(int y, int x, cchar_t *wch);
+int mvin_wchnstr(int y, int x, cchar_t *wch, int n);
+int mvwin_wchstr(WINDOW *win, int y, int x, cchar_t *wch);
+int mvwin_wchnstr(WINDOW *win, int y, int x, cchar_t *wch, int n);
+    Функции дублируют функции выше, но для WIDE символов.
+
+=======================================initscr=======================================
+WINDOW *initscr(void);
+    Начальная инициализация PDCurses. Необходимо вызывать в начале программы.
+WINDOW *Xinitscr(int argc, char *argv[]);
+int endwin(void);
+    Функцию необходимо вызывать перед выходом (временно) из режима curses. Она восстановит
+    tty, переместит курсор в нижний левый угол и перезапустит терминал в обычном режиме.
+    Для продолжения работы в режиме curses необходимо вызвать refresh() или doupdate().
+bool isendwin(void);
+    Функция возвращает true, если была вызвана endwin(), то есть режим curses выключен,
+    иначе - false
+SCREEN *newterm(const char *type, FILE *outfd, FILE *infd);
+    В PDCURSES НЕ РАБОТАЕТ
+SCREEN *set_term(SCREEN *new);
+    В PDCURSES НЕ РАБОТАЕТ
+void delscreen(SCREEN *sp);
+    
+
+int resize_term(int nlines, int ncols);
+    Изменяет размер терминала. Необходимо вызвать с параметрами resize_term(0, 0), 
+    когда размер был изменен пользователем вручную, чтобы скорректировать внутренние
+    структуры для соответствия текущему размеру терминала. 
+bool is_termresized(void);
+    Функция возвращает tyrue, если терминал был изменен пользователем 
+    (getch() == KEY_RESIZE) или с помощью resize_term().
+const char *curses_version(void);
+    Функция возвращает текущую версию PDCurses.
+void PDC_get_version(PDC_VERSION *ver);
+    Функция возвращает более подромную информацию о текущей версии PDCurses.
+
+=======================================inopts=======================================
+int cbreak(void);
+int nocbreak(void);
+    Переключение cbreak режима. Если он включен, тогда символы, введенные пользователем,
+    становятся доступны сразу из очереди. Если же он выключен, тогда они хранятся в буфере
+    до тех пор, пока не будет введен символ новой строки или возврата каретки. 
+int echo(void);
+int noecho(void);
+    Переключение echo режима. Если он включен, тогда символы, введенные пользователем,
+    сразу печатаются по координатам курсора.
+int halfdelay(int tenths);
+    Функция аналогична cbreak(), но позволяет указать ограничение по времени в десятых
+    долях секунды. В таком случае getch() блокируется на это время перед возвращением
+    значения ERR. Задержка должна быть в пределах [1, 255]
+int intrflush(WINDOW *win, bool bf);
+    НЕ РАБОТАЕТ В PDCURSES
+
+int keypad(WINDOW *win, bool bf);
+    Если true, тогда функциональные клавиши (F1..F12, arrows, etc.) будут выводится при
+    вызове getch().
+int meta(WINDOW *win, bool bf);
+    Работает идентично функциям raw() / unraw().
+
+int nl(void);
+int nonl(void);
+    Переключение режима, в котором символ перевода каретки будет интерпретироваться 
+    как символ новой строки.
+int nodelay(WINDOW *win, bool bf);
+    Если true, тогда операция getch() будет не блокирующей.
+int notimeout(WINDOW *win, bool bf);
+    НЕ РАБОТАЕТ В PDCURSES
+int raw(void);
+int noraw(void);
+    Переключение raw режима. Режим аналогичен режиму cbreak() тем, что вводимые символы
+    сразу передаются в очередь ввода. Разница в том, что символы INTR, QUIR, SUSP, STOP
+    не распознаются как управляющие и не генерируют сигнал.
+void noqiflush(void);
+    НЕ РАБОТАЕТ В PDCURSES
+void qiflush(void);
+    НЕ РАБОТАЕТ В PDCURSES
+void timeout(int delay);
+void wtimeout(WINDOW *win, int delay);
+    Устанавливает блокирующий или неблокирующий ввод. Если аргумент < 0, тогда
+    ввод - блокирующий; если аргумент = 0, тогда ввод - неблокирующий (если очередь пуста,
+    то getch() возвращает ERR); если аргумент > 0, тогда ввод - блокирующий на период задержки,
+    как время выйдет, тогда getch() вернет ERR (если ввода не последовало)
+int typeahead(int fildes);
+    НЕ РАБОТАЕТ В PDCURSES
+
+int crmode(void);
+int nocrmode(void);
+    Функции эквивалентны cbreak() и nocbreak() соответственно.
+
+=======================================insch=======================================
+int insch(chtype ch);
+int winsch(WINDOW *win, chtype ch);
+int mvinsch(int y, int x, chtype ch);
+int mvwinsch(WINDOW *win, int y, int x, chtype ch);
+    Функция вставляет символ на позицию курсора, при этом курсор не сдвигается. Строка правее
+    вставленного символа сдвигается на 1 символ вправо (включая границу).
+    Символ новой строки эквивалентен clrtoeol().
+    Символ табуляции вставляет 6 пустых ячеек определенных bkgd().
+    Остальные управляющие символы конвертируются как unctrl().
+
+int insrawch(chtype ch);
+int winsrawch(WINDOW *win, chtype ch);
+int mvinsrawch(int y, int x, chtype ch);
+int mvwinsrawch(WINDOW *win, int y, int x, chtype ch);
+    Обертки PDCurses для функций выше, которые отключают интерпретацию управляющих символов.
+
+int ins_wch(const cchar_t *wch);
+int wins_wch(WINDOW *win, const cchar_t *wch);
+int mvins_wch(int y, int x, const cchar_t *wch);
+int mvwins_wch(WINDOW *win, int y, int x, const cchar_t *wch);
+    Дубляж верхних функций для WIDE символов.
+
+=======================================insstr=======================================
+int insstr(const char *str);
+int insnstr(const char *str, int n);
+int winsstr(WINDOW *win, const char *str);
+int winsnstr(WINDOW *win, const char *str, int n);
+int mvinsstr(int y, int x, const char *str);
+int mvinsnstr(int y, int x, const char *str, int n);
+int mvwinsstr(WINDOW *win, int y, int x, const char *str);
+int mvwinsnstr(WINDOW *win, int y, int x, const char *str, int n);
+    Функции вставляют строку, как если бы для каждого символа вызывались функция insch().
+
+int ins_wstr(const wchar_t *wstr);
+int ins_nwstr(const wchar_t *wstr, int n);
+int wins_wstr(WINDOW *win, const wchar_t *wstr);
+int wins_nwstr(WINDOW *win, const wchar_t *wstr, int n);
+int mvins_wstr(int y, int x, const wchar_t *wstr);
+int mvins_nwstr(int y, int x, const wchar_t *wstr, int n);
+int mvwins_wstr(WINDOW *win, int y, int x, const wchar_t *wstr);
+int mvwins_nwstr(WINDOW *win, int y, int x, const wchar_t *wstr, int n);
+    Дубляж верхних функций для WIDE символов.
+
+=======================================instr=======================================
+int instr(char *str);
+int innstr(char *str, int n);
+int winstr(WINDOW *win, char *str);
+int winnstr(WINDOW *win, char *str, int n);
+int mvinstr(int y, int x, char *str);
+int mvinnstr(int y, int x, char *str, int n);
+int mvwinstr(WINDOW *win, int y, int x, char *str);
+int mvwinnstr(WINDOW *win, int y, int x, char *str, int n);
+    Функции возвращают строку размером n символов или до конца строки, начиная с 
+    позиции курсора.
+    Аттрибуты игнорируются.
+
+int inwstr(wchar_t *wstr);
+int innwstr(wchar_t *wstr, int n);
+int winwstr(WINDOW *win, wchar_t *wstr);
+int winnwstr(WINDOW *win, wchar_t *wstr, int n);
+int mvinwstr(int y, int x, wchar_t *wstr);
+int mvinnwstr(int y, int x, wchar_t *wstr, int n);
+int mvwinwstr(WINDOW *win, int y, int x, wchar_t *wstr);
+int mvwinnwstr(WINDOW *win, int y, int x, wchar_t *wstr, int n);
+    Дубляж верхних функций для WIDE символов.
+
+=======================================kernel=======================================
+int def_prog_mode(void);
+int def_shell_mode(void);
+int reset_prog_mode(void);
+int reset_shell_mode(void);
+int resetty(void);
+int savetty(void);
+int ripoffline(int line, int (*init)(WINDOW *, int));
+    Функции выше относятся к ручному управлению работы режима curses. Их автоматически
+    вызывает initscr() и endwin().
+int resetterm(void);
+int fixterm(void);
+int saveterm(void);
+    Архаичные дубляжи функциям equivalents for reset_shell_mode(), 
+    reset_prog_mode(), def_prog_mode() соответственно.
+int curs_set(int visibility);
+    Режимы работы видимости курсора.
+    0 - курсор выключен.
+    1 - обычный курсор (нижнее подчеркивание)
+    2 - ярко выделенный курсор (подсветка всего символа)
+
+int napms(int ms);
+    Останавливает программу на указанное время в миллисекундах.
+int draino(int ms);
+    Архаичный дубляж функции выше.
+
+=======================================keyname=======================================
+char *keyname(int key);
+    Возвращает строку из аргумента. Аргумент может быть получен с помощью getch().
+
+char *key_name(wchar_t c);
+    Дубляж верхних функции для WIDE символов.
+
+bool has_key(int key);
+    Возвращает true, если аргумент можно распознать как кнопку. Расширение ncurses.
+
+=======================================mouse=======================================
+int mouse_set(mmask_t mbe);
+int mouse_on(mmask_t mbe);
+int mouse_off(mmask_t mbe);
+int request_mouse_pos(void);
+void wmouse_position(WINDOW *win, int *y, int *x);
+mmask_t getmouse(void);
+
+    Интерфейс для работы с мышкой классический, на основе недокументированных функций для
+    работы с мышкой в Sys V.
+
+mmask_t mousemask(mmask_t mask, mmask_t *oldmask);
+    Функция инициализирует мышку. Первый аргумент - новая маска, во-второй аргумент сохраняется
+    текущая. В основном используется ALL_MOUSE_EVENTS.
+    BUTTON_MOVED не совместим с этой функцией.
+int mouseinterval(int wait);
+    Устанавливает задержку на клики мышки, в пределах [0, 1000] миллисекунд.
+    Если wait = -1, тогда функция вернет текущее значение интервала, без изменения.
+    Значение по умолчанию равно 150 мс.
+    Если задерка имеется, тогда если между нажатием и отжатим кнопки проходит меньше этого
+    интервала, тогда состояние кнопки будет BUTTONx_CLICKED. Так же BUTTONx_PRESSED в таком
+    случае выработается только в том случае, если зажать кнопку и не отпускать весь промежуток
+    времени. Как только после этого кнопка будет отжата - выработается BUTTONx_RELEASED.
+bool wenclose(const WINDOW *win, int y, int x);
+    Возвращает true, если координаты попадают в заданное окно.
+bool wmouse_trafo(const WINDOW *win, int *y, int *x, bool to_screen);
+bool mouse_trafo(int *y, int *x, bool to_screen);
+    Функция преобразует координаты относительно экрана и относительно окна.
+    Если to_screen = true, тогда конвертируются из координат окна в координаты экрана,
+    иначе - наоборот.
+    Возвращает true, если координаты успешно конвертированы.
+int nc_getmouse(MEVENT *event);
+    Возвращает в MEVENT* event текущий статус мышки. Это эквивалент ncurses'овской функции
+    getmouse(), переименованной во избежание конфликта с PDCurses'овской getmouse().
+    Если определить PDC_NCMOUSE, тогда getmouse() будет работать как ncurses версия.
+    Функция вызывает request_mouse_pos(), который является классическим эквивалентом.
+    Для определения нажатой кнопки использовать нечто подобное:
+        MEVENT mouseEvent;
+        nc_getmouse(&mouseEvent);
+        if (mouseEvent.bstate & BUTTON1_PRESSED) {
+			/* do smth ... */
+		}
+int ungetmouse(MEVENT *event);
+    Эквивалент ungetch() для мыши. PDCurses не поддерживает очередь для мыши, поэтому просто
+    перезаписывается глобальное состояние.
+
+    Интерфейс для работы с мышкой как в ncurses.
+
+=======================================move=======================================
+int move(int y, int x);
+int wmove(WINDOW *win, int y, int x);
+    Функция перемещает курсор окна на новую позицию. Физический курсор терминала не
+    изменяет позиции, пока не будет вызван refresh().
+int mvcur(int oldrow, int oldcol, int newrow, int newcol);
+    Функция изменяет позицию физического курсора без необходимости обновления позиции
+    курсора любого окна.
+
+=======================================outopts=======================================
+int clearok(WINDOW *win, bool bf);
+    Если true, тогда следующий вызов refresh() полностью очистит экран и заданного
+    перерисует весь экран.
+    НЕ РАБОТАЕТ.
+int idlok(WINDOW *win, bool bf);
+    НЕ РАБОТАЕТ В PDCURSES.
+void idcok(WINDOW *win, bool bf);
+    НЕ РАБОТАЕТ В PDCURSES.
+void immedok(WINDOW *win, bool bf);
+    Если true, тогда любое изменение окна автоматически вызовет refresh().
+int leaveok(WINDOW *win, bool bf);
+    Если true, тогда курсор останется в месте обновления окна. Полезно в приложениях, где
+    курсор не используется.
+int setscrreg(int top, int bot);
+int wsetscrreg(WINDOW *win, int top, int bot);
+    Установить отступы сверху и снизу, в пределах которых будет работать скролинг (если, 
+    конечно, scrollok() включен).
+int scrollok(WINDOW *win, bool bf);
+    Включает возможность перемотки строк в окне.
+
+int raw_output(bool bf);
+    Если true, тогда включает отображение необработанных символов с помощью add и ins функций.
+    Таким образом отключается трансляция управляющих символов.
+
+=======================================overlay=======================================
+int overlay(const WINDOW *src_w, WINDOW *dst_w);
+    Пробелы не копируются.
+int overwrite(const WINDOW *src_w, WINDOW *dst_w);
+    Пробелы копируются.
+
+    (Пробелы в любом случае копируются, не знаю почему).
+    Функции выше копируют весь текст окна из src_w в dst_w в той зоне, которая перескается.
+    То есть весь текст, который dst_w пересекает у окна src_w скопируется в dst_w, включая
+    рамки, пустые ячейки и аттрибуты.
+    Окна, при этом, могут не совпадать по размерам.
+
+int copywin(
+    const WINDOW *src_w, WINDOW *dst_w, 
+    int src_tr, int src_tc, 
+    int dst_tr, int dst_tc, 
+    int dst_br, int dst_bc, 
+    int _overlay
+);
+    Функция работает как функции выше, но не требует, чтобы окна перекрывали друг друга.
+    С помощью параметров src_tr (номер строки источника) и src_tc (номер столбца источника)
+    задается верхний левый угол области, от куда копировать (то есть при копировании будут
+    выбираться символы выше и правее этой точки).
+    Далее задается 2 точки, которые определяют область, куда будет скопирован текст.
+    Левая верхняя точка - dst_tr (номер строки назначения) и dst_tc (номер столбца назначения),
+    певая нижняя точка - dst_br (номер строки назначения) и dst_bc (номер столбца назначения)
+
+=======================================pad=======================================
+WINDOW *newpad(int nlines, int ncols);
+WINDOW *subpad(WINDOW *orig, int nlines, int ncols,
+               int begy, int begx);
+int prefresh(WINDOW *win, int py, int px, int sy1, int sx1,
+             int sy2, int sx2);
+int pnoutrefresh(WINDOW *w, int py, int px, int sy1, int sx1,
+                 int sy2, int sx2);
+int pechochar(WINDOW *pad, chtype ch);
+int pecho_wchar(WINDOW *pad, const cchar_t *wch);
+
+    Умные окна, которые могут быть больше терминала.
+
+=======================================panel=======================================
+int bottom_panel(PANEL *pan);
+    Помещает панель в самый низ.
+int del_panel(PANEL *pan);
+int hide_panel(PANEL *pan);
+    Скрывает панель.
+int move_panel(PANEL *pan, int starty, int startx);
+PANEL *new_panel(WINDOW *win);
+PANEL *panel_above(const PANEL *pan);
+    Возвращает панель, которая лежит выше, чем PANEL *pan. Если pan = NULL, тогда функция
+    возвращает нижнуюю панель в стопке.
+PANEL *panel_below(const PANEL *pan);
+    Возвращает панель, которая лежит ниже, чем PANEL *pan. Если pan = NULL, тогда функция
+    возвращает верхнюю панель в стопке.
+int panel_hidden(const PANEL *pan);
+    Возвращает OK, если панель скрыта, иначе - ERR.
+const void *panel_userptr(const PANEL *pan);
+    Функция возвращает указатель на информацию пользователя (?) установленную ранее, с помощью
+    set_panel_userptr().
+WINDOW *panel_window(const PANEL *pan);
+    Возвращает окно связанное с панелью.
+int replace_panel(PANEL *pan, WINDOW *win);
+    Заменяет окно панели на новое.
+int set_panel_userptr(PANEL *pan, const void *uptr);
+    Установить указатель пользовательской информации (?)
+int show_panel(PANEL *pan);
+    Показывает панель и помещает ее на самый верх.
+int top_panel(PANEL *pan);
+    Помещает панель на верх.
+void update_panels(void);
+    Обновляет виртуальный (?) экран чтобы применить изменения в панелях. Далее необходимо
+    выполнить doupdate() чтобы эти изменения отобразились.
+
+    Панели - это обертка окон, которые можно перемещать, прятать и тд.
+    hide_panel() почему-то прячет все панели. Перемещение одной панели так же пряичет все панели.
+
+=======================================printw=======================================
+int printw(const char *fmt, ...);
+int wprintw(WINDOW *win, const char *fmt, ...);
+int mvprintw(int y, int x, const char *fmt, ...);
+int mvwprintw(WINDOW *win, int y, int x, const char *fmt,...);
+int vwprintw(WINDOW *win, const char *fmt, va_list varglist);
+int vw_printw(WINDOW *win, const char *fmt, va_list varglist);
+
+    Функции аналогичны C-ANSI функциям.
+
+=======================================refresh=======================================
+int wnoutrefresh(WINDOW *win);
+    Копирует окно на виртуальный экран. То есть окно обновилось, но вывод на экран будет
+    осуществлен только после вызова doupdate().
+int refresh(void);
+int wrefresh(WINDOW *win);
+    Обновляет состояние окна на физический экран. Сначала вызывает wnoutrefresh(), а после
+    doupdate(), для вывода.
+int doupdate(void);
+    Сравнивает виртуальный экран с физическим и выполняет обновление.
+
+int redrawwin(WINDOW *win);
+    Эквивалент touchwin() в PDCurses.
+int wredrawln(WINDOW *win, int beg_line, int num_lines);
+    Эквивалент touchline() в PDCurses.
+
+=======================================scanw=======================================
+int scanw(const char *fmt, ...);
+int wscanw(WINDOW *win, const char *fmt, ...);
+int mvscanw(int y, int x, const char *fmt, ...);
+int mvwscanw(WINDOW *win, int y, int x, const char *fmt, ...);
+int vwscanw(WINDOW *win, const char *fmt, va_list varglist);
+int vw_scanw(WINDOW *win, const char *fmt, va_list varglist);
+
+    Функции аналогичны C-ANSI функциям.
+
+=======================================scr_dump=======================================
+int putwin(WINDOW *win, FILE *filep);
+WINDOW *getwin(FILE *filep);
+int scr_dump(const char *filename);
+int scr_init(const char *filename);
+int scr_restore(const char *filename);
+int scr_set(const char *filename);
+
+    Сохранение состояния терминала в файл и восстановление из него.
+
+=======================================scroll=======================================
+int scroll(WINDOW *win);
+    Прокручивает окно на одну строку вверх.
+int scrl(int n);
+int wscrl(WINDOW *win, int n);
+    Прокручивает на n строк (если n > 0 - прокрутка вверх и если n < 0 - прокрутка вниз 
+    соответственно).
+
+=======================================slk=======================================
+int slk_init(int fmt);
+int slk_set(int labnum, const char *label, int justify);
+int slk_refresh(void);
+int slk_noutrefresh(void);
+char *slk_label(int labnum);
+int slk_clear(void);
+int slk_restore(void);
+int slk_touch(void);
+int slk_attron(const chtype attrs);
+int slk_attr_on(const attr_t attrs, void *opts);
+int slk_attrset(const chtype attrs);
+int slk_attr_set(const attr_t attrs, short color_pair, void *opts);
+int slk_attroff(const chtype attrs);
+int slk_attr_off(const attr_t attrs, void *opts);
+int slk_color(short color_pair);
+
+int slk_wset(int labnum, const wchar_t *label, int justify);
+
+int PDC_mouse_in_slk(int y, int x);
+void PDC_slk_free(void);
+void PDC_slk_initialize(void);
+
+wchar_t *slk_wlabel(int labnum)
+
+=======================================termattr=======================================
+int baudrate(void);
+    Возвращает скорость опроса терминала. PDCurses возвращает INT_MAX.
+char erasechar(void);
+    Возвращает ^H символ - erase символ.
+bool has_ic(void);
+    НЕ РАБОТАЕТ В PDCURSES.
+bool has_il(void);
+    НЕ РАБОТАЕТ В PDCURSES.
+    Функции выше возвращают всегда TRUE.
+char killchar(void);
+    Возвращает ^U символ - kill символ.
+char *longname(void);
+    Возвращает указатель на описание текущего терминала. Максимальная длина 
+    строки - 128 символов. Функция определена только после вызова initscr() или newterm().
+chtype termattrs(void);
+    Возвращает все видео аттрибуты, которые поддерживает терминал.
+attr_t term_attrs(void);
+
+char *termname(void);
+    Возвращает указатель на краткое описание текущего терминала. Максимальная длина
+    строки - 14 символов.
+
+int erasewchar(wchar_t *ch);
+    Возвращает ^H символ - erase символ.
+int killwchar(wchar_t *ch);
+    Возвращает ^U символ - kill символ.
+
+char wordchar(void);
+    Расширение PDCurses, ^W - "delete word" символ.
+
+=======================================touch=======================================
+int touchwin(WINDOW *win);
+    Определяет все окно как изменившееся и при следующем вызове refresh() полностью все окно
+    будет перерисовано, а не изменная часть (curses оптимизирует отрисовку).
+int touchline(WINDOW *win, int start, int count);
+    Определяет строки, как изменившиеся (n строк, начиная с строки start) и при следующем 
+    вызове refresh() помеченные строки будут перерисованы.
+int untouchwin(WINDOW *win);
+int wtouchln(WINDOW *win, int y, int n, int changed);
+    Функции работают обратно функциям выше.
+bool is_linetouched(WINDOW *win, int line);
+    Возвращает true, если выбранная линия была изменена после предыдущего вызова refresh().
+bool is_wintouched(WINDOW *win);
+    Возвращает true, если выбранное окно было изменено после предыдущего вызова refresh().
+
+=======================================util=======================================
+char *unctrl(chtype c);
+    Переводит текстовую часть символа (первые 2 байта) в печатаемую строку. Символы управления
+    заменяются на "^X" нотацию. Остальные проходят как есть.
+wchar_t *wunctrl(cchar_t *wc);
+    WIDE версия фунции выше.
+void filter(void);
+    НЕ РАБОТАЕТ В PDCURSES.
+void use_env(bool x);
+    НЕ РАБОТАЕТ В PDCURSES.
+int delay_output(int ms);
+    Задержка на ввод символов в окно в миллисекундах
+
+int getcchar(
+    const cchar_t *wcval, wchar_t *wch, attr_t *attrs,
+    short *color_pair, void *opts
+);
+    Если wch != NULL, тогда функция считывает wcval, сохраняет его аттрибуты в attrs,
+    цветовую пару в color_pair и текстовую часть в wch.
+    Если wch == NULL, тогда функция просто возвращает количество символов в wcval.
+    Аргумент opts не используется.
+
+    В настоящее время возвращаемая длина всегда равна либо 1 либо 0.
+    
+int setcchar(
+    cchar_t *wcval, const wchar_t *wch, const attr_t attrs,
+    short color_pair, const void *opts
+);
+    Функция создает wcval из обычной строки wch, аттрибутов attrs, цветовой пары color_pair.
+    Аргумент opts не используется.
+
+    В настоящее время функция принимает только первый символ из wch и игнорирует остальные.
+    Так же не корректно работает, если символ не юнкод UCS-2.
+    
+
+int PDC_mbtowc(wchar_t *pwc, const char *s, size_t n);
+size_t PDC_mbstowcs(wchar_t *dest, const char *src, size_t n);
+size_t PDC_wcstombs(char *dest, const wchar_t *src, size_t n);
+
+=======================================window=======================================
+WINDOW *newwin(int nlines, int ncols, int begy, int begx);
+    Чтобы создать окно размером с терминал - newwin(0, 0, 0, 0).
+WINDOW *subwin(
+    WINDOW* orig, int nlines, int ncols,
+    int begy, int begx
+);
+    Создает подокно. Позиция задается относительно терминала, а не окна-родителя. Для
+    использования часто нужно будет использовать touchwin() перед вызовом refresh().
+WINDOW *derwin(
+    WINDOW* orig, int nlines, int ncols,
+    int begy, int begx
+);
+    Функция аналогична subwin() но begy и begx задаются относительно orig.
+WINDOW *dupwin(WINDOW *win);
+    Создает копию окна.
+int delwin(WINDOW *win);
+    Удаляет окно.
+int mvwin(WINDOW *win, int y, int x);
+int mvderwin(WINDOW *win, int pary, int parx);
+    Перемещает подокно внутри его окна-родителя.
+int syncok(WINDOW *win, bool bf);
+    Если true, тогда wsyncup() будет вызываться каждый раз, когда окно изменится.
+void wsyncup(WINDOW *win);
+    Вызывает touchwin() всех родительских окон.
+void wcursyncup(WINDOW *win);
+    Заставляет текущую позицию курсора всех предков окна отображать позицию курсора текущего
+    окна.
+void wsyncdown(WINDOW *win);
+    Вызывает touchwin() текущего окна, если было изменено какое-либо из его родительских окон.
+
+WINDOW *resize_window(WINDOW *win, int nlines, int ncols);
+    Изменяет размер окна. Возвращает указатель на новое окно.
+int wresize(WINDOW *win, int nlines, int ncols);
+    NCurses совместимая функция для resize_window(). В PDCurses функция не будет обрабатывать
+    любые подокна.
+
+WINDOW *PDC_makelines(WINDOW *win);
+    Выделяет память для строк.
+WINDOW *PDC_makenew(int nlines, int ncols, int begy, int begx);
+    Выделяет память для нового окна, кроме самих строк.
+void PDC_sync(WINDOW *win);
+    Обрабатывает вызовы wrefresh() и wsyncup() при изменении окна.
+
+=======================================clipboard=======================================
+int PDC_getclipboard(char **contents, long *length);
+int PDC_setclipboard(const char *contents, long length);
+int PDC_freeclipboard(char *contents);
+int PDC_clearclipboard(void);
+
+    Работа с буфером обмена. (Лучше свою оболочку написать).
+
+=======================================pdckbd=======================================
+unsigned long PDC_get_input_fd(void);
+    Возвращает дескриптор файла, из которого PDCurses считывает данные. Может использоваться
+    для select().
+
+=======================================pdcsetsc=======================================
+int PDC_set_blink(bool blinkon);
+int PDC_set_bold(bool boldon);
+void PDC_set_title(const char *title);
+
+    Упращающие макросы.
+
+=======================================sb=======================================
+int sb_init(void)
+int sb_set_horz(int total, int viewport, int cur)
+int sb_set_vert(int total, int viewport, int cur)
+int sb_get_horz(int *total, int *viewport, int *cur)
+int sb_get_vert(int *total, int *viewport, int *cur)
+int sb_refresh(void);
+
+    Функции для управлением scrollbar.

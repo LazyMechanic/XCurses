@@ -1,23 +1,19 @@
-#include <XCurses/XCurses.h>
+#include <XCurses/Curses.h>
 
 #include <PDCurses/curses.h>
 
-XCurses::XCurses()
+namespace xcur {
+Curses::Curses()
 {
 	initscr();
 }
 
-XCurses::~XCurses()
+Curses::~Curses()
 {
 	endwin();
 }
 
-void XCurses::init()
-{
-	this->init(XCursesConfig());
-}
-
-void XCurses::init(const XCursesConfig& config)
+void Curses::init(const CursesConfig& config)
 {
 	this->setCBrake(config.enableCBreak);
 	this->setEcho(config.enableEcho);
@@ -27,18 +23,18 @@ void XCurses::init(const XCursesConfig& config)
 	this->setTerminalSize(config.terminalWidth, config.terminalHeight);
 }
 
-int XCurses::setCBrake(bool v)
+Curses::Status Curses::setCBrake(bool v)
 {
 	m_config.enableCBreak = v;
-    if (v) {
+	if (v) {
 		return cbreak();
-    }
+	}
 	else {
 		return nocbreak();
 	}
 }
 
-int XCurses::setEcho(bool v)
+Curses::Status Curses::setEcho(bool v)
 {
 	m_config.enableEcho = v;
 	if (v) {
@@ -49,7 +45,7 @@ int XCurses::setEcho(bool v)
 	}
 }
 
-int XCurses::setRaw(bool v)
+Curses::Status Curses::setRaw(bool v)
 {
 	m_config.enableRaw = v;
 	if (v) {
@@ -60,7 +56,7 @@ int XCurses::setRaw(bool v)
 	}
 }
 
-int XCurses::setNewLine(bool v)
+Curses::Status Curses::setNewLine(bool v)
 {
 	m_config.enableNewLine = v;
 	if (v) {
@@ -71,25 +67,26 @@ int XCurses::setNewLine(bool v)
 	}
 }
 
-int XCurses::setHalfDelay(unsigned int delay)
+Curses::Status Curses::setHalfDelay(unsigned int delay)
 {
 	m_config.halfDelay = delay;
 	return halfdelay(delay);
 }
 
-int XCurses::setTerminalSize(unsigned int width, unsigned int height)
+Curses::Status Curses::setTerminalSize(unsigned int width, unsigned int height)
 {
 	m_config.terminalWidth = width;
 	m_config.terminalHeight = height;
 	return resize_term(height, width);
 }
 
-XCurses::Status XCurses::inverseColors()
+Curses::Status Curses::inverseColors()
 {
 	return flash();
 }
 
-XCurses::Status XCurses::beepSound()
+Curses::Status Curses::playBeepSound()
 {
 	return beep();
+}
 }
