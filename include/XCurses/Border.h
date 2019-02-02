@@ -3,22 +3,34 @@
 #include <cstdint>
 
 namespace xcur {
+/**
+ * \brief Container for window border.
+ */
 class Border
 {
 public:
-	enum Type
-	{
-		None,
-		Standard,
-		Advanced,
-		Double
-	};
+    /**
+	 * \brief Default Border constructor. Creates Border::Default.
+	 */
+	Border();
 
-	Border() :
-		Border(Border::Type::Advanced)
-	{
-	}
+    /**
+     * \brief Construct the border with one char on all sides
+     * \param ch Char for border
+     */
+    explicit Border(uint32_t ch);
 
+    /**
+	 * \brief Construct the border with specific characters.
+	 * \param _leftSide Char for left side
+	 * \param _rightSide Char for right side
+	 * \param _topSide Char for top side
+	 * \param _bottomSide Char for bottom side
+	 * \param _topLeftCorner Char for top-left corner
+	 * \param _topRightCorner Char for top-right corner
+	 * \param _bottomLeftCorner Char for bottom-left corner
+	 * \param _bottomRightCorner Char for bottom-right corner
+	 */
 	Border(uint32_t _leftSide,
 		uint32_t _rightSide,
 		uint32_t _topSide,
@@ -27,86 +39,78 @@ public:
 		uint32_t _topRightCorner,
 		uint32_t _bottomLeftCorner,
 		uint32_t _bottomRightCorner
-	) :
-		leftSide(_leftSide),
-		rightSide(_rightSide),
-		topSide(_topSide),
-		bottomSide(_bottomSide),
-		topLeftCorner(_topLeftCorner),
-		topRightCorner(_topRightCorner),
-		bottomLeftCorner(_bottomLeftCorner),
-		bottomRightCorner(_bottomRightCorner)
-	{
-	}
+	);
 
-	Border(Border::Type type)
-	{
-		switch (type) {
-		case Border::Type::None:
-		{
-			this->fill(' ');
-			break;
-		}
-		case Border::Type::Standard:
-		{
-			leftSide = '|';
-			rightSide = '|';
-			topSide = '-';
-			bottomSide = '-';
-			topLeftCorner = '+';
-			topRightCorner = '+';
-			bottomLeftCorner = '+';
-			bottomRightCorner = '+';
-			break;
-		}
-		case Border::Type::Advanced:
-		{
+    /**
+	 * \brief Copy Border constructor
+	 */
+	Border(const Border&) = default;
 
-			leftSide = 0x2502;
-			rightSide = 0x2502;
-			topSide = 0x2500;
-			bottomSide = 0x2500;
-			topLeftCorner = 0x250c;
-			topRightCorner = 0x2510;
-			bottomLeftCorner = 0x2514;
-			bottomRightCorner = 0x2518;
-			break;
-		}
-		case Border::Type::Double:
-		{
+	/**
+	 * \brief Move Border constructor
+	 */
+	Border(Border&&) = default;
 
-			leftSide = 0x2551;
-			rightSide = 0x2551;
-			topSide = 0x2550;
-			bottomSide = 0x2550;
-			topLeftCorner = 0x2554;
-			topRightCorner = 0x2557;
-			bottomLeftCorner = 0x255a;
-			bottomRightCorner = 0x255d;
-			break;
-		}
-		}
-	}
+	/**
+	 * \brief Border destructor
+	 */
+	~Border() = default;
 
-	void fill(uint32_t c)
-	{
-		leftSide = c;
-		rightSide = c;
-		topSide = c;
-		bottomSide = c;
-		topLeftCorner = c;
-		topRightCorner = c;
-		bottomLeftCorner = c;
-		bottomRightCorner = c;
-	}
+    /**
+	 * \brief Default copy assignment operator
+	 * \return Reference to \a this
+	 */
+	Border& operator =(const Border&) = default;
 
+	/**
+	 * \brief Default move assignment operator
+	 * \return Reference to \a this
+	 */
+	Border& operator =(Border&&) = default;
+
+	static const Border Blank;      //< Blank predefined border
+	static const Border Simple;     //< Simple predefined border
+	static const Border Default;    //< Default predefined border
+	static const Border Double;     //< Double predefined border
+
+    /**
+	 * \brief Left side character
+	 */
 	uint32_t leftSide;
+
+	/**
+	 * \brief Right side character
+	 */
 	uint32_t rightSide;
+
+	/**
+	 * \brief Top side character
+	 */
 	uint32_t topSide;
+
+	/**
+	 * \brief Bottom side character
+	 */
 	uint32_t bottomSide;
+
+	/**
+	 * \brief Top-left corner character
+	 */
 	uint32_t topLeftCorner;
+
+	/**
+	 * \brief Top-right corner character
+	 */
 	uint32_t topRightCorner;
+
+	/**
+	 * \brief Bottom-left corner character
+	 */
 	uint32_t bottomLeftCorner;
+
+	/**
+	 * \brief Bottom-right corner character
+	 */
 	uint32_t bottomRightCorner;
 };
 }
