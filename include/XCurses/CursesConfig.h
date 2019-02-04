@@ -18,7 +18,6 @@ public:
 	 * \param _enableEchoMode Echo mode state
 	 * \param _enableRawMode Raw mode state
 	 * \param _enableNewLineMode NewLine mode state
-	 * \param _enableColorMode Color mode state
 	 * \param _enableKeypadMode Keypad mode state
 	 * \param _enableInputDelay Delay mode state
 	 */
@@ -30,7 +29,6 @@ public:
 		bool _enableEchoMode,
 		bool _enableRawMode,
 		bool _enableNewLineMode,
-		bool _enableColorMode,
 		bool _enableKeypadMode,
 		bool _enableInputDelay
 	);
@@ -71,11 +69,6 @@ public:
 	 * \brief NewLine mode state
 	 */
 	bool enableNewLineMode;
-
-	/**
-	 * \brief Color mode state
-	 */
-	bool enableColorMode;
 
 	/**
 	 * \brief Keypad mode state

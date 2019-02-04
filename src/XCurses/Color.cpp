@@ -2,14 +2,23 @@
 #include <algorithm>
 
 namespace xcur {
-const Color Color::Black(0, 0, 0);
-const Color Color::White(255, 255, 255);
-const Color Color::Red(255, 0, 0);
-const Color Color::Green(0, 255, 0);
-const Color Color::Blue(0, 0, 255);
-const Color Color::Yellow(255, 255, 0);
-const Color Color::Magenta(255, 0, 255);
-const Color Color::Cyan(0, 255, 255);
+const Color Color::Black        (0,      0,      0);
+const Color Color::Red          (255,    0,      0);
+const Color Color::Green        (0,      255,    0);
+const Color Color::Blue         (0,      0,      255);
+const Color Color::Yellow       (255,    255,    0);
+const Color Color::Magenta      (255,    0,      255);
+const Color Color::Cyan         (0,      255,    255);
+const Color Color::White        (255,    255,    255);
+
+const Color Color::DarkGray     (128,   128,    128);
+const Color Color::DarkRed      (128,   0,      0);
+const Color Color::DarkGreen    (0,     128,    0);
+const Color Color::DarkBlue     (0,     0,      128);
+const Color Color::DarkYellow   (128,   128,    0);
+const Color Color::DarkMagenta  (128,   0,      128);
+const Color Color::DarkCyan     (0,     128,    128);
+const Color Color::Gray         (192,   192,    192);
 
 Color::Color() :
     r(0),
@@ -32,17 +41,17 @@ Color::Color(uint32_t color) :
 {
 }
 
-uint16_t Color::cursesRed()
+uint16_t Color::cursesRed() const
 {
 	return static_cast<uint16_t>((r / 255.0f) * 1000.0f);
 }
 
-uint16_t Color::cursesGreen()
+uint16_t Color::cursesGreen() const
 {
 	return static_cast<uint16_t>((g / 255.0f) * 1000.0f);
 }
 
-uint16_t Color::cursesBlue()
+uint16_t Color::cursesBlue() const
 {
 	return static_cast<uint16_t>((b / 255.0f) * 1000.0f);
 }

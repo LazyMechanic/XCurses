@@ -2,6 +2,7 @@
 #include <PDCurses\panel.h>
 #include <cstdint>
 #include <string>
+#include <iostream>
 
 struct Color
 {
@@ -23,7 +24,7 @@ void main() {
 	initscr();
 
 	// Set size of terminal
-	resize_term(50, 120);
+	resize_term(50, 100);
 
 	start_color();
 
@@ -41,20 +42,22 @@ void main() {
 	mousemask(ALL_MOUSE_EVENTS, 0);
 	mouseinterval(150);
 
-	init_pair(0, COLOR_RED, COLOR_BLUE);
-	init_pair(1, COLOR_RED, COLOR_BLACK);
-	init_pair(2, COLOR_RED, COLOR_CYAN);
-	init_pair(3, COLOR_RED, COLOR_GREEN);
-	init_pair(4, COLOR_RED, COLOR_MAGENTA);
-	init_pair(5, COLOR_RED, COLOR_WHITE);
-	init_pair(6, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(7, 8, 9);
+	Color c1 = getPDCursesColor(125, 209, 181);
+	Color c2 = getPDCursesColor(253, 145, 246);
+	short colorNum = 15;
+	short pairNum = 5;
+	init_pair(pairNum, COLOR_BLACK, colorNum);
+	init_color(colorNum, c2.red, c2.green, c2.blue);
 
-	Color c1 = getPDCursesColor(235, 7, 87);
-	Color c2 = getPDCursesColor(112, 186, 22);
-	init_color(8, c1.red, c1.green, c1.blue);
-	init_color(9, c2.red, c2.green, c2.blue);
-    
+	mvaddch(30, 2, 'C' | COLOR_PAIR(pairNum));
+	wgetch(stdscr);
+	init_color(colorNum, c1.red, c1.green, c1.blue);
+	mvaddch(30, 3, 'C' | COLOR_PAIR(pairNum));
+	flash();
+
+	wgetch(stdscr);
+
+
 	WINDOW* testWin1 = newwin(15, 15, 0, 0);
 	WINDOW* testWin2 = newwin(15, 15, 0, 5);
 	WINDOW* testWin3 = newwin(15, 15, 5, 0);
@@ -106,9 +109,8 @@ void main() {
 	bool isRunning = true;
 	while (isRunning) {
 		inputChar = wgetch(stdscr);
-		waddch(testWin1, 'k');
         if (inputChar != ERR) {
-			//waddch(testWin1, 'k');
+			waddch(testWin1, 'k' | COLOR_PAIR(52));
         }
 
 

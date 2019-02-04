@@ -10,6 +10,7 @@ set(XCURSES_INCS
     ${XCURSES_INC_DIR}/Border.h
     ${XCURSES_INC_DIR}/Window.h
     ${XCURSES_INC_DIR}/Color.h
+    ${XCURSES_INC_DIR}/Status.h
 )
 
 set(XCURSES_SRCS
@@ -17,6 +18,7 @@ set(XCURSES_SRCS
     ${XCURSES_SRC_DIR}/Window.cpp
     ${XCURSES_SRC_DIR}/Border.cpp
     ${XCURSES_SRC_DIR}/Color.cpp
+    ${XCURSES_SRC_DIR}/Status.cpp
 )
 
 set(XCURSES_LIBS

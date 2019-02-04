@@ -4,8 +4,9 @@
 
 namespace xcur {
 /**
- * \brief PDCurses color standard defines that the color component must be
- * between 0 and 1000. This class stored color with component between 0 and 255.
+ * \brief This class stored color with component between 0 and 255.
+ * Curses color standard defines that the color component must be
+ * between 0 and 1000.
  */
 class Color
 {
@@ -54,31 +55,40 @@ public:
 	~Color() = default;
 
 	static const Color Black;       //< Black predefined color
-	static const Color White;       //< White predefined color
 	static const Color Red;         //< Red predefined color
 	static const Color Green;       //< Green predefined color
 	static const Color Blue;        //< Blue predefined color
 	static const Color Yellow;      //< Yellow predefined color
 	static const Color Magenta;     //< Magenta predefined color
 	static const Color Cyan;        //< Cyan predefined color
+	static const Color White;       //< White predefined color
+
+	static const Color DarkGray;    //< Dark Gray predefined color
+	static const Color DarkRed;     //< Dark Red predefined color
+	static const Color DarkGreen;   //< Dark Green predefined color
+	static const Color DarkBlue;    //< Dark Blue predefined color
+	static const Color DarkYellow;  //< Dark Yellow predefined color
+	static const Color DarkMagenta; //< Dark Magenta predefined color
+	static const Color DarkCyan;    //< Dark Cyan predefined color
+	static const Color Gray;        //< Gray predefined color
 
     /**
 	 * \brief Translates color component from [0, 255] to [0, 1000]
 	 * \return Red color component
 	 */
-	inline uint16_t cursesRed();
+	inline uint16_t cursesRed() const;
 
 	/**
 	 * \brief Translates color component from [0, 255] to [0, 1000]
 	 * \return Green color component
 	 */
-	inline uint16_t cursesGreen();
+	inline uint16_t cursesGreen() const;
 
 	/**
 	 * \brief Translates color component from [0, 255] to [0, 1000]
 	 * \return Blue color component
 	 */
-	inline uint16_t cursesBlue();
+	inline uint16_t cursesBlue() const;
 
     /**
 	 * \brief Red component in color

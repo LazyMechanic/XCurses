@@ -1,14 +1,15 @@
 #pragma once
 
 #include <XCurses/CursesConfig.h>
+#include <XCurses/Status.h>
 
 namespace xcur {
 class Curses
 {
 public:
-	using Status = int;
 
 	Curses();
+
 	~Curses();
 
 	/**
@@ -24,17 +25,17 @@ public:
 	 * In nocbreak mode (\a false), typed characters are buffered until a newline or carriage return.
 	 * Interrupt and flow control characters are unaffected by this mode.
 	 * \param v Value
-	 * \return Status code
+	 * \return Status
 	 */
-	Curses::Status setCBrake(bool v);
+	Status setCBrakeMode(bool v);
 
 	/**
 	 * \brief Toggle echo mode.
 	 * The mode controls whether typed characters are echoed by the input routine.
 	 * \param v Value
-	 * \return Status code
+	 * \return Status
 	 */
-	Curses::Status setEcho(bool v);
+    Status setEchoMode(bool v);
 
 	/**
 	 * \brief Toggle raw mode.
@@ -44,50 +45,38 @@ public:
 	 * the \a INTR, \a QUIT, \a SUSP, and \a STOP characters are passed through
 	 * without being interpreted, and without generating a signal.
 	 * \param v Value
-	 * \return Status code
+	 * \return Status
 	 */
-	Curses::Status setRaw(bool v);
+	Status setRawMode(bool v);
 
 	/**
 	 * \brief Toggle newline mode.
 	 * The mode enables or disables the translation
 	 * of a carriage return into a newline on input.
 	 * \param v Value
-	 * \return Status code
+	 * \return Status
 	 */
-	Curses::Status setNewLine(bool v);
-
-	/**
-	 * \brief Set delay for input.
-	 * It is similar to cbreak mode,
-	 * but allows for a time limit to be specified,
-	 * in tenths of a second. This causes getch()
-	 * to block for that period before returning ERR if no key has been received.
-	 * Value must be between 1 and 255.
-	 * \param delay Delay value
-	 * \return Status code
-	 */
-	Curses::Status setHalfDelay(unsigned int delay);
+	Status setNewLineMode(bool v);
 
 	/**
 	 * \brief Set terminal size.
 	 * \param width Width value
 	 * \param height Height value
-	 * \return Status code
+	 * \return Status
 	 */
-	Curses::Status setTerminalSize(unsigned int width, unsigned int height);
+	Status setTerminalSize(unsigned int width, unsigned int height);
 
 	/**
-	 * \brief Inverse all colors in terminal
-	 * \return Status code
+	 * \brief Inverse all colors in terminal for a moment
+	 * \return Status
 	 */
-	Curses::Status inverseColors();
+	Status blinkColors();
 
 	/**
 	 * \brief Beep sound
-	 * \return Status code
+	 * \return Status
 	 */
-	Curses::Status playBeepSound();
+	Status playBeepSound();
 
 private:
 	/**

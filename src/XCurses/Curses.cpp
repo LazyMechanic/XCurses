@@ -15,14 +15,15 @@ Curses::~Curses()
 
 void Curses::init(const CursesConfig& config)
 {
-	this->setCBrake(config.enableCBreakMode);
-	this->setEcho(config.enableEchoMode);
-	this->setRaw(config.enableRawMode);
-	this->setNewLine(config.enableNewLineMode);
+	this->setCBrakeMode(config.enableCBreakMode);
+	this->setEchoMode(config.enableEchoMode);
+	this->setRawMode(config.enableRawMode);
+	this->setNewLineMode(config.enableNewLineMode);
 	this->setTerminalSize(config.terminalWidth, config.terminalHeight);
+
 }
 
-Curses::Status Curses::setCBrake(bool v)
+Status Curses::setCBrakeMode(bool v)
 {
 	m_config.enableCBreakMode = v;
 	if (v) {
@@ -33,7 +34,7 @@ Curses::Status Curses::setCBrake(bool v)
 	}
 }
 
-Curses::Status Curses::setEcho(bool v)
+Status Curses::setEchoMode(bool v)
 {
 	m_config.enableEchoMode = v;
 	if (v) {
@@ -44,7 +45,7 @@ Curses::Status Curses::setEcho(bool v)
 	}
 }
 
-Curses::Status Curses::setRaw(bool v)
+Status Curses::setRawMode(bool v)
 {
 	m_config.enableRawMode = v;
 	if (v) {
@@ -55,7 +56,7 @@ Curses::Status Curses::setRaw(bool v)
 	}
 }
 
-Curses::Status Curses::setNewLine(bool v)
+Status Curses::setNewLineMode(bool v)
 {
 	m_config.enableNewLineMode = v;
 	if (v) {
@@ -66,19 +67,19 @@ Curses::Status Curses::setNewLine(bool v)
 	}
 }
 
-Curses::Status Curses::setTerminalSize(unsigned int width, unsigned int height)
+Status Curses::setTerminalSize(unsigned int width, unsigned int height)
 {
 	m_config.terminalWidth = width;
 	m_config.terminalHeight = height;
 	return resize_term(height, width);
 }
 
-Curses::Status Curses::inverseColors()
+Status Curses::blinkColors()
 {
 	return flash();
 }
 
-Curses::Status Curses::playBeepSound()
+Status Curses::playBeepSound()
 {
 	return beep();
 }

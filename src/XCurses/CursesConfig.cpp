@@ -11,7 +11,6 @@ CursesConfig::CursesConfig() :
 	enableEchoMode(false),
 	enableRawMode(true),
 	enableNewLineMode(false),
-	enableColorMode(true),
 	enableKeypadMode(false),
 	enableInputDelay(false)
 {
@@ -25,7 +24,6 @@ CursesConfig::CursesConfig(
     bool _enableEchoMode,
     bool _enableRawMode,
     bool _enableNewLineMode,
-    bool _enableColorMode,
     bool _enableKeypadMode,
     bool _enableInputDelay
 ) :
@@ -36,7 +34,6 @@ CursesConfig::CursesConfig(
 	enableEchoMode(_enableEchoMode),
 	enableRawMode(_enableRawMode),
 	enableNewLineMode(_enableNewLineMode),
-	enableColorMode(_enableColorMode),
 	enableKeypadMode(_enableKeypadMode),
 	enableInputDelay(_enableInputDelay)
 {
