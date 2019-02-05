@@ -6,43 +6,23 @@ namespace xcur {
 ColorSystem::ColorSystem()
 {
     // Init standard colors
+	this->addColor(Color::Black, COLOR_BLACK);
+	this->addColor(Color::Red, COLOR_RED);
+	this->addColor(Color::Green, COLOR_GREEN);
+	this->addColor(Color::Blue, COLOR_BLUE);
+	this->addColor(Color::Cyan, COLOR_CYAN);
+	this->addColor(Color::Magenta, COLOR_MAGENTA);
+	this->addColor(Color::Yellow, COLOR_YELLOW);
+	this->addColor(Color::White, COLOR_WHITE);
 
-	init_color(COLOR_BLACK, Color::Black.cursesRed(), Color::Black.cursesGreen(), Color::Black.cursesBlue());
-	init_color(COLOR_RED, Color::Red.cursesRed(), Color::Red.cursesGreen(), Color::Red.cursesBlue());
-	init_color(COLOR_GREEN, Color::Green.cursesRed(), Color::Green.cursesGreen(), Color::Green.cursesBlue());
-	init_color(COLOR_BLUE, Color::Blue.cursesRed(), Color::Blue.cursesGreen(), Color::Blue.cursesBlue());
-	init_color(COLOR_CYAN, Color::Cyan.cursesRed(), Color::Cyan.cursesGreen(), Color::Cyan.cursesBlue());
-	init_color(COLOR_MAGENTA, Color::Magenta.cursesRed(), Color::Magenta.cursesGreen(), Color::Magenta.cursesBlue());
-	init_color(COLOR_YELLOW, Color::Yellow.cursesRed(), Color::Yellow.cursesGreen(), Color::Yellow.cursesBlue());
-	init_color(COLOR_WHITE, Color::White.cursesRed(), Color::White.cursesGreen(), Color::White.cursesBlue());
-
-	init_color(COLOR_BLACK + 8, Color::DarkGray.cursesRed(), Color::DarkGray.cursesGreen(), Color::DarkGray.cursesBlue());
-	init_color(COLOR_RED + 8, Color::DarkRed.cursesRed(), Color::DarkRed.cursesGreen(), Color::DarkRed.cursesBlue());
-	init_color(COLOR_GREEN + 8, Color::DarkGreen.cursesRed(), Color::DarkGreen.cursesGreen(), Color::DarkGreen.cursesBlue());
-	init_color(COLOR_BLUE + 8, Color::DarkBlue.cursesRed(), Color::DarkBlue.cursesGreen(), Color::DarkBlue.cursesBlue());
-	init_color(COLOR_CYAN + 8, Color::DarkCyan.cursesRed(), Color::DarkCyan.cursesGreen(), Color::DarkCyan.cursesBlue());
-	init_color(COLOR_MAGENTA + 8, Color::DarkMagenta.cursesRed(), Color::DarkMagenta.cursesGreen(), Color::DarkMagenta.cursesBlue());
-	init_color(COLOR_YELLOW + 8, Color::DarkYellow.cursesRed(), Color::DarkYellow.cursesGreen(), Color::DarkYellow.cursesBlue());
-	init_color(COLOR_WHITE + 8, Color::Gray.cursesRed(), Color::Gray.cursesGreen(), Color::Gray.cursesBlue());
-
-    // Add colors to container
-	m_colors[Color::Black] = COLOR_BLACK;
-	m_colors[Color::Red] = COLOR_RED;
-	m_colors[Color::Green] = COLOR_GREEN;
-	m_colors[Color::Blue] = COLOR_BLUE;
-	m_colors[Color::Cyan] = COLOR_CYAN;
-	m_colors[Color::Magenta] = COLOR_MAGENTA;
-	m_colors[Color::Yellow] = COLOR_YELLOW;
-	m_colors[Color::White] = COLOR_WHITE;
-
-	m_colors[Color::DarkGray] = COLOR_BLACK + 8;
-	m_colors[Color::DarkRed] = COLOR_RED + 8;
-	m_colors[Color::DarkGreen] = COLOR_GREEN + 8;
-	m_colors[Color::DarkBlue] = COLOR_BLUE + 8;
-	m_colors[Color::DarkCyan] = COLOR_CYAN + 8;
-	m_colors[Color::DarkMagenta] = COLOR_MAGENTA + 8;
-	m_colors[Color::DarkYellow] = COLOR_YELLOW + 8;
-	m_colors[Color::Gray] = COLOR_WHITE + 8;
+	this->addColor(Color::DarkGray, COLOR_BLACK + 8);
+	this->addColor(Color::DarkRed, COLOR_RED + 8);
+	this->addColor(Color::DarkGreen, COLOR_GREEN + 8);
+	this->addColor(Color::DarkBlue, COLOR_BLUE + 8);
+	this->addColor(Color::DarkCyan, COLOR_CYAN + 8);
+	this->addColor(Color::DarkMagenta, COLOR_MAGENTA + 8);
+	this->addColor(Color::DarkYellow, COLOR_YELLOW + 8);
+	this->addColor(Color::Gray, COLOR_WHITE + 8);
 }
 
 Status ColorSystem::changeColor(const Color& from, const Color& to)
@@ -60,5 +40,11 @@ Status ColorSystem::changeColor(const Color& from, const Color& to)
 	m_colors.erase(itFrom);
 
 	return Status::Code::Ok;
+}
+
+inline void ColorSystem::addColor(const Color& color, uint16_t num)
+{
+	init_color(num, color.cursesRed(), color.cursesGreen(), color.cursesBlue());
+	m_colors[color] = num;
 }
 }

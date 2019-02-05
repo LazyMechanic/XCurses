@@ -24,7 +24,7 @@ public:
 	Status(int32_t _code);
 
 	/**
-	 * \brief Move Status contructor
+	 * \brief Move Status constructor
 	 */
 	Status(Status&&) = default;
 
