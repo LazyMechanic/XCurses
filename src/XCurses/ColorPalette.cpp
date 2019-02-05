@@ -4,16 +4,19 @@ namespace xcur {
 const uint16_t ColorPalette::maxNumberOfColors = 16;
 const uint16_t ColorPalette::maxNumberOfColorPairs = 256;
 
-ColorPalette::ColorPalette(const std::initializer_list<Color>& list) :
+ColorPalette::ColorPalette() :
+	m_curColorId(0),
+	m_colors(0, std::bind(&ColorPalette::colorHash, this, std::placeholders::_1)),
+	m_colorPairs(0, std::bind(&ColorPalette::colorPairHash, this, std::placeholders::_1))
+{
+}
+
+ColorPalette::ColorPalette(const std::list<Color>& colorList) :
     m_curColorId(0),
 	m_colors(0, std::bind(&ColorPalette::colorHash, this, std::placeholders::_1)),
 	m_colorPairs(0, std::bind(&ColorPalette::colorPairHash, this, std::placeholders::_1))
 {
-    if (list.size() > maxNumberOfColors) {
-		throw std::length_error("Number of colors in palette more than maximum");
-    }
-
-	for (auto it = list.begin(); it != list.end(); ++it) {
+	for (auto it = colorList.begin(); it != colorList.end() || m_curColorId >= maxNumberOfColors; ++it) {
 		m_colors[*it] = m_curColorId++;
 	}
 }

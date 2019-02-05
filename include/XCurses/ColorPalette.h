@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include <functional>
 #include <unordered_map>
 
@@ -11,11 +12,46 @@ class ColorPalette
 {
 public:
 	friend class ColorSystem;
+
     /**
-	 * \brief Construct color palette with specific colors
-	 * \param list Color palette
+	 * \brief Default ColorPalette constructor. Construct empty palette 
 	 */
-	ColorPalette(const std::initializer_list<Color>& list);
+	ColorPalette();
+
+    /**
+	 * \brief Copy ColorPalette constructor
+	 */
+	ColorPalette(const ColorPalette&) = default;
+
+    /**
+	 * \brief Move ColorPalette constructor
+	 */
+	ColorPalette(ColorPalette&&) = default;
+
+    /**
+	 * \brief Construct color palette with specific colors. If the number of colors 
+	 * is greater than the maximum, then inserting only first N colors where 
+	 * N is (maxNumberOfColors - 1)
+	 * \param colorList Color palette
+	 */
+	ColorPalette(const std::list<Color>& colorList);
+
+	/**
+	 * \brief Default copy assignment operator
+	 * \return Reference to \a this
+	 */
+	ColorPalette& operator =(const ColorPalette&) = default;
+
+	/**
+	 * \brief Default move assignment operator
+	 * \return Reference to \a this
+	 */
+	ColorPalette& operator =(ColorPalette&&) = default;
+
+    /**
+	 * \brief ColorPalette destructor
+	 */
+	~ColorPalette() = default;
 
     /**
 	 * \brief 
