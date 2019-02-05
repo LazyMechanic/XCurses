@@ -96,15 +96,11 @@ inline size_t ColorPalette::colorHash(const Color& color) const
 	return hash;
 }
 
-inline size_t ColorPalette::colorPairHash(const std::pair<Color, Color>& pair) const
+inline size_t ColorPalette::colorPairHash(const std::pair<uint16_t, uint16_t>& pair) const
 {
 	size_t hash = std::hash<uint64_t>()(
-		(uint64_t(pair.first.r) << 40) |
-		(uint64_t(pair.first.g) << 32) |
-		(uint64_t(pair.first.b) << 24) |
-		(pair.second.r << 16) |
-		(pair.second.g << 8) |
-		(pair.second.b << 0));
+		pair.first << 16 |
+		pair.second << 0);
 	return hash;
 }
 }

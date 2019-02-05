@@ -3,48 +3,67 @@
 #include <PDCurses/curses.h>
 
 namespace xcur {
-ColorSystem::ColorSystem()
+ColorSystem::ColorSystem() :
+    m_curPalette(nullptr)
 {
-    // Init standard colors
-	this->addColor(Color::Black, COLOR_BLACK);
-	this->addColor(Color::Red, COLOR_RED);
-	this->addColor(Color::Green, COLOR_GREEN);
-	this->addColor(Color::Blue, COLOR_BLUE);
-	this->addColor(Color::Cyan, COLOR_CYAN);
-	this->addColor(Color::Magenta, COLOR_MAGENTA);
-	this->addColor(Color::Yellow, COLOR_YELLOW);
-	this->addColor(Color::White, COLOR_WHITE);
+	ColorPalette defaultPalette({
+	    Color::Black,
+	    Color::Blue,
+	    Color::Green,
+	    Color::Cyan,
+	    Color::Red,
+	    Color::Magenta,
+	    Color::Yellow,
+	    Color::White,
+	    Color::DarkGray,
+	    Color::DarkBlue,
+	    Color::DarkGreen,
+	    Color::DarkCyan,
+	    Color::DarkRed,
+	    Color::DarkMagenta,
+	    Color::DarkYellow,
+	    Color::Gray});
 
-	this->addColor(Color::DarkGray, COLOR_BLACK + 8);
-	this->addColor(Color::DarkRed, COLOR_RED + 8);
-	this->addColor(Color::DarkGreen, COLOR_GREEN + 8);
-	this->addColor(Color::DarkBlue, COLOR_BLUE + 8);
-	this->addColor(Color::DarkCyan, COLOR_CYAN + 8);
-	this->addColor(Color::DarkMagenta, COLOR_MAGENTA + 8);
-	this->addColor(Color::DarkYellow, COLOR_YELLOW + 8);
-	this->addColor(Color::Gray, COLOR_WHITE + 8);
+	m_palettes["default"] = defaultPalette;
+	useColorPalette("default");
 }
 
-Status ColorSystem::changeColor(const Color& from, const Color& to)
+Status ColorSystem::addColorPalette(const std::string& name, const ColorPalette& palette)
 {
-	auto itFrom = m_colors.find(from);
-	auto itTo = m_colors.find(to);
+	auto it = m_palettes.find(name);
+	// If the palette already exists
+	if (it != m_palettes.end()) {
+		return Status::Err;
+	}
 
-    if (itFrom == m_colors.end() ||
-		itTo == m_colors.end()) 
-	{
-		return Status::Code::Err;
+	m_palettes[name] = palette;
+
+	return Status::Ok;
+}
+
+Status ColorSystem::useColorPalette(const std::string& name)
+{
+	auto it = m_palettes.find(name);
+	// If the palette not found
+	if (it == m_palettes.end()) {
+		return Status::Err;
+	}
+
+	m_curPalette = &m_palettes[name];
+
+    for (auto colorIt = m_curPalette->m_colors.begin(); colorIt != m_curPalette->m_colors.end(); ++colorIt) {
+		init_color(colorIt->second, colorIt->first.r, colorIt->first.g, colorIt->first.b);
     }
 
-	m_colors[to] = itFrom->second;
-	m_colors.erase(itFrom);
-
-	return Status::Code::Ok;
+    for (auto pairIt = m_curPalette->m_colorPairs.begin(); pairIt != m_curPalette->m_colorPairs.end(); ++pairIt) {
+		init_pair(
+			pairIt->second, 
+			pairIt->first.first, 
+			pairIt->first.second);
+    }
 }
 
-inline void ColorSystem::addColor(const Color& color, uint16_t num)
+Status ColorSystem::setCharColors(const Color& background, const Color& foreground)
 {
-	init_color(num, color.cursesRed(), color.cursesGreen(), color.cursesBlue());
-	m_colors[color] = num;
 }
 }

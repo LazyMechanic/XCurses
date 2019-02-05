@@ -1,24 +1,43 @@
 #pragma once
 
-#include <map>
-#include <cstdint>
+#include <string>
+#include <functional>
+#include <unordered_map>
 
-#include <XCurses\Color.h>
-#include <XCurses\Status.h>
+#include <XCurses/Color.h>
+#include <XCurses/Status.h>
+#include <XCurses/ColorPalette.h>
 
 namespace xcur {
 class ColorSystem
 {
 public:
+    /**
+	 * \brief 
+	 */
 	ColorSystem();
 
-	Status changeColor(const Color& from, const Color& to);
+    /**
+	 * \brief Add palette
+	 * \param name Palette key
+	 * \param palette Addable palette
+	 * \return Ok if palette insert is successful, Err if the palette already exists
+	 */
+	Status addColorPalette(const std::string& name, const ColorPalette& palette);
+
+	Status useColorPalette(const std::string& name);
+
+    /**
+	 * \brief 
+	 * \param background 
+	 * \param foreground 
+	 * \return 
+	 */
+	Status setCharColors(const Color& background, const Color& foreground);
     
 private:
-	inline void addColor(const Color& color, uint16_t num);
+	ColorPalette* m_curPalette;
 
-	std::map<std::pair<Color, Color>, uint16_t> m_colorPairs;
-
-	std::map<Color, uint16_t> m_colors;
+	std::unordered_map<std::string, ColorPalette> m_palettes;
 };
 }

@@ -41,7 +41,7 @@ public:
 	 * \return Reference to \a this
 	 */
 	ColorPalette& operator =(const ColorPalette&) = default;
-
+    
 	/**
 	 * \brief Default move assignment operator
 	 * \return Reference to \a this
@@ -102,7 +102,7 @@ private:
 	 * \param pair Hashable object
 	 * \return Hash
 	 */
-	size_t colorPairHash(const std::pair<Color, Color>& pair) const;
+	size_t colorPairHash(const std::pair<uint16_t, uint16_t>& pair) const;
 
     /**
 	 * \brief Current color id for curses
@@ -117,6 +117,6 @@ private:
     /**
 	 * \brief All initialized color pairs
 	 */
-	std::unordered_map<std::pair<Color, Color>, uint16_t, std::function<size_t(const std::pair<Color, Color>&)>> m_colorPairs;
+	std::unordered_map<std::pair<uint16_t, uint16_t>, uint16_t, std::function<size_t(const std::pair<Color, Color>&)>> m_colorPairs;
 };
 }
