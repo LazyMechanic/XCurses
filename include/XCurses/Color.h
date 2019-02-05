@@ -12,7 +12,7 @@ class Color
 {
 public:
     /**
-	 * \brief Default Color contructor. Creates Color(0, 0, 0) that means black
+	 * \brief Default Color constructor. Creates Color(0, 0, 0) that means black
 	 * color
 	 */
 	Color();
@@ -32,8 +32,13 @@ public:
 	 */
 	explicit Color(uint32_t color);
 
+    /**
+	 * \brief Copy Color constructor
+	 */
+	Color(const Color&) = default;
+
 	/**
-	 * \brief Move Color contructor
+	 * \brief Move Color constructor
 	 */
 	Color(Color&&) = default;
 
