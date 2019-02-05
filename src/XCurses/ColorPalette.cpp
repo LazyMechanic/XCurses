@@ -5,7 +5,9 @@ const uint16_t ColorPalette::maxNumberOfColors = 16;
 const uint16_t ColorPalette::maxNumberOfColorPairs = 256;
 
 ColorPalette::ColorPalette(const std::initializer_list<Color>& list) :
-    m_curColorId(0)
+    m_curColorId(0),
+	m_colors(0, std::bind(&ColorPalette::colorHash, this, std::placeholders::_1)),
+	m_colorPairs(0, std::bind(&ColorPalette::colorPairHash, this, std::placeholders::_1))
 {
     if (list.size() > maxNumberOfColors) {
 		throw std::length_error("Number of colors in palette more than maximum");
