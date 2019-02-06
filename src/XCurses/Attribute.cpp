@@ -22,6 +22,12 @@ Attribute::Attribute(uint8_t attr) :
 {
 }
 
+Attribute& Attribute::operator=(uint8_t attr)
+{
+	value = attr;
+	return *this;
+}
+
 uint32_t Attribute::toCursesAttr() const
 {
 	return static_cast<uint32_t>(value) << 16;

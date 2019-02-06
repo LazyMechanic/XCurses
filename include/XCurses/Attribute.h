@@ -27,6 +27,13 @@ public:
 	 */
 	Attribute(Attribute&&) = default;
 
+	/**
+     * \brief Change attr value
+     * \param attr Attribute
+     * \return Reference to /a this
+     */
+	Attribute& operator =(uint8_t attr);
+
     /**
 	 * \brief Default copy assignment operator
 	 * \return Reference to /a this
