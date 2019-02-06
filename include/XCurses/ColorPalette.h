@@ -11,7 +11,25 @@ namespace xcur {
 class ColorPalette
 {
 public:
-	friend class ColorSystem;
+    /**
+	 * \brief Iterator alias
+	 */
+	using ColorIterator = std::unordered_map<Color, uint16_t, std::function<size_t(const Color&)>>::iterator;
+	
+    /**
+     * \brief Iterator alias
+     */
+    using ConstColorIterator = std::unordered_map<Color, uint16_t, std::function<size_t(const Color&)>>::const_iterator;
+
+    /**
+	 * \brief Iterator alias
+	 */
+	using ColorPairIterator = std::unordered_map<std::pair<uint16_t, uint16_t>, uint8_t, std::function<size_t(const std::pair<uint16_t, uint16_t>&)>>::iterator;
+	
+    /**
+     * \brief Iterator alias
+     */
+    using ConstColorPairIterator = std::unordered_map<std::pair<uint16_t, uint16_t>, uint8_t, std::function<size_t(const std::pair<uint16_t, uint16_t>&)>>::const_iterator;
 
     /**
 	 * \brief Default ColorPalette constructor. Construct empty palette 
@@ -79,6 +97,52 @@ public:
 	 */
 	Status swapColor(uint16_t from, const Color& to);
 
+	/**
+     * \brief Find the color and its id in palette
+     * \param color Color in palette
+     * \return Const iterator to the pair of color and id
+     */
+	ConstColorIterator findColor(const Color& color) const;
+
+	/**
+	 * \brief Find the pair of foreground and background and id
+	 * \param foreground Foreground (text) color
+	 * \param background Background color
+	 * \return Const iterator to the pair of pair of foreground and background and id
+	 */
+	ConstColorPairIterator findColorPair(const Color& foreground, const Color& background) const;
+
+	/**
+	 * \brief Find the pair of foreground and background and id
+	 * \param colorPair Foreground and background color
+	 * \return Const iterator to the pair of pair of foreground and background and id
+	 */
+	ConstColorPairIterator findColorPair(const std::pair<Color, Color>& colorPair) const;
+
+    /**
+	 * \brief Wrapper over color begin() const iterator
+	 * \return Const begin iterator
+	 */
+	ConstColorIterator colorBegin() const;
+
+    /**
+	 * \brief Wrapper over color pair begin() const iterator
+	 * \return Const begin iterator
+	 */
+	ConstColorPairIterator colorPairBegin() const;
+
+	/**
+	 * \brief Wrapper over color end() const iterator
+	 * \return Const end iterator
+	 */
+	ConstColorIterator colorEnd() const;
+
+	/**
+	 * \brief Wrapper over color pair end() const iterator
+	 * \return Const end iterator
+	 */
+	ConstColorPairIterator colorPairEnd() const;
+
     /**
 	 * \brief Maximum number of colors. Depends on terminal
 	 */
@@ -109,14 +173,19 @@ private:
 	 */
 	uint16_t m_curColorId;
 
+	/**
+	 * \brief Current color pair id for curses
+	 */
+	uint8_t m_curColorPairId;
+
     /**
 	 * \brief All colors in palette
 	 */
 	std::unordered_map<Color, uint16_t, std::function<size_t(const Color&)>> m_colors;
 
     /**
-	 * \brief All initialized color pairs
+	 * \brief All initialized color pairs. First uint16_t is foreground id, second - background
 	 */
-	std::unordered_map<std::pair<uint16_t, uint16_t>, uint16_t, std::function<size_t(const std::pair<Color, Color>&)>> m_colorPairs;
+	std::unordered_map<std::pair<uint16_t, uint16_t>, uint8_t, std::function<size_t(const std::pair<uint16_t, uint16_t>&)>> m_colorPairs;
 };
 }
