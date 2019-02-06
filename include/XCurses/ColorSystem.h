@@ -4,6 +4,7 @@
 #include <functional>
 #include <unordered_map>
 
+#include <XCurses/Char.h>
 #include <XCurses/Color.h>
 #include <XCurses/Status.h>
 #include <XCurses/ColorPalette.h>
@@ -25,15 +26,21 @@ public:
 	 */
 	Status addColorPalette(const std::string& name, const ColorPalette& palette);
 
+    /**
+	 * \brief 
+	 * \param name Palette key
+	 * \return Ok if the palette exists, Err if the palette not found
+	 */
 	Status useColorPalette(const std::string& name);
 
     /**
-	 * \brief 
-	 * \param background 
-	 * \param foreground 
-	 * \return 
+	 * \brief Set new color pair in Char
+	 * \param ch Character 
+	 * \param background Background color
+	 * \param foreground Foreground (text) color
+	 * \return Char with updating color. If colors is wrong then return unchanged char
 	 */
-	Status setCharColors(const Color& background, const Color& foreground);
+	Char setCharColors(const Char& ch, const Color& foreground, const Color& background) const;
     
 private:
 	ColorPalette* m_curPalette;

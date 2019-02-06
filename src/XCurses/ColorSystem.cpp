@@ -1,6 +1,7 @@
 #include <XCurses/ColorSystem.h>
 
 #include <PDCurses/curses.h>
+#include <algorithm>
 
 namespace xcur {
 ColorSystem::ColorSystem() :
@@ -24,46 +25,64 @@ ColorSystem::ColorSystem() :
 	    Color::DarkYellow,
 	    Color::Gray});
 
-	m_palettes["default"] = defaultPalette;
+	addColorPalette("default", defaultPalette);
 	useColorPalette("default");
 }
 
 Status ColorSystem::addColorPalette(const std::string& name, const ColorPalette& palette)
 {
-	auto it = m_palettes.find(name);
+	std::string lowerName = name;
+	std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
+
+	auto it = m_palettes.find(lowerName);
 	// If the palette already exists
 	if (it != m_palettes.end()) {
 		return Status::Err;
 	}
 
-	m_palettes[name] = palette;
+	m_palettes[lowerName] = palette;
 
 	return Status::Ok;
 }
 
 Status ColorSystem::useColorPalette(const std::string& name)
 {
-	auto it = m_palettes.find(name);
+	std::string lowerName = name;
+	std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
+
+	auto it = m_palettes.find(lowerName);
 	// If the palette not found
 	if (it == m_palettes.end()) {
 		return Status::Err;
 	}
 
-	m_curPalette = &m_palettes[name];
+	m_curPalette = &m_palettes[lowerName];
 
-    for (auto colorIt = m_curPalette->m_colors.begin(); colorIt != m_curPalette->m_colors.end(); ++colorIt) {
+    for (auto colorIt = m_curPalette->colorBegin(); colorIt != m_curPalette->colorEnd(); ++colorIt) {
 		init_color(colorIt->second, colorIt->first.r, colorIt->first.g, colorIt->first.b);
     }
 
-    for (auto pairIt = m_curPalette->m_colorPairs.begin(); pairIt != m_curPalette->m_colorPairs.end(); ++pairIt) {
+    for (auto pairIt = m_curPalette->colorPairBegin(); pairIt != m_curPalette->colorPairEnd(); ++pairIt) {
 		init_pair(
 			pairIt->second, 
 			pairIt->first.first, 
 			pairIt->first.second);
     }
+
+	return Status::Ok;
 }
 
-Status ColorSystem::setCharColors(const Color& background, const Color& foreground)
+Char ColorSystem::setCharColors(const Char& ch, const Color& foreground, const Color& background) const
 {
+	auto colorPairIt = m_curPalette->findColorPair(foreground, background);
+    // If colors is wrong
+    if (colorPairIt == m_curPalette->colorPairEnd()) {
+		return ch;
+    }
+
+	Char changedChar = ch;
+	changedChar.colorPairId = colorPairIt->second;
+
+	return changedChar;
 }
 }
