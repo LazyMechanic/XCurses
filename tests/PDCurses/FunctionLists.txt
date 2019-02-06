@@ -283,7 +283,7 @@ int color_content(short color, short *red, short *green, short *blue);
     цвета, заданного ранее short color.
 
 int assume_default_colors(int f, int b);
-    Функция эквивалентна init_pair(0, f, b) (что не разрешено).. Она переопределяет цвета
+    Функция эквивалентна init_pair(0, f, b) (что не разрешено). Она переопределяет цвета
     по-умолчанию.
 int use_default_colors(void);
     Функция устанавливает -1 в качестве цвета foreground / background вместе с

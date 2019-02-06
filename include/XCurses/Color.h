@@ -59,23 +59,23 @@ public:
 	 */
 	~Color() = default;
 
-	static const Color Black;       //< Black predefined color
-	static const Color Red;         //< Red predefined color
-	static const Color Green;       //< Green predefined color
-	static const Color Blue;        //< Blue predefined color
-	static const Color Yellow;      //< Yellow predefined color
-	static const Color Magenta;     //< Magenta predefined color
-	static const Color Cyan;        //< Cyan predefined color
-	static const Color White;       //< White predefined color
+	static const Color Black;       // Black predefined color
+	static const Color Red;         // Red predefined color
+	static const Color Green;       // Green predefined color
+	static const Color Blue;        // Blue predefined color
+	static const Color Yellow;      // Yellow predefined color
+	static const Color Magenta;     // Magenta predefined color
+	static const Color Cyan;        // Cyan predefined color
+	static const Color White;       // White predefined color
 
-	static const Color DarkGray;    //< Dark Gray predefined color
-	static const Color DarkRed;     //< Dark Red predefined color
-	static const Color DarkGreen;   //< Dark Green predefined color
-	static const Color DarkBlue;    //< Dark Blue predefined color
-	static const Color DarkYellow;  //< Dark Yellow predefined color
-	static const Color DarkMagenta; //< Dark Magenta predefined color
-	static const Color DarkCyan;    //< Dark Cyan predefined color
-	static const Color Gray;        //< Gray predefined color
+	static const Color DarkGray;    // Dark Gray predefined color
+	static const Color DarkRed;     // Dark Red predefined color
+	static const Color DarkGreen;   // Dark Green predefined color
+	static const Color DarkBlue;    // Dark Blue predefined color
+	static const Color DarkYellow;  // Dark Yellow predefined color
+	static const Color DarkMagenta; // Dark Magenta predefined color
+	static const Color DarkCyan;    // Dark Cyan predefined color
+	static const Color Gray;        // Gray predefined color
 
     /**
 	 * \brief Translates color component from [0, 255] to [0, 1000]

@@ -36,6 +36,14 @@ public:
 	 */
 	ColorPalette();
 
+	/**
+	 * \brief Construct color palette with specific colors. If the number of colors
+	 * is greater than the maximum, then inserting only first N colors where
+	 * N is (maxNumberOfColors - 1)
+	 * \param colorList Color palette
+	 */
+	ColorPalette(const std::list<Color>& colorList);
+
     /**
 	 * \brief Copy ColorPalette constructor
 	 */
@@ -45,14 +53,6 @@ public:
 	 * \brief Move ColorPalette constructor
 	 */
 	ColorPalette(ColorPalette&&) = default;
-
-    /**
-	 * \brief Construct color palette with specific colors. If the number of colors 
-	 * is greater than the maximum, then inserting only first N colors where 
-	 * N is (maxNumberOfColors - 1)
-	 * \param colorList Color palette
-	 */
-	ColorPalette(const std::list<Color>& colorList);
 
 	/**
 	 * \brief Default copy assignment operator

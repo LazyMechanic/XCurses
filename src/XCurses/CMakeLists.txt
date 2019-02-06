@@ -12,6 +12,8 @@ set(XCURSES_INCS
     ${XCURSES_INC_DIR}/Color.h
     ${XCURSES_INC_DIR}/Status.h
     ${XCURSES_INC_DIR}/ColorSystem.h
+    ${XCURSES_INC_DIR}/ColorPalette.h
+    ${XCURSES_INC_DIR}/Char.h
 )
 
 set(XCURSES_SRCS
@@ -21,6 +23,8 @@ set(XCURSES_SRCS
     ${XCURSES_SRC_DIR}/Color.cpp
     ${XCURSES_SRC_DIR}/Status.cpp
     ${XCURSES_SRC_DIR}/ColorSystem.cpp
+    ${XCURSES_SRC_DIR}/ColorPalette.cpp
+    ${XCURSES_SRC_DIR}/Char.cpp
 )
 
 set(XCURSES_LIBS

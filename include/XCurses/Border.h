@@ -68,10 +68,10 @@ public:
 	 */
 	Border& operator =(Border&&) = default;
 
-	static const Border Blank;      //< Blank predefined border
-	static const Border Simple;     //< Simple predefined border
-	static const Border Default;    //< Default predefined border
-	static const Border Double;     //< Double predefined border
+	static const Border Blank;      // Blank predefined border
+	static const Border Simple;     // Simple predefined border
+	static const Border Default;    // Default predefined border
+	static const Border Double;     // Double predefined border
 
     /**
 	 * \brief Left side character
