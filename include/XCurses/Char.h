@@ -1,7 +1,11 @@
 #pragma once
 
+#include <utility>
+
 #include <PDCurses/curses.h>
 
+#include <XCurses/Color.h>
+#include <XCurses/Status.h>
 #include <XCurses/Attribute.h>
 
 namespace xcur {
@@ -76,9 +80,60 @@ public:
 	uint32_t toCursesChar() const;
 
     /**
+	 * \brief Update foreground color
+	 * \param foreground Foreground (text) color
+	 * \return Ok if the color exists in current palette, Err if the color
+	 * not found
+	 */
+	Status setForeground(const Color& foreground);
+
+	/**
+	 * \brief Update background color
+	 * \param background Background color
+	 * \return Ok if the color exists in current palette, Err if the color
+	 * not found
+	 */
+	Status setBackground(const Color& background);
+
+    /**
+	 * \brief Update both colors
+	 * \param foreground Foreground (text) color
+	 * \param background Background color
+	 * \return Ok if colors exist in current palette, Err if the colors
+	 * not found
+	 */
+	Status setColors(const Color& foreground, const Color& background);
+
+	/**
+	 * \brief Update both colors
+	 * \param pair Foreground (text) and background color respectively 
+	 * \return Ok if colors exist in current palette, Err if the colors
+	 * not found
+	 */
+	Status setColors(const std::pair<Color, Color>& pair);
+
+    /**
+	 * \brief Get foreground color
+	 * \return foreground color
+	 */
+	Color getForeground() const;
+
+    /**
+	 * \brief Get background color
+	 * \return Background color
+	 */
+	Color getBackground() const;
+
+    /**
+	 * \brief Get both colors
+	 * \return Pair of foreground and background respectively
+	 */
+	std::pair<Color, Color> getColors() const;
+
+    /**
 	 * \brief Color pair id for curses
 	 */
-	uint8_t colorPairId;
+    uint8_t colorPairId;
 
     /**
 	 * \brief Current attr
