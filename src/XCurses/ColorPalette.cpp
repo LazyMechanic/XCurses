@@ -4,9 +4,10 @@ namespace xcur {
 const uint16_t ColorPalette::maxNumberOfColors = 16;
 const uint16_t ColorPalette::maxNumberOfColorPairs = 256;
 
-ColorPalette::ColorPalette() :  
+ColorPalette::ColorPalette() :
     m_curColorId(0),
     m_curColorPairId(0),
+	m_defaultColorPairId(0),
 	m_colors(0, std::bind(&ColorPalette::colorHash, this, std::placeholders::_1)),
 	m_colorPairs(0, std::bind(&ColorPalette::colorPairHash, this, std::placeholders::_1))
 {
@@ -15,11 +16,15 @@ ColorPalette::ColorPalette() :
 ColorPalette::ColorPalette(const std::list<Color>& colorList) :
     m_curColorId(0),
 	m_curColorPairId(0),
+	m_defaultColorPairId(0),
 	m_colors(0, std::bind(&ColorPalette::colorHash, this, std::placeholders::_1)),
 	m_colorPairs(0, std::bind(&ColorPalette::colorPairHash, this, std::placeholders::_1))
 {
 	for (auto it = colorList.begin(); it != colorList.end() && m_curColorId >= maxNumberOfColors; ++it) {
-		m_colors[*it] = m_curColorId++;
+		// If the color doesn't exist
+	    if (m_colors.find(*it) == m_colors.end()) {
+			m_colors[*it] = m_curColorId++;
+		}
 	}
 }
 
@@ -89,6 +94,98 @@ Status ColorPalette::swapColor(uint16_t from, const Color& to)
 	return Status::Ok;
 }
 
+Status ColorPalette::setDefaultColorPair(const Color& foreground, const Color& background)
+{
+	auto foregroundIt = m_colors.find(foreground);
+	auto backgroundIt = m_colors.find(background);
+	// If colors not found
+	if (foregroundIt == m_colors.end() ||
+		backgroundIt == m_colors.end())
+	{
+		return Status::Err;
+	}
+
+	const std::pair<uint16_t, uint16_t> colorPair = std::make_pair(foregroundIt->second, backgroundIt->second);
+	auto colorPairIt = m_colorPairs.find(colorPair);
+	// If the color pair already exists
+	if (colorPairIt != m_colorPairs.end()) {
+		m_defaultColorPairId = m_colorPairs[colorPair];
+	}
+    // Else create new color pair
+	else {
+		m_defaultColorPairId = m_curColorPairId++;
+		m_colorPairs[colorPair] = m_defaultColorPairId;
+	}
+
+	return Status::Ok;
+}
+
+Status ColorPalette::setDefaultColorPair(const std::pair<Color, Color>& colorPair)
+{
+	return setDefaultColorPair(colorPair.first, colorPair.second);
+}
+
+Status ColorPalette::initColorPair(const Color& foreground, const Color& background)
+{
+	auto foregroundIt = m_colors.find(foreground);
+	auto backgroundIt = m_colors.find(background);
+    // If colors not found
+	if (foregroundIt == m_colors.end() ||
+		backgroundIt == m_colors.end())
+	{
+		return Status::Err;
+	}
+
+	const std::pair<uint16_t, uint16_t> colorPair = std::make_pair(foregroundIt->second, backgroundIt->second);
+	auto colorPairIt = m_colorPairs.find(colorPair);
+    // If the color pair already exists
+    if (colorPairIt != m_colorPairs.end()) {
+		return Status::Err;
+    }
+    // If palette stored maximum of color pairs
+    if (m_curColorPairId >= maxNumberOfColorPairs) {
+		return Status::Err;
+    }
+
+	m_colorPairs[colorPair] = m_curColorPairId++;
+	return Status::Ok;
+}
+
+Status ColorPalette::initColorPair(const std::pair<Color, Color>& colorPair)
+{
+	return initColorPair(colorPair.first, colorPair.second);
+}
+
+uint8_t ColorPalette::getColorPairId(const Color& foreground, const Color& background)
+{
+	auto foregroundIt = m_colors.find(foreground);
+	auto backgroundIt = m_colors.find(background);
+	// If colors not found
+	if (foregroundIt == m_colors.end() ||
+		backgroundIt == m_colors.end())
+	{
+		return m_defaultColorPairId;
+	}
+
+	const std::pair<uint16_t, uint16_t> colorPair = std::make_pair(foregroundIt->second, backgroundIt->second);
+	auto colorPairIt = m_colorPairs.find(colorPair);
+	// If the color pair already exists
+	if (colorPairIt == m_colorPairs.end()) {
+		Status initStatus = initColorPair(foreground, background);
+        // If init color pair is unsuccessfully
+        if (initStatus == Status::Err) {
+			return m_defaultColorPairId;
+        }
+	}
+
+	return m_colorPairs[colorPair];
+}
+
+uint8_t ColorPalette::getColorPairId(const std::pair<Color, Color>& colorPair)
+{
+	return getColorPairId(colorPair.first, colorPair.second);
+}
+
 inline ColorPalette::ConstColorIterator ColorPalette::findColor(const Color& color) const
 {
 	return m_colors.find(color);
@@ -110,16 +207,7 @@ ColorPalette::ConstColorPairIterator ColorPalette::findColorPair(const Color& fo
 
 ColorPalette::ConstColorPairIterator ColorPalette::findColorPair(const std::pair<Color, Color>& colorPair) const
 {
-	auto foregroundIt = m_colors.find(colorPair.first);
-	auto backgroundIt = m_colors.find(colorPair.second);
-
-	if (foregroundIt == m_colors.end() ||
-		backgroundIt == m_colors.end())
-	{
-		return m_colorPairs.end();
-	}
-
-	return m_colorPairs.find(std::make_pair(foregroundIt->second, backgroundIt->second));
+	return findColorPair(colorPair.first, colorPair.second);
 }
 
 inline ColorPalette::ConstColorIterator ColorPalette::colorBegin() const

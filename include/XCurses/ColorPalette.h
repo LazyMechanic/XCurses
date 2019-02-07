@@ -37,9 +37,12 @@ public:
 	ColorPalette();
 
 	/**
-	 * \brief Construct color palette with specific colors. If the number of colors
+	 * \brief Construct color palette with specific colors. If the number of colors in list
 	 * is greater than the maximum, then inserting only first N colors where
-	 * N is (maxNumberOfColors - 1)
+	 * N is (maxNumberOfColors - 3) including default colors. 
+	 * Same colors are discarded.
+	 * If after create palette don't set colors by default then first call initPair() will do it
+	 * if possible (colors are exist)
 	 * \param colorList Color palette
 	 */
 	ColorPalette(const std::list<Color>& colorList);
@@ -83,7 +86,7 @@ public:
 	 * \brief Swap color in palette
 	 * \param from Color in palette for swap
 	 * \param to New color
-	 * \return Ok if color swapping is successfully, Err if new color already exists or
+	 * \return Ok if the color swapping is successfully, Err if new color already exists or
 	 * color for swap not found in palette
 	 */
 	Status swapColor(const Color& from, const Color& to);
@@ -92,10 +95,63 @@ public:
 	 * \brief Swap color in palette
 	 * \param from Color id in palette for swap
 	 * \param to New color
-	 * \return Ok if color swapping is successfully, Err if new color already exists or
+	 * \return Ok if the color swapping is successfully, Err if new color already exists or
 	 * color for swap not found in palette
 	 */
 	Status swapColor(uint16_t from, const Color& to);
+
+    /**
+	 * \brief Change colors by default. After that the calling getColorPairId(...) with wrong colors
+	 * returns default id
+	 * \param foreground Foreground (text) color
+	 * \param background Background color
+	 * \return Ok if successful, Err if colors don't found
+	 */
+	Status setDefaultColorPair(const Color& foreground, const Color& background);
+
+	/**
+	 * \brief Change colors by default. After that the calling getColorPairId(...) with wrong colors
+	 * returns default id
+	 * \param colorPair Foreground and background color
+	 * \return Ok if successful, Err if colors don't found
+	 */
+	Status setDefaultColorPair(const std::pair<Color, Color>& colorPair);
+
+    /**
+	 * \brief Init color pair
+	 * \param foreground Foreground (text) color
+	 * \param background Background color
+	 * \return Ok if successful, Err if colors don't found or if pair already exists or if
+	 * palette stored maximum of color pairs
+	 */
+	Status initColorPair(const Color& foreground, const Color& background);
+
+	/**
+	 * \brief Init color pair
+	 * \param colorPair Foreground and background color
+	 * \return Ok if successful, Err if colors don't found or if pair already exists or if
+	 * palette stored maximum of color pairs
+	 */
+	Status initColorPair(const std::pair<Color, Color>& colorPair);
+
+    /**
+	 * \brief Get the color pair id. If the pair doesn't exist then init them and return the 
+	 * previously created pair
+	 * \param foreground Foreground (text) color
+	 * \param background Background color
+	 * \return Needed pair id if colors are existed, Default pair id (or 0) if colors not found or
+	 * if color pair nonexistent and palette stored maximum of color pairs
+	 */
+	uint8_t getColorPairId(const Color& foreground, const Color& background);
+
+	/**
+	 * \brief Get the color pair id. If the pair doesn't exist then init them and return the
+	 * previously created pair
+	 * \param colorPair Foreground and background color
+	 * \return Needed pair id if colors are existed, Default pair id (or 0) if colors not found or
+	 * if color pair nonexistent and palette stored maximum of color pairs
+	 */
+	uint8_t getColorPairId(const std::pair<Color, Color>& colorPair);
 
 	/**
      * \brief Find the color and its id in palette
@@ -177,6 +233,11 @@ private:
 	 * \brief Current color pair id for curses
 	 */
 	uint8_t m_curColorPairId;
+
+	/**
+	 * \brief Default color pair id
+	 */
+	uint16_t m_defaultColorPairId;
 
     /**
 	 * \brief All colors in palette
