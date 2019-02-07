@@ -42,4 +42,64 @@ inline bool Attribute::has(const Attribute& attr) const
 {
 	return (value & attr.value) == attr.value;
 }
+
+bool operator==(const Attribute& left, const Attribute& right)
+{
+	return left.value == right.value;
+}
+
+bool operator==(const Attribute& left, uint8_t right)
+{
+	return left.value == right;
+}
+
+bool operator!=(const Attribute& left, const Attribute& right)
+{
+	return !(left == right);
+}
+
+bool operator!=(const Attribute& left, uint8_t right)
+{
+	return !(left == right);
+}
+
+Attribute operator|(const Attribute& left, const Attribute& right)
+{
+	return Attribute(left.value | right.value);
+}
+
+Attribute operator|(const Attribute& left, uint8_t right)
+{
+	return Attribute(left.value | right);
+}
+
+Attribute operator&(const Attribute& left, const Attribute& right)
+{
+	return Attribute(left.value & right.value);
+}
+
+Attribute operator&(const Attribute& left, uint8_t right)
+{
+	return Attribute(left.value & right);
+}
+
+Attribute& operator|=(Attribute& left, const Attribute& right)
+{
+	return left = left | right;
+}
+
+Attribute& operator|=(Attribute& left, uint8_t right)
+{
+	return left = left | right;
+}
+
+Attribute& operator&=(Attribute& left, const Attribute& right)
+{
+	return left = left & right;
+}
+
+Attribute& operator&=(Attribute& left, uint8_t right)
+{
+	return left = left & right;
+}
 }

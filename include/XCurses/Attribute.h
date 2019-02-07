@@ -86,4 +86,116 @@ public:
 	 */
 	uint8_t value;
 };
+
+/**
+ * \brief Overload of the == operator
+ * This operator compares two attributes and check if they are equal.
+ * \param left Left operand
+ * \param right Right operand
+ * \return True if attributes are equal, false if they are different
+ */
+bool operator ==(const Attribute& left, const Attribute& right);
+
+/**
+ * \brief Overload of the == operator
+ * This operator compares the attribute and the value and check if they are equal.
+ * \param left Left operand
+ * \param right Right operand
+ * \return True if attributes are equal, false if they are different
+ */
+bool operator ==(const Attribute& left, uint8_t right);
+
+/**
+ * \brief Overload of the != operator
+ * This operator compares two attributes and check if they are different.
+ * \param left Left operand
+ * \param right Right operand
+ * \return True if attributes are different, false if they are equal
+ */
+bool operator !=(const Attribute& left, const Attribute& right);
+
+/**
+ * \brief Overload of the != operator
+ * This operator compares the attribute and the value and check if they are different.
+ * \param left Left operand
+ * \param right Right operand
+ * \return True if attributes are different, false if they are equal
+ */
+bool operator !=(const Attribute& left, uint8_t right);
+
+/**
+ * \brief Overload of the binary | operator
+ * This operator returns the component-wise logic OR of two attributes.
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left | \a right
+ */
+Attribute operator |(const Attribute& left, const Attribute& right);
+
+/**
+ * \brief Overload of the binary | operator
+ * This operator returns the component-wise logic OR of two attributes.
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left | \a right
+ */
+Attribute operator |(const Attribute& left, uint8_t right);
+
+/**
+ * \brief Overload of the binary & operator
+ * This operator returns the component-wise logic AND of two attributes.
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left & \a right
+ */
+Attribute operator &(const Attribute& left, const Attribute& right);
+
+/**
+ * \brief Overload of the binary & operator
+ * This operator returns the component-wise logic AND of two attributes.
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left & \a right
+ */
+Attribute operator &(const Attribute& left, uint8_t right);
+
+/**
+ * \brief Overload of the binary | operator
+ * This operator returns the component-wise logic OR of two attributes,
+ * and assigns the result to the left operand
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left | \a right
+ */
+Attribute& operator |=(Attribute& left, const Attribute& right);
+
+/**
+ * \brief Overload of the binary | operator
+ * This operator returns the component-wise logic OR of two attributes,
+ * and assigns the result to the left operand
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left | \a right
+ */
+Attribute& operator |=(Attribute& left, uint8_t right);
+
+/**
+ * \brief Overload of the binary & operator
+ * This operator returns the component-wise logic AND of two attributes,
+ * and assigns the result to the left operand
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left & \a right
+ */
+Attribute& operator &=(Attribute& left, const Attribute& right);
+
+/**
+ * \brief Overload of the binary & operator
+ * This operator returns the component-wise logic AND of two attributes,
+ * and assigns the result to the left operand
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left & \a right
+ */
+Attribute& operator &=(Attribute& left, uint8_t right);
 }
