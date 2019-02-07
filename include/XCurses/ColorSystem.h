@@ -27,21 +27,22 @@ public:
 	Status addColorPalette(const std::string& name, const ColorPalette& palette);
 
     /**
-	 * \brief 
+	 * \brief Set current color palette
 	 * \param name Palette key
 	 * \return Ok if the palette exists, Err if the palette not found
 	 */
 	Status useColorPalette(const std::string& name);
 
     /**
-	 * \brief Set new color pair in Char
-	 * \param ch Character 
-	 * \param background Background color
-	 * \param foreground Foreground (text) color
-	 * \return Char with updating color. If colors is wrong then return unchanged char
+	 * \brief Get the color pair from the palette.
+	 * \param paletteName 
+	 * \param foreground 
+	 * \param background 
+	 * \return The color pair id if successful, 0 or the default palette color pair id if 
+	 * palette not found or foreground or background not found
 	 */
-	Char setCharColors(const Char& ch, const Color& foreground, const Color& background) const;
-    
+	uint8_t getColorPairId(const std::string& paletteName, const Color& foreground, const Color& background);
+
 private:
 	ColorPalette* m_curPalette;
 

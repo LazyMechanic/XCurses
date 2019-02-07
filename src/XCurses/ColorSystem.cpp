@@ -72,17 +72,15 @@ Status ColorSystem::useColorPalette(const std::string& name)
 	return Status::Ok;
 }
 
-Char ColorSystem::setCharColors(const Char& ch, const Color& foreground, const Color& background) const
+uint8_t ColorSystem::getColorPairId(const std::string& paletteName, const Color& foreground, const Color& background)
 {
-	auto colorPairIt = m_curPalette->findColorPair(foreground, background);
-    // If colors is wrong
-    if (colorPairIt == m_curPalette->colorPairEnd()) {
-		return ch;
+	auto paletteIt = m_palettes.find(paletteName);
+    // If palette not found
+    if (paletteIt == m_palettes.end()) {
+        // 0 pair init by default by curses
+		return 0;
     }
 
-	Char changedChar = ch;
-	changedChar.colorPairId = colorPairIt->second;
-
-	return changedChar;
+	return paletteIt->second.getColorPairId(foreground, background);
 }
 }
