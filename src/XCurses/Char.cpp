@@ -10,7 +10,7 @@ Char::Char() :
 
 Char::Char(uint16_t ch) :
     colorPairId(0),
-    attr(0),
+    attr(Attribute::Normal),
     character(ch)
 {
 }
