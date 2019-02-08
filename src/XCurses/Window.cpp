@@ -18,12 +18,12 @@ Window::~Window()
 	delwin(m_win);
 }
 
-Window::Status Window::addChar(uint32_t ch, int x, int y)
+Status Window::addChar(uint32_t ch, int x, int y)
 {
 	return mvaddch(y, x, ch);
 }
 
-Window::Status Window::setBorder(const Border& border)
+Status Window::setBorder(const Border& border)
 {
 	m_border = border;
 	return wborder(
@@ -39,12 +39,7 @@ Window::Status Window::setBorder(const Border& border)
 	);
 }
 
-Window::Status Window::setBorder(Border::Type borderType)
-{
-	return this->setBorder(Border(borderType));
-}
-
-Window::Status Window::setBorder(
+Status Window::setBorder(
 	uint32_t leftSide,
 	uint32_t rightSide,
 	uint32_t topSide,
@@ -67,7 +62,7 @@ Window::Status Window::setBorder(
 	));
 }
 
-Window::Status Window::refresh() const
+Status Window::refresh() const
 {
 	return wrefresh(m_win);
 }

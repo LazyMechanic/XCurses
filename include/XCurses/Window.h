@@ -6,6 +6,7 @@
 #include <PDCurses/curses.h>
 
 #include <XCurses/Border.h>
+#include <XCurses/Status.h>
 
 namespace xcur {
 class Window
@@ -13,7 +14,6 @@ class Window
 public:
 	friend class XCurses;
 
-	using Status = int;
 	using Ptr = std::unique_ptr<Window>;
 
 	Window();
@@ -31,21 +31,14 @@ public:
 	 * \param y Coordinate
 	 * \return Window status code
 	 */
-	Window::Status addChar(uint32_t ch, int x, int y);
+	Status addChar(uint32_t ch, int x, int y);
 
 	/**
 	 * \brief Set border to window
 	 * \param border Border to set
 	 * \return Window status code
 	 */
-	Window::Status setBorder(const Border& border);
-
-	/**
-	 * \brief Set border to window
-	 * \param borderType Border type from the list of the standard borders
-	 * \return Window status code
-	 */
-	Window::Status setBorder(Border::Type borderType);
+	Status setBorder(const Border& border);
 
 	/**
 	 * \brief Set border to window
@@ -59,7 +52,7 @@ public:
 	 * \param bottomRightCorner Character for bottom right corner of border
 	 * \return Window status code
 	 */
-	Window::Status setBorder(
+	Status setBorder(
 		uint32_t leftSide,
 		uint32_t rightSide,
 		uint32_t topSide,
@@ -74,7 +67,7 @@ public:
 	 * \brief Refresh PDCurses window
 	 * \return Window status code
 	 */
-	Window::Status refresh() const;
+	Status refresh() const;
 
 private:
 	/**
