@@ -28,15 +28,10 @@ Char& Char::operator=(uint16_t ch)
 	return *this;
 }
 
-inline uint32_t Char::toCursesChar() const
+uint32_t Char::toCursesChar() const
 {
 	return static_cast<uint32_t>(colorPairId) << 24 |
 		attr.toCursesAttr() |
 		static_cast<uint32_t>(character);
-}
-
-Status Char::setForeground(const Color& foreground)
-{
-    
 }
 }
