@@ -81,19 +81,19 @@ public:
 	 * \brief Translates color component from [0, 255] to [0, 1000]
 	 * \return Red color component
 	 */
-	inline uint16_t cursesRed() const;
+	uint16_t cursesRed() const;
 
 	/**
 	 * \brief Translates color component from [0, 255] to [0, 1000]
 	 * \return Green color component
 	 */
-	inline uint16_t cursesGreen() const;
+	uint16_t cursesGreen() const;
 
 	/**
 	 * \brief Translates color component from [0, 255] to [0, 1000]
 	 * \return Blue color component
 	 */
-	inline uint16_t cursesBlue() const;
+	uint16_t cursesBlue() const;
 
     /**
 	 * \brief Red component in color

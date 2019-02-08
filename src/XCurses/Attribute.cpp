@@ -1,4 +1,5 @@
 #include <XCurses/Attribute.h>
+
 #include <PDCurses/curses.h>
 
 namespace xcur {
@@ -28,17 +29,17 @@ Attribute& Attribute::operator=(uint8_t attr)
 	return *this;
 }
 
-inline uint32_t Attribute::toCursesAttr() const
+uint32_t Attribute::toCursesAttr() const
 {
 	return static_cast<uint32_t>(value) << 16;
 }
 
-inline uint8_t Attribute::fromCursesAttr(uint32_t attr)
+uint8_t Attribute::fromCursesAttr(uint32_t attr)
 {
 	return static_cast<uint8_t>(attr >> 16);
 }
 
-inline bool Attribute::has(const Attribute& attr) const
+bool Attribute::has(const Attribute& attr) const
 {
 	return (value & attr.value) == attr.value;
 }
