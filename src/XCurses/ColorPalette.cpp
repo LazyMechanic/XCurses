@@ -186,7 +186,7 @@ uint8_t ColorPalette::getColorPairId(const std::pair<Color, Color>& colorPair)
 	return getColorPairId(colorPair.first, colorPair.second);
 }
 
-inline ColorPalette::ConstColorIterator ColorPalette::findColor(const Color& color) const
+ColorPalette::ConstColorIterator ColorPalette::findColor(const Color& color) const
 {
 	return m_colors.find(color);
 }
@@ -210,24 +210,34 @@ ColorPalette::ConstColorPairIterator ColorPalette::findColorPair(const std::pair
 	return findColorPair(colorPair.first, colorPair.second);
 }
 
-inline ColorPalette::ConstColorIterator ColorPalette::colorBegin() const
+ColorPalette::ConstColorIterator ColorPalette::colorBegin() const
 {
 	return m_colors.begin();
 }
 
-inline ColorPalette::ConstColorPairIterator ColorPalette::colorPairBegin() const
+ColorPalette::ConstColorPairIterator ColorPalette::colorPairBegin() const
 {
 	return m_colorPairs.begin();
 }
 
-inline ColorPalette::ConstColorIterator ColorPalette::colorEnd() const
+ColorPalette::ConstColorIterator ColorPalette::colorEnd() const
 {
 	return m_colors.end();
 }
 
-inline ColorPalette::ConstColorPairIterator ColorPalette::colorPairEnd() const
+ColorPalette::ConstColorPairIterator ColorPalette::colorPairEnd() const
 {
 	return m_colorPairs.end();
+}
+
+size_t ColorPalette::numberOfColors() const
+{
+	return m_colors.size();
+}
+
+size_t ColorPalette::numberOfColorPairs() const
+{
+	return m_colorPairs.size();
 }
 
 inline size_t ColorPalette::colorHash(const Color& color) const

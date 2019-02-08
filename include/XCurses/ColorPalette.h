@@ -10,21 +10,11 @@
 namespace xcur {
 class ColorPalette
 {
-public:
-    /**
-	 * \brief Iterator alias
-	 */
-	using ColorIterator = std::unordered_map<Color, uint16_t, std::function<size_t(const Color&)>>::iterator;
-	
+public:	
     /**
      * \brief Iterator alias
      */
     using ConstColorIterator = std::unordered_map<Color, uint16_t, std::function<size_t(const Color&)>>::const_iterator;
-
-    /**
-	 * \brief Iterator alias
-	 */
-	using ColorPairIterator = std::unordered_map<std::pair<uint16_t, uint16_t>, uint8_t, std::function<size_t(const std::pair<uint16_t, uint16_t>&)>>::iterator;
 	
     /**
      * \brief Iterator alias
@@ -200,6 +190,18 @@ public:
 	ConstColorPairIterator colorPairEnd() const;
 
     /**
+	 * \brief Get size of color map
+	 * \return Size
+	 */
+	size_t numberOfColors() const;
+
+    /**
+	 * \brief Get size of color pair map
+	 * \return Size
+	 */
+	size_t numberOfColorPairs() const;
+
+    /**
 	 * \brief Maximum number of colors. Depends on terminal
 	 */
 	static const uint16_t maxNumberOfColors;
@@ -237,7 +239,7 @@ private:
 	/**
 	 * \brief Default color pair id
 	 */
-	uint16_t m_defaultColorPairId;
+	uint8_t m_defaultColorPairId;
 
     /**
 	 * \brief All colors in palette
