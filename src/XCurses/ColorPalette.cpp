@@ -20,7 +20,7 @@ ColorPalette::ColorPalette(const std::list<Color>& colorList) :
 	m_colors(0, std::bind(&ColorPalette::colorHash, this, std::placeholders::_1)),
 	m_colorPairs(0, std::bind(&ColorPalette::colorPairHash, this, std::placeholders::_1))
 {
-	for (auto it = colorList.begin(); it != colorList.end() && m_curColorId >= maxNumberOfColors; ++it) {
+	for (auto it = colorList.begin(); it != colorList.end() && m_curColorId < maxNumberOfColors; ++it) {
 		// If the color doesn't exist
 	    if (m_colors.find(*it) == m_colors.end()) {
 			m_colors[*it] = m_curColorId++;
