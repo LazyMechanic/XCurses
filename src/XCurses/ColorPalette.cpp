@@ -22,9 +22,7 @@ ColorPalette::ColorPalette(const std::list<Color>& colorList) :
 {
 	for (auto it = colorList.begin(); it != colorList.end() && m_curColorId < maxNumberOfColors; ++it) {
 		// If the color doesn't exist
-	    if (m_colors.find(*it) == m_colors.end()) {
-			m_colors[*it] = m_curColorId++;
-		}
+		addColor(*it);
 	}
 }
 
@@ -123,6 +121,11 @@ Status ColorPalette::setDefaultColorPair(const Color& foreground, const Color& b
 Status ColorPalette::setDefaultColorPair(const std::pair<Color, Color>& colorPair)
 {
 	return setDefaultColorPair(colorPair.first, colorPair.second);
+}
+
+uint8_t ColorPalette::getDefaultColorPairId() const
+{
+	return m_defaultColorPairId;
 }
 
 Status ColorPalette::initColorPair(const Color& foreground, const Color& background)

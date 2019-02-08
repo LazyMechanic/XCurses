@@ -107,6 +107,8 @@ public:
 	 */
 	Status setDefaultColorPair(const std::pair<Color, Color>& colorPair);
 
+	uint8_t getDefaultColorPairId() const;
+
     /**
 	 * \brief Init color pair
 	 * \param foreground Foreground (text) color

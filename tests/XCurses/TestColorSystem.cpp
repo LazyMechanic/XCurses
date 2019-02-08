@@ -7,7 +7,7 @@
 
 using namespace xcur;
 
-TEST_CASE("Color init, edit and manipulating")
+TEST_CASE("Color init, edit and manipulating", "[Color]")
 {
     SECTION("Create color with empty constructor")
     {
@@ -33,7 +33,7 @@ TEST_CASE("Color init, edit and manipulating")
 		REQUIRE(color.b == 0xEE);
 	}
 
-	SECTION("Colors operator ==")
+	SECTION("Color operator ==")
 	{
 		Color color1(30, 10, 55);
 		Color color2(30, 10, 55);
@@ -51,53 +51,66 @@ TEST_CASE("Color init, edit and manipulating")
 		REQUIRE(result == true);
 	}
 
-	SECTION("Colors operator +")
+	SECTION("Color operator +")
 	{
 		Color color1(30, 10, 55);
 		Color color2(50, 0, 220);
 		Color colorResult = color1 + color2;
 
-		uint32_t correctRed = 80;
-		uint32_t correctGreen = 10;
-		uint32_t correctBlue = 255;
+		uint8_t correctRed = 80;
+		uint8_t correctGreen = 10;
+		uint8_t correctBlue = 255;
 
 		REQUIRE(colorResult.r == correctRed);
 		REQUIRE(colorResult.g == correctGreen);
 		REQUIRE(colorResult.b == correctBlue);
 	}
 
-    SECTION("Colors operator -")
+    SECTION("Color operator -")
     {
 		Color color1(70, 10, 55);
 		Color color2(50, 0, 100);
 		Color colorResult = color1 - color2;
 
-		uint32_t correctRed = 20;
-		uint32_t correctGreen = 10;
-		uint32_t correctBlue = 0;
+		uint8_t correctRed = 20;
+		uint8_t correctGreen = 10;
+		uint8_t correctBlue = 0;
 
 		REQUIRE(colorResult.r == correctRed);
 		REQUIRE(colorResult.g == correctGreen);
 		REQUIRE(colorResult.b == correctBlue);
     }
 
-	SECTION("Colors operator *")
+	SECTION("Color operator *")
 	{
 		Color color1(70, 10, 55);
 		Color color2(50, 0, 100);
 		Color colorResult = color1 * color2;
 
-		uint32_t correctRed = static_cast<uint32_t>(static_cast<int>(color1.r) * color2.r / 255);
-		uint32_t correctGreen = static_cast<uint32_t>(static_cast<int>(color1.g) * color2.g / 255);
-		uint32_t correctBlue = static_cast<uint32_t>(static_cast<int>(color1.b) * color2.b / 255);
+		uint8_t correctRed = static_cast<uint8_t>(static_cast<int>(color1.r) * color2.r / 255);
+		uint8_t correctGreen = static_cast<uint8_t>(static_cast<int>(color1.g) * color2.g / 255);
+		uint8_t correctBlue = static_cast<uint8_t>(static_cast<int>(color1.b) * color2.b / 255);
 
 		REQUIRE(colorResult.r == correctRed);
 		REQUIRE(colorResult.g == correctGreen);
 		REQUIRE(colorResult.b == correctBlue);
 	}
+
+	SECTION("Color default RGB value to curses value")
+	{
+		Color color(100, 55, 233);		
+		
+		uint16_t correctRed = 392;
+		uint16_t correctGreen = 215;
+		uint16_t correctBlue = 913;
+
+		REQUIRE(color.cursesRed() == correctRed);
+		REQUIRE(color.cursesGreen() == correctGreen);
+		REQUIRE(color.cursesBlue() == correctBlue);
+	}
 }
 
-TEST_CASE("ColorPalette init and edit")
+TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 {
 	SECTION("Create ColorPalette with empty constructor")
 	{
@@ -117,12 +130,27 @@ TEST_CASE("ColorPalette init and edit")
 		ColorPalette palette(colors);
 
 		REQUIRE(palette.numberOfColors() == correctNumberOfColors);
+
+		SECTION("Add in ColorPalette new color")
+		{
+			size_t numberOfColorsBefore = palette.numberOfColors();
+
+			Color addableColor(100, 200, 50);
+			palette.addColor(addableColor);
+			size_t correctNumberOfColors = ColorPalette::maxNumberOfColors;
+
+			auto addedColorIt = palette.findColor(addableColor);
+			Color addedColor = addedColorIt->first;
+
+			REQUIRE(palette.numberOfColors() == correctNumberOfColors);
+			REQUIRE(addedColorIt == palette.colorEnd());
+		}
 	}
 
 	SECTION("Create ColorPalette with colors, number of colors > maximum")
 	{
 		std::list<Color> colors;
-		const uint16_t numberOfColors = ColorPalette::maxNumberOfColors + 10;
+		const uint16_t numberOfColors = ColorPalette::maxNumberOfColors + 3;
 		for (size_t i = 0; i < numberOfColors; i++) {
 			colors.push_back(Color(i, i, i));
 		}
@@ -131,12 +159,27 @@ TEST_CASE("ColorPalette init and edit")
 
 		REQUIRE(palette.numberOfColors() < numberOfColors);
 		REQUIRE(palette.numberOfColors() == ColorPalette::maxNumberOfColors);
+
+		SECTION("Add in ColorPalette new color")
+		{
+			size_t numberOfColorsBefore = palette.numberOfColors();
+
+			Color addableColor(100, 200, 50);
+			palette.addColor(addableColor);
+			size_t correctNumberOfColors = ColorPalette::maxNumberOfColors;
+
+			auto addedColorIt = palette.findColor(addableColor);
+			Color addedColor = addedColorIt->first;
+
+			REQUIRE(palette.numberOfColors() == correctNumberOfColors);
+			REQUIRE(addedColorIt == palette.colorEnd());
+		}
 	}
 
 	SECTION("Create ColorPalette with colors, number of colors < maximum")
 	{
 		std::list<Color> colors;
-		const uint16_t correctNumberOfColors = ColorPalette::maxNumberOfColors - 1;
+		const uint16_t correctNumberOfColors = ColorPalette::maxNumberOfColors - 3;
 		for (size_t i = 0; i < correctNumberOfColors; i++) {
 			colors.push_back(Color(i, i, i));
 		}
@@ -144,23 +187,23 @@ TEST_CASE("ColorPalette init and edit")
 		ColorPalette palette(colors);
 
 		REQUIRE(palette.numberOfColors() == correctNumberOfColors);
-	}
 
-	SECTION("Add in ColorPalette new color when current number of colors < maximum")
-	{
-		ColorPalette palette;
-		size_t numberOfColorsBefore = palette.numberOfColors();
+		SECTION("Add in ColorPalette new color")
+		{
+			size_t numberOfColorsBefore = palette.numberOfColors();
 
-		Color addableColor(100, 200, 50);
-		palette.addColor(addableColor);
-		size_t correctNumberOfColors = numberOfColorsBefore + 1;
+			Color addableColor(100, 200, 50);
+			palette.addColor(addableColor);
+			size_t correctNumberOfColors = numberOfColorsBefore + 1;
 
-		Color addedColor = palette.findColor(addableColor)->first;
+			auto addedColorIt = palette.findColor(addableColor);
+			Color addedColor = addedColorIt->first;
 
-		REQUIRE(palette.numberOfColors() == correctNumberOfColors);
+			REQUIRE(palette.numberOfColors() == correctNumberOfColors);
 
-		REQUIRE(addedColor.r == addableColor.r);
-		REQUIRE(addedColor.g == addableColor.g);
-		REQUIRE(addedColor.b == addableColor.b);
+			REQUIRE(addedColor.r == addableColor.r);
+			REQUIRE(addedColor.g == addableColor.g);
+			REQUIRE(addedColor.b == addableColor.b);
+		}
 	}
 }
