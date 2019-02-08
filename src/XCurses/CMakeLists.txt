@@ -9,22 +9,25 @@ set(XCURSES_INCS
     ${XCURSES_INC_DIR}/CursesConfig.h
     ${XCURSES_INC_DIR}/Border.h
     ${XCURSES_INC_DIR}/Window.h
-    ${XCURSES_INC_DIR}/Color.h
     ${XCURSES_INC_DIR}/Status.h
+    ${XCURSES_INC_DIR}/Char.h
+    ${XCURSES_INC_DIR}/Attribute.h
+    ${XCURSES_INC_DIR}/Color.h
     ${XCURSES_INC_DIR}/ColorSystem.h
     ${XCURSES_INC_DIR}/ColorPalette.h
-    ${XCURSES_INC_DIR}/Char.h
 )
 
 set(XCURSES_SRCS
     ${XCURSES_SRC_DIR}/Curses.cpp
+    ${XCURSES_SRC_DIR}/CursesConfig.cpp
     ${XCURSES_SRC_DIR}/Window.cpp
     ${XCURSES_SRC_DIR}/Border.cpp
-    ${XCURSES_SRC_DIR}/Color.cpp
     ${XCURSES_SRC_DIR}/Status.cpp
+    ${XCURSES_SRC_DIR}/Char.cpp
+    ${XCURSES_SRC_DIR}/Attribute.cpp
+    ${XCURSES_SRC_DIR}/Color.cpp
     ${XCURSES_SRC_DIR}/ColorSystem.cpp
     ${XCURSES_SRC_DIR}/ColorPalette.cpp
-    ${XCURSES_SRC_DIR}/Char.cpp
 )
 
 set(XCURSES_LIBS

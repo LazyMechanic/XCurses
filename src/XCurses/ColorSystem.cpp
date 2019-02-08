@@ -1,11 +1,14 @@
 #include <XCurses/ColorSystem.h>
 
-#include <PDCurses/curses.h>
 #include <algorithm>
+
+#include <PDCurses/curses.h>
+#include <iostream>
 
 namespace xcur {
 ColorSystem::ColorSystem() :
-    m_curPalette(nullptr)
+    m_curPalette(nullptr),
+    m_palettes(0)
 {
 	ColorPalette defaultPalette({
 	    Color::Black,

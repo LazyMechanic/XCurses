@@ -4,7 +4,6 @@
 #include <functional>
 #include <unordered_map>
 
-#include <XCurses/Char.h>
 #include <XCurses/Color.h>
 #include <XCurses/Status.h>
 #include <XCurses/ColorPalette.h>
@@ -14,7 +13,8 @@ class ColorSystem
 {
 public:
     /**
-	 * \brief 
+	 * \brief Default color system constructor. Construct with default palette with name is "default".
+	 * Colors use like windows cmd
 	 */
 	ColorSystem();
 

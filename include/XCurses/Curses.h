@@ -1,7 +1,7 @@
 #pragma once
 
-#include <XCurses/CursesConfig.h>
 #include <XCurses/Status.h>
+#include <XCurses/CursesConfig.h>
 
 namespace xcur {
 class Curses

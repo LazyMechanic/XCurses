@@ -4,6 +4,8 @@
 #include <string>
 #include <iostream>
 
+#include <XCurses/ColorSystem.h>
+
 struct Color
 {
 	short red;
@@ -21,6 +23,7 @@ Color getPDCursesColor(short red, short green, short blue)
 }
 
 void main() {
+    /*
 	initscr();
 
 	// Set size of terminal
@@ -121,4 +124,7 @@ void main() {
 		//wrefresh(testWin3);
 	}
 	endwin();
+    */
+    xcur::ColorSystem c;
+	getchar();
 }
