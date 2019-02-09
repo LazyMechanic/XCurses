@@ -361,5 +361,12 @@ TEST_CASE("ColorSystem init and edit", "[Color][ColorPalette][ColorSystem]")
 			colorSystem.addColorPalette("CuStOm_pAlEtTe", palette);
 			REQUIRE(colorSystem.getColorPalette("cUsToM_PaLeTtE") != nullptr);
 		}
+
+        SECTION("Use the color palette")
+		{
+			colorSystem.addColorPalette("custom_palette", palette);
+			colorSystem.useColorPalette("custom_palette");
+			REQUIRE(colorSystem.getCurrentPalette() == colorSystem.getColorPalette("custom_palette"));
+		}
 	}
 }
