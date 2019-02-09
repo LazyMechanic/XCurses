@@ -20,5 +20,5 @@ set(PROJECT_INC_DIR ${PROJECT_DIR}/include)
 set(PROJECT_SRC_DIR ${PROJECT_DIR}/src)
 
 add_subdirectory(src/XCurses)
-add_subdirectory(tests/XCurses)
-add_subdirectory(tests/PDCurses)
+add_subdirectory(test/XCurses)
+add_subdirectory(test/PDCurses)

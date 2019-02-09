@@ -319,16 +319,16 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 			const Color color2(100, 50, 1);
 
 			Status setDefaultColorPairStatus = palette.setDefaultColorPair(color1, color2);
-			REQUIRE(setDefaultColorPairStatus == Status::Ok);
+			REQUIRE(setDefaultColorPairStatus == Status::Err);
 
-			REQUIRE(palette.findColorPair(color1, color2) != palette.colorPairEnd());
+			REQUIRE(palette.findColorPair(color1, color2) == palette.colorPairEnd());
 		}
 	}
 }
 
 TEST_CASE("ColorSystem init and edit", "[Color][ColorPalette][ColorSystem]")
 {
-    SECTION("")
+    SECTION("Create ColorSystem")
     {
         
     }

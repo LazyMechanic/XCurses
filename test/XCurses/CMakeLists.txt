@@ -1,6 +1,6 @@
-set(TEST_OUTPUT_DIR ${PROJECT_DIR}/bin/${SYSTEM_BIT_POSTFIX})
+set(TEST_OUTPUT_DIR ${PROJECT_DIR}/test/bin/${SYSTEM_BIT_POSTFIX})
 
-set(TEST_SRC_DIR ${PROJECT_DIR}/tests/XCurses)
+set(TEST_SRC_DIR ${PROJECT_DIR}/test/XCurses)
 
 set(TEST_SRCS
 	${TEST_SRC_DIR}/TestColorSystem.cpp

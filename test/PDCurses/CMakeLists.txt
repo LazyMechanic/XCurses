@@ -1,11 +1,11 @@
 set(LIBS_DIR ${PROJECT_DIR}/lib/${SYSTEM_BIT_POSTFIX})
-set(TEST_OUTPUT_DIR ${PROJECT_DIR}/bin/${SYSTEM_BIT_POSTFIX})
+set(TEST_OUTPUT_DIR ${PROJECT_DIR}/test/bin/${SYSTEM_BIT_POSTFIX})
 
 set(TEST_LIBS 
 	${LIBS_DIR}/pdcurses.lib
 )
 
-set(TEST_SRC_DIR ${PROJECT_DIR}/tests/PDCurses)
+set(TEST_SRC_DIR ${PROJECT_DIR}/test/PDCurses)
 
 set(TEST_SRCS
 	${TEST_SRC_DIR}/main.cpp
