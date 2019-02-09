@@ -328,8 +328,38 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 
 TEST_CASE("ColorSystem init and edit", "[Color][ColorPalette][ColorSystem]")
 {
+	ColorSystem colorSystem;
+
     SECTION("Create ColorSystem")
     {
-        
+		REQUIRE(colorSystem.getColorPalette("default") != nullptr);
     }
+
+	SECTION("Add the color palette")
+	{
+		std::list<Color> colors;
+		const uint16_t correctNumberOfColors = ColorPalette::maxNumberOfColors;
+		for (size_t i = 0; i < correctNumberOfColors; i++) {
+			colors.emplace_back(i, i, i);
+		}
+		ColorPalette palette(colors);
+
+		SECTION("Color palette name in lower case")
+		{
+			colorSystem.addColorPalette("custom_palette", palette);
+			REQUIRE(colorSystem.getColorPalette("CUSTOM_PALETTE") != nullptr);
+		}
+
+		SECTION("Color palette name in upper case")
+		{
+			colorSystem.addColorPalette("CUSTOM_PALETTE", palette);
+			REQUIRE(colorSystem.getColorPalette("custom_palette") != nullptr);
+		}
+
+		SECTION("Color palette name in mix case")
+		{
+			colorSystem.addColorPalette("CuStOm_pAlEtTe", palette);
+			REQUIRE(colorSystem.getColorPalette("cUsToM_PaLeTtE") != nullptr);
+		}
+	}
 }
