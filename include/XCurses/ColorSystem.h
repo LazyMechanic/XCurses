@@ -43,6 +43,13 @@ public:
 	 */
 	uint8_t getColorPairId(const std::string& paletteName, const Color& foreground, const Color& background);
 
+    /**
+	 * \brief Get raw pointer to the palette
+	 * \param paletteName Palette name
+	 * \return The pointer to the palette if it exist, nullptr if the palette not found
+	 */
+	ColorPalette* getColorPalette(const std::string& paletteName);
+
 private:
 	ColorPalette* m_curPalette;
 

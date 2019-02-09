@@ -77,13 +77,24 @@ Status ColorSystem::useColorPalette(const std::string& name)
 
 uint8_t ColorSystem::getColorPairId(const std::string& paletteName, const Color& foreground, const Color& background)
 {
-	auto paletteIt = m_palettes.find(paletteName);
+	auto colorPaletteIt = m_palettes.find(paletteName);
     // If palette not found
-    if (paletteIt == m_palettes.end()) {
+    if (colorPaletteIt == m_palettes.end()) {
         // 0 pair init by default by curses
 		return 0;
     }
 
-	return paletteIt->second.getColorPairId(foreground, background);
+	return colorPaletteIt->second.getColorPairId(foreground, background);
+}
+
+ColorPalette* ColorSystem::getColorPalette(const std::string& paletteName)
+{
+	auto colorPaletteIt = m_palettes.find(paletteName);
+    // If the color palette not found
+    if (colorPaletteIt == m_palettes.end()) {
+		return nullptr;
+    }
+
+	return &(colorPaletteIt->second);
 }
 }
