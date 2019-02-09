@@ -87,7 +87,7 @@ uint8_t ColorSystem::getColorPairId(const std::string& paletteName, const Color&
 	return colorPaletteIt->second.getColorPairId(foreground, background);
 }
 
-ColorPalette* ColorSystem::getColorPalette(const std::string& paletteName)
+ColorPalette* const ColorSystem::getColorPalette(const std::string& paletteName)
 {
 	std::string lowerName = paletteName;
 	std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
@@ -99,5 +99,10 @@ ColorPalette* ColorSystem::getColorPalette(const std::string& paletteName)
     }
 
 	return &(colorPaletteIt->second);
+}
+
+ColorPalette* const ColorSystem::getCurrentPalette() const
+{
+	return m_curPalette;
 }
 }

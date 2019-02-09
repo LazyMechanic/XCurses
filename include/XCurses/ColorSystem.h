@@ -48,7 +48,13 @@ public:
 	 * \param paletteName Palette name
 	 * \return The pointer to the palette if it exist, nullptr if the palette not found
 	 */
-	ColorPalette* getColorPalette(const std::string& paletteName);
+	ColorPalette* const getColorPalette(const std::string& paletteName);
+
+    /**
+	 * \brief Get raw pointer to the current palette
+	 * \return The pointer to the current palette.
+	 */
+	ColorPalette* const getCurrentPalette() const;
 
 private:
 	ColorPalette* m_curPalette;
