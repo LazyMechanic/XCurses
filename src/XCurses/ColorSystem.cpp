@@ -32,9 +32,9 @@ ColorSystem::ColorSystem() :
 	useColorPalette("default");
 }
 
-Status ColorSystem::addColorPalette(const std::string& name, const ColorPalette& palette)
+Status ColorSystem::addColorPalette(const std::string& paletteName, const ColorPalette& palette)
 {
-	std::string lowerName = name;
+	std::string lowerName = paletteName;
 	std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
 
 	auto it = m_palettes.find(lowerName);
@@ -48,9 +48,9 @@ Status ColorSystem::addColorPalette(const std::string& name, const ColorPalette&
 	return Status::Ok;
 }
 
-Status ColorSystem::useColorPalette(const std::string& name)
+Status ColorSystem::useColorPalette(const std::string& paletteName)
 {
-	std::string lowerName = name;
+	std::string lowerName = paletteName;
 	std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
 
 	auto it = m_palettes.find(lowerName);
@@ -89,7 +89,10 @@ uint8_t ColorSystem::getColorPairId(const std::string& paletteName, const Color&
 
 ColorPalette* ColorSystem::getColorPalette(const std::string& paletteName)
 {
-	auto colorPaletteIt = m_palettes.find(paletteName);
+	std::string lowerName = paletteName;
+	std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
+
+	auto colorPaletteIt = m_palettes.find(lowerName);
     // If the color palette not found
     if (colorPaletteIt == m_palettes.end()) {
 		return nullptr;

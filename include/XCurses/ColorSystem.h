@@ -24,20 +24,20 @@ public:
 	 * \param palette Addable palette
 	 * \return Ok if palette insert is successful, Err if the palette already exists
 	 */
-	Status addColorPalette(const std::string& name, const ColorPalette& palette);
+	Status addColorPalette(const std::string& paletteName, const ColorPalette& palette);
 
     /**
 	 * \brief Set current color palette
 	 * \param name Palette key
 	 * \return Ok if the palette exists, Err if the palette not found
 	 */
-	Status useColorPalette(const std::string& name);
+	Status useColorPalette(const std::string& paletteName);
 
     /**
 	 * \brief Get the color pair from the palette.
-	 * \param paletteName 
-	 * \param foreground 
-	 * \param background 
+	 * \param paletteName Palette name
+	 * \param foreground Foreground (text) color
+	 * \param background Background color
 	 * \return The color pair id if successful, 0 or the default palette color pair id if 
 	 * palette not found or foreground or background not found
 	 */
