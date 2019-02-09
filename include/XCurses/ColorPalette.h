@@ -107,6 +107,10 @@ public:
 	 */
 	Status setDefaultColorPair(const std::pair<Color, Color>& colorPair);
 
+    /**
+	 * \brief Get id of default color pair
+	 * \return Color pair id
+	 */
 	uint8_t getDefaultColorPairId() const;
 
     /**
