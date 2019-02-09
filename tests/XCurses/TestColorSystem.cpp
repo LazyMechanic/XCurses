@@ -117,6 +117,24 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 		ColorPalette palette;
 		REQUIRE(palette.numberOfColors() == 0);
 		REQUIRE(palette.numberOfColorPairs() == 0);
+
+		SECTION("Add in ColorPalette new color")
+		{
+			size_t numberOfColorsBefore = palette.numberOfColors();
+
+			Color addableColor(100, 200, 50);
+			palette.addColor(addableColor);
+			size_t correctNumberOfColors = numberOfColorsBefore + 1;
+
+			REQUIRE(palette.numberOfColors() == correctNumberOfColors);
+
+            SECTION("Find color function")
+            {
+				auto addedColorIt = palette.findColor(addableColor);
+				Color addedColor = addedColorIt->first;
+				REQUIRE(addedColor == addableColor);
+            }
+		}
 	}
 
 	SECTION("Create ColorPalette with colors, number of colors == maximum")
@@ -130,6 +148,11 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 		ColorPalette palette(colors);
 
 		REQUIRE(palette.numberOfColors() == correctNumberOfColors);
+
+        SECTION("Find the color in ColorPalette")
+        {
+			REQUIRE(palette.findColor(Color(0, 0, 0)) != palette.colorEnd());
+        }
 
 		SECTION("Add in ColorPalette new color")
 		{
@@ -206,4 +229,107 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 			REQUIRE(addedColor.b == addableColor.b);
 		}
 	}
+
+    SECTION("Init color pair in ColorPalette")
+	{
+		std::list<Color> colors;
+		const uint16_t correctNumberOfColors = ColorPalette::maxNumberOfColors;
+		for (size_t i = 0; i < correctNumberOfColors; i++) {
+			colors.emplace_back(i, i, i);
+		}
+		ColorPalette palette(colors);
+
+        SECTION("Existed colors")
+        {
+			Color color1(0, 0, 0);
+			Color color2(1, 1, 1);
+			Status initStatus = palette.initColorPair(color1, color2);
+			REQUIRE(initStatus == Status::Ok);
+
+			uint8_t correctColorPairId = 0;
+			REQUIRE(palette.getColorPairId(color1, color2) == correctColorPairId);
+
+			auto colorPairIt = palette.findColorPair(color1, color2);
+			REQUIRE(colorPairIt != palette.colorPairEnd());
+        }
+
+		SECTION("Nonexistent colors")
+		{
+		    const Color color1(254, 254, 0);
+		    const Color color2(100, 50, 1);
+			Status initStatus = palette.initColorPair(color1, color2);
+			REQUIRE(initStatus == Status::Err);
+		}
+	}
+
+    SECTION("Get color pair id in ColorPalette without init")
+	{
+		std::list<Color> colors;
+		const uint16_t correctNumberOfColors = ColorPalette::maxNumberOfColors;
+		for (size_t i = 0; i < correctNumberOfColors; i++) {
+			colors.emplace_back(i, i, i);
+		}
+		ColorPalette palette(colors);
+
+		SECTION("Existed colors")
+		{
+			const Color color1(0, 0, 0);
+			const Color color2(1, 1, 1);
+
+			uint8_t correctColorPairId = 0;
+			REQUIRE(palette.getColorPairId(color1, color2) == correctColorPairId);
+
+			auto colorPairIt = palette.findColorPair(color1, color2);
+			REQUIRE(colorPairIt != palette.colorPairEnd());
+		}
+
+		SECTION("Nonexistent colors")
+		{
+			const Color color1(254, 254, 0);
+			const Color color2(100, 50, 1);
+			
+			uint8_t correctColorPairId = palette.getDefaultColorPairId();
+			REQUIRE(palette.getColorPairId(color1, color2) == palette.getDefaultColorPairId());
+
+			auto colorPairIt = palette.findColorPair(color1, color2);
+			REQUIRE(colorPairIt == palette.colorPairEnd());
+		}
+	}
+
+    SECTION("Set color pair by default in ColorPalette")
+	{
+		std::list<Color> colors;
+		const uint16_t correctNumberOfColors = ColorPalette::maxNumberOfColors;
+		for (size_t i = 0; i < correctNumberOfColors; i++) {
+			colors.emplace_back(i, i, i);
+		}
+		ColorPalette palette(colors);
+
+        SECTION("Existed colors")
+        {
+			const Color color1(0, 0, 0);
+			const Color color2(1, 1, 1);
+			Status setDefaultColorPairStatus = palette.setDefaultColorPair(color1, color2);
+			REQUIRE(setDefaultColorPairStatus == Status::Ok);
+        }
+
+		SECTION("Nonexistent colors")
+		{
+			const Color color1(254, 254, 0);
+			const Color color2(100, 50, 1);
+
+			Status setDefaultColorPairStatus = palette.setDefaultColorPair(color1, color2);
+			REQUIRE(setDefaultColorPairStatus == Status::Ok);
+
+			REQUIRE(palette.findColorPair(color1, color2) != palette.colorPairEnd());
+		}
+	}
+}
+
+TEST_CASE("ColorSystem init and edit", "[Color][ColorPalette][ColorSystem]")
+{
+    SECTION("")
+    {
+        
+    }
 }
