@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include <functional>
 #include <unordered_map>
 
@@ -12,6 +13,11 @@ namespace xcur {
 class ColorSystem
 {
 public:
+    /**
+	 * \brief Const iterator alias
+	 */
+	using ColorPaletteIterator = std::unordered_map<std::string, std::unique_ptr<ColorPalette>>::iterator;
+    
     /**
 	 * \brief Default color system constructor. Construct with default palette with name is "default".
 	 * Colors use like windows cmd
@@ -44,21 +50,39 @@ public:
 	uint8_t getColorPairId(const std::string& paletteName, const Color& foreground, const Color& background);
 
     /**
-	 * \brief Get raw pointer to the palette
-	 * \param paletteName Palette name
-	 * \return The pointer to the palette if it exist, nullptr if the palette not found
+	 * \brief Find color palette
+	 * \param paletteName Palette key
+	 * \return Const iterator to the pair of palette name and the palette
 	 */
-	ColorPalette* const getColorPalette(const std::string& paletteName);
+	ColorPaletteIterator findColorPalette(const std::string& paletteName);
 
     /**
-	 * \brief Get raw pointer to the current palette
-	 * \return The pointer to the current palette.
+	 * \brief Wrapper over color palette begin() const iterator
+	 * \return Const begin iterator
 	 */
-	ColorPalette* const getCurrentPalette() const;
+	ColorPaletteIterator colorPaletteBegin();
+
+    /**
+	 * \brief Wrapper over color palette end() const iterator
+	 * \return Const begin iterator
+	 */
+	ColorPaletteIterator colorPaletteEnd();
+
+    /**
+	 * \brief Get iterator to current color palette
+	 * \return The iterator to the current palette.
+	 */
+	ColorPalette* getCurrentPalette() const;
 
 private:
-	ColorPalette* m_curPalette;
+    /**
+	 * \brief Raw pointer to current palette
+	 */
+	ColorPalette* m_curColorPalette;
 
-	std::unordered_map<std::string, ColorPalette> m_palettes;
+    /**
+	 * \brief Color palettes container
+	 */
+	std::unordered_map<std::string, std::unique_ptr<ColorPalette>> m_palettes;
 };
 }

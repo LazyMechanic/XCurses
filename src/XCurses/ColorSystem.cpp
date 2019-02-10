@@ -7,10 +7,10 @@
 
 namespace xcur {
 ColorSystem::ColorSystem() :
-    m_curPalette(nullptr),
+    m_curColorPalette(nullptr),
     m_palettes(0)
 {
-	ColorPalette defaultPalette({
+    const ColorPalette defaultPalette({
 	    Color::Black,
 	    Color::Blue,
 	    Color::Green,
@@ -43,7 +43,7 @@ Status ColorSystem::addColorPalette(const std::string& paletteName, const ColorP
 		return Status::Err;
 	}
 
-	m_palettes[lowerName] = palette;
+	m_palettes[lowerName] = std::make_unique<ColorPalette>(palette);
 
 	return Status::Ok;
 }
@@ -52,20 +52,20 @@ Status ColorSystem::useColorPalette(const std::string& paletteName)
 {
 	std::string lowerName = paletteName;
 	std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
-
-	auto it = m_palettes.find(lowerName);
+    
+    const auto paletteIt = m_palettes.find(lowerName);
 	// If the palette not found
-	if (it == m_palettes.end()) {
+	if (paletteIt == m_palettes.end()) {
 		return Status::Err;
 	}
 
-	m_curPalette = &m_palettes[lowerName];
+	m_curColorPalette = paletteIt->second.get();
 
-    for (auto colorIt = m_curPalette->colorBegin(); colorIt != m_curPalette->colorEnd(); ++colorIt) {
+    for (auto colorIt = m_curColorPalette->colorBegin(); colorIt != m_curColorPalette->colorEnd(); ++colorIt) {
 		init_color(colorIt->second, colorIt->first.r, colorIt->first.g, colorIt->first.b);
     }
 
-    for (auto pairIt = m_curPalette->colorPairBegin(); pairIt != m_curPalette->colorPairEnd(); ++pairIt) {
+    for (auto pairIt = m_curColorPalette->colorPairBegin(); pairIt != m_curColorPalette->colorPairEnd(); ++pairIt) {
 		init_pair(
 			pairIt->second, 
 			pairIt->first.first, 
@@ -84,25 +84,29 @@ uint8_t ColorSystem::getColorPairId(const std::string& paletteName, const Color&
 		return 0;
     }
 
-	return colorPaletteIt->second.getColorPairId(foreground, background);
+	return colorPaletteIt->second->getColorPairId(foreground, background);
 }
 
-ColorPalette* const ColorSystem::getColorPalette(const std::string& paletteName)
+ColorSystem::ColorPaletteIterator ColorSystem::findColorPalette(const std::string& paletteName)
 {
 	std::string lowerName = paletteName;
 	std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
 
-	auto colorPaletteIt = m_palettes.find(lowerName);
-    // If the color palette not found
-    if (colorPaletteIt == m_palettes.end()) {
-		return nullptr;
-    }
-
-	return &(colorPaletteIt->second);
+	return m_palettes.find(lowerName);
 }
 
-ColorPalette* const ColorSystem::getCurrentPalette() const
+ColorSystem::ColorPaletteIterator ColorSystem::colorPaletteBegin()
 {
-	return m_curPalette;
+	return m_palettes.begin();
+}
+
+ColorSystem::ColorPaletteIterator ColorSystem::colorPaletteEnd()
+{
+	return m_palettes.end();
+}
+
+ColorPalette* ColorSystem::getCurrentPalette() const
+{
+	return m_curColorPalette;
 }
 }
