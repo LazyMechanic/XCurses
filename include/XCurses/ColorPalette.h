@@ -12,12 +12,12 @@ class ColorPalette
 {
 public:	
     /**
-     * \brief Iterator alias
+     * \brief Const iterator alias
      */
     using ConstColorIterator = std::unordered_map<Color, uint16_t, std::function<size_t(const Color&)>>::const_iterator;
 	
     /**
-     * \brief Iterator alias
+     * \brief Const iterator alias
      */
     using ConstColorPairIterator = std::unordered_map<std::pair<uint16_t, uint16_t>, uint8_t, std::function<size_t(const std::pair<uint16_t, uint16_t>&)>>::const_iterator;
 
@@ -80,15 +80,6 @@ public:
 	 * color for swap not found in palette
 	 */
 	Status swapColor(const Color& from, const Color& to);
-
-    /**
-	 * \brief Swap color in palette
-	 * \param from Color id in palette for swap
-	 * \param to New color
-	 * \return Ok if the color swapping is successfully, Err if new color already exists or
-	 * color for swap not found in palette
-	 */
-	Status swapColor(uint16_t from, const Color& to);
 
     /**
 	 * \brief Change colors by default. After that the calling getColorPairId(...) with wrong colors

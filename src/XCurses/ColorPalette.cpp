@@ -57,35 +57,7 @@ Status ColorPalette::swapColor(const Color& from, const Color& to)
 		return Status::Err;
     }
 
-    // If all right then insert new color and delete previous
-	m_colors[to] = fromIt->second;
-	m_colors.erase(fromIt);
-
-	return Status::Ok;
-}
-
-Status ColorPalette::swapColor(uint16_t from, const Color& to)
-{
-	auto toIt = m_colors.find(to);
-	// If new color already exists
-	if (toIt != m_colors.end()) {
-		return Status::Err;
-	}
-
-	auto fromIt = m_colors.begin();
-    for (; fromIt != m_colors.end(); ++fromIt) {
-        // If the color in palette is found
-        if (fromIt->second == from) {
-			break;
-        }
-    }
-
-	// If the color in palette not found
-	if (fromIt == m_colors.end()) {
-		return Status::Err;
-	}
-
-	// If all right then insert new color and delete previous
+    // If all right then insert new color and erase previous
 	m_colors[to] = fromIt->second;
 	m_colors.erase(fromIt);
 
