@@ -35,8 +35,7 @@ Status Window::setBorder(const Border& border)
 		border.topLeftCorner,
 		border.topRightCorner,
 		border.bottomLeftCorner,
-		border.bottomRightCorner
-	);
+		border.bottomRightCorner);
 }
 
 Status Window::setBorder(
@@ -58,8 +57,7 @@ Status Window::setBorder(
 		topLeftCorner,
 		topRightCorner,
 		bottomLeftCorner,
-		bottomRightCorner
-	));
+		bottomRightCorner));
 }
 
 Status Window::refresh() const

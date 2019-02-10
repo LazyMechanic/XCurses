@@ -60,8 +60,7 @@ public:
 		uint32_t topLeftCorner,
 		uint32_t topRightCorner,
 		uint32_t bottomLeftCorner,
-		uint32_t bottomRightCorner
-	);
+		uint32_t bottomRightCorner);
 
 	/**
 	 * \brief Refresh PDCurses window
@@ -71,22 +70,22 @@ public:
 
 private:
 	/**
-	 * \brief PDCurses
+	 * \brief PDCurses window pointer
 	 */
 	WINDOW* m_win;
 
 	/**
-	 * \brief True - nodelay mode is ON, false - OFF
+	 * \brief True if nodelay mode is ON, false if it is OFF
 	 */
 	bool m_nodelayMode;
 
 	/**
-	 * \brief True - keypad mode is ON, false - OFF
+	 * \brief True if keypad mode is ON, false if it is OFF
 	 */
 	bool m_keypadMode;
 
 	/**
-	 * \brief True - scrollok mode is ON, false - OFF
+	 * \brief True if scrollok mode is ON, false if it is OFF
 	 */
 	bool m_scrollMode;
 
