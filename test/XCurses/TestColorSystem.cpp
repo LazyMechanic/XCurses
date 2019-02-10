@@ -140,14 +140,14 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 	SECTION("Create ColorPalette with colors, number of colors == maximum")
 	{
 		std::list<Color> colors;
-		const uint16_t correctNumberOfColors = ColorPalette::maxNumberOfColors;
-		for (size_t i = 0; i < correctNumberOfColors; i++) {
+		const uint16_t numberOfColors = ColorPalette::maxNumberOfColors;
+		for (size_t i = 0; i < numberOfColors; i++) {
 			colors.push_back(Color(i, i, i));
 		}
 		INFO("Number of colors in palette should be equal " << colors.size());
 		ColorPalette palette(colors);
 
-		REQUIRE(palette.numberOfColors() == correctNumberOfColors);
+		REQUIRE(palette.numberOfColors() == numberOfColors);
 
         SECTION("Find the color in ColorPalette")
         {
@@ -160,12 +160,12 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 
 			Color addableColor(100, 200, 50);
 			palette.addColor(addableColor);
-			size_t correctNumberOfColors = ColorPalette::maxNumberOfColors;
+			size_t correctNumberOfColorsAfterAdd = ColorPalette::maxNumberOfColors;
 
 			auto addedColorIt = palette.findColor(addableColor);
 			Color addedColor = addedColorIt->first;
 
-			REQUIRE(palette.numberOfColors() == correctNumberOfColors);
+			REQUIRE(palette.numberOfColors() == correctNumberOfColorsAfterAdd);
 			REQUIRE(addedColorIt == palette.colorEnd());
 		}
 	}
@@ -189,12 +189,12 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 
 			Color addableColor(100, 200, 50);
 			palette.addColor(addableColor);
-			size_t correctNumberOfColors = ColorPalette::maxNumberOfColors;
+			size_t correctNumberOfColorsAfterAdd = ColorPalette::maxNumberOfColors;
 
 			auto addedColorIt = palette.findColor(addableColor);
 			Color addedColor = addedColorIt->first;
 
-			REQUIRE(palette.numberOfColors() == correctNumberOfColors);
+			REQUIRE(palette.numberOfColors() == correctNumberOfColorsAfterAdd);
 			REQUIRE(addedColorIt == palette.colorEnd());
 		}
 	}
@@ -202,14 +202,14 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 	SECTION("Create ColorPalette with colors, number of colors < maximum")
 	{
 		std::list<Color> colors;
-		const uint16_t correctNumberOfColors = ColorPalette::maxNumberOfColors - 3;
-		for (size_t i = 0; i < correctNumberOfColors; i++) {
+		const uint16_t numberOfColors = ColorPalette::maxNumberOfColors - 3;
+		for (size_t i = 0; i < numberOfColors; i++) {
 			colors.push_back(Color(i, i, i));
 		}
 		INFO("Number of colors in palette should be equal " << colors.size());
 		ColorPalette palette(colors);
 
-		REQUIRE(palette.numberOfColors() == correctNumberOfColors);
+		REQUIRE(palette.numberOfColors() == numberOfColors);
 
 		SECTION("Add in ColorPalette new color")
 		{
@@ -217,16 +217,41 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 
 			Color addableColor(100, 200, 50);
 			palette.addColor(addableColor);
-			size_t correctNumberOfColors = numberOfColorsBefore + 1;
+			size_t correctNumberOfColorsAfterAdd = numberOfColorsBefore + 1;
 
 			auto addedColorIt = palette.findColor(addableColor);
 			Color addedColor = addedColorIt->first;
 
-			REQUIRE(palette.numberOfColors() == correctNumberOfColors);
+			REQUIRE(palette.numberOfColors() == correctNumberOfColorsAfterAdd);
 
 			REQUIRE(addedColor.r == addableColor.r);
 			REQUIRE(addedColor.g == addableColor.g);
 			REQUIRE(addedColor.b == addableColor.b);
+		}
+	}
+
+    SECTION("Swap color in ColorPalette")
+	{
+		std::list<Color> colors;
+		const uint16_t correctNumberOfColors = ColorPalette::maxNumberOfColors - 3;
+		for (size_t i = 0; i < correctNumberOfColors; i++) {
+			colors.push_back(Color(i, i, i));
+		}
+		ColorPalette palette(colors);
+
+        SECTION("Existed color")
+        {
+			Color colorFrom(0, 0, 0);
+			Color colorTo(32, 1, 50);
+			REQUIRE(palette.swapColor(colorFrom, colorTo) == Status::Ok);
+			REQUIRE(palette.findColor(colorTo) != palette.colorEnd());
+        }
+
+		SECTION("Nonexistent color")
+		{
+			Color colorFrom(52, 1, 32);
+			Color colorTo(32, 1, 50);
+			REQUIRE(palette.swapColor(colorFrom, colorTo) == Status::Err);
 		}
 	}
 
@@ -332,7 +357,7 @@ TEST_CASE("ColorSystem init and edit", "[Color][ColorPalette][ColorSystem]")
 
     SECTION("Create ColorSystem")
     {
-		REQUIRE(colorSystem.getColorPalette("default") != nullptr);
+		REQUIRE(colorSystem.findColorPalette("default") != colorSystem.colorPaletteEnd());
     }
 
 	SECTION("Add the color palette")
@@ -347,26 +372,26 @@ TEST_CASE("ColorSystem init and edit", "[Color][ColorPalette][ColorSystem]")
 		SECTION("Color palette name in lower case")
 		{
 			colorSystem.addColorPalette("custom_palette", palette);
-			REQUIRE(colorSystem.getColorPalette("CUSTOM_PALETTE") != nullptr);
+			REQUIRE(colorSystem.findColorPalette("CUSTOM_PALETTE") != colorSystem.colorPaletteEnd());
 		}
 
 		SECTION("Color palette name in upper case")
 		{
 			colorSystem.addColorPalette("CUSTOM_PALETTE", palette);
-			REQUIRE(colorSystem.getColorPalette("custom_palette") != nullptr);
+			REQUIRE(colorSystem.findColorPalette("custom_palette") != colorSystem.colorPaletteEnd());
 		}
 
 		SECTION("Color palette name in mix case")
 		{
 			colorSystem.addColorPalette("CuStOm_pAlEtTe", palette);
-			REQUIRE(colorSystem.getColorPalette("cUsToM_PaLeTtE") != nullptr);
+			REQUIRE(colorSystem.findColorPalette("cUsToM_PaLeTtE") != colorSystem.colorPaletteEnd());
 		}
 
         SECTION("Use the color palette")
 		{
 			colorSystem.addColorPalette("custom_palette", palette);
 			colorSystem.useColorPalette("custom_palette");
-			REQUIRE(colorSystem.getCurrentPalette() == colorSystem.getColorPalette("custom_palette"));
+			REQUIRE(colorSystem.getCurrentPalette() == colorSystem.findColorPalette("custom_palette")->second.get());
 		}
 	}
 }
