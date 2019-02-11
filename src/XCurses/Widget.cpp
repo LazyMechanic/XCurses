@@ -1,28 +1,38 @@
 #include <XCurses/Widget.h>
 
+#include <XCurses/Window.h>
+
 namespace xcur {
 uint32_t Widget::nextWidgetId = 0;
 
 Widget::Widget() :
-    m_widgetId(nextWidgetId++)
+    m_id(nextWidgetId++),
+    m_parentWindow(std::weak_ptr<Window>())
 {
 }
 
-Widget::Widget(const Widget& widget)
+void Widget::setParentWindow(const std::shared_ptr<Window>& window)
 {
+    const std::shared_ptr<Window> oldWindow = m_parentWindow.lock();
+    // If new window and old window is similar
+	if (oldWindow == window) {
+		return;
+	}
+
+	m_parentWindow = window;
 }
 
-Widget::Widget(Widget&& widget)
+std::shared_ptr<Window> Widget::getParentWindow() const
 {
+	return m_parentWindow.lock();
 }
 
 uint32_t Widget::getId() const
 {
-	return m_widgetId;
+	return m_id;
 }
 
-void Widget::setParentWindow(Window* win)
+void Widget::draw()
 {
-	m_parentWindow = win;
 }
 }
