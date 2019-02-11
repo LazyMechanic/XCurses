@@ -1,15 +1,21 @@
 #pragma once
 
 #include <memory>
-#include <cstdint>
+#include <unordered_map>
 
 #include <XCurses/Border.h>
 #include <XCurses/Status.h>
+#include <XCurses/Widget.h>
+#include <unordered_map>
+struct _win;
 
 namespace xcur {
 class Window
 {
 public:
+	friend class XCurses;
+
+	using Ptr = std::shared_ptr<Window>;
 	/*
 	 *template <typename Type>
 	 * void addWidget(Type widget);
@@ -22,9 +28,6 @@ public:
 	 * When draw - clear window and redraw all widgets
 	 */
 
-	friend class XCurses;
-
-	using Ptr = std::unique_ptr<Window>;
 
 	Window();
 
@@ -36,11 +39,20 @@ public:
 
 	virtual void update(float dt);
 
+	virtual Widget::Ptr addWidget(const Widget& widget) final;
+
+	virtual Widget::Ptr findWidgetById(uint32_t widgetId) final;
+
+	virtual _win* getCursesWin() final;
+
 private:
 	virtual void draw();
+
+	std::unordered_map<uint32_t, Widget::Ptr> m_widgets;
+    
 	/**
 	 * \brief PDCurses window pointer
 	 */
-	WINDOW* m_win;
+	_win* m_win;
 };
 }
