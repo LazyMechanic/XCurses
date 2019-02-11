@@ -3,16 +3,17 @@
 #include <XCurses/Window.h>
 
 namespace xcur {
-Window::Window()
+uint32_t Window::nextWindowId = 0;
+
+Window::Window() :
+    m_id(nextWindowId++),
+    m_widgets(0, std::bind(&Window::widgetHash, this, std::placeholders::_1))
 {
 }
 
-Window::Window(const Window&)
+size_t Window::widgetHash(const uint32_t& id)
 {
-}
-
-Window::Window(Window&&)
-{
+	return std::hash<uint32_t>()(id);
 }
 
 Window::~Window()
@@ -20,35 +21,58 @@ Window::~Window()
 	delwin(m_win);
 }
 
-Widget::Ptr Window::addWidget(const Widget& widget)
+void Window::update(float dt)
 {
-	auto widgetIt = m_widgets.find(widget.getId());
-    // If widget already exists
-    if (widgetIt != m_widgets.end()) {
-		return widgetIt->second;
-    }
-
-    m_widgets.
 }
 
-Widget::Ptr Window::findWidgetById(uint32_t widgetId)
+Status Window::addWidget(const Widget::Ptr<>& widget)
 {
-	auto widgetIt = m_widgets.find(widgetId);
-    // If the widget not found
-    if (widgetIt == m_widgets.end()) {
-		return Widget::Ptr(nullptr);
+    const auto widgetIt = m_widgets.find(widget->getId());
+	// If widget already exists
+	if (widgetIt != m_widgets.end()) {
+		return Status::Err;
+	}
+
+    if (widget->getParentWindow() != nullptr) {
+		return Status::Err;
     }
 
-	return widgetIt->second;
+	m_widgets[widget->getId()] = widget;
+	m_widgets[widget->getId()]->setParentWindow(shared_from_this());
+	return Status::Ok;
 }
 
-_win* Window::getCursesWin()
+Status Window::eraseWidget(const Widget::Ptr<>& widget)
+{
+	auto widgetIt = m_widgets.find(widget->getId());
+	// If widget not found
+	if (widgetIt == m_widgets.end()) {
+		return Status::Err;
+	}
+
+	widgetIt->second->setParentWindow(nullptr);
+	m_widgets.erase(widgetIt);
+	return Status::Ok;
+}
+
+_win* Window::getCursesWin() const
 {
 	return m_win;
 }
 
+uint32_t Window::getId() const
+{
+	return m_id;
+}
+
 void Window::draw()
 {
-	wnoutrefresh(m_win);
+	wclear(m_win);
+
+	// TODO: redraw border
+
+	for (auto& widget : m_widgets) {
+		widget.second->draw();
+	}
 }
 }
