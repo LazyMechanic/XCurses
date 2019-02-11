@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include <XCurses/Char.h>
 
 namespace xcur {
 /**
@@ -18,7 +18,7 @@ public:
      * \brief Construct the border with one char on all sides
      * \param ch Char for border
      */
-    explicit Border(uint32_t ch);
+    explicit Border(const Char& ch);
 
     /**
 	 * \brief Construct the border with specific characters.
@@ -31,15 +31,14 @@ public:
 	 * \param _bottomLeftCorner Char for bottom-left corner
 	 * \param _bottomRightCorner Char for bottom-right corner
 	 */
-	Border(uint32_t _leftSide,
-		uint32_t _rightSide,
-		uint32_t _topSide,
-		uint32_t _bottomSide,
-		uint32_t _topLeftCorner,
-		uint32_t _topRightCorner,
-		uint32_t _bottomLeftCorner,
-		uint32_t _bottomRightCorner
-	);
+	Border(Char _leftSide,
+		Char _rightSide,
+		Char _topSide,
+		Char _bottomSide,
+		Char _topLeftCorner,
+		Char _topRightCorner,
+		Char _bottomLeftCorner,
+		Char _bottomRightCorner);
 
     /**
 	 * \brief Copy Border constructor
@@ -71,46 +70,46 @@ public:
 	static const Border Blank;      // Blank predefined border
 	static const Border Simple;     // Simple predefined border
 	static const Border Default;    // Default predefined border
-	static const Border Double;     // Double predefined border
+	static const Border Wide;       // Wide predefined border
 
     /**
 	 * \brief Left side character
 	 */
-	uint32_t leftSide;
+	Char leftSide;
 
 	/**
 	 * \brief Right side character
 	 */
-	uint32_t rightSide;
+	Char rightSide;
 
 	/**
 	 * \brief Top side character
 	 */
-	uint32_t topSide;
+	Char topSide;
 
 	/**
 	 * \brief Bottom side character
 	 */
-	uint32_t bottomSide;
+	Char bottomSide;
 
 	/**
 	 * \brief Top-left corner character
 	 */
-	uint32_t topLeftCorner;
+	Char topLeftCorner;
 
 	/**
 	 * \brief Top-right corner character
 	 */
-	uint32_t topRightCorner;
+	Char topRightCorner;
 
 	/**
 	 * \brief Bottom-left corner character
 	 */
-	uint32_t bottomLeftCorner;
+	Char bottomLeftCorner;
 
 	/**
 	 * \brief Bottom-right corner character
 	 */
-	uint32_t bottomRightCorner;
+	Char bottomRightCorner;
 };
 }

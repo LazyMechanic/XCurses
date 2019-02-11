@@ -21,7 +21,7 @@ set_target_properties(TestPDCurses PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIR}
 )
 
-target_link_libraries(TestPDCurses ${TEST_LIBS} XCurses)
+target_link_libraries(TestPDCurses ${TEST_LIBS})
 
 target_include_directories(TestPDCurses 
 	PRIVATE ${PROJECT_SRC_DIR}

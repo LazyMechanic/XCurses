@@ -7,6 +7,10 @@ namespace xcur {
 class Curses
 {
 public:
+    /*
+     * template <typename Type>
+     * std::shared_ptr<Type> createWindow();
+     */
 
 	Curses();
 

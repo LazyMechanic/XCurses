@@ -1,11 +1,5 @@
 #pragma once
 
-#include <utility>
-
-#include <PDCurses/curses.h>
-
-#include <XCurses/Color.h>
-#include <XCurses/Status.h>
 #include <XCurses/Attribute.h>
 
 namespace xcur {

@@ -4,8 +4,6 @@
 #include <string>
 #include <iostream>
 
-#include <XCurses/ColorSystem.h>
-
 struct Color
 {
 	short red;
@@ -23,7 +21,6 @@ Color getPDCursesColor(short red, short green, short blue)
 }
 
 void main() {
-    /*
 	initscr();
 
 	// Set size of terminal
@@ -92,39 +89,32 @@ void main() {
 	attr_t attrs = 0;
 	short colors = 0;
 
-	mvwaddstr(testWin1, 5, 1, "ABCDEFG");
-	mvwaddstr(testWin1, 6, 1, "HIGKLMN");
-	mvwaddstr(testWin1, 10, 1, "OPQRSTU");
-
-	mvwaddstr(testWin4, 5, 1, "ABCDEFG");
-	mvwaddstr(testWin4, 6, 1, "HIGKLMN");
-	mvwaddstr(testWin4, 10, 1, "OPQRSTU");
-
-	cchar_t inputChar;
+	chtype inputChar;
 
 	//bottom_panel(testPanel1);
 	//top_panel(testPanel4);
 
 	nodelay(stdscr, true);
-	//halfdelay(255);
-	timeout(255);
 
 	bool isRunning = true;
 	while (isRunning) {
 		inputChar = wgetch(stdscr);
         if (inputChar != ERR) {
-			waddch(testWin1, 'k' | COLOR_PAIR(52));
+			if (inputChar == '1') {
+				wclear(testWin1);
+			}
+            if (inputChar == '2') {
+				wrefresh(testWin1);
+            }
+            if (inputChar == '3') {
+				waddch(testWin1, inputChar);
+            }
         }
 
 
-		wrefresh(testWin1);
-		wrefresh(testWin4);
 		//wrefresh(testWin2);
 		//wrefresh(testWin4);
 		//wrefresh(testWin3);
 	}
 	endwin();
-    */
-    xcur::ColorSystem c;
-	getchar();
 }

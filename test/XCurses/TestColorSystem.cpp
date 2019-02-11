@@ -11,7 +11,7 @@ TEST_CASE("Color init, edit and manipulating", "[Color]")
 {
     SECTION("Create color with empty constructor")
     {
-		Color color;
+		const Color color;
 		REQUIRE(color.r == 0);
 		REQUIRE(color.g == 0);
 		REQUIRE(color.b == 0);
@@ -19,7 +19,7 @@ TEST_CASE("Color init, edit and manipulating", "[Color]")
 
     SECTION("Create color with 3 components")
     {
-		Color color(50, 70, 100);
+		const Color color(50, 70, 100);
 		REQUIRE(color.r == 50);
 		REQUIRE(color.g == 70);
 		REQUIRE(color.b == 100);
@@ -27,7 +27,7 @@ TEST_CASE("Color init, edit and manipulating", "[Color]")
 
 	SECTION("Create color with hex notation")
 	{
-		Color color(0xAACCEE);
+		const Color color(0xAACCEE);
 		REQUIRE(color.r == 0xAA);
 		REQUIRE(color.g == 0xCC);
 		REQUIRE(color.b == 0xEE);
@@ -35,8 +35,8 @@ TEST_CASE("Color init, edit and manipulating", "[Color]")
 
 	SECTION("Color operator ==")
 	{
-		Color color1(30, 10, 55);
-		Color color2(30, 10, 55);
+		const Color color1(30, 10, 55);
+		const Color color2(30, 10, 55);
 		bool result = color1 == color2;
 
 		REQUIRE(result == true);
@@ -44,8 +44,8 @@ TEST_CASE("Color init, edit and manipulating", "[Color]")
 
 	SECTION("Colors operator !=")
 	{
-		Color color1(30, 10, 55);
-		Color color2(31, 10, 55);
+	    const Color color1(30, 10, 55);
+	    const Color color2(31, 10, 55);
 		bool result = color1 != color2;
 
 		REQUIRE(result == true);
@@ -53,8 +53,8 @@ TEST_CASE("Color init, edit and manipulating", "[Color]")
 
 	SECTION("Color operator +")
 	{
-		Color color1(30, 10, 55);
-		Color color2(50, 0, 220);
+	    const Color color1(30, 10, 55);
+	    const Color color2(50, 0, 220);
 		Color colorResult = color1 + color2;
 
 		uint8_t correctRed = 80;
@@ -68,8 +68,8 @@ TEST_CASE("Color init, edit and manipulating", "[Color]")
 
     SECTION("Color operator -")
     {
-		Color color1(70, 10, 55);
-		Color color2(50, 0, 100);
+        const Color color1(70, 10, 55);
+        const Color color2(50, 0, 100);
 		Color colorResult = color1 - color2;
 
 		uint8_t correctRed = 20;
@@ -83,8 +83,8 @@ TEST_CASE("Color init, edit and manipulating", "[Color]")
 
 	SECTION("Color operator *")
 	{
-		Color color1(70, 10, 55);
-		Color color2(50, 0, 100);
+	    const Color color1(70, 10, 55);
+	    const Color color2(50, 0, 100);
 		Color colorResult = color1 * color2;
 
 		uint8_t correctRed = static_cast<uint8_t>(static_cast<int>(color1.r) * color2.r / 255);
@@ -98,7 +98,7 @@ TEST_CASE("Color init, edit and manipulating", "[Color]")
 
 	SECTION("Color default RGB value to curses value")
 	{
-		Color color(100, 55, 233);		
+		const Color color(100, 55, 233);
 		
 		uint16_t correctRed = 392;
 		uint16_t correctGreen = 215;
@@ -120,7 +120,7 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 
 		SECTION("Add in ColorPalette new color")
 		{
-			size_t numberOfColorsBefore = palette.numberOfColors();
+		    const size_t numberOfColorsBefore = palette.numberOfColors();
 
 			Color addableColor(100, 200, 50);
 			palette.addColor(addableColor);
@@ -130,7 +130,7 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 
             SECTION("Find color function")
             {
-				auto addedColorIt = palette.findColor(addableColor);
+                const auto addedColorIt = palette.findColor(addableColor);
 				Color addedColor = addedColorIt->first;
 				REQUIRE(addedColor == addableColor);
             }
@@ -142,7 +142,7 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 		std::list<Color> colors;
 		const uint16_t numberOfColors = ColorPalette::maxNumberOfColors;
 		for (size_t i = 0; i < numberOfColors; i++) {
-			colors.push_back(Color(i, i, i));
+			colors.emplace_back(i, i, i);
 		}
 		INFO("Number of colors in palette should be equal " << colors.size());
 		ColorPalette palette(colors);
@@ -157,8 +157,8 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 		SECTION("Add in ColorPalette new color")
 		{
 			size_t numberOfColorsBefore = palette.numberOfColors();
-
-			Color addableColor(100, 200, 50);
+		    
+            const Color addableColor(100, 200, 50);
 			palette.addColor(addableColor);
 			size_t correctNumberOfColorsAfterAdd = ColorPalette::maxNumberOfColors;
 
@@ -175,7 +175,7 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 		std::list<Color> colors;
 		const uint16_t numberOfColors = ColorPalette::maxNumberOfColors + 3;
 		for (size_t i = 0; i < numberOfColors; i++) {
-			colors.push_back(Color(i, i, i));
+			colors.emplace_back(i, i, i);
 		}
 		INFO("Number of colors in palette should be equal " << ColorPalette::maxNumberOfColors);
 		ColorPalette palette(colors);
@@ -186,8 +186,8 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 		SECTION("Add in ColorPalette new color")
 		{
 			size_t numberOfColorsBefore = palette.numberOfColors();
-
-			Color addableColor(100, 200, 50);
+		    
+		    const Color addableColor(100, 200, 50);
 			palette.addColor(addableColor);
 			size_t correctNumberOfColorsAfterAdd = ColorPalette::maxNumberOfColors;
 
@@ -204,7 +204,7 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 		std::list<Color> colors;
 		const uint16_t numberOfColors = ColorPalette::maxNumberOfColors - 3;
 		for (size_t i = 0; i < numberOfColors; i++) {
-			colors.push_back(Color(i, i, i));
+			colors.emplace_back(i, i, i);
 		}
 		INFO("Number of colors in palette should be equal " << colors.size());
 		ColorPalette palette(colors);
@@ -218,8 +218,8 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 			Color addableColor(100, 200, 50);
 			palette.addColor(addableColor);
 			size_t correctNumberOfColorsAfterAdd = numberOfColorsBefore + 1;
-
-			auto addedColorIt = palette.findColor(addableColor);
+		    
+		    const auto addedColorIt = palette.findColor(addableColor);
 			Color addedColor = addedColorIt->first;
 
 			REQUIRE(palette.numberOfColors() == correctNumberOfColorsAfterAdd);
@@ -235,7 +235,7 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 		std::list<Color> colors;
 		const uint16_t correctNumberOfColors = ColorPalette::maxNumberOfColors - 3;
 		for (size_t i = 0; i < correctNumberOfColors; i++) {
-			colors.push_back(Color(i, i, i));
+			colors.emplace_back(i, i, i);
 		}
 		ColorPalette palette(colors);
 
@@ -367,7 +367,7 @@ TEST_CASE("ColorSystem init and edit", "[Color][ColorPalette][ColorSystem]")
 		for (size_t i = 0; i < correctNumberOfColors; i++) {
 			colors.emplace_back(i, i, i);
 		}
-		ColorPalette palette(colors);
+	    const ColorPalette palette(colors);
 
 		SECTION("Color palette name in lower case")
 		{
