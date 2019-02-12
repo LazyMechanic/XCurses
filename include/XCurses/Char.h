@@ -63,6 +63,11 @@ public:
 	Char& operator =(uint16_t ch);
 
     /**
+	 * \brief Operator convert to uint32_t
+	 */
+	operator uint32_t() const;
+
+    /**
 	 * \brief Char destructor
 	 */
 	~Char() = default;

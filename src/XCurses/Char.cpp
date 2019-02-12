@@ -28,6 +28,11 @@ Char& Char::operator=(uint16_t ch)
 	return *this;
 }
 
+Char::operator uint32_t() const
+{
+	return toCursesChar();
+}
+
 uint32_t Char::toCursesChar() const
 {
 	return static_cast<uint32_t>(colorPairId) << 24 |
