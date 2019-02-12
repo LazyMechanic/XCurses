@@ -1,19 +1,19 @@
-#include <XCurses/Curses.h>
+#include <XCurses/Core.h>
 
 #include <PDCurses/curses.h>
 
 namespace xcur {
-Curses::Curses()
+Core::Core()
 {
 	initscr();
 }
 
-Curses::~Curses()
+Core::~Core()
 {
 	endwin();
 }
 
-void Curses::init(const CursesConfig& config)
+void Core::init(const CoreConfig& config)
 {
 	this->setCBrakeMode(config.enableCBreakMode);
 	this->setEchoMode(config.enableEchoMode);
@@ -23,7 +23,7 @@ void Curses::init(const CursesConfig& config)
 
 }
 
-Status Curses::setCBrakeMode(bool v)
+Status Core::setCBrakeMode(bool v)
 {
 	m_config.enableCBreakMode = v;
 	if (v) {
@@ -34,7 +34,7 @@ Status Curses::setCBrakeMode(bool v)
 	}
 }
 
-Status Curses::setEchoMode(bool v)
+Status Core::setEchoMode(bool v)
 {
 	m_config.enableEchoMode = v;
 	if (v) {
@@ -45,7 +45,7 @@ Status Curses::setEchoMode(bool v)
 	}
 }
 
-Status Curses::setRawMode(bool v)
+Status Core::setRawMode(bool v)
 {
 	m_config.enableRawMode = v;
 	if (v) {
@@ -56,7 +56,7 @@ Status Curses::setRawMode(bool v)
 	}
 }
 
-Status Curses::setNewLineMode(bool v)
+Status Core::setNewLineMode(bool v)
 {
 	m_config.enableNewLineMode = v;
 	if (v) {
@@ -67,19 +67,19 @@ Status Curses::setNewLineMode(bool v)
 	}
 }
 
-Status Curses::setTerminalSize(unsigned int width, unsigned int height)
+Status Core::setTerminalSize(unsigned int width, unsigned int height)
 {
 	m_config.terminalWidth = width;
 	m_config.terminalHeight = height;
 	return resize_term(height, width);
 }
 
-Status Curses::blinkColors()
+Status Core::blinkColors()
 {
 	return flash();
 }
 
-Status Curses::playBeepSound()
+Status Core::playBeepSound()
 {
 	return beep();
 }

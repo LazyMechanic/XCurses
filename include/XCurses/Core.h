@@ -7,11 +7,6 @@ namespace xcur {
 class Curses
 {
 public:
-    /*
-     * template <typename Type>
-     * std::shared_ptr<Type> createWindow();
-     */
-
 	Curses();
 
 	~Curses();
@@ -81,6 +76,8 @@ public:
 	 * \return Status
 	 */
 	Status playBeepSound();
+
+    // TODO: add window
 
 private:
 	/**
