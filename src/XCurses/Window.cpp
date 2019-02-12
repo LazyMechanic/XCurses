@@ -22,7 +22,7 @@ Window::~Window()
 	delwin(m_win);
 }
 
-void Window::update(float dt)
+void Window::update(const float dt)
 {
 }
 
@@ -43,7 +43,7 @@ Status Window::addWidget(const Widget::Ptr<>& widget)
 	return Status::Ok;
 }
 
-Status Window::eraseWidget(const Widget::Ptr<>& widget)
+Status Window::removeWidget(const Widget::Ptr<>& widget)
 {
 	auto widgetIt = m_widgets.find(widget->getId());
 	// If widget not found
@@ -67,6 +67,11 @@ Border Window::getBorder() const
 	return m_border;
 }
 
+size_t Window::numberOfWidgets() const
+{
+	return m_widgets.size();
+}
+
 _win* Window::getCursesWin() const
 {
 	return m_win;
@@ -84,10 +89,11 @@ uint32_t Window::getId() const
 
 void Window::draw()
 {
+    // Clear the window
 	wclear(m_win);
-
+    // Draw border
 	updateCursesBorder();
-
+    // Draw widgets
 	for (auto& widget : m_widgets) {
 		widget.second->draw();
 	}

@@ -51,10 +51,10 @@ void main() {
 	init_pair(pairNum, COLOR_BLACK, colorNum);
 	init_color(colorNum, c2.red, c2.green, c2.blue);
 
-	mvaddch(30, 2, 'C' | COLOR_PAIR(pairNum));
+	//mvaddch(0, 2, 'C' | COLOR_PAIR(pairNum));
 	wgetch(stdscr);
 	init_color(colorNum, c1.red, c1.green, c1.blue);
-	mvaddch(30, 3, 'C' | COLOR_PAIR(pairNum));
+	//mvaddch(0, 3, 'C' | COLOR_PAIR(pairNum));
 	flash();
 
 	wgetch(stdscr);
@@ -64,6 +64,7 @@ void main() {
 	WINDOW* testWin2 = newwin(15, 15, 0, 5);
 	WINDOW* testWin3 = newwin(15, 15, 5, 0);
 	WINDOW* testWin4 = newwin(15, 15, 20, 20);
+	//curs_set(1);
 
 	cchar_t backgroundChar = COLOR_PAIR(6) | 0x2591;
 	wbkgrndset(testWin1, &backgroundChar);
@@ -80,9 +81,11 @@ void main() {
 
 	wmove(testWin2, 0, 0);
 	waddstr(testWin2, "testWin2");
+	//wrefresh(testWin2);
 
 	wmove(testWin3, 0, 0);
 	waddstr(testWin3, "testWin3");
+	//wrefresh(testWin3);
 
 	wmove(testWin4, 0, 0);
 	waddstr(testWin4, "testWin4");
@@ -91,19 +94,18 @@ void main() {
 	attr_t attrs = 0;
 	short colors = 0;
 
-	chtype inputChar;
+	chtype inputChar = ERR;
 
 	//bottom_panel(testPanel1);
 	//top_panel(testPanel4);
 
 	bool isRunning = true;
 	while (isRunning) {
-		inputChar = wgetch(stdscr);
+		inputChar = wgetch(testWin1);
         if (inputChar != ERR) {
 			if (inputChar == '1') {
-				wclear(testWin1);
-				int ch = ((resize_term(5000, 5000) == OK) ? 1 : 0);
-				waddch(testWin1, std::to_string(ch).c_str()[0]);
+				//wclear(testWin1);
+				clearok(testWin1, true);
 			}
             if (inputChar == '2') {
 				wrefresh(testWin1);
@@ -111,12 +113,21 @@ void main() {
             if (inputChar == '3') {
 				waddch(testWin1, inputChar);
             }
+			if (inputChar == '4') {
+				clear();
+			}
+			if (inputChar == '5') {
+				refresh();
+			}
+			if (inputChar == '6') {
+			}
         }
+		wnoutrefresh(testWin1);
+		wnoutrefresh(testWin2);
+		wnoutrefresh(testWin3);
+		wnoutrefresh(testWin4);
 
-
-		//wrefresh(testWin2);
-		//wrefresh(testWin4);
-		//wrefresh(testWin3);
+		doupdate();
 	}
 	endwin();
 }

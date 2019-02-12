@@ -41,7 +41,7 @@ public:
 	 * \brief Function calling every tick. Virtual function
 	 * \param dt Delta time
 	 */
-	virtual void update(float dt);
+	virtual void update(const float dt);
 
     /**
 	 * \brief Add new widget
@@ -52,11 +52,11 @@ public:
 	virtual Status addWidget(const Widget::Ptr<>& widget) final;
 
     /**
-	 * \brief Erase the widget
+	 * \brief Remove the widget
 	 * \param widget Widget
-	 * \return Ok if widget erased successfully, Err if widget not found
+	 * \return Ok if widget removed successfully, Err if widget not found
 	 */
-	virtual Status eraseWidget(const Widget::Ptr<>& widget) final;
+	virtual Status removeWidget(const Widget::Ptr<>& widget) final;
 
     /**
 	 * \brief Set new border
@@ -69,6 +69,12 @@ public:
 	 * \return Border
 	 */
 	virtual Border getBorder() const final;
+
+    /**
+	 * \brief Get number of widgets
+	 * \return Number of widgets
+	 */
+	virtual size_t numberOfWidgets() const final;
 
     /**
 	 * \brief Get window id
