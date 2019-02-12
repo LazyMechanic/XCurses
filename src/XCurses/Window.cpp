@@ -55,6 +55,17 @@ Status Window::eraseWidget(const Widget::Ptr<>& widget)
 	return Status::Ok;
 }
 
+void Window::setBorder(const Border& border)
+{
+	m_border = border;
+	updateCursesBorder();
+}
+
+Border Window::getBorder() const
+{
+	return m_border;
+}
+
 _win* Window::getCursesWin() const
 {
 	return m_win;
@@ -69,10 +80,23 @@ void Window::draw()
 {
 	wclear(m_win);
 
-	// TODO: redraw border
+	updateCursesBorder();
 
 	for (auto& widget : m_widgets) {
 		widget.second->draw();
 	}
+}
+
+void Window::updateCursesBorder() const
+{
+	wborder(m_win,
+		m_border.leftSide,
+		m_border.rightSide,
+		m_border.topSide,
+		m_border.bottomSide,
+		m_border.topLeftCorner,
+		m_border.topRightCorner,
+		m_border.bottomLeftCorner,
+		m_border.bottomRightCorner);
 }
 }
