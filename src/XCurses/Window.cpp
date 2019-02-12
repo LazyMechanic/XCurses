@@ -7,6 +7,7 @@ uint32_t Window::nextWindowId = 0;
 
 Window::Window() :
     m_id(nextWindowId++),
+    m_core(nullptr),
     m_widgets(0, std::bind(&Window::widgetHash, this, std::placeholders::_1))
 {
 }
@@ -69,6 +70,11 @@ Border Window::getBorder() const
 _win* Window::getCursesWin() const
 {
 	return m_win;
+}
+
+Core* const Window::getCore() const
+{
+	return m_core;
 }
 
 uint32_t Window::getId() const

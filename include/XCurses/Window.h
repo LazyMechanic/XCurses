@@ -83,7 +83,12 @@ public:
 	_win* getCursesWin() const;
 
 protected:
-	const Core* getCore();
+    /**
+	 * \brief Get core 
+	 * \return Const ptr to core
+	 */
+	Core* const getCore() const;
+
     /**
 	 * \brief Container of widgets
 	 */
@@ -125,7 +130,7 @@ private:
     /**
 	 * \brief Raw ptr to core
      */
-	Core* m_curses;
+	Core* m_core;
     
 	/**
 	 * \brief PDCurses window pointer

@@ -3,7 +3,8 @@
 #include <PDCurses/curses.h>
 
 namespace xcur {
-Core::Core()
+Core::Core() :
+    m_windows(0, std::bind(&Core::windowHash, this, std::placeholders::_1))
 {
 	initscr();
 }
@@ -69,18 +70,48 @@ Status Core::setNewLineMode(bool v)
 
 Status Core::setTerminalSize(unsigned int width, unsigned int height)
 {
-	m_config.terminalWidth = width;
-	m_config.terminalHeight = height;
+	m_config.terminalWidth = getmaxx(stdscr);
+	m_config.terminalHeight = getmaxy(stdscr);
 	return resize_term(height, width);
 }
 
-Status Core::blinkColors()
+Status Core::blinkColors() const
 {
 	return flash();
 }
 
-Status Core::playBeepSound()
+Status Core::playBeepSound() const
 {
 	return beep();
+}
+
+Status Core::addWindow(const Window::Ptr<>& window)
+{
+	auto windowIt = m_windows.find(window->getId());
+    // If the window already exists
+    if (windowIt != m_windows.end()) {
+		return Status::Err;
+    }
+
+	m_windows[window->getId()] = window;
+	m_windows[window->getId()]->m_core = this;
+	return Status::Ok;
+}
+
+void Core::handleEvents()
+{
+}
+
+void Core::update(float dt)
+{
+}
+
+void Core::draw()
+{
+}
+
+size_t Core::windowHash(const uint32_t& id)
+{
+	return std::hash<uint32_t>()(id);
 }
 }

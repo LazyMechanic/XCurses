@@ -31,6 +31,8 @@ void main() {
 	// Don't print symbols during writing
 	noecho();
 
+	nodelay(stdscr, true);
+
 	//nocbreak();
 
 	// Allow input CTRL+Z, CTRL+C etc.
@@ -94,14 +96,14 @@ void main() {
 	//bottom_panel(testPanel1);
 	//top_panel(testPanel4);
 
-	nodelay(stdscr, true);
-
 	bool isRunning = true;
 	while (isRunning) {
 		inputChar = wgetch(stdscr);
         if (inputChar != ERR) {
 			if (inputChar == '1') {
 				wclear(testWin1);
+				int ch = ((resize_term(5000, 5000) == OK) ? 1 : 0);
+				waddch(testWin1, std::to_string(ch).c_str()[0]);
 			}
             if (inputChar == '2') {
 				wrefresh(testWin1);

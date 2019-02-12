@@ -5,8 +5,8 @@ set(XCURSES_INC_DIR ${PROJECT_DIR}/include/XCurses)
 set(XCURSES_SRC_DIR ${PROJECT_DIR}/src/XCurses)
 
 set(XCURSES_INCS
-    ${XCURSES_INC_DIR}/Curses.h
-    ${XCURSES_INC_DIR}/CursesConfig.h
+    ${XCURSES_INC_DIR}/Core.h
+    ${XCURSES_INC_DIR}/CoreConfig.h
     ${XCURSES_INC_DIR}/Border.h
     ${XCURSES_INC_DIR}/Window.h
     ${XCURSES_INC_DIR}/Status.h
@@ -18,8 +18,8 @@ set(XCURSES_INCS
 )
 
 set(XCURSES_SRCS
-    ${XCURSES_SRC_DIR}/Curses.cpp
-    ${XCURSES_SRC_DIR}/CursesConfig.cpp
+    ${XCURSES_SRC_DIR}/Core.cpp
+    ${XCURSES_SRC_DIR}/CoreConfig.cpp
     ${XCURSES_SRC_DIR}/Window.cpp
     ${XCURSES_SRC_DIR}/Border.cpp
     ${XCURSES_SRC_DIR}/Status.cpp
