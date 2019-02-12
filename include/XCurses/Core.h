@@ -1,21 +1,31 @@
 #pragma once
 
+#include <functional>
+#include <unordered_map>
+
 #include <XCurses/Status.h>
-#include <XCurses/CursesConfig.h>
+#include <XCurses/Window.h>
+#include <XCurses/CoreConfig.h>
 
 namespace xcur {
-class Curses
+class Core
 {
 public:
-	Curses();
+    /**
+	 * \brief Default Core constructor
+	 */
+	Core();
 
-	~Curses();
+    /**
+	 * \brief Core destructor
+	 */
+	~Core();
 
 	/**
-	 * \brief Initialize Curses with params
+	 * \brief Initialize Core with params
 	 * \param config Configuration object
 	 */
-	void init(const CursesConfig& config = CursesConfig::Default);
+	void init(const CoreConfig& config = CoreConfig::Default);
 
 	/**
 	 * \brief Toggle cbreak mode.
@@ -69,20 +79,53 @@ public:
 	 * \brief Inverse all colors in terminal for a moment
 	 * \return Status
 	 */
-	Status blinkColors();
+	Status blinkColors() const;
 
 	/**
 	 * \brief Beep sound
 	 * \return Status
 	 */
-	Status playBeepSound();
+	Status playBeepSound() const;
 
-    // TODO: add window
+    /**
+	 * \brief Add window to core
+	 * \param window Window smart ptr
+	 * \return Ok if window added successfully, Err if the window already exists
+	 */
+	Status addWindow(const Window::Ptr<>& window);
+
+    /**
+	 * \brief Handle input
+	 */
+	void handleEvents();
+
+    /**
+	 * \brief Call update all windows
+	 * \param dt Delta time
+	 */
+	void update(float dt);
+
+    /**
+	 * \brief Draw all windows
+	 */
+	void draw();
 
 private:
 	/**
+	 * \brief Get hash from window id
+	 * \param id Window id
+	 * \return Hash
+	 */
+	size_t windowHash(const uint32_t& id);
+
+	/**
 	 * \brief Current PDCurses config
 	 */
-	CursesConfig m_config;
+	CoreConfig m_config;
+
+    /**
+	 * \brief Container for windows
+	 */
+	std::unordered_map<const uint32_t, Window::Ptr<>, std::function<size_t(const uint32_t&)>> m_windows;
 };
 }

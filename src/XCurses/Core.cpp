@@ -104,10 +104,16 @@ void Core::handleEvents()
 
 void Core::update(float dt)
 {
+    for (auto& window : m_windows) {
+		window.second->update(dt);
+    }
 }
 
 void Core::draw()
 {
+	for (auto& window : m_windows) {
+		window.second->draw();
+	}
 }
 
 size_t Core::windowHash(const uint32_t& id)
