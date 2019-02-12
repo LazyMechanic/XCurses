@@ -1,9 +1,9 @@
 #include <XCurses/ColorSystem.h>
 
+#include <PDCurses/curses.h>
+
 #include <algorithm>
 
-#include <PDCurses/curses.h>
-#include <iostream>
 
 namespace xcur {
 ColorSystem::ColorSystem() :
