@@ -95,6 +95,19 @@ public:
 	Status addWindow(const Window::Ptr<>& window);
 
     /**
+	 * \brief Remove the window
+	 * \param window Window
+	 * \return Ok if window removed successfully, Err if window not found
+	 */
+	Status removeWindow(const Window::Ptr<>& window);
+
+    /**
+	 * \brief Get number of windows
+	 * \return Number of windows
+	 */
+	size_t numberOfWindows() const;
+
+    /**
 	 * \brief Handle input
 	 */
 	void handleEvents();
@@ -116,7 +129,7 @@ private:
 	 * \param id Window id
 	 * \return Hash
 	 */
-	size_t windowHash(const uint32_t& id);
+	size_t windowHash(const uint32_t& id) const;
 
 	/**
 	 * \brief Current PDCurses config

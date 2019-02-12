@@ -87,7 +87,7 @@ Status Core::playBeepSound() const
 
 Status Core::addWindow(const Window::Ptr<>& window)
 {
-	auto windowIt = m_windows.find(window->getId());
+    const auto windowIt = m_windows.find(window->getId());
     // If the window already exists
     if (windowIt != m_windows.end()) {
 		return Status::Err;
@@ -98,11 +98,28 @@ Status Core::addWindow(const Window::Ptr<>& window)
 	return Status::Ok;
 }
 
+Status Core::removeWindow(const Window::Ptr<>& window)
+{
+    const auto windowIt = m_windows.find(window->getId());
+    // If window not found
+    if (windowIt == m_windows.end()) {
+		return Status::Err;
+    }
+
+	m_windows.erase(window->getId());
+	return Status::Err;
+}
+
+size_t Core::numberOfWindows() const
+{
+    return m_windows.size();
+}
+
 void Core::handleEvents()
 {
 }
 
-void Core::update(float dt)
+void Core::update(const float dt)
 {
     for (auto& window : m_windows) {
 		window.second->update(dt);
@@ -111,12 +128,16 @@ void Core::update(float dt)
 
 void Core::draw()
 {
+    // Clear virtual screen
+	clear();
+	wnoutrefresh(stdscr);
+    // Draw all windows
 	for (auto& window : m_windows) {
 		window.second->draw();
 	}
 }
 
-size_t Core::windowHash(const uint32_t& id)
+size_t Core::windowHash(const uint32_t& id) const
 {
 	return std::hash<uint32_t>()(id);
 }
