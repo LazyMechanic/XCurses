@@ -1,9 +1,9 @@
-#include <XCurses/CursesConfig.h>
+#include <XCurses/CoreConfig.h>
 
 namespace xcur {
-const CursesConfig CursesConfig::Default;
+const CoreConfig CoreConfig::Default;
 
-CursesConfig::CursesConfig() :
+CoreConfig::CoreConfig() :
 	terminalWidth(120),
 	terminalHeight(50),
 	inputDelay(0),
@@ -16,7 +16,7 @@ CursesConfig::CursesConfig() :
 {
 }
 
-CursesConfig::CursesConfig(
+CoreConfig::CoreConfig(
 	unsigned _terminalWidth,
     unsigned _terminalHeight,
     unsigned _inputDelay,
