@@ -31,8 +31,4 @@ uint32_t Widget::getId() const
 {
 	return m_id;
 }
-
-void Widget::draw()
-{
-}
 }

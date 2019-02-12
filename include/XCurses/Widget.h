@@ -32,6 +32,11 @@ public:
 	 */
 	virtual ~Widget() = default;
 
+	/**
+	 * \brief Redraw widget
+	 */
+	virtual void draw() = 0;
+
     /**
 	 * \brief Get widget id
 	 * \return Id
@@ -39,10 +44,6 @@ public:
 	virtual uint32_t getId() const final;
 
 protected:
-    /**
-	 * \brief Redraw widget
-	 */
-	virtual void draw();
 
     /**
 	 * \brief Ptr to parent window
@@ -61,21 +62,21 @@ private:
 	Widget();
 
     /**
+	 * \brief Next widget id
+	 */
+	static uint32_t nextWidgetId;
+
+	/**
 	 * \brief Set new parent window
 	 * \param window Window
 	 */
 	void setParentWindow(const std::shared_ptr<Window>& window);
 
-    /**
+	/**
 	 * \brief Get parent window
 	 * \return Shared ptr to parent window
 	 */
 	std::shared_ptr<Window> getParentWindow() const;
-
-    /**
-	 * \brief Next widget id
-	 */
-	static uint32_t nextWidgetId;
 };
 
 template <typename Type, typename ... Args>
