@@ -1,8 +1,7 @@
 #pragma once
 
+#include <list>
 #include <memory>
-#include <functional>
-#include <unordered_map>
 
 #include <XCurses/Border.h>
 #include <XCurses/Status.h>
@@ -49,14 +48,14 @@ public:
 	 * \return Ok if widget added successfully, Err if widget already exists, or
 	 * if widget already added in another window
 	 */
-	virtual Status addWidget(const Widget::Ptr<>& widget) final;
+	virtual void addWidget(const Widget::Ptr<>& widget) final;
 
     /**
 	 * \brief Remove the widget
 	 * \param widget Widget
 	 * \return Ok if widget removed successfully, Err if widget not found
 	 */
-	virtual Status removeWidget(const Widget::Ptr<>& widget) final;
+	virtual void removeWidget(const Widget::Ptr<>& widget) final;
 
     /**
 	 * \brief Set new border
@@ -98,7 +97,7 @@ protected:
     /**
 	 * \brief Container of widgets
 	 */
-	std::unordered_map<const uint32_t, Widget::Ptr<>, std::function<size_t(const uint32_t&)>> m_widgets;
+	std::list<Widget::Ptr<>> m_widgets;
 
     /**
 	 * \brief Border container
@@ -129,6 +128,28 @@ private:
 	void draw();
 
     /**
+	 * \brief Trying add or remove widgets
+	 */
+	void updateWidgets();
+
+    /**
+	 * \brief Try add widgets
+	 */
+	void tryAddWidgets();
+
+    /**
+	 * \brief Try remove widgets
+	 */
+	void tryRemoveWidgets();
+
+    /**
+	 * \brief Find the widget in m_widgets
+	 * \param widget Widget
+	 * \return Iterator to widget
+	 */
+	std::list<Widget::Ptr<>>::iterator findWidget(const Widget::Ptr<>& widget);
+
+    /**
 	 * \brief Call curses function for redraw border
 	 */
 	void updateCursesBorder() const;
@@ -142,6 +163,16 @@ private:
 	 * \brief PDCurses window pointer
 	 */
 	_win* m_win;
+
+    /**
+	 * \brief Widgets which need add
+	 */
+	std::list<Widget::Ptr<>> m_addWidgets;
+
+    /**
+	 * \brief Widgets which need remove
+	 */
+	std::list<Widget::Ptr<>> m_removeWidgets;
 
     /**
 	 * \brief Next window id

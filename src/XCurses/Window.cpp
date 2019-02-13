@@ -1,5 +1,7 @@
 #include <PDCurses/curses.h>
 
+#include <algorithm>
+
 #include <XCurses/Window.h>
 
 namespace xcur {
@@ -7,8 +9,7 @@ uint32_t Window::nextWindowId = 0;
 
 Window::Window() :
     m_id(nextWindowId++),
-    m_core(nullptr),
-    m_widgets(0, std::bind(&Window::widgetHash, this, std::placeholders::_1))
+    m_core(nullptr)
 {
 }
 
@@ -26,34 +27,14 @@ void Window::update(const float dt)
 {
 }
 
-Status Window::addWidget(const Widget::Ptr<>& widget)
+void Window::addWidget(const Widget::Ptr<>& widget)
 {
-    const auto widgetIt = m_widgets.find(widget->getId());
-	// If widget already exists
-	if (widgetIt != m_widgets.end()) {
-		return Status::Err;
-	}
-
-    if (widget->getParentWindow() != nullptr) {
-		return Status::Err;
-    }
-
-	m_widgets[widget->getId()] = widget;
-	m_widgets[widget->getId()]->setParentWindow(shared_from_this());
-	return Status::Ok;
+	m_addWidgets.push_back(widget);
 }
 
-Status Window::removeWidget(const Widget::Ptr<>& widget)
+void Window::removeWidget(const Widget::Ptr<>& widget)
 {
-	auto widgetIt = m_widgets.find(widget->getId());
-	// If widget not found
-	if (widgetIt == m_widgets.end()) {
-		return Status::Err;
-	}
-
-	widgetIt->second->setParentWindow(nullptr);
-	m_widgets.erase(widgetIt);
-	return Status::Ok;
+	m_removeWidgets.push_back(widget);
 }
 
 void Window::setBorder(const Border& border)
@@ -95,8 +76,49 @@ void Window::draw()
 	updateCursesBorder();
     // Draw widgets
 	for (auto& widget : m_widgets) {
-		widget.second->draw();
+		widget->draw();
 	}
+}
+
+void Window::updateWidgets()
+{
+    // Add widgets
+	tryAddWidgets();
+    // Remove widgets
+	tryRemoveWidgets();
+}
+
+void Window::tryAddWidgets()
+{
+	for (auto& widget : m_addWidgets) {
+		auto widgetIt = findWidget(widget);
+		// If widget nonexistent
+		if (widgetIt == m_widgets.end()) {
+			m_widgets.push_back(widget);
+		}
+	}
+    // Clear widget queue for add
+	m_addWidgets.clear();
+}
+
+void Window::tryRemoveWidgets()
+{
+	for (auto& widget : m_removeWidgets) {
+		auto widgetIt = findWidget(widget);
+		// If the widget exists
+		if (widgetIt != m_widgets.end()) {
+		    m_widgets.erase(widgetIt);
+		}
+	}
+	// Clear widget queue for remove
+	m_removeWidgets.clear();
+}
+
+std::list<Widget::Ptr<>>::iterator Window::findWidget(const Widget::Ptr<>& widget)
+{
+	return std::find_if(m_widgets.begin(), m_widgets.end(), [&widget](const Widget::Ptr<>& findWidget) {
+		return widget->getId() == findWidget->getId();
+	});
 }
 
 void Window::updateCursesBorder() const

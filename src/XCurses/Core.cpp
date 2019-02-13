@@ -123,6 +123,7 @@ void Core::update(const float dt)
 {
     for (auto& window : m_windows) {
 		window.second->update(dt);
+		window.second->updateWidgets();
     }
 }
 
