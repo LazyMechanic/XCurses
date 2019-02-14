@@ -1,10 +1,11 @@
 #include <XCurses/Core.h>
 
+#include <algorithm>
+
 #include <PDCurses/curses.h>
 
 namespace xcur {
-Core::Core() :
-    m_windows(0, std::bind(&Core::windowHash, this, std::placeholders::_1))
+Core::Core()
 {
 	initscr();
 }
@@ -85,29 +86,14 @@ Status Core::playBeepSound() const
 	return beep();
 }
 
-Status Core::addWindow(const Window::Ptr<>& window)
+void Core::addWindow(const Window::Ptr<>& window)
 {
-    const auto windowIt = m_windows.find(window->getId());
-    // If the window already exists
-    if (windowIt != m_windows.end()) {
-		return Status::Err;
-    }
-
-	m_windows[window->getId()] = window;
-	m_windows[window->getId()]->m_core = this;
-	return Status::Ok;
+	m_addWindows.push_back(window);
 }
 
-Status Core::removeWindow(const Window::Ptr<>& window)
+void Core::removeWindow(const Window::Ptr<>& window)
 {
-    const auto windowIt = m_windows.find(window->getId());
-    // If window not found
-    if (windowIt == m_windows.end()) {
-		return Status::Err;
-    }
-
-	m_windows.erase(window->getId());
-	return Status::Err;
+	m_removeWindows.push_back(window);
 }
 
 size_t Core::numberOfWindows() const
@@ -122,9 +108,11 @@ void Core::handleEvents()
 void Core::update(const float dt)
 {
     for (auto& window : m_windows) {
-		window.second->update(dt);
-		window.second->updateWidgets();
+		window->update(dt);
+		window->updateWidgets();
     }
+
+	updateWindows();
 }
 
 void Core::draw()
@@ -134,8 +122,49 @@ void Core::draw()
 	wnoutrefresh(stdscr);
     // Draw all windows
 	for (auto& window : m_windows) {
-		window.second->draw();
+		window->draw();
 	}
+}
+
+std::list<Window::Ptr<>>::iterator Core::findWindow(const Window::Ptr<>& window)
+{
+	return std::find_if(m_windows.begin(), m_windows.end(), [&window](const Window::Ptr<>& findWindow) {
+		return window->getId() == findWindow->getId();
+	});
+}
+
+void Core::tryAddWindows()
+{
+    for (auto& window : m_addWindows) {
+		auto windowIt = findWindow(window);
+		// If the window not found 
+		if (windowIt == m_windows.end()) {
+			m_windows.push_back(window);
+		}
+    }
+	// Clear window queue for add
+	m_addWindows.clear();
+}
+
+void Core::tryRemoveWindows()
+{
+	for (auto& window : m_removeWindows) {
+		auto windowIt = findWindow(window);
+		// If the window exists 
+		if (windowIt != m_windows.end()) {
+			m_windows.erase(windowIt);
+		}
+	}
+	// Clear window queue for remove
+	m_removeWindows.clear();
+}
+
+void Core::updateWindows()
+{
+    // Add windows
+	tryAddWindows();
+    // Remove windows
+	tryRemoveWindows();
 }
 
 size_t Core::windowHash(const uint32_t& id) const

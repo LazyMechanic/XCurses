@@ -1,7 +1,7 @@
 #pragma once
 
+#include <list>
 #include <functional>
-#include <unordered_map>
 
 #include <XCurses/Status.h>
 #include <XCurses/Window.h>
@@ -90,16 +90,14 @@ public:
     /**
 	 * \brief Add window to core
 	 * \param window Window smart ptr
-	 * \return Ok if window added successfully, Err if the window already exists
 	 */
-	Status addWindow(const Window::Ptr<>& window);
+    void addWindow(const Window::Ptr<>& window);
 
     /**
 	 * \brief Remove the window
 	 * \param window Window
-	 * \return Ok if window removed successfully, Err if window not found
 	 */
-	Status removeWindow(const Window::Ptr<>& window);
+	void removeWindow(const Window::Ptr<>& window);
 
     /**
 	 * \brief Get number of windows
@@ -125,6 +123,28 @@ public:
 
 private:
 	/**
+	 * \brief Find the window in m_windows
+	 * \param window Window
+	 * \return Iterator to window
+	 */
+	std::list<Window::Ptr<>>::iterator findWindow(const Window::Ptr<>& window);
+
+	/**
+	 * \brief Try add and remove windows
+	 */
+	void updateWindows();
+
+    /**
+	 * \brief Try add windows
+	 */
+	void tryAddWindows();
+
+    /**
+	 * \brief Try remove windows
+	 */
+	void tryRemoveWindows();
+
+	/**
 	 * \brief Get hash from window id
 	 * \param id Window id
 	 * \return Hash
@@ -139,6 +159,16 @@ private:
     /**
 	 * \brief Container for windows
 	 */
-	std::unordered_map<const uint32_t, Window::Ptr<>, std::function<size_t(const uint32_t&)>> m_windows;
+	std::list<Window::Ptr<>> m_windows;
+
+    /**
+	 * \brief Windows which need add
+	 */
+	std::list<Window::Ptr<>> m_addWindows;
+
+	/**
+	 * \brief Windows which need remove
+	 */
+	std::list<Window::Ptr<>> m_removeWindows;
 };
 }
