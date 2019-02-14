@@ -127,6 +127,8 @@ void Core::draw()
 	for (auto& window : m_windows) {
 		window->draw();
 	}
+    // Draw all windows
+	doupdate();
 }
 
 std::list<Window::Ptr<>>::iterator Core::findWindow(const Window::Ptr<>& window)
