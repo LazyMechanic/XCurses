@@ -4,6 +4,8 @@
 
 #include <PDCurses/curses.h>
 
+#include <XCurses/Input.h>
+
 namespace xcur {
 Core::Core()
 {
@@ -103,6 +105,7 @@ size_t Core::numberOfWindows() const
 
 void Core::handleEvents()
 {
+	Input::handleEvents(m_windows.back());
 }
 
 void Core::update(const float dt)
