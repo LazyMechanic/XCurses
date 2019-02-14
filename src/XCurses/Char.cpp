@@ -1,6 +1,8 @@
 #include <XCurses/Char.h>
 
 namespace xcur {
+Char Char::Err(0xffff);
+
 Char::Char() :
     colorPairId(0),
     attr(Attribute::Normal),

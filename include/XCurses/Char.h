@@ -72,6 +72,8 @@ public:
 	 */
 	~Char() = default;
 
+	static Char Err;
+
     /**
 	 * \brief Make up color pair, attr and character in uint32_t
 	 * \return Curses character
