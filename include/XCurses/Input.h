@@ -8,11 +8,22 @@ class Char;
 class Input
 {
 public:
+    /**
+	 * \brief Update m_pressedChar
+	 * \param window Current (upper) window
+	 */
 	static void handleEvents(const Window::Ptr<>& window);
 
+    /**
+	 * \brief Get pressed key
+	 * \return Character (key value) if key pressed, Err if doesn't
+	 */
 	static Char getPressedKey();
 
 private:
+    /**
+	 * \brief Stored pressed char
+	 */
 	static Char m_pressedChar;
 };
 }
