@@ -60,17 +60,26 @@ Status ColorSystem::useColorPalette(const std::string& paletteName)
 	}
 
 	m_curColorPalette = paletteIt->second.get();
+	return applyCurrentColorPalette();
+}
 
-    for (auto colorIt = m_curColorPalette->colorBegin(); colorIt != m_curColorPalette->colorEnd(); ++colorIt) {
+Status ColorSystem::applyCurrentColorPalette() const
+{
+    // If current palette is nonexistent
+    if (m_curColorPalette == nullptr) {
+		return Status::Err;
+    }
+
+	for (auto colorIt = m_curColorPalette->colorBegin(); colorIt != m_curColorPalette->colorEnd(); ++colorIt) {
 		init_color(colorIt->second, colorIt->first.r, colorIt->first.g, colorIt->first.b);
-    }
+	}
 
-    for (auto pairIt = m_curColorPalette->colorPairBegin(); pairIt != m_curColorPalette->colorPairEnd(); ++pairIt) {
+	for (auto pairIt = m_curColorPalette->colorPairBegin(); pairIt != m_curColorPalette->colorPairEnd(); ++pairIt) {
 		init_pair(
-			pairIt->second, 
-			pairIt->first.first, 
+			pairIt->second,
+			pairIt->first.first,
 			pairIt->first.second);
-    }
+	}
 
 	return Status::Ok;
 }

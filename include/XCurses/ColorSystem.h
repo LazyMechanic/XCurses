@@ -40,6 +40,12 @@ public:
 	Status useColorPalette(const std::string& paletteName);
 
     /**
+	 * \brief Apply current palette
+	 * \return Ok if the palette exists, Err if otherwise
+	 */
+	Status applyCurrentColorPalette() const;
+
+    /**
 	 * \brief Get the color pair from the palette.
 	 * \param paletteName Palette name
 	 * \param foreground Foreground (text) color
