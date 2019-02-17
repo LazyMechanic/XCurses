@@ -1,0 +1,21 @@
+#pragma once
+
+#include <XCurses/Core.h>
+#include <XCurses/Char.h>
+#include <XCurses/Color.h>
+#include <XCurses/Input.h>
+#include <XCurses/Object.h>
+#include <XCurses/Status.h>
+#include <XCurses/Widget.h>
+#include <XCurses/Window.h>
+#include <XCurses/Border.h>
+#include <XCurses/Context.h>
+#include <XCurses/Drawable.h>
+#include <XCurses/Attribute.h>
+#include <XCurses/Behaviour.h>
+#include <XCurses/Container.h>
+#include <XCurses/CoreConfig.h>
+#include <XCurses/RootObject.h>
+#include <XCurses/ColorSystem.h>
+#include <XCurses/ColorPalette.h>
+#include <XCurses/ContextComponent.h>
