@@ -12,7 +12,7 @@ public:
 	 * \brief Update m_pressedChar
 	 * \param window Current (upper) window
 	 */
-	static void handleEvents(const Window::Ptr<>& window);
+	static void handleEvents();
 
     /**
 	 * \brief Get pressed key
