@@ -88,92 +88,30 @@ Status Core::playBeepSound() const
 	return beep();
 }
 
-void Core::addWindow(const Window::Ptr<>& window)
-{
-	m_addWindows.push_back(window);
-}
-
-void Core::removeWindow(const Window::Ptr<>& window)
-{
-	m_removeWindows.push_back(window);
-}
-
-size_t Core::numberOfWindows() const
-{
-    return m_windows.size();
-}
-
 void Core::handleEvents()
 {
-	Input::handleEvents(m_windows.back());
+	// TODO: call current context handleEvents() func
 }
 
 void Core::update(const float dt)
 {
-    for (auto& window : m_windows) {
-		window->update(dt);
-		window->updateWidgets();
-    }
-
-	updateWindows();
+    // TODO: call current context update() func
 }
 
 void Core::draw()
 {
-    // Clear virtual screen
-	clear();
-	wnoutrefresh(stdscr);
-    // Draw all windows
-	for (auto& window : m_windows) {
-		window->draw();
-	}
-    // Draw all windows
-	doupdate();
-}
-
-std::list<Window::Ptr<>>::iterator Core::findWindow(const Window::Ptr<>& window)
-{
-	return std::find_if(m_windows.begin(), m_windows.end(), [&window](const Window::Ptr<>& findWindow) {
-		return window->getId() == findWindow->getId();
-	});
-}
-
-void Core::tryAddWindows()
-{
-    for (auto& window : m_addWindows) {
-		auto windowIt = findWindow(window);
-		// If the window not found 
-		if (windowIt == m_windows.end()) {
-			m_windows.push_back(window);
-		}
-    }
-	// Clear window queue for add
-	m_addWindows.clear();
-}
-
-void Core::tryRemoveWindows()
-{
-	for (auto& window : m_removeWindows) {
-		auto windowIt = findWindow(window);
-		// If the window exists 
-		if (windowIt != m_windows.end()) {
-			m_windows.erase(windowIt);
-		}
-	}
-	// Clear window queue for remove
-	m_removeWindows.clear();
-}
-
-void Core::updateWindows()
-{
-    // Add windows
-	tryAddWindows();
-    // Remove windows
-	tryRemoveWindows();
-}
-
-size_t Core::windowHash(const uint32_t& id) const
-{
-	return std::hash<uint32_t>()(id);
+    /*
+        // Clear virtual screen
+	    clear();
+	    wnoutrefresh(stdscr);
+        // Draw all windows
+	    for (auto& window : m_windows) {
+		    window->draw();
+	    }
+        // Draw all windows
+	    doupdate();
+    */
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ all work code, copy to context
+	// TODO: call current context draw() func
 }
 }
