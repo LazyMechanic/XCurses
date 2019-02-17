@@ -4,6 +4,13 @@ set(XCURSES_OUTPUT_DIR ${PROJECT_DIR}/bin/${SYSTEM_BIT_POSTFIX})
 set(XCURSES_INC_DIR ${PROJECT_DIR}/include/XCurses)
 set(XCURSES_SRC_DIR ${PROJECT_DIR}/src/XCurses)
 
+if (WIN32)
+	add_definitions(-DXCURSES_SYSTEM_WINDOWS)
+endif (WIN32)
+if (UNIX)
+	add_definitions(-DXCURSES_SYSTEM_UNIX)
+endif (UNIX)
+
 set(XCURSES_INCS
     ${XCURSES_INC_DIR}/Core.h
     ${XCURSES_INC_DIR}/CoreConfig.h
@@ -15,6 +22,15 @@ set(XCURSES_INCS
     ${XCURSES_INC_DIR}/Color.h
     ${XCURSES_INC_DIR}/ColorSystem.h
     ${XCURSES_INC_DIR}/ColorPalette.h
+    ${XCURSES_INC_DIR}/Widget.h
+    ${XCURSES_INC_DIR}/Input.h
+    ${XCURSES_INC_DIR}/Container.h
+    ${XCURSES_INC_DIR}/Context.h
+    ${XCURSES_INC_DIR}/ContextComponent.h
+    ${XCURSES_INC_DIR}/Object.h
+    ${XCURSES_INC_DIR}/Behaviour.h
+    ${XCURSES_INC_DIR}/Drawable.h
+    ${XCURSES_INC_DIR}/RootObject.h
 )
 
 set(XCURSES_SRCS
@@ -28,6 +44,12 @@ set(XCURSES_SRCS
     ${XCURSES_SRC_DIR}/Color.cpp
     ${XCURSES_SRC_DIR}/ColorSystem.cpp
     ${XCURSES_SRC_DIR}/ColorPalette.cpp
+    ${XCURSES_SRC_DIR}/Widget.cpp
+    ${XCURSES_SRC_DIR}/Input.cpp
+    ${XCURSES_SRC_DIR}/Container.cpp
+    ${XCURSES_SRC_DIR}/Context.cpp
+    ${XCURSES_SRC_DIR}/ContextComponent.cpp
+    ${XCURSES_SRC_DIR}/Object.cpp
 )
 
 set(XCURSES_LIBS
