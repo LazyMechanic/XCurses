@@ -18,6 +18,9 @@ public:
 	virtual void update(float dt) = 0;
 
 protected:
+    /**
+	 * \brief Default Behaviour constructor
+	 */
 	Behaviour() = default;
 };
 }

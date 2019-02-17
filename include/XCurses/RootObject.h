@@ -8,6 +8,9 @@ namespace xcur {
 class RootObject : virtual public ContextComponent
 {
 public:
+    /**
+	 * \brief RootObject destructor
+	 */
 	virtual ~RootObject() = default;
 
 	/**
