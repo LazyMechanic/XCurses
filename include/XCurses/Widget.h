@@ -3,85 +3,54 @@
 #include <cstdint>
 
 #include <XCurses/Status.h>
+#include <XCurses/ContextComponent.h>
 
 namespace xcur {
-class Widget
+class Widget : public ContextComponent, std::enable_shared_from_this<Widget>
 {
 public:
+    /**
+	 * \brief Friend class for setup parent window
+	 */
 	friend class Window;
 
     /**
-	 * \brief std::shared_ptr<Type> alias
-	 * \tparam Type Widget type
+	 * \brief Friend class for setup parent widget
 	 */
-	template <typename Type = Widget>
-	using Ptr = std::shared_ptr<Type>;
-
-    /**
-	 * \brief Create widget and return smart ptr
-	 * \tparam Type Widget type
-	 * \tparam Args Arguments to constructor
-	 * \param args Arguments
-	 * \return Shared ptr
-	 */
-	template <typename Type, typename ... Args>
-	static Widget::Ptr<Type> create(Args&& ... args);
-
-    /**
-	 * \brief Widget destructor
-	 */
-	virtual ~Widget() = default;
+	friend class Container;
 
 	/**
-	 * \brief Redraw widget
+	 * \brief Widget destructor
 	 */
-	virtual void draw() = 0;
+	virtual ~Widget();
 
     /**
-	 * \brief Get widget id
-	 * \return Id
+	 * \brief Get parent widget container
+	 * \return Smart ptr to widget
 	 */
-	virtual uint32_t getId() const final;
+	Object::Ptr<Container> getParentWidget() const;
+
+    /**
+	 * \brief Get parent window
+	 * \return Smart ptr to window
+	 */
+	Object::Ptr<Window> getParentWindow() const;
 
 protected:
+	/**
+	 * \brief Default Widget constructor.
+	 */
+	Widget() = default;
+
+private:
+	/**
+	 * \brief Ptr to parent widget
+	 */
+	Object::WeakPtr<Container> m_parentWidget;
 
     /**
 	 * \brief Ptr to parent window
 	 */
-	std::weak_ptr<Window> m_parentWindow;
-
-    /**
-	 * \brief Widget id
-	 */
-	const uint32_t m_id;
-
-private:
-    /**
-	 * \brief Default Widget constructor.
-	 */
-	Widget();
-
-    /**
-	 * \brief Next widget id
-	 */
-	static uint32_t nextWidgetId;
-
-	/**
-	 * \brief Set new parent window
-	 * \param window Window
-	 */
-	void setParentWindow(const std::shared_ptr<Window>& window);
-
-	/**
-	 * \brief Get parent window
-	 * \return Shared ptr to parent window
-	 */
-	std::shared_ptr<Window> getParentWindow() const;
+	Object::WeakPtr<Window> m_parentWindow;
 };
-
-template <typename Type, typename ... Args>
-Widget::Ptr<Type> Widget::create(Args&&... args)
-{
-	return std::make_shared<Type>(std::forward<Args>(args)...);
-}
 }
