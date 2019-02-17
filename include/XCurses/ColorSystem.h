@@ -25,6 +25,33 @@ public:
 	ColorSystem();
 
     /**
+	 * \brief Copy ColorSystem constructor
+	 */
+	ColorSystem(const ColorSystem&) = default;
+
+    /**
+	 * \brief Move ColorSystem constructor. It is delete
+	 */
+	ColorSystem(ColorSystem&&) = delete;
+
+	/**
+	 * \brief Default copy assignment operator
+	 * \return Reference to \a this
+	 */
+	ColorSystem& operator =(const ColorSystem&) = default;
+
+	/**
+	 * \brief Default move assignment operator. It is delete
+	 * \return Reference to \a this
+	 */
+	ColorSystem& operator =(ColorSystem&&) = delete;
+
+    /**
+	 * \brief ColorSystem destructor
+	 */
+	~ColorSystem() = default;
+
+    /**
 	 * \brief Add palette
 	 * \param paletteName Palette key
 	 * \param palette Addable palette
