@@ -101,7 +101,9 @@ void main() {
 
 	bool isRunning = true;
 	while (isRunning) {
-		inputChar = wgetch(testWin1);
+		curs_set(0);
+		inputChar = wgetch(stdscr);
+		curs_set(1);
         if (inputChar != ERR) {
 			if (inputChar == '1') {
 				//wclear(testWin1);
@@ -122,6 +124,7 @@ void main() {
 			if (inputChar == '6') {
 			}
         }
+
 		wnoutrefresh(testWin1);
 		wnoutrefresh(testWin2);
 		wnoutrefresh(testWin3);

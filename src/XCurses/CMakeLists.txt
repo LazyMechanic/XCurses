@@ -12,6 +12,7 @@ if (UNIX)
 endif (UNIX)
 
 set(XCURSES_INCS
+    ${XCURSES_INC_DIR}/XCurses.h
     ${XCURSES_INC_DIR}/Core.h
     ${XCURSES_INC_DIR}/CoreConfig.h
     ${XCURSES_INC_DIR}/Border.h
