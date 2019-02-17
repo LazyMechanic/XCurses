@@ -4,32 +4,16 @@
 #include <memory>
 
 #include <XCurses/Border.h>
-#include <XCurses/Status.h>
 #include <XCurses/Widget.h>
+#include <XCurses/RootObject.h>
 
 struct _win;
 
 namespace xcur {
-class Window : public std::enable_shared_from_this<Window>
+class Window : public RootObject, public std::enable_shared_from_this<Window>
 {
 public:
 	friend class Core;
-
-    /**
-	 * \brief std::shared_ptr<Window> alias
-	 */
-    template <typename Type = Window>
-	using Ptr = std::shared_ptr<Type>;
-
-	/**
-	 * \brief Create window and return smart ptr
-	 * \tparam Type Window type
-	 * \tparam Args Arguments to constructor
-	 * \param args Arguments
-	 * \return Shared ptr
-	 */
-    template <typename Type, typename ... Args>
-	static Window::Ptr<Type> create(Args&& ... args);
 
     /**
 	 * \brief Window destructor
@@ -40,22 +24,9 @@ public:
 	 * \brief Function calling every tick. Virtual function
 	 * \param dt Delta time
 	 */
-	virtual void update(const float dt);
+	virtual void update(float dt) override;
 
-    /**
-	 * \brief Add new widget
-	 * \param widget Widget
-	 * \return Ok if widget added successfully, Err if widget already exists, or
-	 * if widget already added in another window
-	 */
-	virtual void addWidget(const Widget::Ptr<>& widget) final;
-
-    /**
-	 * \brief Remove the widget
-	 * \param widget Widget
-	 * \return Ok if widget removed successfully, Err if widget not found
-	 */
-	virtual void removeWidget(const Widget::Ptr<>& widget) final;
+	virtual void draw() override;
 
     /**
 	 * \brief Set new border
@@ -70,119 +41,36 @@ public:
 	virtual Border getBorder() const final;
 
     /**
-	 * \brief Get number of widgets
-	 * \return Number of widgets
-	 */
-	virtual size_t numberOfWidgets() const final;
-
-    /**
-	 * \brief Get window id
-	 * \return Id
-	 */
-	virtual uint32_t getId() const final;
-
-    /**
 	 * \brief Get curses window
 	 * \return Raw ptr to curses window
 	 */
-	_win* getCursesWin() const;
+	virtual _win* getCursesWin() const final;
 
 protected:
-    /**
-	 * \brief Get core 
-	 * \return Const ptr to core
+	/**
+	 * \brief Default Window constructor
 	 */
-	Core* const getCore() const;
+	Window();
 
     /**
 	 * \brief Container of widgets
 	 */
-	std::list<Widget::Ptr<>> m_widgets;
+	Object::Ptr<Container> m_rootWindowContainer;
 
     /**
 	 * \brief Border container
 	 */
 	Border m_border;
 
-    /**
-	 * \brief Window id
-	 */
-	const uint32_t m_id;
-
 private:
-    /**
-	 * \brief Default Window constructor
-	 */
-	Window();
-
-    /**
-	 * \brief Get hash from widget id
-	 * \param id Widget id
-	 * \return Hash
-	 */
-	size_t widgetHash(const uint32_t& id);
-
-    /**
-	 * \brief Redraw window and all widgets
-	 */
-	void draw();
-
-    /**
-	 * \brief Trying add or remove widgets
-	 */
-	void updateWidgets();
-
-    /**
-	 * \brief Try add widgets
-	 */
-	void tryAddWidgets();
-
-    /**
-	 * \brief Try remove widgets
-	 */
-	void tryRemoveWidgets();
-
-    /**
-	 * \brief Find the widget in m_widgets
-	 * \param widget Widget
-	 * \return Iterator to widget
-	 */
-	std::list<Widget::Ptr<>>::iterator findWidget(const Widget::Ptr<>& widget);
-
     /**
 	 * \brief Call curses function for redraw border
 	 */
 	void updateCursesBorder() const;
-
-    /**
-	 * \brief Raw ptr to core
-     */
-	Core* m_core;
     
 	/**
 	 * \brief PDCurses window pointer
 	 */
 	_win* m_win;
-
-    /**
-	 * \brief Widgets which need add
-	 */
-	std::list<Widget::Ptr<>> m_addWidgets;
-
-    /**
-	 * \brief Widgets which need remove
-	 */
-	std::list<Widget::Ptr<>> m_removeWidgets;
-
-    /**
-	 * \brief Next window id
-	 */
-	static uint32_t nextWindowId;
 };
-
-template <typename Type, typename ... Args>
-Window::Ptr<Type> Window::create(Args&&... args)
-{
-	return std::make_shared<Type>(std::forward<Args>(args)...);
-}
 }
