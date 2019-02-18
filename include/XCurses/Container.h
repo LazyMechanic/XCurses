@@ -3,11 +3,18 @@
 #include <list>
 
 #include <XCurses/Widget.h>
+#include <XCurses/Context.h>
 
 namespace xcur {
+namespace detail {
+class TreeNode;
+}
+
 class Container : public Widget, std::enable_shared_from_this<Container>
 {
 public:
+	friend class detail::TreeNode;
+
     /**
 	 * \brief Container destructor
 	 */
@@ -16,17 +23,14 @@ public:
 	/**
      * \brief Add new widget
      * \param widget Widget
-     * \return Ok if widget added successfully, Err if widget already exists, or
-     * if widget already added in another window
      */
-	virtual void add(const Object::Ptr<Widget>& widget) final;
+	virtual void add(const Object::Ptr<Widget>& widget);
 
 	/**
 	 * \brief Remove the widget
 	 * \param widget Widget
-	 * \return Ok if widget removed successfully, Err if widget not found
 	 */
-	virtual void remove(const Object::Ptr<Widget>& widget) final;
+	virtual void remove(const Object::Ptr<Widget>& widget);
 
 protected:
 	/**
