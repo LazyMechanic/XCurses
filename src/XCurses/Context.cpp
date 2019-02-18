@@ -3,8 +3,14 @@
 #include <algorithm>
 
 #include <XCurses/Input.h>
+#include <XCurses/ContextSystem.h>
 
 namespace xcur {
+Context::Context() :
+	m_contextSystem(nullptr)
+{
+}
+
 void Context::handleEvents()
 {
 	// TODO: fill handleEvents() function
@@ -12,7 +18,6 @@ void Context::handleEvents()
 
 void Context::update(float dt)
 {
-	invokeTasks();
 	updateComponents(dt);
 }
 
@@ -65,24 +70,17 @@ void Context::remove(const Object::Ptr<Widget>& widget)
 
 void Context::addTask(const std::function<void()>& task)
 {
-	m_tasks.push_back(task);
+	getContextSystem()->addTask(task);
 }
 
-Core* Context::getCore()
+Core* Context::getCore() const
 {
-	return m_core;
+	return m_contextSystem->getCore();
 }
 
-Context::Context() :
-    m_core(nullptr)
+ContextSystem* Context::getContextSystem() const
 {
-}
-
-void Context::invokeTasks()
-{
-    for (auto taskIt = m_tasks.begin(); taskIt != m_tasks.end(); ++taskIt) {
-		(*taskIt)();
-    }
+	return m_contextSystem;
 }
 
 void Context::updateComponents(float dt)

@@ -10,6 +10,8 @@
 #include <XCurses/RootObject.h>
 
 namespace xcur {
+class Core;
+
 class Context : 
     public Drawable, 
     public Behaviour, 
@@ -17,9 +19,9 @@ class Context :
 {
 public:
     /**
-	 * \brief Friend class for setup m_core
+	 * \brief Friend class for setup m_contextSystem
 	 */
-	friend class Core;
+	friend class ContextSystem;
 
     /**
 	 * \brief Handle input events
@@ -73,18 +75,19 @@ public:
 	 * \brief Get ptr to core
 	 * \return Ptr to core
 	 */
-	virtual Core* getCore() final;
+	virtual Core* getCore() const final;
+
+    /**
+	 * \brief Get ptr to context system
+	 * \return Ptr to context system
+	 */
+	virtual ContextSystem* getContextSystem() const final;
 
 protected:
     /**
 	 * \brief Default Context constructor
 	 */
 	Context();
-
-    /**
-	 * \brief Goes through all tasks and invoke its
-	 */
-	virtual void invokeTasks() final;
 
     /**
 	 * \brief Goes through all components and call its update() function
@@ -110,11 +113,6 @@ protected:
 	 */
 	std::list<Object::WeakPtr<ContextComponent>> m_allComponents;
 
-    /**
-	 * \brief Remove and add tasks for containers
-	 */
-	std::list<std::function<void()>> m_tasks;
-
 private:
     /**
 	 * \brief Function try add component in m_allComponents
@@ -131,8 +129,8 @@ private:
 	Status tryRemove(const Object::Ptr<ContextComponent>& component);
 
     /**
-	 * \brief Ptr to core
+	 * \brief Ptr to context system
 	 */
-	Core* m_core;
+	ContextSystem* m_contextSystem;
 };
 }

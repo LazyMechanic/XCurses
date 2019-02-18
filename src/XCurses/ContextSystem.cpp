@@ -9,6 +9,7 @@ void ContextSystem::handleEvents()
 
 void ContextSystem::update(float dt)
 {
+	invokeTasks();
 }
 
 void ContextSystem::draw()
@@ -45,6 +46,23 @@ void ContextSystem::setCurrent(uint64_t contextId)
 
 Object::Ptr<Context> ContextSystem::getCurrent() const
 {
+}
+
+void ContextSystem::addTask(const std::function<void()>& task)
+{
+	m_tasks.push_back(task);
+}
+
+Core* ContextSystem::getCore() const
+{
+	return m_core;
+}
+
+void ContextSystem::invokeTasks()
+{
+	for (auto taskIt = m_tasks.begin(); taskIt != m_tasks.end(); ++taskIt) {
+		(*taskIt)();
+	}
 }
 
 std::list<Object::Ptr<Context>>::iterator ContextSystem::findContext(uint64_t contextId)
