@@ -6,14 +6,11 @@
 #include <XCurses/ContextComponent.h>
 
 namespace xcur {
+class Window;
+
 class Widget : public ContextComponent, std::enable_shared_from_this<Widget>
 {
 public:
-    /**
-	 * \brief Friend class for setup parent window
-	 */
-	friend class Window;
-
     /**
 	 * \brief Friend class for setup parent widget
 	 */
