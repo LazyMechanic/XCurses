@@ -36,7 +36,7 @@ public:
 	 * \param args Arguments
 	 * \return Shared ptr
 	 */
-	template <typename Type, typename ... Args>
+	template <class Type, typename ... Args>
 	static Object::Ptr<Type> create(Args&& ... args);
 
     /**
@@ -86,7 +86,7 @@ private:
 	static uint64_t nextId;
 };
 
-template <typename Type, typename ... Args>
+template <class Type, typename ... Args>
 Object::Ptr<Type> Object::create(Args&&... args)
 {
 	static_assert(std::is_base_of<Type, Object>::value == true, "Object type in Object::create(...) must be base of Object class");
