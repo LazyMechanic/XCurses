@@ -5,6 +5,7 @@
 #include <functional>
 
 #include <XCurses/Widget.h>
+#include <XCurses/TreeNode.h>
 #include <XCurses/Drawable.h>
 #include <XCurses/Behaviour.h>
 #include <XCurses/RootObject.h>
@@ -26,13 +27,13 @@ public:
     /**
 	 * \brief Handle input events
 	 */
-	void handleEvents();
+	virtual void handleEvents();
 
     /**
 	 * \brief Goes through all components and call his update() function
 	 * \param dt Delta time
 	 */
-	void update(float dt) override final;
+	void update(float dt) override;
 
     /**
 	 * \brief Goes through all components and call his draw() function
@@ -96,14 +97,6 @@ protected:
 	virtual void updateComponents(float dt) final;
 
 	/**
-	 * \brief Find the component in m_allComponents
-	 * \param component Component
-	 * \return Iterator to component if it found, end iterator if the component
-	 * not found
-	 */
-	virtual std::list<Object::WeakPtr<ContextComponent>>::iterator findComponent(const Object::Ptr<ContextComponent>& component) final;
-
-	/**
 	 * \brief Stored all root objects e.g. Window or Nondrawable
 	 */
 	std::list<Object::Ptr<RootObject>> m_rootObjects;
@@ -111,7 +104,7 @@ protected:
     /**
 	 * \brief Everything components which have update() and draw() functions 
 	 */
-	std::list<Object::WeakPtr<ContextComponent>> m_allComponents;
+	std::list<Object::Ptr<detail::TreeNode>> m_allComponents;
 
 private:
     /**

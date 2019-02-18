@@ -18,12 +18,16 @@ void Context::handleEvents()
 
 void Context::update(float dt)
 {
-	updateComponents(dt);
+	for (auto& component : m_allComponents) {
+		component->update(dt);
+	}
 }
 
 void Context::draw()
 {
-    // TODO: fill draw() function
+    for (auto& rootObject : m_rootObjects) {
+		rootObject->draw();
+    }
 }
 
 void Context::add(const Object::Ptr<RootObject>& object)
@@ -85,50 +89,35 @@ ContextSystem* Context::getContextSystem() const
 
 void Context::updateComponents(float dt)
 {
-    for (auto componentIt = m_allComponents.begin(); componentIt != m_allComponents.end(); ++componentIt) {
-		auto sharedComponent = componentIt->lock();
-        // If the component was destroy
-        if (sharedComponent == nullptr) {
-            // Go to next component
-			componentIt = m_allComponents.erase(componentIt);
-			continue;
-        }
-
-		sharedComponent->update(dt);
-    }
-}
-
-std::list<Object::WeakPtr<ContextComponent>>::iterator Context::findComponent(
-    const Object::Ptr<ContextComponent>& component)
-{
-	return std::find_if(m_allComponents.begin(), m_allComponents.end(), [&component](const Object::WeakPtr<ContextComponent>& checkComponent) {
-		return component->getId() == checkComponent.lock()->getId();
-	});
 }
 
 Status Context::tryAdd(const Object::Ptr<ContextComponent>& component)
 {
-	auto foundComponent = findComponent(component);
-	// If the component already exists
-	if (foundComponent != m_allComponents.end()) {
-		return Status::Err;
-	}
+	//auto foundComponent = findComponent(component);
+	//// If the component already exists
+	//if (foundComponent != m_allComponents.end()) {
+	//	return Status::Err;
+	//}
 
-	component->m_context = shared_from_this();
-	m_allComponents.push_back(component);
-	return Status::Ok;
+	//component->m_context = shared_from_this();
+	//m_allComponents.push_back(component);
+	//return Status::Ok;
+
+    // TODO: fill try add with tree node
 }
 
 Status Context::tryRemove(const Object::Ptr<ContextComponent>& component)
 {
-	auto foundComponent = findComponent(component);
-	// If the component not found
-	if (foundComponent == m_allComponents.end()) {
-		return Status::Err;
-	}
+	//auto foundComponent = findComponent(component);
+	//// If the component not found
+	//if (foundComponent == m_allComponents.end()) {
+	//	return Status::Err;
+	//}
 
-	component->m_context.reset();
-	m_allComponents.erase(foundComponent);
-	return Status::Ok;
+	//component->m_context.reset();
+	//m_allComponents.erase(foundComponent);
+	//return Status::Ok;
+
+    // TODO: fill try remove with tree node
 }
 }
