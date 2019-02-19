@@ -30,13 +30,13 @@ public:
 	virtual void handleEvents();
 
     /**
-	 * \brief Goes through all components and call his update() function
+	 * \brief Goes through all components and call his \a update() function
 	 * \param dt Delta time
 	 */
 	void update(float dt) override;
 
     /**
-	 * \brief Goes through all components and call his draw() function
+	 * \brief Goes through all components and call his \a draw() function
 	 */
 	void draw() override final;
 
@@ -65,6 +65,13 @@ public:
 	 * \param widget Widget
 	 */
 	virtual void remove(const Object::Ptr<Widget>& widget) final;
+
+    /**
+	 * \brief Find component in component tree
+	 * \param component Component
+	 * \return True if context has component, false otherwise
+	 */
+	virtual bool has(const Object::Ptr<ContextComponent>& component) const final;
 
     /**
 	 * \brief Add new add or remove tasks
@@ -104,18 +111,18 @@ protected:
     /**
 	 * \brief Everything components which have update() and draw() functions 
 	 */
-	std::list<Object::Ptr<detail::TreeNode>> m_allComponents;
+	std::list<Object::Ptr<detail::TreeNode>> m_componentTree;
 
 private:
     /**
-	 * \brief Function try add component in m_allComponents
+	 * \brief Function try add component in m_componentTree
 	 * \param component Component
 	 * \result Ok if add successful, Err otherwise
 	 */
 	Status tryAdd(const Object::Ptr<ContextComponent>& component);
 
 	/**
-	 * \brief Function try remove component from m_allComponents
+	 * \brief Function try remove component from m_componentTree
 	 * \param component Component
 	 * \result Ok if remove successful, Err otherwise
 	 */

@@ -18,7 +18,7 @@ void Context::handleEvents()
 
 void Context::update(float dt)
 {
-	for (auto& component : m_allComponents) {
+	for (auto& component : m_componentTree) {
 		component->update(dt);
 	}
 }
@@ -72,6 +72,18 @@ void Context::remove(const Object::Ptr<Widget>& widget)
 	});
 }
 
+bool Context::has(const Object::Ptr<ContextComponent>& component) const
+{
+    for (auto& node : m_componentTree) {
+        // If component found
+		if (node->findNode(component) != nullptr) {
+			return true;
+		}
+    }
+
+	return false;
+}
+
 void Context::addTask(const std::function<void()>& task)
 {
 	getContextSystem()->addTask(task);
@@ -95,12 +107,12 @@ Status Context::tryAdd(const Object::Ptr<ContextComponent>& component)
 {
 	//auto foundComponent = findComponent(component);
 	//// If the component already exists
-	//if (foundComponent != m_allComponents.end()) {
+	//if (foundComponent != m_componentTree.end()) {
 	//	return Status::Err;
 	//}
 
 	//component->m_context = shared_from_this();
-	//m_allComponents.push_back(component);
+	//m_componentTree.push_back(component);
 	//return Status::Ok;
 
     // TODO: fill try add with tree node
@@ -110,12 +122,12 @@ Status Context::tryRemove(const Object::Ptr<ContextComponent>& component)
 {
 	//auto foundComponent = findComponent(component);
 	//// If the component not found
-	//if (foundComponent == m_allComponents.end()) {
+	//if (foundComponent == m_componentTree.end()) {
 	//	return Status::Err;
 	//}
 
 	//component->m_context.reset();
-	//m_allComponents.erase(foundComponent);
+	//m_componentTree.erase(foundComponent);
 	//return Status::Ok;
 
     // TODO: fill try remove with tree node

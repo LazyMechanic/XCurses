@@ -1,5 +1,7 @@
 #include <XCurses/TreeNode.h>
 
+#include <XCurses/ContextComponent.h>
+
 namespace xcur {
 namespace detail {
 TreeNode::TreeNode(const Object::Ptr<Widget>& widget) :
@@ -41,9 +43,19 @@ void TreeNode::draw()
     }
 }
 
-std::list<Object::Ptr<TreeNode>>::iterator TreeNode::findComponent(const Object::Ptr<ContextComponent>& component)
+Object::Ptr<TreeNode> TreeNode::findNode(const Object::Ptr<ContextComponent>& component)
 {
     // TODO: fill find component function
+    if (component->getId() == m_component.lock()->getId()) {
+		return shared_from_this();
+    }
+
+    for (auto& node : m_nodes) {
+		auto foundComponent = node->findNode(component);
+        if (foundComponent != nullptr) {
+            
+        }
+    }
 }
 }
 }
