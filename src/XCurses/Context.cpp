@@ -10,7 +10,9 @@
 
 namespace xcur {
 Context::Context() :
-	m_contextSystem(nullptr)
+	m_contextSystem(nullptr),
+    m_rootWidget(Object::create<Container>()),
+	m_widgetTreeRoot(Object::create<detail::TreeNode>(m_rootWidget))
 {
 }
 
