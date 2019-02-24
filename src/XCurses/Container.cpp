@@ -34,13 +34,19 @@ Status Container::add(Object::Ptr<Widget> widget)
 Status Container::remove(Object::Ptr<Widget> widget)
 {
 	auto widgetIt = find(widget);
-    // If widget found
-    if (widgetIt != m_childWidgets.end()) {
-		m_childWidgets.erase(widgetIt);
-		return Status::Ok;
+    // If widget not found
+    if (widgetIt == m_childWidgets.end()) {
+		return Status::Err;
     }
-		
-    return Status::Err;
+
+	m_childWidgets.erase(widgetIt);
+
+	// If container was added in context and has ptr to it
+	if (getContext() != nullptr) {
+		getContext()->remove(widget);
+	}
+
+    return Status::Ok;
 }
 
 bool Container::has(Object::Ptr<Widget> widget)
