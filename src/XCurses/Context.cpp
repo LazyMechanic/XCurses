@@ -30,30 +30,48 @@ void Context::draw()
 	m_widgetTreeRoot->draw();
 }
 
-void Context::add(Object::Ptr<Widget> widget)
+Status Context::add(Object::Ptr<Widget> widget)
 {
+    // If widget already exists
+    if (has(widget)) {
+		return Status::Err;
+    }
+
 	auto container = std::dynamic_pointer_cast<Container>(widget);
     // If widget is container
     if (container != nullptr) {
-		addContainerWidget(container);
+		return addContainerWidget(container);
     }
 	else {
-		addSingleWidget(widget);
+		return addSingleWidget(widget);
 	}
 }
 
-void Context::remove(Object::Ptr<Widget> widget)
+Status Context::remove(Object::Ptr<Widget> widget)
 {
 	auto foundNode = m_widgetTreeRoot->findByWidget(widget);
-    // If node found
-    if (foundNode != nullptr) {
-		foundNode->getParent()->remove(widget);
+    // If node not found
+    if (foundNode == nullptr) {
+		return Status::Err;
     }
+
+	foundNode->getParent()->remove(widget);
+	return Status::Ok;
 }
 
 bool Context::has(Object::Ptr<Widget> widget) const
 {
 	return m_widgetTreeRoot->has(widget);
+}
+
+void Context::toFront(Object::Ptr<Widget> widget)
+{
+	auto foundNode = m_widgetTreeRoot->findByWidget(widget);
+    // if node found
+    if (foundNode != nullptr) {
+		foundNode->getParent()->remove(widget);
+		foundNode->getParent()->add(widget);
+    }
 }
 
 Core* Context::getCore() const
@@ -71,36 +89,35 @@ ContextSystem* Context::getContextSystem() const
 	return m_contextSystem;
 }
 
-void Context::addContainerWidget(Object::Ptr<Container> container)
+Status Context::addContainerWidget(Object::Ptr<Container> container)
 {
-	addSingleWidget(container);
+	Status addStatus = addSingleWidget(container);
+	// If add container end with error
+	if (addStatus == Status::Err) {
+		return Status::Err;
+	}
 	for (auto childIt = container->begin(); childIt != container->end(); ++childIt) {
 		add(*childIt);
     }
+	return Status::Ok;
 }
 
-void Context::addSingleWidget(Object::Ptr<Widget> widget)
+Status Context::addSingleWidget(Object::Ptr<Widget> widget)
 {
-    // If widget already exists
-    if (has(widget)) {
-		return;
-    }
-
 	// If widget has parent
 	if (widget->getParent() != nullptr) {
 		auto parent = m_widgetTreeRoot->findByWidget(std::dynamic_pointer_cast<Widget>(widget->getParent()));
-		// If parent found
-		if (parent != nullptr) {
-			parent->add(widget);
-		}
 		// If parent is wrong
-		else {
-			return;
+		if (parent == nullptr) {
+			return Status::Err;
 		}
+		parent->add(widget);
 	}
 	else {
 		m_rootWidget->add(widget);
 		m_widgetTreeRoot->add(widget);
 	}
+
+	return Status::Ok;
 }
 }

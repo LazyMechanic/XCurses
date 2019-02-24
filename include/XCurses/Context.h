@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include <XCurses/Status.h>
 #include <XCurses/Object.h>
 #include <XCurses/Drawable.h>
 #include <XCurses/Behaviour.h>
@@ -23,6 +24,11 @@ class Context :
 {
 public:
     /**
+	 * \brief Default Context constructor
+	 */
+	Context();
+
+    /**
 	 * \brief Handle input events
 	 */
 	void handleEvents();
@@ -43,14 +49,15 @@ public:
 	 * Widget doesn't stored in context. If widget is container then add all child widgets
 	 * \param widget Widget
 	 */
-	virtual void add(Object::Ptr<Widget> widget) final;
+	virtual Status add(Object::Ptr<Widget> widget) final;
 
 	/**
 	 * \brief Remove widget. Remove only weak ptr from queues. 
 	 * Widget doesn't stored in context. If widget is container then remove all child widgets
 	 * \param widget Widget
+	 * \return Ok if remove successful, Err otherwise
 	 */
-	virtual void remove(Object::Ptr<Widget> widget) final;
+	virtual Status remove(Object::Ptr<Widget> widget) final;
 
     /**
 	 * \brief Find widget in widget tree
@@ -58,6 +65,12 @@ public:
 	 * \return True if context has widget, false otherwise
 	 */
 	virtual bool has(Object::Ptr<Widget> widget) const final;
+
+    /**
+	 * \brief Put widget to front
+	 * \param widget Widget
+	 */
+	void toFront(Object::Ptr<Widget> widget);
 
     /**
 	 * \brief Get ptr to core
@@ -92,14 +105,16 @@ private:
     /**
 	 * \brief Add container widget
 	 * \param container Container
+	 * \return Ok if remove successful, Err otherwise
 	 */
-	void addContainerWidget(Object::Ptr<Container> container);
+	Status addContainerWidget(Object::Ptr<Container> container);
 
     /**
 	 * \brief Add single widget
 	 * \param widget Widget
+	 * \return Ok if remove successful, Err otherwise
 	 */
-	void addSingleWidget(Object::Ptr<Widget> widget);
+	Status addSingleWidget(Object::Ptr<Widget> widget);
 
     /**
 	 * \brief Ptr to context system
