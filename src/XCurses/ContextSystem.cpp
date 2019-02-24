@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include <XCurses/Core.h>
+
 namespace xcur {
 void ContextSystem::handleEvents()
 {
