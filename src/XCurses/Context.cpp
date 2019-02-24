@@ -57,6 +57,7 @@ Status Context::remove(Object::Ptr<Widget> widget)
     }
 
 	foundNode->getParent()->remove(widget);
+	widget->setContext(nullptr);
 	return Status::Ok;
 }
 

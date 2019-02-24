@@ -65,6 +65,7 @@ TEST_CASE("Context init and edit", "[Widget][Container][Context]")
 		{
 			REQUIRE(context->remove(widget) == Status::Ok);
 			REQUIRE(context->has(widget) == false);
+			REQUIRE(widget->getContext() == nullptr);
 		}
 
 		SECTION("Call Context::remove(...) for not added Widget")
