@@ -2,16 +2,15 @@
 
 #include <list>
 
-#include <XCurses/Object.h>
+#include <XCurses/Status.h>
+#include <XCurses/Context.h>
 
 namespace xcur {
-class Context;
+class Core;
 
 class ContextSystem
 {
 public:
-	friend class Core;
-
     /**
 	 * \brief Default ContextSystem constructor
 	 */
@@ -63,45 +62,36 @@ public:
     /**
 	 * \brief Add new context and set it as current
 	 * \param context Context
+	 * \return Ok if push successful, Err if context already exists
 	 */
-	void push(const Object::Ptr<Context>& context);
+	Status push(Object::Ptr<Context> context);
 
     /**
 	 * \brief Add new context
 	 * \param context Context
+	 * \return Ok if add successful, Err if context already exists
 	 */
-	void add(const Object::Ptr<Context>& context);
+	Status add(Object::Ptr<Context> context);
 
     /**
 	 * \brief Remove current context and set next as current
+	 * \return Ok if pop successful, Err if no contexts left
 	 */
-	void pop();
+	Status pop();
 
     /**
 	 * \brief Remove context and set next as current. If \a context is current
 	 * then function is similar with \a pop()
 	 * \param context Context
+	 * \return Ok if remove successful, Err if no contexts left
 	 */
-	void remove(const Object::Ptr<Context>& context);
-
-    /**
-	 * \brief Remove context by id and set next as current. If \a context is 
-	 * current then function is similar with \a pop()
-	 * \param contextId Context id 
-	 */
-	void remove(uint64_t contextId);
+	Status remove(Object::Ptr<Context> context);
 
     /**
 	 * \brief Set existed context as current
 	 * \param context Context
 	 */
-	void setCurrent(const Object::Ptr<Context>& context);
-
-    /**
-	 * \brief Set existed context as current by id
-	 * \param contextId Context id
-	 */
-	void setCurrent(uint64_t contextId);
+	Status setCurrent(Object::Ptr<Context> context);
 
     /**
 	 * \brief Get current context
@@ -115,13 +105,24 @@ public:
 	 */
 	Core* getCore() const;
 
+    /**
+	 * \brief Set ptr to core
+	 * \param core Ptr to core
+	 */
+	void setCore(Core* core);
+
 private:
     /**
-	 * \brief 
-	 * \param contextId Context id
+	 * \brief Find the context in m_contexts
+	 * \param context Context
 	 * \return Iterator to the context
 	 */
-	std::list<Object::Ptr<Context>>::iterator findContext(uint64_t contextId);
+	std::list<Object::Ptr<Context>>::iterator findContext(Object::Ptr<Context> context);
+
+    /**
+	 * \brief Current context
+	 */
+	Object::WeakPtr<Context> m_currentContext;
 
     /**
 	 * \brief Container of all contexts

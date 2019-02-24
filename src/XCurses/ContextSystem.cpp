@@ -5,52 +5,95 @@
 namespace xcur {
 void ContextSystem::handleEvents()
 {
+	auto currentContext = m_currentContext.lock();
+    // If the current context is set
+    if (currentContext != nullptr) {
+		currentContext->handleEvents();
+    }
 }
 
 void ContextSystem::update(float dt)
 {
-	invokeTasks();
+	auto currentContext = m_currentContext.lock();
+	// If the current context is set
+	if (currentContext != nullptr) {
+		currentContext->update(dt);
+	}
 }
 
 void ContextSystem::draw()
 {
+	auto currentContext = m_currentContext.lock();
+	// If the current context is set
+	if (currentContext != nullptr) {
+		currentContext->draw();
+	}
 }
 
-void ContextSystem::push(const Object::Ptr<Context>& context)
+Status ContextSystem::push(Object::Ptr<Context> context)
 {
+	// If context not created
+	if (context == nullptr) {
+		return Status::Err;
+	}
+
+    // If add operation fails
+    if (add(context) == Status::Err) {
+		return Status::Err;
+    }
+
+	return setCurrent(context);
 }
 
-void ContextSystem::add(const Object::Ptr<Context>& context)
+Status ContextSystem::add(Object::Ptr<Context> context)
 {
+	auto foundContext = findContext(context);
+    // If context already exists
+    if (foundContext != m_contexts.end()) {
+		return Status::Err;
+    }
+
+	m_contexts.push_back(context);
+	return Status::Ok;
 }
 
-void ContextSystem::pop()
+Status ContextSystem::pop()
 {
+	Status removeStatus = remove(m_currentContext.lock());
+    if (removeStatus == Status::Err) {
+		return Status::Err;
+    }
+
+	return setCurrent(m_contexts.back());
 }
 
-void ContextSystem::remove(const Object::Ptr<Context>& context)
+Status ContextSystem::remove(Object::Ptr<Context> context)
 {
+	auto foundContext = findContext(context);
+	// If context not found
+	if (foundContext == m_contexts.end()) {
+		return Status::Err;
+	}
+
+	m_contexts.erase(foundContext);
+	return Status::Ok;
 }
 
-void ContextSystem::remove(uint64_t contextId)
+Status ContextSystem::setCurrent(Object::Ptr<Context> context)
 {
-}
+	auto foundContext = findContext(context);
+	// If context not found
+	if (foundContext == m_contexts.end()) {
+		return Status::Err;
+	}
 
-void ContextSystem::setCurrent(const Object::Ptr<Context>& context)
-{
-}
-
-void ContextSystem::setCurrent(uint64_t contextId)
-{
+	m_currentContext = *foundContext;
+	return Status::Ok;
 }
 
 Object::Ptr<Context> ContextSystem::getCurrent() const
 {
-}
-
-void ContextSystem::addTask(const std::function<void()>& task)
-{
-	m_tasks.push_back(task);
+	return m_currentContext.lock();
 }
 
 Core* ContextSystem::getCore() const
@@ -58,17 +101,15 @@ Core* ContextSystem::getCore() const
 	return m_core;
 }
 
-void ContextSystem::invokeTasks()
+void ContextSystem::setCore(Core* core)
 {
-	for (auto taskIt = m_tasks.begin(); taskIt != m_tasks.end(); ++taskIt) {
-		(*taskIt)();
-	}
+	m_core = core;
 }
 
-std::list<Object::Ptr<Context>>::iterator ContextSystem::findContext(uint64_t contextId)
+std::list<Object::Ptr<Context>>::iterator ContextSystem::findContext(Object::Ptr<Context> context)
 {
-	return std::find_if(m_contexts.begin(), m_contexts.end(), [&contextId](const Object::Ptr<Context>& checkContext) {
-		return contextId == checkContext->getId();
+	return std::find_if(m_contexts.begin(), m_contexts.end(), [&context](const Object::Ptr<Context>& checkContext) {
+		return context == checkContext;
 	});
 }
 }
