@@ -58,6 +58,8 @@ TEST_CASE("Context init and edit", "[Widget][Container][Context]")
 		Object::Ptr<Widget> widget = Object::create<Widget>();
 		REQUIRE(context->add(widget) == Status::Ok);
 		REQUIRE(context->has(widget) == true);
+		REQUIRE(widget->getParent() != nullptr);
+		REQUIRE(widget->getContext() != nullptr);
 
 		SECTION("Call Context::remove(...) for added Widget")
 		{
@@ -69,7 +71,12 @@ TEST_CASE("Context init and edit", "[Widget][Container][Context]")
 		{
 			Object::Ptr<Widget> notAdded = Object::create<Widget>();
 			REQUIRE(context->remove(notAdded) == Status::Err);
-			REQUIRE(context->has(notAdded) == false);
+		}
+
+        SECTION("Call Context::toFront(...) for added Widget")
+		{
+			widget->toFront();
+			REQUIRE(context->has(widget) == true);
 		}
     }
 }
