@@ -64,7 +64,7 @@ std::list<Object::Ptr<Widget>>::const_iterator Container::find(Object::Ptr<Widge
 		m_childWidgets.begin(),
 		m_childWidgets.end(),
 		[&widget](const Object::Ptr<Widget>& checkWidget) {
-		return widget->getId() == checkWidget->getId();
+		return widget == checkWidget;
 	});
 }
 }

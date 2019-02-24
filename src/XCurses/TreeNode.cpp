@@ -38,7 +38,7 @@ void TreeNode::remove(Object::Ptr<Widget> widget)
 		m_childNodes.begin(), 
 		m_childNodes.end(), 
 		[&widget](const Object::Ptr<TreeNode>& checkNode) {
-		return widget->getId() == checkNode->getWidget()->getId();
+		return widget == checkNode->getWidget();
 	});
     // If node found
     if (foundNodeIt != m_childNodes.end()) {
