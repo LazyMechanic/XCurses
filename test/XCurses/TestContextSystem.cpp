@@ -80,4 +80,43 @@ TEST_CASE("Context init and edit", "[Widget][Container][Context]")
 			REQUIRE(context->has(widget) == true);
 		}
     }
+
+    SECTION("Call Context::add(...) for container Widget")
+    {
+		Object::Ptr<Container> container = Object::create<Container>();
+
+        SECTION("Container add child Widget befor add into context")
+        {
+			Object::Ptr<Widget> widget = Object::create<Widget>();
+			container->add(widget);
+
+			REQUIRE(context->add(container) == Status::Ok);
+			REQUIRE(context->has(container) == true);
+			REQUIRE(context->has(widget) == true);
+
+            SECTION("Remove child Widget from the container")
+            {
+				container->remove(widget);
+
+				REQUIRE(context->has(widget) == false);
+            }
+        }
+
+		SECTION("Container add child Widget after add into context")
+		{
+			Object::Ptr<Widget> widget = Object::create<Widget>();
+			REQUIRE(context->add(container) == Status::Ok);
+			REQUIRE(context->has(container) == true);
+
+			container->add(widget);
+			REQUIRE(context->has(widget) == true);
+
+			SECTION("Remove child Widget from the container")
+			{
+				container->remove(widget);
+
+				REQUIRE(context->has(widget) == false);
+			}
+		}
+    }
 }
