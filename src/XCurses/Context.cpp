@@ -113,6 +113,7 @@ Status Context::addSingleWidget(Object::Ptr<Widget> widget)
 		m_rootWidget->add(widget);
 		m_widgetTreeRoot->add(widget);
 	}
+	widget->setContext(shared_from_this());
 
 	return Status::Ok;
 }
