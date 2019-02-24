@@ -2,6 +2,7 @@
 
 #include <list>
 
+#include <XCurses/Status.h>
 #include <XCurses/Widget.h>
 #include <XCurses/Object.h>
 #include <XCurses/Drawable.h>
