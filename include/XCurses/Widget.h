@@ -35,6 +35,11 @@ public:
 	virtual void draw() override;
 
     /**
+	 * \brief Put widget to front relatively parent
+	 */
+	void toFront();
+
+    /**
 	 * \brief Set parent widget container
 	 * \param parent Parent widget container
 	 */

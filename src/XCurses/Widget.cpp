@@ -22,6 +22,13 @@ void Widget::draw()
 	/* full virtual func */
 }
 
+void Widget::toFront()
+{
+    if (getContext() != nullptr) {
+		getContext()->toFront(shared_from_this());
+    }
+}
+
 void Widget::setParent(Object::Ptr<Container> parent)
 {
 	m_parent = parent;
