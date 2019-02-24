@@ -11,7 +11,6 @@ namespace xcur {
 namespace detail {
 class TreeNode;
 }
-class Core;
 class Widget;
 class Container;
 class ContextSystem;
@@ -71,12 +70,6 @@ public:
 	 * \param widget Widget
 	 */
 	void toFront(Object::Ptr<Widget> widget);
-
-    /**
-	 * \brief Get ptr to core
-	 * \return Ptr to core
-	 */
-	Core* getCore() const;
 
     /**
 	 * \brief Set ptr to context system

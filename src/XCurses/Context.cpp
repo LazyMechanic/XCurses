@@ -2,7 +2,6 @@
 
 #include <algorithm>
 
-#include <XCurses/Core.h>
 #include <XCurses/Input.h>
 #include <XCurses/Widget.h>
 #include <XCurses/TreeNode.h>
@@ -72,11 +71,6 @@ void Context::toFront(Object::Ptr<Widget> widget)
 		foundNode->getParent()->remove(widget);
 		foundNode->getParent()->add(widget);
     }
-}
-
-Core* Context::getCore() const
-{
-	return m_contextSystem->getCore();
 }
 
 void Context::setContextSystem(ContextSystem* contextSystem)
