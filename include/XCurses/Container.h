@@ -66,11 +66,6 @@ public:
 
 protected:
 	/**
-	 * \brief Default Container constructor
-	 */
-	Container() = default;
-
-	/**
 	 * \brief List of child widgets
 	 */
 	std::list<Object::Ptr<Widget>> m_childWidgets;
