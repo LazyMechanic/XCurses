@@ -29,7 +29,9 @@ void TreeNode::draw()
 
 void TreeNode::add(Object::Ptr<Widget> widget)
 {
-	m_childNodes.push_back(Object::create<TreeNode>(widget));
+	auto treeNode = Object::create<TreeNode>(widget);
+	treeNode->setParent(shared_from_this());
+	m_childNodes.push_back(treeNode);
 }
 
 void TreeNode::remove(Object::Ptr<Widget> widget)
@@ -49,7 +51,7 @@ void TreeNode::remove(Object::Ptr<Widget> widget)
 Object::Ptr<TreeNode> TreeNode::findByWidget(Object::Ptr<Widget> widget)
 {
     // If this node is the desired one
-    if (m_widget.lock() == widget) {
+    if (getWidget() == widget) {
 		return shared_from_this();
     }
 
@@ -72,6 +74,11 @@ bool TreeNode::has(Object::Ptr<Widget> widget)
 Object::Ptr<Widget> TreeNode::getWidget() const
 {
 	return m_widget.lock();
+}
+
+void TreeNode::setParent(Object::Ptr<TreeNode> parent)
+{
+	m_parent = parent;
 }
 
 Object::Ptr<TreeNode> TreeNode::getParent() const

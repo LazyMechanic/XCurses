@@ -2,7 +2,6 @@
 
 #include <list>
 
-#include <XCurses/Status.h>
 #include <XCurses/Widget.h>
 #include <XCurses/Object.h>
 #include <XCurses/Drawable.h>
@@ -67,6 +66,12 @@ public:
 	 * \return Smart ptr to widget
 	 */
 	Object::Ptr<Widget> getWidget() const;
+
+    /**
+	 * \brief Set parent node
+	 * \param parent Parent node
+	 */
+	void setParent(Object::Ptr<TreeNode> parent);
 
     /**
 	 * \brief Get parent node
