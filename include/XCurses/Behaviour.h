@@ -1,9 +1,7 @@
 #pragma once
 
-#include <XCurses/Object.h>
-
 namespace xcur {
-class Behaviour : virtual public Object
+class Behaviour
 {
 public:
     /**
@@ -16,11 +14,5 @@ public:
 	 * \param dt Delta time
 	 */
 	virtual void update(float dt) = 0;
-
-protected:
-    /**
-	 * \brief Default Behaviour constructor
-	 */
-	Behaviour() = default;
 };
 }

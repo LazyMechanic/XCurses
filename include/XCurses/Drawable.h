@@ -1,9 +1,7 @@
 #pragma once
 
-#include <XCurses/Object.h>
-
 namespace xcur {
-class Drawable : virtual public Object
+class Drawable
 {
 public:
     /**
@@ -15,11 +13,5 @@ public:
 	 * \brief Call function for draw the object
 	 */
 	virtual void draw() = 0;
-
-protected:
-    /**
-	 * \brief Default drawable constructor
-	 */
-	Drawable() = default;
 };
 }

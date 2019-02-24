@@ -8,6 +8,11 @@ namespace xcur {
 class Object
 {
 public:
+	/**
+	 * \brief Default object constructor
+	 */
+	Object();
+
     /**
      * \brief std::shared_ptr<Type> alias
      * \tparam Type Object type
@@ -68,40 +73,17 @@ public:
 	virtual uint64_t getId() const final;
 
 protected:
-    /**
-	 * \brief Default object constructor
-	 */
-	Object();
-
 	/**
 	 * \brief Object id
 	 */
 	const uint64_t m_id;
 
 private:
-
     /**
 	 * \brief Next id
 	 */
 	static uint64_t nextId;
 };
 
-template <class Type, typename ... Args>
-Object::Ptr<Type> Object::create(Args&&... args)
-{
-	static_assert(std::is_base_of<Type, Object>::value == true, "Object type in Object::create(...) must be base of Object class");
-	return std::make_shared<Type>(std::forward<Args>(args)...);
-}
-
-template <typename Type>
-std::string Object::getTypeName(const Type& obj)
-{
-	return typeid(obj).name();
-}
-
-template <typename Type>
-std::string Object::getTypeName()
-{
-	return typeid(Type).name();
-}
+#include <XCurses/Object.inl>
 }

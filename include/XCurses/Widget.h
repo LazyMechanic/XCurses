@@ -1,53 +1,55 @@
 #pragma once
-#include <memory>
-#include <cstdint>
 
 #include <XCurses/Status.h>
+#include <XCurses/Object.h>
+#include <XCurses/Drawable.h>
+#include <XCurses/Behaviour.h>
 #include <XCurses/ContextComponent.h>
 
 namespace xcur {
 class Window;
+class Container;
 
-class Widget : public ContextComponent, std::enable_shared_from_this<Widget>
+class Widget :
+    public Object,
+    public Drawable,
+    public Behaviour,
+    public ContextComponent,
+	public std::enable_shared_from_this<Widget>
 {
 public:
-    /**
-	 * \brief Friend class for setup parent widget
-	 */
-	friend class Container;
-
 	/**
 	 * \brief Widget destructor
 	 */
 	virtual ~Widget();
 
+	/**
+	 * \brief Call for update object state
+	 * \param dt Delta time
+	 */
+	virtual void update(float dt) override;
+
+	/**
+	 * \brief Call function for draw the object
+	 */
+	virtual void draw() override;
+
+    /**
+	 * \brief Set parent widget container
+	 * \param parent Parent widget container
+	 */
+	void setParent(Object::Ptr<Container> parent);
+
     /**
 	 * \brief Get parent widget container
 	 * \return Smart ptr to widget
 	 */
-	Object::Ptr<Container> getParentWidget() const;
-
-    /**
-	 * \brief Get parent window
-	 * \return Smart ptr to window
-	 */
-	Object::Ptr<Window> getParentWindow() const;
-
-protected:
-	/**
-	 * \brief Default Widget constructor.
-	 */
-	Widget() = default;
+	Object::Ptr<Container> getParent() const;
 
 private:
 	/**
 	 * \brief Ptr to parent widget
 	 */
-	Object::WeakPtr<Container> m_parentWidget;
-
-    /**
-	 * \brief Ptr to parent window
-	 */
-	Object::WeakPtr<Window> m_parentWindow;
+	Object::WeakPtr<Container> m_parent;
 };
 }

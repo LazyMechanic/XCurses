@@ -2,53 +2,77 @@
 
 #include <list>
 
+#include <XCurses/Status.h>
 #include <XCurses/Widget.h>
-#include <XCurses/Context.h>
 
 namespace xcur {
-namespace detail {
-class TreeNode;
-}
-
-class Container : public Widget, std::enable_shared_from_this<Container>
+class Container : 
+    public Widget
 {
 public:
-	friend class detail::TreeNode;
-
-    /**
+	/**
 	 * \brief Container destructor
 	 */
 	virtual ~Container() = default;
 
 	/**
-     * \brief Add new widget
-     * \param widget Widget
-     */
-	virtual void add(const Object::Ptr<Widget>& widget);
+	 * \brief Call for update object state
+	 * \param dt Delta time
+	 */
+	virtual void update(float dt) override;
 
 	/**
-	 * \brief Remove the widget
+	 * \brief Call function for draw the object
+	 */
+	virtual void draw() override;
+
+	/**
+	 * \brief Add widget to container
 	 * \param widget Widget
 	 */
-	virtual void remove(const Object::Ptr<Widget>& widget);
+	virtual Status add(Object::Ptr<Widget> widget) final;
+
+	/**
+	 * \brief Remove widget from container
+	 * \param widget Widget
+	 */
+	virtual Status remove(Object::Ptr<Widget> widget) final;
+
+	/**
+	 * \brief Check if container storing the widget
+	 * \param widget
+	 * \return True if container contain the widget, false otherwise
+	 */
+	virtual bool has(Object::Ptr<Widget> widget) final;
+
+    /**
+	 * \brief Begin const iterator of child widgets
+	 * \return Begin const iterator
+	 */
+	virtual std::list<Object::Ptr<Widget>>::const_iterator begin() const final;
+
+    /**
+	 * \brief End const iterator of child widgets
+	 * \return End const iterator
+	 */
+	virtual std::list<Object::Ptr<Widget>>::const_iterator end() const final;
+
+    /**
+	 * \brief Find widget in child widgets
+	 * \param widget Widget
+	 * \return Const iterator
+	 */
+	virtual std::list<Object::Ptr<Widget>>::const_iterator find(Object::Ptr<Widget> widget) const final;
 
 protected:
 	/**
-	 * \brief Default container constructor
+	 * \brief Default Container constructor
 	 */
 	Container() = default;
 
 	/**
-	 * \brief Find the widget in m_widgets
-	 * \param widget Widget
-	 * \return Iterator to widget if it found, end iterator if the widget
-	 * not found
+	 * \brief List of child widgets
 	 */
-	std::list<Object::Ptr<Widget>>::iterator findWidget(const Object::Ptr<Widget>& widget);
-
-	/**
-	 * \brief Container of widgets
-	 */
-	std::list<Object::Ptr<Widget>> m_widgets;
+	std::list<Object::Ptr<Widget>> m_childWidgets;
 };
 }

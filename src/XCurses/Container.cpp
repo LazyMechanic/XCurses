@@ -2,59 +2,68 @@
 
 #include <algorithm>
 
-#include <XCurses/Context.h>
-
 namespace xcur {
-void Container::add(const Object::Ptr<Widget>& widget)
+void Container::update(float dt)
 {
-    getContext()->addTask([this, &widget]() {
-		auto foundWidgetIt = findWidget(widget);
-        // If the component already exists
-        if (foundWidgetIt != m_widgets.end()) {
-			return;
-        }
+    /* full virtual func */
+}
 
-		// Add widget to update() queue
+void Container::draw()
+{
+    /* full virtual func */
+}
+
+Status Container::add(Object::Ptr<Widget> widget)
+{
+    // If widget has parent already
+    if (widget->getParent() != nullptr) {
+		return Status::Err;
+    }
+
+	widget->setParent(std::dynamic_pointer_cast<Container>(shared_from_this()));
+	m_childWidgets.push_back(widget);
+
+    // If container was added in context and has ptr to it
+    if (getContext() != nullptr) {
 		getContext()->add(widget);
+    }
 
-        // Set parent widget
-		widget->m_parentWidget = std::enable_shared_from_this<Container>::shared_from_this();
+	return Status::Ok;
+}
+
+Status Container::remove(Object::Ptr<Widget> widget)
+{
+	auto widgetIt = find(widget);
+    // If widget found
+    if (widgetIt != m_childWidgets.end()) {
+		m_childWidgets.erase(widgetIt);
+		return Status::Ok;
+    }
 		
-        // Set parent window
-        widget->m_parentWindow = getParentWindow();
-        
-        // Add widget to container
-		m_widgets.push_back(widget);
-	});
+    return Status::Err;
 }
 
-void Container::remove(const Object::Ptr<Widget>& widget)
+bool Container::has(Object::Ptr<Widget> widget)
 {
-	getContext()->addTask([this, &widget]() {
-		auto foundWidgetIt = findWidget(widget);
-		// If the component not found
-		if (foundWidgetIt == m_widgets.end()) {
-			return;
-		}
-
-        // Remove widget from update() queue
-		getContext()->remove(widget);
-
-		// Reset parent widget
-		widget->m_parentWidget.reset();
-
-		// Reset parent window
-		widget->m_parentWindow.reset();
-
-        // Remove widget from container
-		m_widgets.erase(foundWidgetIt);
-	});
+	return find(widget) != m_childWidgets.end();
 }
 
-std::list<Object::Ptr<Widget>>::iterator Container::findWidget(
-	const Object::Ptr<Widget>& widget)
+std::list<Object::Ptr<Widget>>::const_iterator Container::begin() const
 {
-	return std::find_if(m_widgets.begin(), m_widgets.end(), [&widget](const Object::Ptr<Widget>& checkWidget) {
+	return m_childWidgets.begin();
+}
+
+std::list<Object::Ptr<Widget>>::const_iterator Container::end() const
+{
+	return m_childWidgets.end();
+}
+
+std::list<Object::Ptr<Widget>>::const_iterator Container::find(Object::Ptr<Widget> widget) const
+{
+	return std::find_if(
+		m_childWidgets.begin(),
+		m_childWidgets.end(),
+		[&widget](const Object::Ptr<Widget>& checkWidget) {
 		return widget->getId() == checkWidget->getId();
 	});
 }

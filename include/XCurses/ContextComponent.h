@@ -1,30 +1,27 @@
 #pragma once
 
-#include <XCurses/Drawable.h>
-#include <XCurses/Behaviour.h>
+#include <XCurses/Context.h>
 
 namespace xcur {
-class ContextComponent : public Drawable, public Behaviour
+class ContextComponent
 {
 public:
-	friend class Context;
-
     /**
 	 * \brief ContextComponent destructor
 	 */
 	virtual ~ContextComponent();
 
+    /**
+	 * \brief Set new context
+	 * \param context Context
+	 */
+	void setContext(Object::Ptr<Context> context);
+
 	/**
 	 * \brief Get ptr to context
-	 * \return
+	 * \return Smart ptr to context
 	 */
-	virtual Object::Ptr<Context> getContext() final;
-
-protected:
-    /**
-	 * \brief Default ContextComponent constructor 
-	 */
-	ContextComponent() = default;
+	Object::Ptr<Context> getContext() const;
 
 private:
 	/**

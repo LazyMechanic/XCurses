@@ -25,13 +25,14 @@ set(XCURSES_INCS
     ${XCURSES_INC_DIR}/ColorPalette.h
     ${XCURSES_INC_DIR}/Widget.h
     ${XCURSES_INC_DIR}/Input.h
-    ${XCURSES_INC_DIR}/Container.h
     ${XCURSES_INC_DIR}/Context.h
     ${XCURSES_INC_DIR}/ContextComponent.h
     ${XCURSES_INC_DIR}/Object.h
     ${XCURSES_INC_DIR}/Behaviour.h
     ${XCURSES_INC_DIR}/Drawable.h
-    ${XCURSES_INC_DIR}/RootObject.h
+    ${XCURSES_INC_DIR}/Container.h
+    ${XCURSES_INC_DIR}/HasWindow.h
+    ${XCURSES_SRC_DIR}/TreeNode.h
 )
 
 set(XCURSES_SRCS
@@ -47,10 +48,12 @@ set(XCURSES_SRCS
     ${XCURSES_SRC_DIR}/ColorPalette.cpp
     ${XCURSES_SRC_DIR}/Widget.cpp
     ${XCURSES_SRC_DIR}/Input.cpp
-    ${XCURSES_SRC_DIR}/Container.cpp
     ${XCURSES_SRC_DIR}/Context.cpp
     ${XCURSES_SRC_DIR}/ContextComponent.cpp
     ${XCURSES_SRC_DIR}/Object.cpp
+    ${XCURSES_SRC_DIR}/Container.cpp
+    ${XCURSES_SRC_DIR}/HasWindow.cpp
+    ${XCURSES_SRC_DIR}/TreeNode.cpp
 )
 
 set(XCURSES_LIBS

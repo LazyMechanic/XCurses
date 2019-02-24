@@ -6,18 +6,29 @@
 namespace xcur {
 Widget::~Widget()
 {
-    if (getParentWidget() != nullptr) {
-		getParentWidget()->remove(shared_from_this());
-    }
+	// If widget has context ptr
+	if (getContext() != nullptr) {
+		getContext()->remove(shared_from_this());
+	}
 }
 
-Object::Ptr<Container> Widget::getParentWidget() const
+void Widget::update(float dt)
 {
-	return m_parentWidget.lock();
+	/* full virtual func */
 }
 
-Object::Ptr<Window> Widget::getParentWindow() const
+void Widget::draw()
 {
-	return m_parentWindow.lock();
+	/* full virtual func */
+}
+
+void Widget::setParent(Object::Ptr<Container> parent)
+{
+	m_parent = parent;
+}
+
+Object::Ptr<Container> Widget::getParent() const
+{
+	return m_parent.lock();
 }
 }

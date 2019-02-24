@@ -2,9 +2,11 @@
 
 #include <list>
 
-#include <XCurses/Context.h>
+#include <XCurses/Object.h>
 
 namespace xcur {
+class Context;
+
 class ContextSystem
 {
 public:
@@ -107,12 +109,6 @@ public:
 	 */
 	Object::Ptr<Context> getCurrent() const;
 
-	/**
-	 * \brief Add new add or remove tasks
-	 * \param task Task
-	 */
-	void addTask(const std::function<void()>& task);
-
     /**
 	 * \brief Get ptr to core
 	 * \return Ptr to core
@@ -120,11 +116,6 @@ public:
 	Core* getCore() const;
 
 private:
-    /**
-	 * \brief Invoke all tests
-	 */
-	void invokeTasks();
-
     /**
 	 * \brief 
 	 * \param contextId Context id
@@ -136,11 +127,6 @@ private:
 	 * \brief Container of all contexts
 	 */
 	std::list<Object::Ptr<Context>> m_contexts;
-
-	/**
-	 * \brief Remove and add tasks for containers
-	 */
-	std::list<std::function<void()>> m_tasks;
 
     /**
 	 * \brief Ptr to core

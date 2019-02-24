@@ -1,132 +1,105 @@
 #pragma once
 
-#include <list>
 #include <memory>
-#include <functional>
 
-#include <XCurses/Widget.h>
-#include <XCurses/TreeNode.h>
+#include <XCurses/Object.h>
 #include <XCurses/Drawable.h>
 #include <XCurses/Behaviour.h>
-#include <XCurses/RootObject.h>
 
 namespace xcur {
+namespace detail {
+class TreeNode;
+}
 class Core;
+class Widget;
+class Container;
+class ContextSystem;
 
-class Context : 
-    public Drawable, 
-    public Behaviour, 
+class Context :
+    public Object,
+    public Drawable,
+    public Behaviour,
     public std::enable_shared_from_this<Context>
 {
 public:
     /**
-	 * \brief Friend class for setup m_contextSystem
-	 */
-	friend class ContextSystem;
-
-    /**
 	 * \brief Handle input events
 	 */
-	virtual void handleEvents();
+	void handleEvents();
 
     /**
 	 * \brief Goes through all components and call his \a update() function
 	 * \param dt Delta time
 	 */
-	void update(float dt) override;
+	void update(float dt) override final;
 
     /**
 	 * \brief Goes through all components and call his \a draw() function
 	 */
 	void draw() override final;
 
-    /**
-	 * \brief Add window or any inherit of RootObject
-	 * \param object Object
-	 */
-	virtual void add(const Object::Ptr<RootObject>& object) final;
-
 	/**
-	 * \brief Add widget. It will add with weak ptr for call update() func. 
-	 * Widget doesn't stored in context
+	 * \brief Add widget. Set context ptr and add to \a update() and \a draw() queues.
+	 * Widget doesn't stored in context. If widget is container then add all child widgets
 	 * \param widget Widget
 	 */
-	virtual void add(const Object::Ptr<Widget>& widget) final;
-
-    /**
-	 * \brief Remove window or any inherit of RootObject
-	 * \param object Object
-	 */
-	virtual void remove(const Object::Ptr<RootObject>& object) final;
+	virtual void add(Object::Ptr<Widget> widget) final;
 
 	/**
-	 * \brief Remove widget. Remove only weak ptr. 
-	 * Widget doesn't stored in context
+	 * \brief Remove widget. Remove only weak ptr from queues. 
+	 * Widget doesn't stored in context. If widget is container then remove all child widgets
 	 * \param widget Widget
 	 */
-	virtual void remove(const Object::Ptr<Widget>& widget) final;
+	virtual void remove(Object::Ptr<Widget> widget) final;
 
     /**
-	 * \brief Find component in component tree
-	 * \param component Component
-	 * \return True if context has component, false otherwise
+	 * \brief Find widget in widget tree
+	 * \param widget Widget
+	 * \return True if context has widget, false otherwise
 	 */
-	virtual bool has(const Object::Ptr<ContextComponent>& component) const final;
-
-    /**
-	 * \brief Add new add or remove tasks
-	 * \param task Task
-	 */
-	virtual void addTask(const std::function<void()>& task) final;
+	virtual bool has(Object::Ptr<Widget> widget) const final;
 
     /**
 	 * \brief Get ptr to core
 	 * \return Ptr to core
 	 */
-	virtual Core* getCore() const final;
+	Core* getCore() const;
+
+    /**
+	 * \brief Set ptr to context system
+	 * \param contextSystem Context system
+	 */
+	void setContextSystem(ContextSystem* contextSystem);
 
     /**
 	 * \brief Get ptr to context system
 	 * \return Ptr to context system
 	 */
-	virtual ContextSystem* getContextSystem() const final;
+	ContextSystem* getContextSystem() const;
 
 protected:
     /**
-	 * \brief Default Context constructor
+	 * \brief Root widget
 	 */
-	Context();
+	Object::Ptr<Container> m_rootWidget;
 
     /**
-	 * \brief Goes through all components and call its update() function
-	 * \param dt Delta time
+	 * \brief Widget tree root node. Need for call \a update() and \a draw() functions in the correct sequence
 	 */
-	virtual void updateComponents(float dt) final;
-
-	/**
-	 * \brief Stored all root objects e.g. Window or Nondrawable
-	 */
-	std::list<Object::Ptr<RootObject>> m_rootObjects;
-
-    /**
-	 * \brief Everything components which have update() and draw() functions 
-	 */
-	std::list<Object::Ptr<detail::TreeNode>> m_componentTree;
+	Object::Ptr<detail::TreeNode> m_widgetTreeRoot;
 
 private:
     /**
-	 * \brief Function try add component in m_componentTree
-	 * \param component Component
-	 * \result Ok if add successful, Err otherwise
+	 * \brief Add container widget
+	 * \param container Container
 	 */
-	Status tryAdd(const Object::Ptr<ContextComponent>& component);
+	void addContainerWidget(Object::Ptr<Container> container);
 
-	/**
-	 * \brief Function try remove component from m_componentTree
-	 * \param component Component
-	 * \result Ok if remove successful, Err otherwise
+    /**
+	 * \brief Add single widget
+	 * \param widget Widget
 	 */
-	Status tryRemove(const Object::Ptr<ContextComponent>& component);
+	void addSingleWidget(Object::Ptr<Widget> widget);
 
     /**
 	 * \brief Ptr to context system

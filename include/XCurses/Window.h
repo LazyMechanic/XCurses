@@ -5,27 +5,31 @@
 
 #include <XCurses/Border.h>
 #include <XCurses/Widget.h>
-#include <XCurses/RootObject.h>
+#include <XCurses/Container.h>
 
 struct _win;
 
 namespace xcur {
-class Window : public RootObject, public std::enable_shared_from_this<Window>
+
+class Window :
+    public Container,
+    public std::enable_shared_from_this<Window>
 {
 public:
-	friend class Core;
-
     /**
 	 * \brief Window destructor
 	 */
 	virtual ~Window();
 
-    /**
-	 * \brief Function calling every tick. Virtual function
+	/**
+	 * \brief Call for update object state
 	 * \param dt Delta time
 	 */
 	virtual void update(float dt) override;
 
+	/**
+	 * \brief Call function for draw the object
+	 */
 	virtual void draw() override;
 
     /**
