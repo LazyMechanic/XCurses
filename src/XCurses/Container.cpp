@@ -54,6 +54,18 @@ bool Container::has(Object::Ptr<Widget> widget)
 	return find(widget) != m_childWidgets.end();
 }
 
+void Container::widgetToFront(Object::Ptr<Widget> widget)
+{
+	auto foundWidget = find(widget);
+    // If widget found
+	if (foundWidget != end()) {
+		m_childWidgets.splice(m_childWidgets.end(), m_childWidgets, foundWidget);
+		if (getContext() != nullptr) {
+			getContext()->widgetToFront(widget);
+		}
+	}
+}
+
 std::list<Object::Ptr<Widget>>::const_iterator Container::begin() const
 {
 	return m_childWidgets.begin();

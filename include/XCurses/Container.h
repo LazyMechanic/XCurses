@@ -45,6 +45,12 @@ public:
 	 */
 	virtual bool has(Object::Ptr<Widget> widget) final;
 
+	/**
+	 * \brief Put widget to front
+	 * \param widget Widget
+	 */
+	virtual void widgetToFront(Object::Ptr<Widget> widget) final;
+
     /**
 	 * \brief Begin const iterator of child widgets
 	 * \return Begin const iterator
