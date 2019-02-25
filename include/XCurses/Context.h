@@ -69,7 +69,7 @@ public:
 	 * \brief Put widget to front
 	 * \param widget Widget
 	 */
-	void toFront(Object::Ptr<Widget> widget);
+	void widgetToFront(Object::Ptr<Widget> widget);
 
     /**
 	 * \brief Set ptr to context system

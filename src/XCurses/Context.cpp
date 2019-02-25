@@ -50,7 +50,7 @@ Status Context::add(Object::Ptr<Widget> widget)
 
 Status Context::remove(Object::Ptr<Widget> widget)
 {
-	auto foundNode = m_widgetTreeRoot->findByWidget(widget);
+	auto foundNode = m_widgetTreeRoot->findInSubtreeByWidget(widget);
     // If node not found
     if (foundNode == nullptr) {
 		return Status::Err;
@@ -66,13 +66,12 @@ bool Context::has(Object::Ptr<Widget> widget) const
 	return m_widgetTreeRoot->has(widget);
 }
 
-void Context::toFront(Object::Ptr<Widget> widget)
+void Context::widgetToFront(Object::Ptr<Widget> widget)
 {
-	auto foundNode = m_widgetTreeRoot->findByWidget(widget);
+	auto foundNode = m_widgetTreeRoot->findInSubtreeByWidget(widget);
     // if node found
     if (foundNode != nullptr) {
-		foundNode->getParent()->remove(widget);
-		foundNode->getParent()->add(widget);
+		foundNode->getParent()->widgetToFront(widget);
     }
 }
 
@@ -103,7 +102,7 @@ Status Context::addSingleWidget(Object::Ptr<Widget> widget)
 {
 	// If widget has parent
 	if (widget->getParent() != nullptr) {
-		auto parent = m_widgetTreeRoot->findByWidget(std::dynamic_pointer_cast<Widget>(widget->getParent()));
+		auto parent = m_widgetTreeRoot->findInSubtreeByWidget(std::dynamic_pointer_cast<Widget>(widget->getParent()));
 		// If parent is wrong
 		if (parent == nullptr) {
 			return Status::Err;
