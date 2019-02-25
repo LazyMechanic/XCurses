@@ -16,6 +16,11 @@ class Window :
     public std::enable_shared_from_this<Window>
 {
 public:
+	/**
+	 * \brief Default Window constructor
+	 */
+	Window();
+
     /**
 	 * \brief Window destructor
 	 */
@@ -51,15 +56,11 @@ public:
 	virtual _win* getCursesWin() const final;
 
 protected:
-	/**
-	 * \brief Default Window constructor
-	 */
-	Window();
-
     /**
-	 * \brief Container of widgets
-	 */
-	Object::Ptr<Container> m_rootWindowContainer;
+     * \brief Get shared ptr from this object
+     * \return Smart ptr to this
+     */
+    Object::Ptr<Window> getSharedFromThis();
 
     /**
 	 * \brief Border container

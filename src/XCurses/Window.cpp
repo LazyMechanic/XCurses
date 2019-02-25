@@ -2,6 +2,7 @@
 
 #include <XCurses/Window.h>
 #include <XCurses/Container.h>
+#include <XCurses/HasWindow.h>
 
 namespace xcur {
 Window::Window()
@@ -12,6 +13,7 @@ Window::~Window()
 {
 	delwin(m_win);
 }
+
 
 void Window::update(const float dt)
 {
@@ -31,6 +33,11 @@ Border Window::getBorder() const
 _win* Window::getCursesWin() const
 {
 	return m_win;
+}
+
+Object::Ptr<Window> Window::getSharedFromThis()
+{
+    return std::enable_shared_from_this<Window>::shared_from_this();
 }
 
 void Window::draw()
