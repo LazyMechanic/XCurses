@@ -14,8 +14,9 @@
 #include <XCurses/Attribute.h>
 #include <XCurses/Behaviour.h>
 #include <XCurses/Container.h>
+#include <XCurses/HasWindow.h>
 #include <XCurses/CoreConfig.h>
-#include <XCurses/RootObject.h>
 #include <XCurses/ColorSystem.h>
 #include <XCurses/ColorPalette.h>
+#include <XCurses/ContextSystem.h>
 #include <XCurses/ContextComponent.h>

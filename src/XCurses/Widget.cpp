@@ -24,8 +24,8 @@ void Widget::draw()
 
 void Widget::toFront()
 {
-    if (getContext() != nullptr) {
-		getContext()->toFront(shared_from_this());
+    if (getParent() != nullptr) {
+		getParent()->widgetToFront(shared_from_this());
     }
 }
 
