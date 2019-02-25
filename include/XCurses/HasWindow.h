@@ -25,11 +25,6 @@ public:
 
 protected:
     /**
-	 * \brief Default HasWindow constructor
-	 */
-	HasWindow() = default;
-
-    /**
 	 * \brief Window
 	 */
 	Object::WeakPtr<Window> m_window;
