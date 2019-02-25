@@ -1,9 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include <Catch2/catch.hpp>
 
-#include <XCurses/Widget.h>
-#include <XCurses/Context.h>
-#include <XCurses/Container.h>
+#include <XCurses/XCurses.h>
 
 using namespace xcur;
 
@@ -118,5 +116,90 @@ TEST_CASE("Context init and edit", "[Widget][Container][Context]")
 				REQUIRE(context->has(widget) == false);
 			}
 		}
+    }
+}
+
+uint64_t g_testValue = 0;
+
+class TestContainer : public Container
+{
+public:
+    void update(float dt) override
+    {
+		g_testValue = getId();
+    }
+};
+
+class TestWidget : public Widget
+{
+public:
+    void update(float dt) override
+    {
+		g_testValue = getId();
+    }
+};
+
+TEST_CASE("Container and widget draw and update sequence", "[Widget][Container][Context]")
+{
+	Object::Ptr<Context> context = Object::create<Context>();
+
+    SECTION("Add the container into context")
+    {
+		Object::Ptr<TestContainer> container1 = Object::create<TestContainer>();
+		Object::Ptr<TestWidget> widget1 = Object::create<TestWidget>();
+		Object::Ptr<TestWidget> widget2 = Object::create<TestWidget>();
+		Object::Ptr<TestWidget> widget3 = Object::create<TestWidget>();
+
+		context->add(container1);
+		context->update(0.0f);
+
+		REQUIRE(g_testValue == container1->getId());
+
+        SECTION("Add widgets into container")
+        {
+			container1->add(widget1);
+			container1->add(widget2);
+			container1->add(widget3);
+			context->update(0.0f);
+
+			REQUIRE(g_testValue == widget3->getId());
+
+            SECTION("Change front widget")
+            {
+				widget2->toFront();
+				context->update(0.0f);
+
+				REQUIRE(g_testValue == widget2->getId());
+            }
+
+        }
+    }
+
+	SECTION("Add several nested containers into context")
+    {
+		Object::Ptr<TestContainer> container1 = Object::create<TestContainer>();
+		Object::Ptr<TestContainer> container2 = Object::create<TestContainer>();
+		Object::Ptr<TestWidget> widget1 = Object::create<TestWidget>();
+		Object::Ptr<TestWidget> widget2 = Object::create<TestWidget>();
+		Object::Ptr<TestWidget> widget3 = Object::create<TestWidget>();
+
+		container1->add(container2);
+		container1->add(widget1);
+
+		container2->add(widget2);
+		container2->add(widget3);
+
+		context->add(container1);
+		context->update(0.0f);
+
+		REQUIRE(g_testValue == widget1->getId());
+
+        SECTION("Change front widget")
+        {
+			container2->toFront();
+			context->update(0.0f);
+
+			REQUIRE(g_testValue == widget3->getId());
+        }
     }
 }
