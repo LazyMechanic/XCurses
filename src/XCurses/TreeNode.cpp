@@ -36,19 +36,15 @@ void TreeNode::add(Object::Ptr<Widget> widget)
 
 void TreeNode::remove(Object::Ptr<Widget> widget)
 {
-	auto foundNodeIt = std::find_if(
-		m_childNodes.begin(), 
-		m_childNodes.end(), 
-		[&widget](const Object::Ptr<TreeNode>& checkNode) {
-		return widget == checkNode->getWidget();
-	});
+	auto foundNodeIt = findChild(widget);
     // If node found
     if (foundNodeIt != m_childNodes.end()) {
+		(*foundNodeIt)->setParent(nullptr);
 		m_childNodes.erase(foundNodeIt);
     }
 }
 
-Object::Ptr<TreeNode> TreeNode::findByWidget(Object::Ptr<Widget> widget)
+Object::Ptr<TreeNode> TreeNode::findInSubtreeByWidget(Object::Ptr<Widget> widget)
 {
     // If this node is the desired one
     if (getWidget() == widget) {
@@ -56,7 +52,7 @@ Object::Ptr<TreeNode> TreeNode::findByWidget(Object::Ptr<Widget> widget)
     }
 
     for (auto& node : m_childNodes) {
-		auto foundNode = node->findByWidget(widget);
+		auto foundNode = node->findInSubtreeByWidget(widget);
         // If node was found
         if (foundNode != nullptr) {
 			return foundNode;
@@ -68,7 +64,16 @@ Object::Ptr<TreeNode> TreeNode::findByWidget(Object::Ptr<Widget> widget)
 
 bool TreeNode::has(Object::Ptr<Widget> widget)
 {
-	return findByWidget(widget) != nullptr;
+	return findInSubtreeByWidget(widget) != nullptr;
+}
+
+void TreeNode::widgetToFront(Object::Ptr<Widget> widget)
+{
+	auto foundNode = findChild(widget);
+    // If node found
+    if (foundNode != m_childNodes.end()) {
+		m_childNodes.splice(m_childNodes.end(), m_childNodes, foundNode);
+    }
 }
 
 Object::Ptr<Widget> TreeNode::getWidget() const
@@ -84,6 +89,16 @@ void TreeNode::setParent(Object::Ptr<TreeNode> parent)
 Object::Ptr<TreeNode> TreeNode::getParent() const
 {
     return m_parent.lock();
+}
+
+std::list<Object::Ptr<TreeNode>>::const_iterator TreeNode::findChild(Object::Ptr<Widget> widget) const
+{
+    return std::find_if(
+		m_childNodes.begin(),
+		m_childNodes.end(),
+		[&widget](const Object::Ptr<TreeNode>& checkNode) {
+		return widget == checkNode->getWidget();
+	});
 }
 }
 }

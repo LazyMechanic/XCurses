@@ -52,7 +52,7 @@ public:
 	 * \param widget Widget
 	 * \return Smart ptr to tree node if found, nullptr otherwise
 	 */
-	Object::Ptr<TreeNode> findByWidget(Object::Ptr<Widget> widget);
+	Object::Ptr<TreeNode> findInSubtreeByWidget(Object::Ptr<Widget> widget);
 
 	/**
 	 * \brief Find widget in widget tree
@@ -60,6 +60,12 @@ public:
 	 * \return True if context has widget, false otherwise
 	 */
 	bool has(Object::Ptr<Widget> widget);
+
+	/**
+	 * \brief Put node to front. Node find by widget
+	 * \param widget Widget
+	 */
+	void widgetToFront(Object::Ptr<Widget> widget);
 
     /**
 	 * \brief Get widget from node
@@ -80,6 +86,8 @@ public:
 	Object::Ptr<TreeNode> getParent() const;
 
 private:
+	std::list<Object::Ptr<TreeNode>>::const_iterator findChild(Object::Ptr<Widget> widget) const;
+
     /**
 	 * \brief List of child nodes (branches)
 	 */
