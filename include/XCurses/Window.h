@@ -35,7 +35,7 @@ public:
 	/**
 	 * \brief Call function for draw the object
 	 */
-	virtual void draw() override;
+	void draw() override final;
 
     /**
 	 * \brief Set new border
@@ -71,7 +71,7 @@ private:
     /**
 	 * \brief Call curses function for redraw border
 	 */
-	void updateCursesBorder() const;
+	void updateCursesBorder();
     
 	/**
 	 * \brief PDCurses window pointer

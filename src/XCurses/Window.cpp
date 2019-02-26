@@ -2,7 +2,6 @@
 
 #include <XCurses/Window.h>
 #include <XCurses/Container.h>
-#include <XCurses/HasWindow.h>
 
 namespace xcur {
 Window::Window()
@@ -46,11 +45,9 @@ void Window::draw()
 	wclear(m_win);
     // Draw border
 	updateCursesBorder();
-    // Draw widgets
-	m_rootWindowContainer->draw();
 }
 
-void Window::updateCursesBorder() const
+void Window::updateCursesBorder()
 {
 	wborder(m_win,
 		m_border.leftSide,
