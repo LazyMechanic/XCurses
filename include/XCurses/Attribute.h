@@ -12,10 +12,10 @@ public:
 	Attribute();
 
     /**
-	 * \brief Construct the attr with specific value
+	 * \brief Construct the attr with specific value. Value like in curses ([24..16]/0x00ff0000 bits)
 	 * \param attr Attribute value
 	 */
-	Attribute(uint8_t attr);
+	Attribute(uint32_t attr);
 
     /**
 	 * \brief Copy attr constructor
@@ -28,11 +28,11 @@ public:
 	Attribute(Attribute&&) = default;
 
 	/**
-     * \brief Change attr value
+     * \brief Change attr value. Value like in curses ([24..16]/0x00ff0000 bits)
      * \param attr Attribute
      * \return Reference to /a this
      */
-	Attribute& operator =(uint8_t attr);
+	Attribute& operator =(uint32_t attr);
 
     /**
 	 * \brief Default copy assignment operator
@@ -56,13 +56,6 @@ public:
 	 * \return Curses style attr
 	 */
 	uint32_t toCursesAttr() const;
-
-    /**
-	 * \brief Convert curses attr to member value
-	 * \param attr 
-	 * \return 
-	 */
-	static uint8_t fromCursesAttr(uint32_t attr);
 
     /**
 	 * \brief Find specific value in attr
@@ -100,10 +93,10 @@ bool operator ==(const Attribute& left, const Attribute& right);
  * \brief Overload of the == operator
  * This operator compares the attribute and the value and check if they are equal.
  * \param left Left operand
- * \param right Right operand
+ * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
  * \return True if attributes are equal, false if they are different
  */
-bool operator ==(const Attribute& left, uint8_t right);
+bool operator ==(const Attribute& left, uint32_t right);
 
 /**
  * \brief Overload of the != operator
@@ -118,10 +111,10 @@ bool operator !=(const Attribute& left, const Attribute& right);
  * \brief Overload of the != operator
  * This operator compares the attribute and the value and check if they are different.
  * \param left Left operand
- * \param right Right operand
+ * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
  * \return True if attributes are different, false if they are equal
  */
-bool operator !=(const Attribute& left, uint8_t right);
+bool operator !=(const Attribute& left, uint32_t right);
 
 /**
  * \brief Overload of the binary | operator
@@ -136,10 +129,10 @@ Attribute operator |(const Attribute& left, const Attribute& right);
  * \brief Overload of the binary | operator
  * This operator returns the component-wise logic OR of two attributes.
  * \param left Left operand
- * \param right Right operand
+ * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
  * \return Result of \a left | \a right
  */
-Attribute operator |(const Attribute& left, uint8_t right);
+Attribute operator |(const Attribute& left, uint32_t right);
 
 /**
  * \brief Overload of the binary & operator
@@ -154,10 +147,10 @@ Attribute operator &(const Attribute& left, const Attribute& right);
  * \brief Overload of the binary & operator
  * This operator returns the component-wise logic AND of two attributes.
  * \param left Left operand
- * \param right Right operand
+ * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
  * \return Result of \a left & \a right
  */
-Attribute operator &(const Attribute& left, uint8_t right);
+Attribute operator &(const Attribute& left, uint32_t right);
 
 /**
  * \brief Overload of the binary | operator
@@ -174,10 +167,10 @@ Attribute& operator |=(Attribute& left, const Attribute& right);
  * This operator returns the component-wise logic OR of two attributes,
  * and assigns the result to the left operand
  * \param left Left operand
- * \param right Right operand
+ * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
  * \return Result of \a left | \a right
  */
-Attribute& operator |=(Attribute& left, uint8_t right);
+Attribute& operator |=(Attribute& left, uint32_t right);
 
 /**
  * \brief Overload of the binary & operator
@@ -194,8 +187,8 @@ Attribute& operator &=(Attribute& left, const Attribute& right);
  * This operator returns the component-wise logic AND of two attributes,
  * and assigns the result to the left operand
  * \param left Left operand
- * \param right Right operand
+ * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
  * \return Result of \a left & \a right
  */
-Attribute& operator &=(Attribute& left, uint8_t right);
+Attribute& operator &=(Attribute& left, uint32_t right);
 }

@@ -23,15 +23,15 @@ public:
 	 * \brief Construct the char with specific character
 	 * \param ch Character
 	 */
-	Char(uint16_t ch);
+    explicit Char(uint16_t ch);
 
     /**
 	 * \brief Construct the char with specific params
-	 * \param _colorPairId Color pair id
-	 * \param _attr Attribute
+	 * \param colorPairId Color pair id
+	 * \param attr Attribute
 	 * \param ch Character
 	 */
-	Char(uint8_t _colorPairId, Attribute _attr, uint16_t ch);
+	Char(uint8_t colorPairId, Attribute attr, uint16_t ch);
 
     /**
 	 * \brief Copy char constructor
@@ -65,7 +65,7 @@ public:
     /**
 	 * \brief Operator convert to uint32_t
 	 */
-	operator uint32_t() const;
+	operator uint32_t&();
 
     /**
 	 * \brief Char destructor
@@ -78,21 +78,48 @@ public:
 	 * \brief Make up color pair, attr and character in uint32_t
 	 * \return Curses character
 	 */
-	uint32_t toCursesChar() const;
+	uint32_t& toCursesChar();
 
     /**
-	 * \brief Color pair id for curses
+	 * \brief Set only character value
+	 * \param ch Character
 	 */
-    uint8_t colorPairId;
+	void setChar(uint16_t ch);
 
     /**
-	 * \brief Current attr
+	 * \brief Set attribute
+	 * \param attr Attribute
 	 */
-	Attribute attr;
+	void setAttr(const Attribute& attr);
 
     /**
-	 * \brief Character
+	 * \brief Set color pair id
+	 * \param id Pair id
 	 */
-	uint16_t character;
+	void setColoPairId(uint8_t id);
+
+    /**
+	 * \brief Get only character value
+	 * \return Character
+	 */
+	uint16_t getChar() const;
+
+    /**
+	 * \brief Get attribute
+	 * \return Attribute
+	 */
+	Attribute getAttr() const;
+
+    /**
+	 * \brief Get color pair id
+	 * \return Color pair id
+	 */
+	uint8_t getColoPairId() const;
+
+private:
+    /**
+	 * \brief Data of char
+	 */
+	uint32_t m_data;
 };
 }
