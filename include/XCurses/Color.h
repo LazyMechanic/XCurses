@@ -12,103 +12,103 @@ class Color
 {
 public:
     /**
-	 * \brief Default Color constructor. Creates Color(0, 0, 0) that means black
-	 * color
-	 */
-	Color();
+     * \brief Default Color constructor. Creates Color(0, 0, 0) that means black
+     * color
+     */
+    Color();
 
     /**
-	 * \brief Constructor the color from its 3 RGB components
-	 * \param red Red component (in the range [0, 255])
-	 * \param green Green component (in the range [0, 255])
-	 * \param blue Blue component (in the range [0, 255])
-	 */
-	Color(uint8_t red, uint8_t green, uint8_t blue);
+     * \brief Constructor the color from its 3 RGB components
+     * \param red Red component (in the range [0, 255])
+     * \param green Green component (in the range [0, 255])
+     * \param blue Blue component (in the range [0, 255])
+     */
+    Color(uint8_t red, uint8_t green, uint8_t blue);
 
     /**
-	 * \brief Contruct the color from 32-bit unsigned integer
-	 * \param color Number containing the RGB components (in that order).
-	 * Format is 0x00ffffff
-	 */
-	explicit Color(uint32_t color);
+     * \brief Contruct the color from 32-bit unsigned integer
+     * \param color Number containing the RGB components (in that order).
+     * Format is 0x00ffffff
+     */
+    explicit Color(uint32_t color);
 
     /**
-	 * \brief Copy Color constructor
-	 */
-	Color(const Color&) = default;
-
-	/**
-	 * \brief Move Color constructor
-	 */
-	Color(Color&&) = default;
-
-	/**
-	 * \brief Default copy assignment operator
-	 * \return Reference to \a this
-	 */
-	Color& operator =(const Color&) = default;
-
-	/**
-	 * \brief Default move assignment operator
-	 * \return Reference to \a this
-	 */
-	Color& operator =(Color&&) = default;
-
-	/**
-	 * \brief Color destructor
-	 */
-	~Color() = default;
-
-	static const Color Black;       // Black predefined color
-	static const Color Red;         // Red predefined color
-	static const Color Green;       // Green predefined color
-	static const Color Blue;        // Blue predefined color
-	static const Color Yellow;      // Yellow predefined color
-	static const Color Magenta;     // Magenta predefined color
-	static const Color Cyan;        // Cyan predefined color
-	static const Color White;       // White predefined color
-
-	static const Color DarkGray;    // Dark Gray predefined color
-	static const Color DarkRed;     // Dark Red predefined color
-	static const Color DarkGreen;   // Dark Green predefined color
-	static const Color DarkBlue;    // Dark Blue predefined color
-	static const Color DarkYellow;  // Dark Yellow predefined color
-	static const Color DarkMagenta; // Dark Magenta predefined color
-	static const Color DarkCyan;    // Dark Cyan predefined color
-	static const Color Gray;        // Gray predefined color
+     * \brief Copy Color constructor
+     */
+    Color(const Color&) = default;
 
     /**
-	 * \brief Translates color component from [0, 255] to [0, 1000]
-	 * \return Red color component
-	 */
-	uint16_t cursesRed() const;
-
-	/**
-	 * \brief Translates color component from [0, 255] to [0, 1000]
-	 * \return Green color component
-	 */
-	uint16_t cursesGreen() const;
-
-	/**
-	 * \brief Translates color component from [0, 255] to [0, 1000]
-	 * \return Blue color component
-	 */
-	uint16_t cursesBlue() const;
+     * \brief Move Color constructor
+     */
+    Color(Color&&) = default;
 
     /**
-	 * \brief Red component in color
-	 */
-	uint8_t r;
+     * \brief Default copy assignment operator
+     * \return Reference to \a this
+     */
+    Color& operator =(const Color&) = default;
 
-	/**
-	 * \brief Green component in color
-	 */
-	uint8_t g;
+    /**
+     * \brief Default move assignment operator
+     * \return Reference to \a this
+     */
+    Color& operator =(Color&&) = default;
 
-	/**
-	 * \brief Blue component in color
-	 */
-	uint8_t b;
+    /**
+     * \brief Color destructor
+     */
+    ~Color() = default;
+
+    static const Color Black;       // Black predefined color
+    static const Color Red;         // Red predefined color
+    static const Color Green;       // Green predefined color
+    static const Color Blue;        // Blue predefined color
+    static const Color Yellow;      // Yellow predefined color
+    static const Color Magenta;     // Magenta predefined color
+    static const Color Cyan;        // Cyan predefined color
+    static const Color White;       // White predefined color
+
+    static const Color DarkGray;    // Dark Gray predefined color
+    static const Color DarkRed;     // Dark Red predefined color
+    static const Color DarkGreen;   // Dark Green predefined color
+    static const Color DarkBlue;    // Dark Blue predefined color
+    static const Color DarkYellow;  // Dark Yellow predefined color
+    static const Color DarkMagenta; // Dark Magenta predefined color
+    static const Color DarkCyan;    // Dark Cyan predefined color
+    static const Color Gray;        // Gray predefined color
+
+    /**
+     * \brief Translates color component from [0, 255] to [0, 1000]
+     * \return Red color component
+     */
+    uint16_t cursesRed() const;
+
+    /**
+     * \brief Translates color component from [0, 255] to [0, 1000]
+     * \return Green color component
+     */
+    uint16_t cursesGreen() const;
+
+    /**
+     * \brief Translates color component from [0, 255] to [0, 1000]
+     * \return Blue color component
+     */
+    uint16_t cursesBlue() const;
+
+    /**
+     * \brief Red component in color
+     */
+    uint8_t r;
+
+    /**
+     * \brief Green component in color
+     */
+    uint8_t g;
+
+    /**
+     * \brief Blue component in color
+     */
+    uint8_t b;
 };
 
 /**

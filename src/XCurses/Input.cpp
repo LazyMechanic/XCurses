@@ -14,6 +14,6 @@ void Input::handleEvents()
 
 Char Input::getPressedKey()
 {
-	return m_pressedChar;
+    return m_pressedChar;
 }
 }

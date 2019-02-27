@@ -10,11 +10,11 @@ ContextComponent::~ContextComponent()
 
 void ContextComponent::setContext(Object::Ptr<Context> context)
 {
-	m_context = context;
+    m_context = context;
 }
 
 Object::Ptr<Context> ContextComponent::getContext() const
 {
-	return m_context.lock();
+    return m_context.lock();
 }
 }

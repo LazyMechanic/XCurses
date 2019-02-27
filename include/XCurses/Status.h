@@ -8,54 +8,54 @@ class Status
 public:
     enum Code
     {
-		Err = -1,
+        Err = -1,
         Ok = 0
     };
 
     /**
-	 * \brief Default Status constructor. Construct the status with Ok code
-	 */
-	Status();
+     * \brief Default Status constructor. Construct the status with Ok code
+     */
+    Status();
 
     /**
-	 * \brief Construct the status with specific code
-	 * \param _code Code number (e.g. Status::Code::Ok)
-	 */
-	Status(int32_t _code);
-
-	/**
-	 * \brief Move Status constructor
-	 */
-	Status(Status&&) = default;
-
-	/**
-	 * \brief Default copy assignment operator
-	 * \return Reference to \a this
-	 */
-	Status& operator =(const Status&) = default;
-
-	/**
-	 * \brief Default move assignment operator
-	 * \return Reference to \a this
-	 */
-	Status& operator =(Status&&) = default;
+     * \brief Construct the status with specific code
+     * \param _code Code number (e.g. Status::Code::Ok)
+     */
+    Status(int32_t _code);
 
     /**
-	 * \brief Overload of the binary = operator
-	 * \param right Status code
-	 * \return Reference to /a this
-	 */
-	Status& operator =(const int32_t& right);
-
-	/**
-	 * \brief Status destructor
-	 */
-	~Status() = default;
+     * \brief Move Status constructor
+     */
+    Status(Status&&) = default;
 
     /**
-	 * \brief Status code
-	 */
-	int32_t code;
+     * \brief Default copy assignment operator
+     * \return Reference to \a this
+     */
+    Status& operator =(const Status&) = default;
+
+    /**
+     * \brief Default move assignment operator
+     * \return Reference to \a this
+     */
+    Status& operator =(Status&&) = default;
+
+    /**
+     * \brief Overload of the binary = operator
+     * \param right Status code
+     * \return Reference to /a this
+     */
+    Status& operator =(const int32_t& right);
+
+    /**
+     * \brief Status destructor
+     */
+    ~Status() = default;
+
+    /**
+     * \brief Status code
+     */
+    int32_t code;
 };
 
 /**

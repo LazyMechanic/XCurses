@@ -5,10 +5,10 @@ set(XCURSES_INC_DIR ${PROJECT_DIR}/include/XCurses)
 set(XCURSES_SRC_DIR ${PROJECT_DIR}/src/XCurses)
 
 if (WIN32)
-	add_definitions(-DXCURSES_SYSTEM_WINDOWS)
+    add_definitions(-DXCURSES_SYSTEM_WINDOWS)
 endif (WIN32)
 if (UNIX)
-	add_definitions(-DXCURSES_SYSTEM_UNIX)
+    add_definitions(-DXCURSES_SYSTEM_UNIX)
 endif (UNIX)
 
 set(XCURSES_INCS
@@ -33,7 +33,7 @@ set(XCURSES_INCS
     ${XCURSES_INC_DIR}/Container.h
     ${XCURSES_INC_DIR}/HasWindow.h
     ${XCURSES_SRC_DIR}/TreeNode.h
-    ${XCURSES_INC_DIR}/Position.h
+    ${XCURSES_INC_DIR}/Vector.h
 )
 
 set(XCURSES_SRCS
@@ -55,7 +55,6 @@ set(XCURSES_SRCS
     ${XCURSES_SRC_DIR}/Container.cpp
     ${XCURSES_SRC_DIR}/HasWindow.cpp
     ${XCURSES_SRC_DIR}/TreeNode.cpp
-    ${XCURSES_SRC_DIR}/Position.cpp
 )
 
 set(XCURSES_LIBS
@@ -69,7 +68,7 @@ add_library(XCurses STATIC
 
 # Set output path
 set_target_properties(XCurses PROPERTIES
-	ARCHIVE_OUTPUT_DIRECTORY ${XCURSES_OUTPUT_DIR}
+    ARCHIVE_OUTPUT_DIRECTORY ${XCURSES_OUTPUT_DIR}
 )
 
 # Set extension libs
@@ -77,6 +76,6 @@ target_link_libraries(XCurses ${XCURSES_LIBS})
 
 # Set include paths
 target_include_directories(XCurses 
-	PRIVATE ${PROJECT_SRC_DIR}
-	PUBLIC ${PROJECT_INC_DIR}
+    PRIVATE ${PROJECT_SRC_DIR}
+    PUBLIC ${PROJECT_INC_DIR}
 )
