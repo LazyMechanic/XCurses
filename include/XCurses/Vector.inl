@@ -51,6 +51,30 @@ Vector2<T> operator/(const Vector2<T>& left, const T& right)
 }
 
 template<typename T>
+Vector2<T> operator+(const Vector2<T>& left, const Vector2<T>& right)
+{
+	return Vector2<T>(left.x + right.x, left.y + right.y);
+}
+
+template<typename T>
+Vector2<T> operator-(const Vector2<T>& left, const Vector2<T>& right)
+{
+	return Vector2<T>(left.x - right.x, left.y - right.y);
+}
+
+template<typename T>
+Vector2<T> operator*(const Vector2<T>& left, const Vector2<T>& right)
+{
+	return Vector2<T>(left.x * right.x, left.y * right.y);
+}
+
+template<typename T>
+Vector2<T> operator/(const Vector2<T>& left, const Vector2<T>& right)
+{
+	return Vector2<T>(left.x / right.x, left.y / right.y);
+}
+
+template<typename T>
 Vector2<T> operator+(const Vector2<T>& left)
 {
     return left;
@@ -65,33 +89,49 @@ Vector2<T> operator-(const Vector2<T>& left)
 template<typename T>
 Vector2<T>& operator+=(Vector2<T>& left, const T& right)
 {
-    left.x += right;
-    left.y += right;
-    return left;
+    return left = left + right;
 }
 
 template<typename T>
 Vector2<T>& operator-=(Vector2<T>& left, const T& right)
 {
-    left.x -= right;
-    left.y -= right;
-    return left;
+    return left = left - right;
 }
 
 template<typename T>
 Vector2<T>& operator*=(Vector2<T>& left, const T& right)
 {
-    left.x *= right;
-    left.y *= right;
-    return left;
+    return left = left * right;
 }
 
 template<typename T>
 Vector2<T>& operator/=(Vector2<T>& left, const T& right)
 {
-    left.x /= right;
-    left.y /= right;
-    return left;
+    return left = left / right;
+}
+
+template<typename T>
+Vector2<T>& operator+=(Vector2<T>& left, const Vector2<T>& right)
+{
+	return left = left + right;
+}
+
+template<typename T>
+Vector2<T>& operator-=(Vector2<T>& left, const Vector2<T>& right)
+{
+	return left = left - right;
+}
+
+template<typename T>
+Vector2<T>& operator*=(Vector2<T>& left, const Vector2<T>& right)
+{
+	return left = left * right;
+}
+
+template<typename T>
+Vector2<T>& operator/=(Vector2<T>& left, const Vector2<T>& right)
+{
+	return left = left / right;
 }
 
 template<typename T>
@@ -103,7 +143,7 @@ bool operator==(const Vector2<T>& left, const Vector2<T>& right)
 template<typename T>
 bool operator!=(const Vector2<T>& left, const Vector2<T>& right)
 {
-    return (left.x != right.x) || (left.y != right.y);
+    return !(left == right);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -162,6 +202,30 @@ Vector3<T> operator/(const Vector3<T>& left, const T& right)
 }
 
 template<typename T>
+Vector3<T> operator+(const Vector3<T>& left, const Vector3<T>& right)
+{
+	return Vector3<T>(left.x + right.x, left.y + right.y, left.z + right.z);
+}
+
+template<typename T>
+Vector3<T> operator-(const Vector3<T>& left, const Vector3<T>& right)
+{
+	return Vector3<T>(left.x - right.x, left.y - right.y, left.z - right.z);
+}
+
+template<typename T>
+Vector3<T> operator*(const Vector3<T>& left, const Vector3<T>& right)
+{
+	return Vector3<T>(left.x * right.x, left.y * right.y, left.z * right.z);
+}
+
+template<typename T>
+Vector3<T> operator/(const Vector3<T>& left, const Vector3<T>& right)
+{
+	return Vector3<T>(left.x / right.x, left.y / right.y, left.z / right.z);
+}
+
+template<typename T>
 Vector3<T> operator+(const Vector3<T>& left)
 {
     return left;
@@ -176,37 +240,25 @@ Vector3<T> operator-(const Vector3<T>& left)
 template<typename T>
 Vector3<T>& operator+=(Vector3<T>& left, const T& right)
 {
-    left.x += right;
-    left.y += right;
-    left.z += right;
-    return left;
+    return left = left + right;
 }
 
 template<typename T>
 Vector3<T>& operator-=(Vector3<T>& left, const T& right)
 {
-    left.x -= right;
-    left.y -= right;
-    left.z -= right;
-    return left;
+    return left = left - right;
 }
 
 template<typename T>
 Vector3<T>& operator*=(Vector3<T>& left, const T& right)
 {
-    left.x *= right;
-    left.y *= right;
-    left.z *= right;
-    return left;
+    return left = left * right;
 }
 
 template<typename T>
 Vector3<T>& operator/=(Vector3<T>& left, const T& right)
 {
-    left.x /= right;
-    left.y /= right;
-    left.z /= right;
-    return left;
+    return left = left / right;
 }
 
 template<typename T>
@@ -218,5 +270,5 @@ bool operator==(const Vector3<T>& left, const Vector3<T>& right)
 template<typename T>
 bool operator!=(const Vector3<T>& left, const Vector3<T>& right)
 {
-    return (left.x != right.x) || (left.y != right.y) || (left.z != right.z);
+    return !(left == right);
 }
