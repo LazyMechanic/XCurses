@@ -33,6 +33,7 @@ set(XCURSES_INCS
     ${XCURSES_INC_DIR}/Container.h
     ${XCURSES_INC_DIR}/HasWindow.h
     ${XCURSES_SRC_DIR}/TreeNode.h
+    ${XCURSES_INC_DIR}/Position.h
 )
 
 set(XCURSES_SRCS
@@ -54,6 +55,7 @@ set(XCURSES_SRCS
     ${XCURSES_SRC_DIR}/Container.cpp
     ${XCURSES_SRC_DIR}/HasWindow.cpp
     ${XCURSES_SRC_DIR}/TreeNode.cpp
+    ${XCURSES_SRC_DIR}/Position.cpp
 )
 
 set(XCURSES_LIBS
