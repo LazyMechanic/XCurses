@@ -5,6 +5,7 @@
 
 #include <XCurses/Border.h>
 #include <XCurses/Widget.h>
+#include <XCurses/Position.h>
 #include <XCurses/Container.h>
 
 struct _win;
@@ -38,6 +39,26 @@ public:
 	void draw() override final;
 
     /**
+	 * \brief Add character into window and advance cursor position
+	 * \param ch Character
+	 */
+	void addChar(const Char& ch);
+
+    /**
+	 * \brief Add character into window on the position and advance 
+	 * cursor position
+	 * \param ch Character
+	 * \param pos Position
+	 */
+	void addChar(const Char& ch, const Position& pos);
+
+    /**
+	 * \brief Get window cursor position
+	 * \return Position
+	 */
+	Position getCursorPosition() const;
+
+    /**
 	 * \brief Set new border
 	 * \param border Border
 	 */
@@ -56,6 +77,11 @@ public:
 	virtual _win* getCursesWin() const final;
 
 protected:
+	/**
+	 * \brief Call curses function for redraw border
+	 */
+	void updateCursesBorder();
+
     /**
      * \brief Get shared ptr from this object
      * \return Smart ptr to this
@@ -67,12 +93,12 @@ protected:
 	 */
 	Border m_border;
 
-private:
     /**
-	 * \brief Call curses function for redraw border
+	 * \brief The window cursor position
 	 */
-	void updateCursesBorder();
-    
+	Position m_cursorPosition;
+
+private:    
 	/**
 	 * \brief PDCurses window pointer
 	 */

@@ -4,7 +4,8 @@
 #include <XCurses/Container.h>
 
 namespace xcur {
-Window::Window()
+Window::Window() :
+	m_cursorPosition(0, 0)
 {
 }
 
@@ -45,6 +46,19 @@ void Window::draw()
 	wclear(m_win);
     // Draw border
 	updateCursesBorder();
+}
+
+void Window::addChar(const Char& ch)
+{
+}
+
+void Window::addChar(const Char& ch, const Position& pos)
+{
+}
+
+Position Window::getCursorPosition() const
+{
+	return m_cursorPosition;
 }
 
 void Window::updateCursesBorder()
