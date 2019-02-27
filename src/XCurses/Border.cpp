@@ -1,10 +1,10 @@
 #include <XCurses/Border.h>
 
 namespace xcur {
-const Border Border::Blank(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
-const Border Border::Simple('|', '|', '-', '-', '+', '+', '+', '+');
-const Border Border::Default(0x2502, 0x2502, 0x2500, 0x2500, 0x250c, 0x2510, 0x2514, 0x2518);
-const Border Border::Wide(0x2551, 0x2551, 0x2550, 0x2550, 0x2554, 0x2557, 0x255a, 0x255d);
+const Border Border::Blank(Char(' '), Char(' '), Char(' '), Char(' '), Char(' '), Char(' '), Char(' '), Char(' '));
+const Border Border::Simple(Char('|'), Char('|'), Char('-'), Char('-'), Char('+'), Char('+'), Char('+'), Char('+'));
+const Border Border::Default(Char(0x2502), Char(0x2502), Char(0x2500), Char(0x2500), Char(0x250c), Char(0x2510), Char(0x2514), Char(0x2518));
+const Border Border::Wide(Char(0x2551), Char(0x2551), Char(0x2550), Char(0x2550), Char(0x2554), Char(0x2557), Char(0x255a), Char(0x255d));
 
 Border::Border() :
     leftSide(0x2502),
