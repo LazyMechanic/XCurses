@@ -18,11 +18,6 @@ class Window :
 {
 public:
     /**
-     * \brief Vector2<uint32_t> alias
-     */
-    using Position = Vector2<uint32_t>;
-
-    /**
      * \brief Default Window constructor
      */
     Window();
@@ -43,8 +38,6 @@ public:
      */
     void draw() override final;
 
-
-
     /**
      * \brief Add character into window and advance cursor position
      * \param ch Character
@@ -52,24 +45,73 @@ public:
     void addChar(const Char& ch) const;
 
     /**
-     * \brief Add character into window on the position and advance 
-     * cursor position
+     * \brief Add character into window on the position and advance cursor position.
+     * If position is out of window then do nothing
      * \param ch Character
      * \param pos Position
      */
-    void addChar(const Char& ch, const Window::Position& pos) const;
+    void addChar(const Char& ch, const Vector2u& pos) const;
 
     /**
      * \brief Move cursor to new position. If new position is out of window then do nothing
      * \param newPos New position
      */
-    void moveCursor(const Window::Position& newPos) const;
+    void setCursorPosition(const Vector2u& newPos) const;
+
+    /**
+	 * \brief Get cursor position x component
+	 * \return X coordinate
+	 */
+	uint32_t getCursorPositionX() const;
+
+    /**
+	 * \brief Get cursor position y component
+	 * \return Y coordinate
+	 */
+	uint32_t getCursorPositionY() const;
 
     /**
      * \brief Get window cursor position
      * \return Position
      */
-    Window::Position getCursorPosition() const;
+	Vector2u getCursorPosition() const;
+
+    /**
+	 * \brief Set position. If newPos > (oldPos + windowSize) then do nothing
+	 * \param newPos New position
+	 */
+	void setPosition(const Vector2u& newPos) override;
+
+	/**
+	 * \brief Set position. New position = Old position + deltaPos
+	 * \param deltaPos Delta position
+	 */
+	void move(const Vector2u& deltaPos) override;
+
+    /**
+	 * \brief Resize window
+	 * \param newSize New size
+	 * \return Ok if successful, Err otherwise
+	 */
+	Status resize(const Vector2u& newSize) const;
+
+    /**
+	 * \brief Get window width
+	 * \return Width
+	 */
+	uint32_t getWidth() const;
+
+    /**
+	 * \brief Get window height
+	 * \return Height
+	 */
+	uint32_t getHeight() const;
+
+    /**
+	 * \brief Get window size
+	 * \return Window size
+	 */
+	Vector2u getSize() const;
 
     /**
      * \brief Set new border
@@ -93,7 +135,7 @@ protected:
     /**
      * \brief Call curses function for redraw border
      */
-    void updateCursesBorder() const;
+    void drawCursesBorder() const;
 
     /**
      * \brief Get shared ptr from this object
@@ -102,14 +144,14 @@ protected:
     Object::Ptr<Window> getSharedFromThis();
 
     /**
-     * \brief Border container
-     */
-    Border m_border;
-
-    /**
      * \brief Background char
      */
     Char m_backgroundChar;
+
+	/**
+	 * \brief Border container
+	 */
+	Border m_border;
 
 private:    
     /**
