@@ -22,6 +22,31 @@ void Widget::draw()
     /* full virtual func */
 }
 
+void Widget::setPosition(const Vector2u& newPos)
+{
+	m_position = newPos;
+}
+
+void Widget::move(const Vector2u& deltaPos)
+{
+	setPosition(getPosition() + deltaPos);
+}
+
+uint32_t Widget::getPositionX() const
+{
+	return m_position.x;
+}
+
+uint32_t Widget::getPositionY() const
+{
+	return m_position.y;
+}
+
+Vector2u Widget::getPosition() const
+{
+	return m_position;
+}
+
 void Widget::toFront()
 {
     if (getParent() != nullptr) {

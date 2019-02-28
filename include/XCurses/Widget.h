@@ -1,7 +1,7 @@
 #pragma once
 
-#include <XCurses/Status.h>
 #include <XCurses/Object.h>
+#include <XCurses/Vector.h>
 #include <XCurses/Drawable.h>
 #include <XCurses/Behaviour.h>
 #include <XCurses/ContextComponent.h>
@@ -35,6 +35,36 @@ public:
     virtual void draw() override;
 
     /**
+	 * \brief Set position
+	 * \param newPos New position
+	 */
+	virtual void setPosition(const Vector2u& newPos);
+
+    /**
+	 * \brief Set position. New position = Old position + deltaPos
+	 * \param deltaPos Delta position
+	 */
+	virtual void move(const Vector2u& deltaPos);
+
+    /**
+	 * \brief Get position x component
+	 * \return X coordinate
+	 */
+	virtual uint32_t getPositionX() const;
+
+    /**
+	 * \brief Get position y component
+	 * \return Y coordinate
+	 */
+	virtual uint32_t getPositionY() const;
+
+    /**
+	 * \brief Get position
+	 * \return Position
+	 */
+	virtual Vector2u getPosition() const;
+
+    /**
      * \brief Put widget to front relatively parent
      */
     virtual void toFront() final;
@@ -51,10 +81,15 @@ public:
      */
     Object::Ptr<Container> getParent() const;
 
-private:
+protected:
     /**
      * \brief Ptr to parent widget
      */
     Object::WeakPtr<Container> m_parent;
+
+    /**
+	 * \brief Widget position
+	 */
+	Vector2u m_position;
 };
 }
