@@ -4,7 +4,7 @@
 
 namespace xcur {
 /**
- * \brief Simply wrapper over curses chtype. Allows easy access to
+ * \brief Simple wrapper over curses chtype. Allows easy access to
  * color pair id, attributes and raw character. This char works only
  * with wide character (2 bytes for encoding) and support UCS-2 unicode
  * encoding
@@ -72,6 +72,9 @@ public:
      */
     ~Char() = default;
 
+    /**
+     * \brief Char with value is 0xffff (-1 in signed or 4294967295 in unsigned)
+     */
     static Char Err;
 
     /**

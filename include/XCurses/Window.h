@@ -13,8 +13,7 @@ struct _win;
 namespace xcur {
 
 class Window :
-    public Container,
-    public std::enable_shared_from_this<Window>
+    public Container
 {
 public:
     /**
@@ -136,12 +135,6 @@ protected:
      * \brief Call curses function for redraw border
      */
     void drawCursesBorder() const;
-
-    /**
-     * \brief Get shared ptr from this object
-     * \return Smart ptr to this
-     */
-    Object::Ptr<Window> getSharedFromThis();
 
     /**
      * \brief Background char

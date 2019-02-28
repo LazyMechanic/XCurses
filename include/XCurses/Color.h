@@ -4,7 +4,7 @@
 
 namespace xcur {
 /**
- * \brief This class stored color with component between 0 and 255.
+ * \brief This class stores color with component between 0 and 255.
  * Curses color standard defines that the color component must be
  * between 0 and 1000.
  */
@@ -59,23 +59,86 @@ public:
      */
     ~Color() = default;
 
-    static const Color Black;       // Black predefined color
-    static const Color Red;         // Red predefined color
-    static const Color Green;       // Green predefined color
-    static const Color Blue;        // Blue predefined color
-    static const Color Yellow;      // Yellow predefined color
-    static const Color Magenta;     // Magenta predefined color
-    static const Color Cyan;        // Cyan predefined color
-    static const Color White;       // White predefined color
 
-    static const Color DarkGray;    // Dark Gray predefined color
-    static const Color DarkRed;     // Dark Red predefined color
-    static const Color DarkGreen;   // Dark Green predefined color
-    static const Color DarkBlue;    // Dark Blue predefined color
-    static const Color DarkYellow;  // Dark Yellow predefined color
-    static const Color DarkMagenta; // Dark Magenta predefined color
-    static const Color DarkCyan;    // Dark Cyan predefined color
-    static const Color Gray;        // Gray predefined color
+    /**
+     * \brief Black predefined color
+     */
+    static const Color Black;
+
+	/**
+	 * \brief Red predefined color
+	 */
+    static const Color Red;
+
+	/**
+	 * \brief Green predefined color
+	 */
+    static const Color Green;
+
+	/**
+	 * \brief Blue predefined color
+	 */
+    static const Color Blue;
+
+	/**
+	 * \brief Yellow predefined color
+	 */
+    static const Color Yellow;
+
+	/**
+	 * \brief Magenta predefined color
+	 */
+    static const Color Magenta;
+
+	/**
+	 * \brief Cyan predefined color
+	 */
+    static const Color Cyan;
+
+	/**
+	 * \brief White predefined color
+	 */
+    static const Color White;
+
+	/**
+	 * \brief DarkGray predefined color
+	 */
+    static const Color DarkGray;
+
+	/**
+	 * \brief DarkRed predefined color
+	 */
+    static const Color DarkRed;
+
+	/**
+	 * \brief DarkGreen predefined color
+	 */
+	static const Color DarkGreen;
+
+	/**
+	 * \brief DarkBlue predefined color
+	 */
+    static const Color DarkBlue;
+
+	/**
+	 * \brief DarkYellow predefined color
+	 */
+    static const Color DarkYellow;
+
+	/**
+	 * \brief DarkMagenta predefined color
+	 */
+    static const Color DarkMagenta;
+
+	/**
+	 * \brief DarkCyan predefined color
+	 */
+    static const Color DarkCyan;
+
+	/**
+	 * \brief Gray predefined color
+	 */
+    static const Color Gray;
 
     /**
      * \brief Translates color component from [0, 255] to [0, 1000]

@@ -6,6 +6,9 @@ namespace xcur {
 class Status
 {
 public:
+    /**
+     * \brief Status code
+     */
     enum Code
     {
         Err = -1,

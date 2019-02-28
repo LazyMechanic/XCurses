@@ -60,7 +60,7 @@ void main() {
 	wgetch(stdscr);
 
 
-	WINDOW* testWin1 = newwin(15, 15, 0, 0);
+	WINDOW* testWin1 = newwin(30, 30, 0, 0);
 	WINDOW* testWin2 = newwin(15, 15, 0, 5);
 	WINDOW* testWin3 = newwin(15, 15, 5, 0);
 	WINDOW* testWin4 = newwin(15, 15, 20, 20);
@@ -100,20 +100,20 @@ void main() {
 	//top_panel(testPanel4);
 
 	bool isRunning = true;
+	int i = 0;
 	while (isRunning) {
 		curs_set(0);
 		inputChar = wgetch(stdscr);
 		curs_set(1);
         if (inputChar != ERR) {
 			if (inputChar == '1') {
-				//wclear(testWin1);
-				clearok(testWin1, true);
+				wclear(testWin1);
 			}
             if (inputChar == '2') {
 				wrefresh(testWin1);
             }
             if (inputChar == '3') {
-				waddch(testWin1, inputChar);
+			    mvwaddch(testWin1, 31, 31, inputChar);
             }
 			if (inputChar == '4') {
 				clear();
@@ -122,13 +122,26 @@ void main() {
 				refresh();
 			}
 			if (inputChar == '6') {
+				//testWin1 = resize_window(testWin1, 30, 30);
+				wresize(testWin1, 30, 30);
 			}
+			if (inputChar == '7') {
+				mvwin(testWin1, i, i);
+				i += 3;
+				clear();
+				refresh();
+				wclear(testWin1);
+				wrefresh(testWin1);
+			}
+            if (inputChar == '8') {
+				resize_term(70, 150);
+            }
         }
 
-		wnoutrefresh(testWin1);
-		wnoutrefresh(testWin2);
-		wnoutrefresh(testWin3);
-		wnoutrefresh(testWin4);
+		//wnoutrefresh(testWin1);
+		//wnoutrefresh(testWin2);
+		//wnoutrefresh(testWin3);
+		//wnoutrefresh(testWin4);
 
 		doupdate();
 	}

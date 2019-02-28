@@ -28,12 +28,14 @@ set(XCURSES_INCS
     ${XCURSES_INC_DIR}/Context.h
     ${XCURSES_INC_DIR}/ContextComponent.h
     ${XCURSES_INC_DIR}/Object.h
+    ${XCURSES_INC_DIR}/Object.inl
     ${XCURSES_INC_DIR}/Behaviour.h
     ${XCURSES_INC_DIR}/Drawable.h
     ${XCURSES_INC_DIR}/Container.h
     ${XCURSES_INC_DIR}/HasWindow.h
     ${XCURSES_SRC_DIR}/TreeNode.h
     ${XCURSES_INC_DIR}/Vector.h
+    ${XCURSES_INC_DIR}/Vector.inl
 )
 
 set(XCURSES_SRCS

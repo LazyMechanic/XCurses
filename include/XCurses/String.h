@@ -9,8 +9,14 @@ namespace xcur {
 class String
 {
 public:
+    /**
+     * \brief std::vector<Char>::iterator alias
+     */
     using Iterator = std::vector<Char>::iterator;
 
+	/**
+	 * \brief std::vector<Char>::const_iterator alias
+	 */
     using ConstIterator = std::vector<Char>::const_iterator;
    
     /**
@@ -46,7 +52,7 @@ public:
      * \param index Index
      * \return Reference to \a char
      */
-    Char& operator [](size_t index) const;
+    Char& operator [](size_t index);
 
     /**
      * \brief Overload of the binary += operator.

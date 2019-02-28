@@ -67,10 +67,25 @@ public:
      */
     Border& operator =(Border&&) = default;
 
-    static const Border Blank;      // Blank predefined border
-    static const Border Simple;     // Simple predefined border
-    static const Border Default;    // Default predefined border
-    static const Border Wide;       // Wide predefined border
+    /**
+     * \brief Blank predefined border
+     */
+    static const Border Blank;
+
+	/**
+	 * \brief Simple predefined border
+	 */
+    static const Border Simple;
+
+	/**
+	 * \brief Default predefined border
+	 */
+    static const Border Default;
+
+	/**
+	 * \brief Wide predefined border
+	 */
+    static const Border Wide;
 
     /**
      * \brief Left side character

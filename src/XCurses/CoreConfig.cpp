@@ -17,25 +17,25 @@ CoreConfig::CoreConfig() :
 }
 
 CoreConfig::CoreConfig(
-    unsigned _terminalWidth,
-    unsigned _terminalHeight,
-    unsigned _inputDelay,
-    bool _enableCBreakMode,
-    bool _enableEchoMode,
-    bool _enableRawMode,
-    bool _enableNewLineMode,
-    bool _enableKeypadMode,
-    bool _enableInputDelay
+    unsigned terminalWidth,
+    unsigned terminalHeight,
+    unsigned inputDelay,
+    bool enableCBreakMode,
+    bool enableEchoMode,
+    bool enableRawMode,
+    bool enableNewLineMode,
+    bool enableKeypadMode,
+    bool enableInputDelay
 ) :
-    terminalWidth(_terminalWidth),
-    terminalHeight(_terminalHeight),
-    inputDelay(_inputDelay),
-    enableCBreakMode(_enableCBreakMode),
-    enableEchoMode(_enableEchoMode),
-    enableRawMode(_enableRawMode),
-    enableNewLineMode(_enableNewLineMode),
-    enableKeypadMode(_enableKeypadMode),
-    enableInputDelay(_enableInputDelay)
+    terminalWidth(terminalWidth),
+    terminalHeight(terminalHeight),
+    inputDelay(inputDelay),
+    enableCBreakMode(enableCBreakMode),
+    enableEchoMode(enableEchoMode),
+    enableRawMode(enableRawMode),
+    enableNewLineMode(enableNewLineMode),
+    enableKeypadMode(enableKeypadMode),
+    enableInputDelay(enableInputDelay)
 {
 }
 }

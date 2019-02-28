@@ -47,6 +47,7 @@ public:
      * \brief Add widget. Set context ptr and add to \a update() and \a draw() queues.
      * Widget doesn't stored in context. If widget is container then add all child widgets
      * \param widget Widget
+     * \result Ok if successful, Err otherwise
      */
     virtual Status add(Object::Ptr<Widget> widget) final;
 

@@ -41,12 +41,14 @@ public:
     /**
      * \brief Add widget to container
      * \param widget Widget
+     * \result Ok if successful, Err if widget has another parent
      */
     virtual Status add(Object::Ptr<Widget> widget) final;
 
     /**
      * \brief Remove widget from container
      * \param widget Widget
+     * \result Ok if successful, Err if widget has another parent
      */
     virtual Status remove(Object::Ptr<Widget> widget) final;
 

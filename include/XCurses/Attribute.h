@@ -64,15 +64,50 @@ public:
      */
     bool has(const Attribute& attr) const;
 
-    static const Attribute Normal;      // Normal predefined attribute
-    static const Attribute AltCharset;  // AltCharset predefined attribute
-    static const Attribute Right;       // Right predefined attribute
-    static const Attribute Left;        // Left predefined attribute
-    static const Attribute Italic;      // Italic predefined attribute
-    static const Attribute Underline;   // Underline predefined attribute
-    static const Attribute Reverse;     // Reverse predefined attribute
-    static const Attribute Blink;       // Blink predefined attribute
-    static const Attribute Bold;        // Bold predefined attribute
+    /**
+     * \brief Normal predefined attribute
+     */
+    static const Attribute Normal;
+
+	/**
+	 * \brief AltCharset predefined attribute
+	 */
+    static const Attribute AltCharset;
+
+	/**
+	 * \brief Right predefined attribute
+	 */
+    static const Attribute Right;
+
+	/**
+	 * \brief Left predefined attribute
+	 */
+    static const Attribute Left;
+
+	/**
+	 * \brief Italic predefined attribute
+	 */
+    static const Attribute Italic;
+
+	/**
+	 * \brief Underline predefined attribute
+	 */
+    static const Attribute Underline;
+
+	/**
+	 * \brief Reverse predefined attribute
+	 */
+    static const Attribute Reverse;
+
+	/**
+	 * \brief Blink predefined attribute
+	 */
+    static const Attribute Blink;
+
+	/**
+	 * \brief Bold predefined attribute
+	 */
+    static const Attribute Bold;
 
     /**
      * \brief Attribute value

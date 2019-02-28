@@ -90,6 +90,7 @@ public:
     /**
      * \brief Set existed context as current
      * \param context Context
+     * \return Ok if successful, Err if context not found
      */
     Status setCurrent(Object::Ptr<Context> context);
 

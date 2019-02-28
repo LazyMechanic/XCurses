@@ -11,9 +11,9 @@ String::String(const std::wstring& str) :
 {
 }
 
-Char& String::operator[](size_t index) const
+Char& String::operator[](size_t index)
 {
-    return m_data.at[index];
+    return m_data[index];
 }
 
 String& String::operator+=(const String& right)

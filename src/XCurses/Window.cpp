@@ -36,11 +36,6 @@ _win* Window::getCursesWin() const
     return m_win;
 }
 
-Object::Ptr<Window> Window::getSharedFromThis()
-{
-    return std::enable_shared_from_this<Window>::shared_from_this();
-}
-
 void Window::draw()
 {
     // Clear the window
