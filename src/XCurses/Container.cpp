@@ -13,6 +13,19 @@ void Container::draw()
     /* full virtual func */
 }
 
+void Container::setPosition(const Vector2u& newPos)
+{
+	Widget::setPosition(newPos);
+    for (auto& child : m_childWidgets) {
+		child->setPosition(newPos);
+    }
+}
+
+void Container::move(const Vector2u& deltaPos)
+{
+	setPosition(getPosition() + deltaPos);
+}
+
 Status Container::add(Object::Ptr<Widget> widget)
 {
     // If widget has parent already

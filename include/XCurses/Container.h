@@ -26,6 +26,18 @@ public:
      */
     virtual void draw() override;
 
+	/**
+	 * \brief Set position. Update positions all child widgets
+	 * \param newPos New position
+	 */
+	void setPosition(const Vector2u& newPos) override;
+
+	/**
+	 * \brief Set position. New position = Old position + deltaPos. Update positions all child widgets
+	 * \param deltaPos Delta position
+	 */
+	void move(const Vector2u& deltaPos) override;
+
     /**
      * \brief Add widget to container
      * \param widget Widget
