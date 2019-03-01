@@ -6,8 +6,8 @@ Status::Status() :
 {
 }
 
-Status::Status(int32_t _code) :
-    code(_code)
+Status::Status(int32_t code) :
+    code(code)
 {
 }
 
@@ -17,23 +17,23 @@ Status& Status::operator=(const int32_t& right)
     return *this;
 }
 
-bool operator==(const Status& left, const int32_t& right)
+bool Status::operator==(const int32_t& right) const
 {
-    return left.code == right;
+    return this->code == right;
 }
 
-bool operator==(const Status& left, const Status& right)
+bool Status::operator==(const Status& right) const
 {
-    return left.code == right.code;
+	return this->code == right.code;
 }
 
-bool operator!=(const Status& left, const int32_t& right)
+bool Status::operator!=(const int32_t& right) const
 {
-    return left.code != right;
+    return !(*this == right);
 }
 
-bool operator!=(const Status& left, const Status& right)
+bool Status::operator!=(const Status& right) const
 {
-    return left.code != right.code;
+    return !(*this == right);
 }
 }

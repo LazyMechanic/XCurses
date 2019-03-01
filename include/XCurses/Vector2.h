@@ -214,6 +214,11 @@ public:
 	bool operator!=(const Vector2& right);
 
 	/**
+	 * \brief Vector3 destructor
+	 */
+	~Vector2() = default;
+
+	/**
 	 * \brief X component
 	 */
 	T x;

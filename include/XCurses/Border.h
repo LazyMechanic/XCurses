@@ -4,7 +4,7 @@
 
 namespace xcur {
 /**
- * \brief Container for window border.
+ * \brief The container for window border.
  */
 class Border
 {

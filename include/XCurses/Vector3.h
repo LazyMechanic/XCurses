@@ -214,6 +214,11 @@ public:
 	 */
 	bool operator!=(const Vector3<T>& right);
 
+    /**
+	 * \brief Vector3 destructor
+	 */
+	~Vector3() = default;
+
 	/**
 	 * \brief X component
 	 */
