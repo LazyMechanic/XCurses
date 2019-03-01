@@ -9,6 +9,7 @@
 #include <XCurses/Widget.h>
 #include <XCurses/Window.h>
 #include <XCurses/Border.h>
+#include <XCurses/Vector.h>
 #include <XCurses/Context.h>
 #include <XCurses/Drawable.h>
 #include <XCurses/Attribute.h>

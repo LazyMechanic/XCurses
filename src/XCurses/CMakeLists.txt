@@ -35,7 +35,10 @@ set(XCURSES_INCS
     ${XCURSES_INC_DIR}/HasWindow.h
     ${XCURSES_SRC_DIR}/TreeNode.h
     ${XCURSES_INC_DIR}/Vector.h
-    ${XCURSES_INC_DIR}/Vector.inl
+    ${XCURSES_INC_DIR}/Vector2.h
+    ${XCURSES_INC_DIR}/Vector2.inl
+    ${XCURSES_INC_DIR}/Vector3.h
+    ${XCURSES_INC_DIR}/Vector3.inl
 )
 
 set(XCURSES_SRCS

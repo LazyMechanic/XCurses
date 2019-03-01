@@ -11,7 +11,6 @@
 struct _win;
 
 namespace xcur {
-
 class Window :
     public Container
 {
