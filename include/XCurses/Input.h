@@ -10,7 +10,6 @@ class Input
 public:
     /**
      * \brief Update m_pressedChar
-     * \param window Current (upper) window
      */
     static void handleEvents();
 
