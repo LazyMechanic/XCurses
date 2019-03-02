@@ -2,17 +2,20 @@
 
 #include <algorithm>
 
+#include <PDCurses/curses.h>
+
 #include <XCurses/Input.h>
 #include <XCurses/Widget.h>
+#include <XCurses/Window.h>
 #include <XCurses/TreeNode.h>
 #include <XCurses/Container.h>
 #include <XCurses/ContextSystem.h>
 
 namespace xcur {
 Context::Context() :
-    m_contextSystem(nullptr),
     m_rootWidget(Object::create<Container>()),
-    m_widgetTreeRoot(Object::create<detail::TreeNode>(m_rootWidget))
+    m_widgetTreeRoot(Object::create<detail::TreeNode>(m_rootWidget)),
+	m_contextSystem(nullptr)
 {
 }
 
@@ -29,6 +32,8 @@ void Context::update(float dt)
 void Context::draw()
 {
     m_widgetTreeRoot->draw();
+	refreshWindows();
+	doupdate();
 }
 
 Status Context::add(Object::Ptr<Widget> widget)
@@ -56,6 +61,11 @@ Status Context::remove(Object::Ptr<Widget> widget)
         return Status::Err;
     }
 
+    // If widget parent is root widget of context
+    if (widget->getParent() == m_rootWidget) {
+		m_rootWidget->remove(widget);
+    }
+
     foundNode->getParent()->remove(widget);
     widget->setContext(nullptr);
     return Status::Ok;
@@ -73,6 +83,11 @@ void Context::widgetToFront(Object::Ptr<Widget> widget)
     if (foundNode != nullptr) {
         foundNode->getParent()->widgetToFront(widget);
     }
+}
+
+void Context::addWindowToRefresh(Object::Ptr<Window> window)
+{
+	m_windowsToRefresh.emplace_back(window);
 }
 
 void Context::setContextSystem(ContextSystem* contextSystem)
@@ -116,5 +131,17 @@ Status Context::addSingleWidget(Object::Ptr<Widget> widget)
     widget->setContext(shared_from_this());
 
     return Status::Ok;
+}
+
+void Context::refreshWindows()
+{
+    for (const auto& window : m_windowsToRefresh) {
+		auto sharedWindow = window.lock();
+        // If window still exists
+        if (sharedWindow != nullptr) {
+			wnoutrefresh(sharedWindow->getCursesWin());
+        }
+    }
+	m_windowsToRefresh.clear();
 }
 }

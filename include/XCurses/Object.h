@@ -70,7 +70,7 @@ public:
      * \brief Get id
      * \return Object id
      */
-    virtual uint64_t getId() const final;
+    uint64_t getId() const;
 
 protected:
     /**

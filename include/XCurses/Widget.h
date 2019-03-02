@@ -67,7 +67,7 @@ public:
     /**
      * \brief Put widget to front relatively parent
      */
-    virtual void toFront() final;
+    void toFront();
 
     /**
      * \brief Set parent widget container

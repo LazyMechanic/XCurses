@@ -17,9 +17,9 @@ CoreConfig::CoreConfig() :
 }
 
 CoreConfig::CoreConfig(
-    unsigned terminalWidth,
-    unsigned terminalHeight,
-    unsigned inputDelay,
+	uint32_t terminalWidth,
+	uint32_t terminalHeight,
+	uint32_t inputDelay,
     bool enableCBreakMode,
     bool enableEchoMode,
     bool enableRawMode,

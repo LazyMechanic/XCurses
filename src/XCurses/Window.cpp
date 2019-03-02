@@ -42,11 +42,15 @@ void Window::draw()
     wclear(m_win);
     // Draw border
 	drawCursesBorder();
+    
+    if (getContext() != nullptr) {
+		getContext()->addWindowToRefresh(std::dynamic_pointer_cast<Window>(shared_from_this()));
+    }
 }
 
 void Window::addChar(const Char& ch) const
 {
-    waddch(m_win, ch.toCursesChar());
+	addChar(ch, getCursorPosition());
 }
 
 void Window::addChar(const Char& ch, const Vector2u& pos) const
@@ -103,6 +107,17 @@ uint32_t Window::getHeight() const
 Vector2u Window::getSize() const
 {
 	return Vector2u(getWidth(), getHeight());
+}
+
+void Window::setBackground(const Char& ch)
+{
+	m_backgroundChar = ch;
+	bkgdset(m_backgroundChar.toCursesChar());
+}
+
+Char Window::getBackground() const
+{
+	return m_backgroundChar;
 }
 
 void Window::drawCursesBorder() const

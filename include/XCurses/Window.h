@@ -112,22 +112,30 @@ public:
 	Vector2u getSize() const;
 
     /**
+	 * \brief Set background character
+	 * \param ch Character
+	 */
+	void setBackground(const Char& ch);
+
+	Char getBackground() const;
+
+    /**
      * \brief Set new border
      * \param border Border
      */
-    virtual void setBorder(const Border& border) final;
+    void setBorder(const Border& border);
 
     /**
      * \brief Get current border
      * \return Border
      */
-    virtual Border getBorder() const final;
+    Border getBorder() const;
 
     /**
      * \brief Get curses window
      * \return Raw ptr to curses window
      */
-    virtual _win* getCursesWin() const final;
+    _win* getCursesWin() const;
 
 protected:
     /**

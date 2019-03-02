@@ -107,13 +107,15 @@ void main() {
 		curs_set(1);
         if (inputChar != ERR) {
 			if (inputChar == '1') {
-				wclear(testWin1);
+				clearok(testWin1, true);
 			}
             if (inputChar == '2') {
-				wrefresh(testWin1);
+				wnoutrefresh(testWin1);
             }
             if (inputChar == '3') {
-			    mvwaddch(testWin1, 31, 31, inputChar);
+				touchwin(testWin1);
+				wnoutrefresh(testWin1);
+			    mvwaddch(testWin1, 5, 5, inputChar);
             }
 			if (inputChar == '4') {
 				clear();
@@ -123,7 +125,7 @@ void main() {
 			}
 			if (inputChar == '6') {
 				//testWin1 = resize_window(testWin1, 30, 30);
-				wresize(testWin1, 30, 30);
+				wclear(testWin1);
 			}
 			if (inputChar == '7') {
 				mvwin(testWin1, i, i);

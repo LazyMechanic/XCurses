@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace xcur {
 class CoreConfig
 {
@@ -22,9 +24,9 @@ public:
      * \param enableInputDelay Delay mode state
      */
     CoreConfig(
-        unsigned int terminalWidth,
-        unsigned int terminalHeight,
-        unsigned int inputDelay,
+        uint32_t terminalWidth,
+		uint32_t terminalHeight,
+		uint32_t inputDelay,
         bool enableCBreakMode,
         bool enableEchoMode,
         bool enableRawMode,
@@ -41,17 +43,17 @@ public:
     /**
      * \brief Terminal width
      */
-    unsigned int terminalWidth;
+    uint32_t terminalWidth;
 
     /**
      * \brief Terminal height
      */
-    unsigned int terminalHeight;
+    uint32_t terminalHeight;
 
     /**
      * \brief Delay value for input
      */
-    unsigned int inputDelay;
+    uint32_t inputDelay;
 
     /**
      * \brief CBreak mode state

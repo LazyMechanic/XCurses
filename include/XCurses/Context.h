@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include <memory>
 
 #include <XCurses/Status.h>
@@ -12,6 +13,7 @@ namespace detail {
 class TreeNode;
 }
 class Widget;
+class Window;
 class Container;
 class ContextSystem;
 
@@ -49,7 +51,7 @@ public:
      * \param widget Widget
      * \result Ok if successful, Err otherwise
      */
-    virtual Status add(Object::Ptr<Widget> widget) final;
+    Status add(Object::Ptr<Widget> widget);
 
     /**
      * \brief Remove widget. Remove only weak ptr from queues. 
@@ -57,20 +59,27 @@ public:
      * \param widget Widget
      * \return Ok if remove successful, Err otherwise
      */
-    virtual Status remove(Object::Ptr<Widget> widget) final;
+    Status remove(Object::Ptr<Widget> widget);
 
     /**
      * \brief Find widget in widget tree
      * \param widget Widget
      * \return True if context has widget, false otherwise
      */
-    virtual bool has(Object::Ptr<Widget> widget) const final;
+    bool has(Object::Ptr<Widget> widget) const;
 
     /**
      * \brief Put widget to front
      * \param widget Widget
      */
     void widgetToFront(Object::Ptr<Widget> widget);
+
+    /**
+	 * \brief Add window to refresh queue. After call all draw functions will call
+	 * wnoutrefresh() for all windows
+	 * \param window 
+	 */
+	void addWindowToRefresh(Object::Ptr<Window> window);
 
     /**
      * \brief Set ptr to context system
@@ -91,9 +100,20 @@ protected:
     Object::Ptr<Container> m_rootWidget;
 
     /**
-     * \brief Widget tree root node. Need for call \a update() and \a draw() functions in the correct sequence
+     * \brief Widget tree root node. Need for call \a update() and \a draw() functions 
+     * in the correct sequence
      */
     Object::Ptr<detail::TreeNode> m_widgetTreeRoot;
+
+    /**
+	 * \brief Windows to refresh
+	 */
+	std::list<Object::WeakPtr<Window>> m_windowsToRefresh;
+
+	/**
+	 * \brief Ptr to context system
+	 */
+	ContextSystem* m_contextSystem;
 
 private:
     /**
@@ -111,8 +131,8 @@ private:
     Status addSingleWidget(Object::Ptr<Widget> widget);
 
     /**
-     * \brief Ptr to context system
-     */
-    ContextSystem* m_contextSystem;
+	 * \brief Refresh all windows
+	 */
+	void refreshWindows();
 };
 }
