@@ -1,9 +1,9 @@
 #define CATCH_CONFIG_MAIN
 #include <Catch2/catch.hpp>
 
-#include <XCurses/Color.h>
-#include <XCurses/ColorSystem.h>
-#include <XCurses/ColorPalette.h>
+#include <XCurses/Graphics/Color.h>
+#include <XCurses/Graphics/ColorSystem.h>
+#include <XCurses/Graphics/ColorPalette.h>
 
 using namespace xcur;
 

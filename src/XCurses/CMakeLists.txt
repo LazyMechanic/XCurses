@@ -11,55 +11,66 @@ if (UNIX)
     add_definitions(-DXCURSES_SYSTEM_UNIX)
 endif (UNIX)
 
-set(XCURSES_INCS
-    ${XCURSES_INC_DIR}/XCurses.h
-    ${XCURSES_INC_DIR}/Core.h
-    ${XCURSES_INC_DIR}/CoreConfig.h
-    ${XCURSES_INC_DIR}/Border.h
-    ${XCURSES_INC_DIR}/Window.h
-    ${XCURSES_INC_DIR}/Status.h
-    ${XCURSES_INC_DIR}/Char.h
-    ${XCURSES_INC_DIR}/Attribute.h
-    ${XCURSES_INC_DIR}/Color.h
-    ${XCURSES_INC_DIR}/ColorSystem.h
-    ${XCURSES_INC_DIR}/ColorPalette.h
-    ${XCURSES_INC_DIR}/Widget.h
-    ${XCURSES_INC_DIR}/Input.h
-    ${XCURSES_INC_DIR}/Context.h
-    ${XCURSES_INC_DIR}/ContextComponent.h
-    ${XCURSES_INC_DIR}/Object.h
-    ${XCURSES_INC_DIR}/Object.inl
-    ${XCURSES_INC_DIR}/Behaviour.h
-    ${XCURSES_INC_DIR}/Drawable.h
-    ${XCURSES_INC_DIR}/Container.h
-    ${XCURSES_INC_DIR}/HasWindow.h
-    ${XCURSES_SRC_DIR}/TreeNode.h
-    ${XCURSES_INC_DIR}/Vector.h
-    ${XCURSES_INC_DIR}/Vector2.h
-    ${XCURSES_INC_DIR}/Vector2.inl
-    ${XCURSES_INC_DIR}/Vector3.h
-    ${XCURSES_INC_DIR}/Vector3.inl
+set(XCURSES_GRAPHICS_SRCS
+	${XCURSES_INC_DIR}/Graphics/Behaviour.h
+	${XCURSES_INC_DIR}/Graphics/Border.h
+	${XCURSES_SRC_DIR}/Graphics/Border.cpp
+	${XCURSES_INC_DIR}/Graphics/Color.h
+	${XCURSES_SRC_DIR}/Graphics/Color.cpp
+	${XCURSES_INC_DIR}/Graphics/ColorPalette.h
+	${XCURSES_SRC_DIR}/Graphics/ColorPalette.cpp
+	${XCURSES_INC_DIR}/Graphics/ColorSystem.h
+	${XCURSES_SRC_DIR}/Graphics/ColorSystem.cpp
+	${XCURSES_INC_DIR}/Graphics/Container.h
+	${XCURSES_SRC_DIR}/Graphics/Container.cpp
+	${XCURSES_INC_DIR}/Graphics/Context.h
+	${XCURSES_SRC_DIR}/Graphics/Context.cpp
+	${XCURSES_INC_DIR}/Graphics/ContextComponent.h
+	${XCURSES_SRC_DIR}/Graphics/ContextComponent.cpp
+	${XCURSES_INC_DIR}/Graphics/Drawable.h
+	${XCURSES_INC_DIR}/Graphics/HasWindow.h
+	${XCURSES_SRC_DIR}/Graphics/HasWindow.cpp
+	${XCURSES_INC_DIR}/Graphics/Object.h
+	${XCURSES_INC_DIR}/Graphics/Object.inl
+	${XCURSES_SRC_DIR}/Graphics/Object.cpp
+	${XCURSES_INC_DIR}/Graphics/Widget.h
+	${XCURSES_SRC_DIR}/Graphics/Widget.cpp
+	${XCURSES_INC_DIR}/Graphics/Window.h
+	${XCURSES_SRC_DIR}/Graphics/Window.cpp
+	${XCURSES_SRC_DIR}/Graphics/TreeNode.h
+	${XCURSES_SRC_DIR}/Graphics/TreeNode.cpp
+)
+
+set(XCURSES_SYSTEM_SRCS
+	${XCURSES_INC_DIR}/System/Core.h
+	${XCURSES_SRC_DIR}/System/Core.cpp
+	${XCURSES_INC_DIR}/System/CoreConfig.h
+	${XCURSES_SRC_DIR}/System/CoreConfig.cpp
+	${XCURSES_INC_DIR}/System/Input.h
+	${XCURSES_SRC_DIR}/System/Input.cpp
+	${XCURSES_INC_DIR}/System/Status.h
+	${XCURSES_SRC_DIR}/System/Status.cpp
+	${XCURSES_INC_DIR}/System/Vector.h
+	${XCURSES_INC_DIR}/System/Vector2.h
+	${XCURSES_INC_DIR}/System/Vector2.inl
+	${XCURSES_INC_DIR}/System/Vector3.h
+	${XCURSES_INC_DIR}/System/Vector3.inl
+)
+
+set(XCURSES_TEXT_SRCS
+	${XCURSES_INC_DIR}/Text/Attribute.h
+	${XCURSES_SRC_DIR}/Text/Attribute.cpp
+	${XCURSES_INC_DIR}/Text/Char.h
+	${XCURSES_SRC_DIR}/Text/Char.cpp
+	${XCURSES_INC_DIR}/Text/String.h
+	${XCURSES_SRC_DIR}/Text/String.cpp
 )
 
 set(XCURSES_SRCS
-    ${XCURSES_SRC_DIR}/Core.cpp
-    ${XCURSES_SRC_DIR}/CoreConfig.cpp
-    ${XCURSES_SRC_DIR}/Window.cpp
-    ${XCURSES_SRC_DIR}/Border.cpp
-    ${XCURSES_SRC_DIR}/Status.cpp
-    ${XCURSES_SRC_DIR}/Char.cpp
-    ${XCURSES_SRC_DIR}/Attribute.cpp
-    ${XCURSES_SRC_DIR}/Color.cpp
-    ${XCURSES_SRC_DIR}/ColorSystem.cpp
-    ${XCURSES_SRC_DIR}/ColorPalette.cpp
-    ${XCURSES_SRC_DIR}/Widget.cpp
-    ${XCURSES_SRC_DIR}/Input.cpp
-    ${XCURSES_SRC_DIR}/Context.cpp
-    ${XCURSES_SRC_DIR}/ContextComponent.cpp
-    ${XCURSES_SRC_DIR}/Object.cpp
-    ${XCURSES_SRC_DIR}/Container.cpp
-    ${XCURSES_SRC_DIR}/HasWindow.cpp
-    ${XCURSES_SRC_DIR}/TreeNode.cpp
+	${XCURSES_GRAPHICS_SRCS}
+	${XCURSES_SYSTEM_SRCS}
+	${XCURSES_TEXT_SRCS}
+    ${XCURSES_INC_DIR}/XCurses.h
 )
 
 set(XCURSES_LIBS
@@ -67,7 +78,6 @@ set(XCURSES_LIBS
 )
 
 add_library(XCurses STATIC 
-    ${XCURSES_INCS}
     ${XCURSES_SRCS}
 )
 
