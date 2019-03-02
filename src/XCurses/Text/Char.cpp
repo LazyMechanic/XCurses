@@ -11,7 +11,7 @@ Char::Char() :
 Char::Char(uint16_t ch) :
     m_data(0x00000000)
 {
-    setColoPairId(0);
+    setColorPairId(0);
     setAttr(Attribute::Normal);
     setChar(ch);
 }
@@ -19,7 +19,7 @@ Char::Char(uint16_t ch) :
 Char::Char(uint8_t colorPairId, Attribute attr, uint16_t ch) :
     m_data(0x00000000)
 {
-    setColoPairId(colorPairId);
+    setColorPairId(colorPairId);
     setAttr(attr);
     setChar(ch);
 }
@@ -40,7 +40,7 @@ void Char::setAttr(const Attribute& attr)
     m_data |= attr.toCursesAttr();
 }
 
-void Char::setColoPairId(uint8_t id)
+void Char::setColorPairId(uint8_t id)
 {
     m_data |= static_cast<uint32_t>(id) << 24;
 }
@@ -55,7 +55,7 @@ Attribute Char::getAttr() const
     return Attribute(m_data & 0x00ff0000);
 }
 
-uint8_t Char::getColoPairId() const
+uint8_t Char::getColorPairId() const
 {
     return static_cast<uint8_t>((m_data & 0xff000000) >> 24);
 }

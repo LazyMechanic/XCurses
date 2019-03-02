@@ -99,7 +99,7 @@ public:
      * \brief Set color pair id
      * \param id Pair id
      */
-    void setColoPairId(uint8_t id);
+    void setColorPairId(uint8_t id);
 
     /**
      * \brief Get only character value
@@ -117,7 +117,7 @@ public:
      * \brief Get color pair id
      * \return Color pair id
      */
-    uint8_t getColoPairId() const;
+    uint8_t getColorPairId() const;
 
 private:
     /**
