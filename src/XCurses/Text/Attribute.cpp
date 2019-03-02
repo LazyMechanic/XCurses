@@ -39,63 +39,63 @@ bool Attribute::has(const Attribute& attr) const
     return (value & attr.value) == attr.value;
 }
 
-bool operator==(const Attribute& left, const Attribute& right)
+bool Attribute::operator==(const Attribute& right) const
 {
-    return left.value == right.value;
+    return this->value == right.value;
 }
 
-bool operator==(const Attribute& left, uint32_t right)
+bool Attribute::operator==(uint32_t right) const
 {
-    return left.value == static_cast<uint8_t>(right >> 16);
+    return this->value == static_cast<uint8_t>(right >> 16);
 }
 
-bool operator!=(const Attribute& left, const Attribute& right)
+bool Attribute::operator!=(const Attribute& right) const
 {
-    return !(left == right);
+    return !(*this == right);
 }
 
-bool operator!=(const Attribute& left, uint32_t right)
+bool Attribute::operator!=(uint32_t right) const
 {
-    return !(left == right);
+    return !(*this == right);
 }
 
-Attribute operator|(const Attribute& left, const Attribute& right)
+Attribute Attribute::operator|(const Attribute& right) const
 {
-    return Attribute(left.value | right.value);
+    return Attribute(this->value | right.value);
 }
 
-Attribute operator|(const Attribute& left, uint32_t right)
+Attribute Attribute::operator|(uint32_t right) const
 {
-    return Attribute(left.value | static_cast<uint8_t>(right >> 16));
+    return Attribute(this->value | static_cast<uint8_t>(right >> 16));
 }
 
-Attribute operator&(const Attribute& left, const Attribute& right)
+Attribute Attribute::operator&(const Attribute& right) const
 {
-    return Attribute(left.value & right.value);
+    return Attribute(this->value & right.value);
 }
 
-Attribute operator&(const Attribute& left, uint32_t right)
+Attribute Attribute::operator&(uint32_t right) const
 {
-    return Attribute(left.value & static_cast<uint8_t>(right >> 16));
+    return Attribute(this->value & static_cast<uint8_t>(right >> 16));
 }
 
-Attribute& operator|=(Attribute& left, const Attribute& right)
+Attribute& Attribute::operator|=(const Attribute& right)
 {
-    return left = left | right;
+    return *this = *this | right;
 }
 
-Attribute& operator|=(Attribute& left, uint32_t right)
+Attribute& Attribute::operator|=(uint32_t right)
 {
-    return left = left | right;
+    return *this = *this | right;
 }
 
-Attribute& operator&=(Attribute& left, const Attribute& right)
+Attribute& Attribute::operator&=(const Attribute& right)
 {
-    return left = left & right;
+    return *this = *this & right;
 }
 
-Attribute& operator&=(Attribute& left, uint32_t right)
+Attribute& Attribute::operator&=(uint32_t right)
 {
-    return left = left & right;
+    return *this = *this & right;
 }
 }
