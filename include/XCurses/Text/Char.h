@@ -23,7 +23,7 @@ public:
      * \brief Construct the char with specific character
      * \param ch Character
      */
-    explicit Char(uint16_t ch);
+    Char(uint16_t ch);
 
     /**
      * \brief Construct the char with specific params
