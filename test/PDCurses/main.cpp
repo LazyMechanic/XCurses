@@ -96,6 +96,8 @@ void main() {
 
 	chtype inputChar = ERR;
 
+	mvwinch(testWin1, 10, 10);
+
 	//bottom_panel(testPanel1);
 	//top_panel(testPanel4);
 

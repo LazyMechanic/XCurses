@@ -1,5 +1,7 @@
 #pragma once
 
+#include <XCurses/Graphics/Widgets/Title.h>
+
 #include <XCurses/Graphics/Color.h>
 #include <XCurses/Graphics/Object.h>
 #include <XCurses/Graphics/Widget.h>
