@@ -21,6 +21,14 @@ public:
     Window();
 
     /**
+	 * \brief Window constructor. Construct window with specific position and size.
+	 * position.x is width, position.y is height
+	 * \param position 
+	 * \param size 
+	 */
+	Window(const Vector2u& position, const Vector2u& size);
+
+    /**
      * \brief Window destructor
      */
     virtual ~Window();
@@ -116,8 +124,6 @@ public:
 	 * \return Window size
 	 */
 	Vector2u getSize() const;
-
-
 
     /**
 	 * \brief Set background character

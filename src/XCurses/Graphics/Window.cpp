@@ -8,6 +8,14 @@ Window::Window() :
     m_backgroundChar(' '),
     m_border(Border::Default)
 {
+	m_win = newwin(0, 0, 0, 0);
+}
+
+Window::Window(const Vector2u& position, const Vector2u& size) :
+	m_backgroundChar(' '),
+	m_border(Border::Default)
+{
+	m_win = newwin(size.y, size.x, position.y, position.x);
 }
 
 Window::~Window()
