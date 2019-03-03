@@ -5,7 +5,6 @@
 
 using namespace xcur;
 
-TEST_CASE("", "[Window]")
+TEST_CASE("Title", "[Widget][Title]")
 {
-    
 }
