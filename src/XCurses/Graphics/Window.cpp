@@ -58,6 +58,11 @@ void Window::addChar(const Char& ch, const Vector2u& pos) const
     mvwaddch(m_win, pos.y, pos.x, ch.toCursesChar());
 }
 
+Char Window::getChar(const Vector2u& pos) const
+{
+	return Char(mvwinch(m_win, pos.y, pos.x));
+}
+
 void Window::setCursorPosition(const Vector2u& newPos) const
 {
     wmove(m_win, newPos.y, newPos.x);

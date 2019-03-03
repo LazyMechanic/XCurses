@@ -51,6 +51,12 @@ public:
     void addChar(const Char& ch, const Vector2u& pos) const;
 
     /**
+	 * \brief Get character on window on the position. inch() alternative
+	 * \return Char
+	 */
+	Char getChar(const Vector2u& pos) const;
+
+    /**
      * \brief Move cursor to new position. If new position is out of window then do nothing
      * \param newPos New position
      */
@@ -111,12 +117,18 @@ public:
 	 */
 	Vector2u getSize() const;
 
+
+
     /**
 	 * \brief Set background character
 	 * \param ch Character
 	 */
 	void setBackground(const Char& ch);
 
+    /**
+	 * \brief Get background char
+	 * \return Char
+	 */
 	Char getBackground() const;
 
     /**
