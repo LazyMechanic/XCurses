@@ -3,9 +3,8 @@
 #include <list>
 #include <memory>
 
-#include <XCurses/Graphics/Border.h>
-#include <XCurses/Graphics/Widget.h>
 #include <XCurses/System/Vector.h>
+#include <XCurses/Graphics/Border.h>
 #include <XCurses/Graphics/Container.h>
 
 struct _win;
@@ -15,11 +14,6 @@ class Window :
     public Container
 {
 public:
-    /**
-     * \brief Default Window constructor
-     */
-    Window();
-
     /**
 	 * \brief Window constructor. Construct window with specific position and size.
 	 * position.x is width, position.y is height

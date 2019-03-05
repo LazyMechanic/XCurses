@@ -1,6 +1,7 @@
 #include <XCurses/Graphics/Widget.h>
 
 #include <XCurses/Graphics/Window.h>
+#include <XCurses/Graphics/Context.h>
 #include <XCurses/Graphics/Container.h>
 
 namespace xcur {
@@ -62,5 +63,15 @@ void Widget::setParent(Object::Ptr<Container> parent)
 Object::Ptr<Container> Widget::getParent() const
 {
     return m_parent.lock();
+}
+
+void Widget::setContext(Object::Ptr<Context> context)
+{
+	m_context = context;
+}
+
+Object::Ptr<Context> Widget::getContext() const
+{
+	return m_context.lock();
 }
 }

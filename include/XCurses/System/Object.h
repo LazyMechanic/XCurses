@@ -85,5 +85,5 @@ private:
     static uint64_t nextId;
 };
 
-#include <XCurses/Graphics/Object.inl>
+#include <XCurses/System/Object.inl>
 }

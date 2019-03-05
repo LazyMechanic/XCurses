@@ -1,4 +1,4 @@
-#include <XCurses/Graphics/Object.h>
+#include <XCurses/System/Object.h>
 
 namespace xcur {
 uint64_t Object::nextId = 0;

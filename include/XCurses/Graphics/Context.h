@@ -4,7 +4,7 @@
 #include <memory>
 
 #include <XCurses/System/Status.h>
-#include <XCurses/Graphics/Object.h>
+#include <XCurses/System/Object.h>
 #include <XCurses/Graphics/Drawable.h>
 #include <XCurses/Graphics/Behaviour.h>
 
@@ -15,6 +15,7 @@ class TreeNode;
 class Widget;
 class Window;
 class Container;
+class RootWindow;
 class ContextSystem;
 
 class Context :
@@ -72,7 +73,7 @@ public:
      * \brief Put widget to front
      * \param widget Widget
      */
-    void widgetToFront(Object::Ptr<Widget> widget);
+    void widgetToFront(Object::Ptr<Widget> widget) const;
 
     /**
 	 * \brief Add window to refresh queue. After call all draw functions will call
@@ -82,22 +83,22 @@ public:
 	void addWindowToRefresh(Object::Ptr<Window> window);
 
     /**
-     * \brief Set ptr to context system
-     * \param contextSystem Context system
-     */
-    void setContextSystem(ContextSystem* contextSystem);
+	 * \brief Set context system
+	 * \param contextSystem Context system
+	 */
+	void setContextSystem(Object::Ptr<ContextSystem> contextSystem);
 
     /**
-     * \brief Get ptr to context system
-     * \return Ptr to context system
-     */
-    ContextSystem* getContextSystem() const;
+	 * \brief Get context system
+	 * \return Smart ptr to context system
+	 */
+	Object::Ptr<ContextSystem> getContextSystem() const;
 
 protected:
     /**
-     * \brief Root widget
+     * \brief Root window
      */
-    Object::Ptr<Container> m_rootWidget;
+    Object::Ptr<RootWindow> m_rootWindow;
 
     /**
      * \brief Widget tree root node. Need for call \a update() and \a draw() functions 
@@ -110,10 +111,10 @@ protected:
 	 */
 	std::list<Object::WeakPtr<Window>> m_windowsToRefresh;
 
-	/**
+    /**
 	 * \brief Ptr to context system
 	 */
-	ContextSystem* m_contextSystem;
+	Object::WeakPtr<ContextSystem> m_contextSystem;
 
 private:
     /**

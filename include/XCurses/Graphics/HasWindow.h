@@ -6,6 +6,33 @@ namespace xcur {
 class HasWindow
 {
 public:
+	/**
+	 * \brief Default HasWindow constructor.
+	 */
+	HasWindow() = default;
+
+	/**
+	 * \brief Copy HasWindow constructor
+	 */
+	HasWindow(const HasWindow&) = default;
+
+	/**
+	 * \brief Move HasWindow constructor
+	 */
+	HasWindow(HasWindow&&) = default;
+
+	/**
+	 * \brief Default copy assignment operator
+	 * \return Reference to \a this
+	 */
+	HasWindow& operator =(const HasWindow&) = default;
+
+	/**
+	 * \brief Default move assignment operator
+	 * \return Reference to \a this
+	 */
+	HasWindow& operator =(HasWindow&&) = default;
+
     /**
      * \brief HasWindow destructor
      */

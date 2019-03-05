@@ -3,7 +3,7 @@
 #include <XCurses/Graphics/Widgets/Title.h>
 
 #include <XCurses/Graphics/Color.h>
-#include <XCurses/Graphics/Object.h>
+#include <XCurses/System/Object.h>
 #include <XCurses/Graphics/Widget.h>
 #include <XCurses/Graphics/Window.h>
 #include <XCurses/Graphics/Border.h>
@@ -12,10 +12,10 @@
 #include <XCurses/Graphics/Behaviour.h>
 #include <XCurses/Graphics/Container.h>
 #include <XCurses/Graphics/HasWindow.h>
+#include <XCurses/Graphics/HasWindow.h>
 #include <XCurses/Graphics/ColorSystem.h>
 #include <XCurses/Graphics/ColorPalette.h>
 #include <XCurses/Graphics/ContextSystem.h>
-#include <XCurses/Graphics/ContextComponent.h>
 
 #include <XCurses/System/Core.h>
 #include <XCurses/System/Input.h>

@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <string>
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 struct Color
 {
@@ -21,6 +23,8 @@ Color getPDCursesColor(short red, short green, short blue)
 }
 
 void main() {
+	using namespace std::chrono_literals;
+
 	initscr();
 
 	// Set size of terminal
@@ -101,53 +105,68 @@ void main() {
 	//bottom_panel(testPanel1);
 	//top_panel(testPanel4);
 
+	WINDOW* baseWin = newwin(getmaxy(stdscr), getmaxx(stdscr), 0, 0);
+	wmove(baseWin, 35, 35);
+
 	bool isRunning = true;
 	int i = 0;
+	std::chrono::time_point<std::chrono::system_clock> lastTime = std::chrono::system_clock::now();
 	while (isRunning) {
+		std::chrono::time_point<std::chrono::system_clock> currentTime = std::chrono::system_clock::now();
+
 		curs_set(0);
 		inputChar = wgetch(stdscr);
 		curs_set(1);
         if (inputChar != ERR) {
 			if (inputChar == '1') {
-				clearok(testWin1, true);
+				mvaddch(30, 30, '+');
 			}
             if (inputChar == '2') {
 				wnoutrefresh(testWin1);
             }
             if (inputChar == '3') {
-				touchwin(testWin1);
-				wnoutrefresh(testWin1);
-			    mvwaddch(testWin1, 5, 5, inputChar);
+				waddch(baseWin, 'K');
             }
 			if (inputChar == '4') {
-				clear();
+				mvwaddch(testWin2, 3, 3, inputChar);
 			}
 			if (inputChar == '5') {
-				refresh();
+				mvwaddch(testWin3, 3, 3, inputChar);
 			}
 			if (inputChar == '6') {
-				//testWin1 = resize_window(testWin1, 30, 30);
-				wclear(testWin1);
-			}
-			if (inputChar == '7') {
 				mvwin(testWin1, i, i);
 				i += 3;
-				clear();
-				refresh();
-				wclear(testWin1);
-				wrefresh(testWin1);
+			}
+			if (inputChar == '7') {
+
 			}
             if (inputChar == '8') {
 				resize_term(70, 150);
             }
+            if (inputChar == '9') {
+				resize_term(60, 150);
+            }
         }
 
-		//wnoutrefresh(testWin1);
-		//wnoutrefresh(testWin2);
-		//wnoutrefresh(testWin3);
-		//wnoutrefresh(testWin4);
+        if (is_termresized()) {
+			waddch(baseWin, 'K');
+        }
+
+		touchwin(baseWin);
+		touchwin(testWin1);
+		touchwin(testWin2);
+		touchwin(testWin3);
+		touchwin(testWin4);
+
+		wnoutrefresh(baseWin);
+		wnoutrefresh(testWin1);
+		wnoutrefresh(testWin2);
+		wnoutrefresh(testWin3);
+		wnoutrefresh(testWin4);
 
 		doupdate();
+
+		//std::this_thread::sleep_until(currentTime + 80ms);
 	}
 	endwin();
 }

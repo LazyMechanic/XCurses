@@ -3,10 +3,9 @@
 #include <list>
 
 #include <XCurses/Graphics/Widget.h>
-#include <XCurses/Graphics/Object.h>
+#include <XCurses/System/Object.h>
 #include <XCurses/Graphics/Drawable.h>
 #include <XCurses/Graphics/Behaviour.h>
-#include <XCurses/Graphics/ContextComponent.h>
 
 namespace xcur {
 namespace detail {
@@ -14,7 +13,6 @@ class TreeNode :
     public Object,
     public Drawable,
     public Behaviour,
-    public ContextComponent,
     public std::enable_shared_from_this<TreeNode>
 {
 public:

@@ -5,6 +5,7 @@
 #include <PDCurses/curses.h>
 
 #include <XCurses/System/Input.h>
+#include <XCurses/Graphics/Context.h>
 
 namespace xcur {
 Core::Core()
@@ -19,15 +20,15 @@ Core::~Core()
 
 void Core::init(const CoreConfig& config)
 {
-    this->setCBrakeMode(config.enableCBreakMode);
+    this->setCBreakMode(config.enableCBreakMode);
     this->setEchoMode(config.enableEchoMode);
     this->setRawMode(config.enableRawMode);
     this->setNewLineMode(config.enableNewLineMode);
-    this->setTerminalSize(config.terminalWidth, config.terminalHeight);
+    this->setTerminalSize(config.terminalSize);
 
 }
 
-Status Core::setCBrakeMode(bool v)
+Status Core::setCBreakMode(bool v)
 {
     m_config.enableCBreakMode = v;
     if (v) {
@@ -36,6 +37,11 @@ Status Core::setCBrakeMode(bool v)
     else {
         return nocbreak();
     }
+}
+
+bool Core::isCBreakMode() const
+{
+	return m_config.enableCBreakMode;
 }
 
 Status Core::setEchoMode(bool v)
@@ -49,6 +55,11 @@ Status Core::setEchoMode(bool v)
     }
 }
 
+bool Core::isEchoMode() const
+{
+	return m_config.enableEchoMode;
+}
+
 Status Core::setRawMode(bool v)
 {
     m_config.enableRawMode = v;
@@ -58,6 +69,11 @@ Status Core::setRawMode(bool v)
     else {
         return noraw();
     }
+}
+
+bool Core::isRawMode() const
+{
+	return m_config.enableRawMode;
 }
 
 Status Core::setNewLineMode(bool v)
@@ -71,11 +87,21 @@ Status Core::setNewLineMode(bool v)
     }
 }
 
-Status Core::setTerminalSize(unsigned int width, unsigned int height)
+bool Core::isNewLineMode() const
 {
-    m_config.terminalWidth = getmaxx(stdscr);
-    m_config.terminalHeight = getmaxy(stdscr);
-    return resize_term(height, width);
+	return m_config.enableNewLineMode;
+}
+
+Status Core::setTerminalSize(const Vector2u& size)
+{
+	Status result = resize_term(size.y, size.x);
+    m_config.terminalSize = Vector2u(getmaxx(stdscr), getmaxy(stdscr));
+    return result;
+}
+
+Vector2u Core::getTerminalSize() const
+{
+	return m_config.terminalSize;
 }
 
 Status Core::blinkColors() const
@@ -88,6 +114,11 @@ Status Core::playBeepSound() const
     return beep();
 }
 
+bool Core::isTerminalResized() const
+{
+	return m_isTermResized;
+}
+
 void Core::handleEvents()
 {
     // TODO: call current context handleEvents() func
@@ -96,6 +127,8 @@ void Core::handleEvents()
 void Core::update(const float dt)
 {
     // TODO: call current context update() func
+
+	m_isTermResized = false;
 }
 
 void Core::draw()

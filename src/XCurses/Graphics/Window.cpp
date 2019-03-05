@@ -1,16 +1,10 @@
 #include <PDCurses/curses.h>
 
 #include <XCurses/Graphics/Window.h>
+#include <XCurses/Graphics/Context.h>
 #include <XCurses/Graphics/Container.h>
 
 namespace xcur {
-Window::Window() :
-    m_backgroundChar(' '),
-    m_border(Border::Default)
-{
-	m_win = newwin(0, 0, 0, 0);
-}
-
 Window::Window(const Vector2u& position, const Vector2u& size) :
 	m_backgroundChar(' '),
 	m_border(Border::Default)

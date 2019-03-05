@@ -1,20 +1,18 @@
 #pragma once
 
-#include <XCurses/Graphics/Object.h>
+#include <XCurses/System/Object.h>
 #include <XCurses/System/Vector.h>
 #include <XCurses/Graphics/Drawable.h>
 #include <XCurses/Graphics/Behaviour.h>
-#include <XCurses/Graphics/ContextComponent.h>
 
 namespace xcur {
-class Window;
+class Context;
 class Container;
 
 class Widget :
     public Object,
     public Drawable,
     public Behaviour,
-    public ContextComponent,
     public std::enable_shared_from_this<Widget>
 {
 public:
@@ -81,6 +79,18 @@ public:
      */
     Object::Ptr<Container> getParent() const;
 
+	/**
+	 * \brief Set context
+	 * \param context Context
+	 */
+	void setContext(Object::Ptr<Context> context);
+
+	/**
+	 * \brief Get context
+	 * \return Smart ptr to context
+	 */
+	Object::Ptr<Context> getContext() const;
+
 protected:
     /**
      * \brief Ptr to parent widget
@@ -91,5 +101,10 @@ protected:
 	 * \brief Widget position
 	 */
 	Vector2u m_position;
+
+    /**
+	 * \brief Ptr to context
+	 */
+	Object::WeakPtr<Context> m_context;
 };
 }

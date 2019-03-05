@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include <XCurses/Graphics/Context.h>
+
 namespace xcur {
 void Container::update(float dt)
 {

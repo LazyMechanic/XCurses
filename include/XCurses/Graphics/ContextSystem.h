@@ -3,12 +3,14 @@
 #include <list>
 
 #include <XCurses/System/Status.h>
-#include <XCurses/Graphics/Context.h>
+#include <XCurses/System/Object.h>
 
 namespace xcur {
 class Core;
+class Context;
 
-class ContextSystem
+class ContextSystem : 
+    public Object
 {
 public:
     /**
@@ -46,18 +48,18 @@ public:
     /**
      * \brief Handle input events from current context
      */
-    void handleEvents();
+    void handleEvents() const;
 
     /**
      * \brief Update current context state
      * \param dt Delta time
      */
-    void update(float dt);
+    void update(float dt) const;
 
     /**
      * \brief Draw current context state
      */
-    void draw();
+    void draw() const;
     
     /**
      * \brief Add new context and set it as current
@@ -101,16 +103,16 @@ public:
     Object::Ptr<Context> getCurrent() const;
 
     /**
-     * \brief Get ptr to core
-     * \return Ptr to core
-     */
-    Core* getCore() const;
+	 * \brief Set core
+	 * \param core Core
+	 */
+	void setCore(Object::Ptr<Core> core);
 
     /**
-     * \brief Set ptr to core
-     * \param core Ptr to core
-     */
-    void setCore(Core* core);
+	 * \brief Get core
+	 * \return Smart ptr to core
+	 */
+	Object::Ptr<Core> getCore() const;
 
 private:
     /**
@@ -131,8 +133,8 @@ private:
     std::list<Object::Ptr<Context>> m_contexts;
 
     /**
-     * \brief Ptr to core
-     */
-    Core* m_core;
+	 * \brief Ptr to core
+	 */
+	Object::WeakPtr<Core> m_core;
 };
 }

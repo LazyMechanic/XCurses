@@ -1,14 +1,14 @@
 #pragma once
 
-#include <list>
-#include <functional>
-
 #include <XCurses/System/Status.h>
-#include <XCurses/Graphics/Window.h>
+#include <XCurses/System/Object.h>
+#include <XCurses/System/Vector2.h>
 #include <XCurses/System/CoreConfig.h>
 
 namespace xcur {
-class Core
+class ContextSystem;
+
+class Core : public Object
 {
 public:
     /**
@@ -36,7 +36,13 @@ public:
      * \param v Value
      * \return Status
      */
-    Status setCBrakeMode(bool v);
+    Status setCBreakMode(bool v);
+
+    /**
+	 * \brief Get cbreak mode state
+	 * \return True if cbreak mode enable, false otherwise
+	 */
+	bool isCBreakMode() const;
 
     /**
      * \brief Toggle echo mode.
@@ -45,6 +51,12 @@ public:
      * \return Status
      */
     Status setEchoMode(bool v);
+
+    /**
+	 * \brief Get echo mode state
+	 * \return True if echo mode enable, false otherwise
+	 */
+	bool isEchoMode() const;
 
     /**
      * \brief Toggle raw mode.
@@ -59,6 +71,12 @@ public:
     Status setRawMode(bool v);
 
     /**
+	 * \brief Get raw mode state
+	 * \return True if raw mode enable, false otherwise
+	 */
+	bool isRawMode() const;
+
+    /**
      * \brief Toggle newline mode.
      * The mode enables or disables the translation
      * of a carriage return into a newline on input.
@@ -68,12 +86,25 @@ public:
     Status setNewLineMode(bool v);
 
     /**
+	 * \brief Get new line mode state
+	 * \return True if new line mode enable, false otherwise
+	 */
+	bool isNewLineMode() const;
+
+    /**
      * \brief Set terminal size.
-     * \param width Width value
-     * \param height Height value
+     * size.x is width, size.y is height
+     * \param size New terminal size
      * \return Status
      */
-    Status setTerminalSize(unsigned int width, unsigned int height);
+    Status setTerminalSize(const Vector2u& size);
+
+    /**
+	 * \brief Get terminal size.
+     * size.x is width, size.y is height
+	 * \return Terminal size
+	 */
+	Vector2u getTerminalSize() const;
 
     /**
      * \brief Inverse all colors in terminal for a moment
@@ -86,6 +117,12 @@ public:
      * \return Status
      */
     Status playBeepSound() const;
+
+    /**
+	 * \brief Get terminal resized state
+	 * \return True if terminal resized, false otherwise
+	 */
+	bool isTerminalResized() const;
 
     /**
      * \brief Handle input
@@ -108,5 +145,10 @@ private:
      * \brief Current PDCurses config
      */
     CoreConfig m_config;
+
+    /**
+	 * \brief State of term resizing
+	 */
+	bool m_isTermResized;
 };
 }
