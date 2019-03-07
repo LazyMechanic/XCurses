@@ -14,7 +14,7 @@
 
 namespace xcur {
 Context::Context() :
-    m_rootWindow(Object::create<RootWindow>()),
+    m_rootWindow(Object::create<detail::RootWindow>()),
     m_widgetTreeRoot(Object::create<detail::TreeNode>(m_rootWindow))
 {
 }

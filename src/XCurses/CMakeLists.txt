@@ -25,6 +25,8 @@ set(XCURSES_GRAPHICS_SRCS
 	${XCURSES_SRC_DIR}/Graphics/Container.cpp
 	${XCURSES_INC_DIR}/Graphics/Context.h
 	${XCURSES_SRC_DIR}/Graphics/Context.cpp
+	${XCURSES_INC_DIR}/Graphics/ContextSystem.h
+	${XCURSES_SRC_DIR}/Graphics/ContextSystem.cpp
 	${XCURSES_INC_DIR}/Graphics/Drawable.h
 	${XCURSES_INC_DIR}/Graphics/HasWindow.h
 	${XCURSES_SRC_DIR}/Graphics/HasWindow.cpp
@@ -34,6 +36,8 @@ set(XCURSES_GRAPHICS_SRCS
 	${XCURSES_SRC_DIR}/Graphics/Window.cpp
 	${XCURSES_SRC_DIR}/Graphics/TreeNode.h
 	${XCURSES_SRC_DIR}/Graphics/TreeNode.cpp
+	${XCURSES_SRC_DIR}/Graphics/RootWindow.h
+	${XCURSES_SRC_DIR}/Graphics/RootWindow.cpp
 )
 
 set(XCURSES_SYSTEM_SRCS

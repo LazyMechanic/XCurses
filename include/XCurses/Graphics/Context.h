@@ -11,11 +11,11 @@
 namespace xcur {
 namespace detail {
 class TreeNode;
+class RootWindow;
 }
 class Widget;
 class Window;
 class Container;
-class RootWindow;
 class ContextSystem;
 
 class Context :
@@ -98,7 +98,7 @@ protected:
     /**
      * \brief Root window
      */
-    Object::Ptr<RootWindow> m_rootWindow;
+    Object::Ptr<detail::RootWindow> m_rootWindow;
 
     /**
      * \brief Widget tree root node. Need for call \a update() and \a draw() functions 

@@ -3,7 +3,7 @@
 #include <list>
 #include <memory>
 
-#include <XCurses/System/Vector.h>
+#include <XCurses/System/Vector2.h>
 #include <XCurses/Graphics/Border.h>
 #include <XCurses/Graphics/Container.h>
 
