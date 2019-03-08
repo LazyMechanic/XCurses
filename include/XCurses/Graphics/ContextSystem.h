@@ -10,7 +10,8 @@ class Core;
 class Context;
 
 class ContextSystem : 
-    public Object
+    public Object,
+	public std::enable_shared_from_this<ContextSystem>
 {
 public:
     /**

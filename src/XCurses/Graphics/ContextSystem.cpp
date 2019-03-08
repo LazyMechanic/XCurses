@@ -56,6 +56,7 @@ Status ContextSystem::add(Object::Ptr<Context> context)
         return Status::Err;
     }
 
+	context->setContextSystem(shared_from_this());
     m_contexts.push_back(context);
     return Status::Ok;
 }
@@ -78,6 +79,7 @@ Status ContextSystem::remove(Object::Ptr<Context> context)
         return Status::Err;
     }
 
+	context->setContextSystem(nullptr);
     m_contexts.erase(foundContext);
     return Status::Ok;
 }
