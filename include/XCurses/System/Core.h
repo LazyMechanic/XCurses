@@ -9,7 +9,8 @@
 
 namespace xcur {
 class Core : 
-    public Object
+    public Object,
+	public std::enable_shared_from_this<Core>
 {
 public:
     /**

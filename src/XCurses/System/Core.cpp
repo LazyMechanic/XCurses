@@ -12,6 +12,7 @@ Core::Core() :
 	m_contextSystem(Object::create<ContextSystem>()),
 	m_colorSystem(Object::create<ColorSystem>())
 {
+	m_contextSystem->setCore(shared_from_this());
     initscr();
 }
 
