@@ -1,5 +1,6 @@
 #pragma once
 
+#include <XCurses/System/Vector2.h>
 #include <XCurses/Graphics/Window.h>
 
 namespace xcur {
@@ -22,6 +23,17 @@ public:
 	 * \param dt Delta time
 	 */
 	void update(float dt) override final;
+
+private:
+    /**
+	 * \brief Current terminal size
+	 */
+	Vector2u m_curTermSize;
+
+    /**
+	 * \brief Previous terminal size
+	 */
+	Vector2u m_prevTermSize;
 };
 }
 }

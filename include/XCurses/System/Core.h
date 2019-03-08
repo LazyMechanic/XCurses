@@ -4,11 +4,12 @@
 #include <XCurses/System/Object.h>
 #include <XCurses/System/Vector2.h>
 #include <XCurses/System/CoreConfig.h>
+#include <XCurses/Graphics/ColorSystem.h>
+#include <XCurses/Graphics/ContextSystem.h>
 
 namespace xcur {
-class ContextSystem;
-
-class Core : public Object
+class Core : 
+    public Object
 {
 public:
     /**
@@ -119,10 +120,16 @@ public:
     Status playBeepSound() const;
 
     /**
-	 * \brief Get terminal resized state
-	 * \return True if terminal resized, false otherwise
+	 * \brief Get context system
+	 * \return Smart ptr to context system
 	 */
-	bool isTerminalResized() const;
+	Object::Ptr<ContextSystem> getContextSystem() const;
+
+    /**
+	 * \brief Get color system
+	 * \return Smart ptr to context system
+	 */
+	Object::Ptr<ColorSystem> getColorSystem() const;
 
     /**
      * \brief Handle input
@@ -147,8 +154,13 @@ private:
     CoreConfig m_config;
 
     /**
-	 * \brief State of term resizing
+	 * \brief Ptr to context system
 	 */
-	bool m_isTermResized;
+	Object::Ptr<ContextSystem> m_contextSystem;
+
+    /**
+	 * \brief Ptr to color system
+	 */
+	Object::Ptr<ColorSystem> m_colorSystem;
 };
 }

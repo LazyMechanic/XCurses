@@ -8,7 +8,9 @@
 #include <XCurses/Graphics/Context.h>
 
 namespace xcur {
-Core::Core()
+Core::Core() :
+	m_contextSystem(Object::create<ContextSystem>()),
+	m_colorSystem(Object::create<ColorSystem>())
 {
     initscr();
 }
@@ -25,7 +27,6 @@ void Core::init(const CoreConfig& config)
     this->setRawMode(config.enableRawMode);
     this->setNewLineMode(config.enableNewLineMode);
     this->setTerminalSize(config.terminalSize);
-
 }
 
 Status Core::setCBreakMode(bool v)
@@ -114,37 +115,28 @@ Status Core::playBeepSound() const
     return beep();
 }
 
-bool Core::isTerminalResized() const
+Object::Ptr<ContextSystem> Core::getContextSystem() const
 {
-	return m_isTermResized;
+	return m_contextSystem;
+}
+
+Object::Ptr<ColorSystem> Core::getColorSystem() const
+{
+	return m_colorSystem;
 }
 
 void Core::handleEvents()
 {
-    // TODO: call current context handleEvents() func
+	m_contextSystem->handleEvents();
 }
 
 void Core::update(const float dt)
 {
-    // TODO: call current context update() func
-
-	m_isTermResized = false;
+	m_contextSystem->update(dt);
 }
 
 void Core::draw()
 {
-    /*
-        // Clear virtual screen
-        clear();
-        wnoutrefresh(stdscr);
-        // Draw all windows
-        for (auto& window : m_windows) {
-            window->draw();
-        }
-        // Draw all windows
-        doupdate();
-    */
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ all work code, copy to context
-    // TODO: call current context draw() func
+	m_contextSystem->draw();
 }
 }

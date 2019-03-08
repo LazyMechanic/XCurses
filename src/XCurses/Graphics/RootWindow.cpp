@@ -20,7 +20,12 @@ void RootWindow::update(float dt)
 		context->getContextSystem() != nullptr)
 	{
 		auto core = context->getContextSystem()->getCore();
-		if (core->isTerminalResized()) {
+
+		m_prevTermSize = m_curTermSize;
+		m_curTermSize = core->getTerminalSize();
+
+        // If terminal was resised
+		if (m_prevTermSize != m_curTermSize) {
             resize(core->getTerminalSize());
 		}
 	}

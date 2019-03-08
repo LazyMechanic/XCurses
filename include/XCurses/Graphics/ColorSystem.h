@@ -5,12 +5,14 @@
 #include <functional>
 #include <unordered_map>
 
-#include <XCurses/Graphics/Color.h>
+#include <XCurses/System/Object.h>
 #include <XCurses/System/Status.h>
+#include <XCurses/Graphics/Color.h>
 #include <XCurses/Graphics/ColorPalette.h>
 
 namespace xcur {
-class ColorSystem
+class ColorSystem :
+    public Object
 {
 public:
     /**
