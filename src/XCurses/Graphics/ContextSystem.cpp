@@ -6,6 +6,11 @@
 #include <XCurses/Graphics/Context.h>
 
 namespace xcur {
+Object::Ptr<ContextSystem> ContextSystem::create()
+{
+	return std::shared_ptr<ContextSystem>(new ContextSystem());
+}
+
 void ContextSystem::handleEvents() const
 {
     auto currentContext = m_currentContext.lock();

@@ -8,12 +8,18 @@
 #include <XCurses/Graphics/Context.h>
 
 namespace xcur {
-Core::Core() :
-	m_contextSystem(Object::create<ContextSystem>()),
-	m_colorSystem(Object::create<ColorSystem>())
+Object::Ptr<Core> Core::create()
 {
-	m_contextSystem->setCore(shared_from_this());
-    initscr();
+	std::shared_ptr<Core> core(new Core());
+	core->m_contextSystem->setCore(core);
+	return core;
+}
+
+Core::Core() :
+	m_contextSystem(ContextSystem::create()),
+	m_colorSystem(ColorSystem::create())
+{
+	initscr();
 }
 
 Core::~Core()
@@ -131,7 +137,7 @@ void Core::handleEvents()
 	m_contextSystem->handleEvents();
 }
 
-void Core::update(const float dt)
+void Core::update(float dt)
 {
 	m_contextSystem->update(dt);
 }

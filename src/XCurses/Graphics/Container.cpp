@@ -5,6 +5,11 @@
 #include <XCurses/Graphics/Context.h>
 
 namespace xcur {
+Object::Ptr<Container> Container::create()
+{
+	return std::shared_ptr<Container>(new Container());
+}
+
 void Container::update(float dt)
 {
     /* full virtual func */

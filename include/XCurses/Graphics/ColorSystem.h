@@ -19,34 +19,12 @@ public:
      * \brief Const iterator alias
      */
     using ColorPaletteIterator = std::unordered_map<std::string, std::unique_ptr<ColorPalette>>::iterator;
-    
-    /**
-     * \brief Default color system constructor. Construct with default palette with name is "default".
-     * Colors use like windows cmd
-     */
-    ColorSystem();
 
-    /**
-     * \brief Copy ColorSystem constructor
-     */
-    ColorSystem(const ColorSystem&) = default;
-
-    /**
-     * \brief Move ColorSystem constructor. It is delete
-     */
-    ColorSystem(ColorSystem&&) = delete;
-
-    /**
-     * \brief Default copy assignment operator
-     * \return Reference to \a this
-     */
-    ColorSystem& operator =(const ColorSystem&) = default;
-
-    /**
-     * \brief Default move assignment operator. It is delete
-     * \return Reference to \a this
-     */
-    ColorSystem& operator =(ColorSystem&&) = delete;
+	/**
+	 * \brief Create ColorSystem
+	 * \return Smart ptr to ColorSystem
+	 */
+	static Object::Ptr<ColorSystem> create();
 
     /**
      * \brief ColorSystem destructor
@@ -110,6 +88,12 @@ public:
     ColorPalette* getCurrentPalette() const;
 
 private:
+	/**
+	 * \brief Default color system constructor. Construct with default palette with name is "default".
+	 * Colors use like windows cmd
+	 */
+	ColorSystem();
+
     /**
      * \brief Raw pointer to current palette
      */

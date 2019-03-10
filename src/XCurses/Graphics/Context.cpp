@@ -13,9 +13,14 @@
 #include <XCurses/Graphics/ContextSystem.h>
 
 namespace xcur {
+Object::Ptr<Context> Context::create()
+{
+	return std::shared_ptr<Context>(new Context());
+}
+
 Context::Context() :
-    m_rootWindow(Object::create<detail::RootWindow>()),
-    m_widgetTreeRoot(Object::create<detail::TreeNode>(m_rootWindow))
+    m_rootWindow(detail::RootWindow::create()),
+    m_widgetTreeRoot(detail::TreeNode::create(m_rootWindow))
 {
 }
 

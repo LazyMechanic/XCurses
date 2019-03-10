@@ -5,6 +5,11 @@
 #include <XCurses/Graphics/Container.h>
 
 namespace xcur {
+Object::Ptr<Window> Window::create(const Vector2u& position, const Vector2u& size)
+{
+	return std::shared_ptr<Window>(new Window(position, size));
+}
+
 Window::Window(const Vector2u& position, const Vector2u& size) :
 	m_backgroundChar(' '),
 	m_border(Border::Default)

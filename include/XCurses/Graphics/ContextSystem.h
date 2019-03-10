@@ -14,32 +14,11 @@ class ContextSystem :
 	public std::enable_shared_from_this<ContextSystem>
 {
 public:
-    /**
-     * \brief Default ContextSystem constructor
-     */
-    ContextSystem() = default;
-
-    /**
-     * \brief Copy ContextSystem constructor
-     */
-    ContextSystem(const ContextSystem&) = default;
-
-    /**
-     * \brief Move ContextSystem constructor. It is delete
-     */
-    ContextSystem(ContextSystem&&) = delete;
-
-    /**
-     * \brief Default copy assignment operator
-     * \return Reference to \a this
-     */
-    ContextSystem& operator =(const ContextSystem&) = default;
-
-    /**
-     * \brief Default move assignment operator. It is delete
-     * \return Reference to \a this
-     */
-    ContextSystem& operator =(ContextSystem&&) = delete;
+	/**
+	 * \brief Create ContextSystem
+	 * \return Smart ptr to ContextSystem
+	 */
+	static Object::Ptr<ContextSystem> create();
 
     /**
      * \brief ContextSystem destructor
@@ -116,6 +95,11 @@ public:
 	Object::Ptr<Core> getCore() const;
 
 private:
+	/**
+	 * \brief Default ContextSystem constructor
+	 */
+	ContextSystem() = default;
+
     /**
      * \brief Find the context in m_contexts
      * \param context Context

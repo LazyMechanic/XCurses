@@ -9,40 +9,31 @@ class Object
 {
 public:
     /**
-     * \brief Default object constructor
+	 * \brief std::shared_ptr<Type> alias
+     * \tparam Type Type of ptr object
      */
-    Object();
+    template <class Type>
+	using Ptr = std::shared_ptr<Type>;
 
-    /**
-     * \brief std::shared_ptr<Type> alias
-     * \tparam Type Object type
-     */
-    template <typename Type>
-    using Ptr = std::shared_ptr<Type>;
+	/**
+	 * \brief std::shared_ptr<const Type> alias
+     * \tparam Type Type of ptr object
+	 */
+	template <class Type>
+	using PtrConst = std::shared_ptr<const Type>;
 
-    /**
-     * \brief std::shared_ptr<const Type> alias
-     * \tparam Type Object type
-     */
-    template <typename Type>
-    using PtrConst = std::shared_ptr<const Type>;
+	/**
+	 * \brief std::weak_ptr<Type> alias
+     * \tparam Type Type of ptr object
+	 */
+	template <class Type>
+	using WeakPtr = std::weak_ptr<Type>;
 
-    /**
-     * \brief std::weak_ptr<Type> alias
-     * \tparam Type Object type
-     */
-    template <typename Type>
-    using WeakPtr = std::weak_ptr<Type>;
-
-    /**
-     * \brief Create object and return smart ptr
-     * \tparam Type Object type
-     * \tparam Args Arguments to constructor
-     * \param args Arguments
-     * \return Shared ptr
-     */
-    template <class Type, typename ... Args>
-    static Object::Ptr<Type> create(Args&& ... args);
+	/**
+	 * \brief Create Object
+	 * \return Smart ptr to Object
+	 */
+	static Object::Ptr<Object> create();
 
     /**
      * \brief Get type name from object
@@ -73,6 +64,11 @@ public:
     uint64_t getId() const;
 
 protected:
+	/**
+	 * \brief Default object constructor
+	 */
+	Object();
+
     /**
      * \brief Object id
      */

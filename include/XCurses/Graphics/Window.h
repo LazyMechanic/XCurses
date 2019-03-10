@@ -14,13 +14,11 @@ class Window :
     public Container
 {
 public:
-    /**
-	 * \brief Window constructor. Construct window with specific position and size.
-	 * position.x is width, position.y is height
-	 * \param position 
-	 * \param size 
+	/**
+	 * \brief Create Window
+	 * \return Smart ptr to Window
 	 */
-	Window(const Vector2u& position, const Vector2u& size);
+	static Object::Ptr<Window> create(const Vector2u& position, const Vector2u& size);
 
     /**
      * \brief Window destructor
@@ -150,6 +148,14 @@ public:
     _win* getCursesWin() const;
 
 protected:
+	/**
+	 * \brief Window constructor. Construct window with specific position and size.
+	 * position.x is width, position.y is height
+	 * \param position
+	 * \param size
+	 */
+	Window(const Vector2u& position, const Vector2u& size);
+
     /**
      * \brief Call curses function for redraw border
      */

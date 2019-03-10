@@ -25,10 +25,11 @@ class Context :
     public std::enable_shared_from_this<Context>
 {
 public:
-    /**
-     * \brief Default Context constructor
-     */
-    Context();
+	/**
+	 * \brief Create Context
+	 * \return Smart ptr to Context
+	 */
+	static Object::Ptr<Context> create();
 
     /**
      * \brief Handle input events
@@ -95,6 +96,11 @@ public:
 	Object::Ptr<ContextSystem> getContextSystem() const;
 
 protected:
+	/**
+	 * \brief Default Context constructor
+	 */
+	Context();
+
     /**
      * \brief Root window
      */

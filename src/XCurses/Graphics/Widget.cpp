@@ -5,6 +5,11 @@
 #include <XCurses/Graphics/Container.h>
 
 namespace xcur {
+Object::Ptr<Widget> Widget::create()
+{
+	return std::shared_ptr<Widget>(new Widget());
+}
+
 Widget::~Widget()
 {
     // If widget has context ptr

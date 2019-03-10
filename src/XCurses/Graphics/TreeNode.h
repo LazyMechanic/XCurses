@@ -2,8 +2,8 @@
 
 #include <list>
 
-#include <XCurses/Graphics/Widget.h>
 #include <XCurses/System/Object.h>
+#include <XCurses/Graphics/Widget.h>
 #include <XCurses/Graphics/Drawable.h>
 #include <XCurses/Graphics/Behaviour.h>
 
@@ -16,11 +16,11 @@ class TreeNode :
     public std::enable_shared_from_this<TreeNode>
 {
 public:
-    /**
-     * \brief TreeNode constructor with specific widget
-     * \param widget Widget
-     */
-    explicit TreeNode(Object::Ptr<Widget> widget);
+	/**
+	 * \brief Create TreeNode
+	 * \return Smart ptr to TreeNode
+	 */
+	static Object::Ptr<TreeNode> create(Object::Ptr<Widget> widget);
 
     /**
      * \brief Call for update object state
@@ -84,6 +84,17 @@ public:
     Object::Ptr<TreeNode> getParent() const;
 
 private:
+	/**
+	 * \brief TreeNode constructor with specific widget
+	 * \param widget Widget
+	 */
+	explicit TreeNode(Object::Ptr<Widget> widget);
+
+    /**
+     * \brief Find child by widget
+     * \param widget Widget
+     * \return Const iterator of widget
+     */
     std::list<Object::Ptr<TreeNode>>::const_iterator findChild(Object::Ptr<Widget> widget) const;
 
     /**

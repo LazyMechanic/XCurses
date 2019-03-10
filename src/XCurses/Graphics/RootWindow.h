@@ -9,9 +9,10 @@ class RootWindow : public Window
 {
 public:
 	/**
-	 * \brief Default RootWindow constructor. Construct window with size is terminal
+	 * \brief Create RootWindow
+	 * \return Smart ptr to RootWindow
 	 */
-	RootWindow();
+	static Object::Ptr<RootWindow> create();
 
 	/**
 	 * \brief RootWindow destructor
@@ -25,6 +26,11 @@ public:
 	void update(float dt) override final;
 
 private:
+	/**
+	 * \brief Default RootWindow constructor. Construct window with size is terminal
+	 */
+	RootWindow();
+
     /**
 	 * \brief Current terminal size
 	 */

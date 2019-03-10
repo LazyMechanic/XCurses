@@ -9,19 +9,19 @@
 
 namespace xcur {
 class Core : 
-    public Object,
-	public std::enable_shared_from_this<Core>
+    public Object
 {
 public:
-    /**
-     * \brief Default Core constructor
-     */
-    Core();
+	/**
+	 * \brief Create Core
+	 * \return Smart ptr to Core
+	 */
+	static Object::Ptr<Core> create();
 
-    /**
-     * \brief Core destructor
-     */
-    ~Core();
+	/**
+	 * \brief Core destructor
+	 */
+	~Core();
 
     /**
      * \brief Initialize Core with params
@@ -128,7 +128,7 @@ public:
 
     /**
 	 * \brief Get color system
-	 * \return Smart ptr to context system
+	 * \return Smart ptr to color system
 	 */
 	Object::Ptr<ColorSystem> getColorSystem() const;
 
@@ -149,18 +149,23 @@ public:
     void draw();
 
 private:
-    /**
-     * \brief Current PDCurses config
-     */
-    CoreConfig m_config;
+	/**
+	 * \brief Default Core constructor
+	 */
+	Core();
 
     /**
-	 * \brief Ptr to context system
+     * \brief Current curses config
+     */
+    static CoreConfig m_config;
+
+    /**
+	 * \brief Smart ptr to context system
 	 */
 	Object::Ptr<ContextSystem> m_contextSystem;
 
     /**
-	 * \brief Ptr to color system
+	 * \brief Smart ptr to color system
 	 */
 	Object::Ptr<ColorSystem> m_colorSystem;
 };

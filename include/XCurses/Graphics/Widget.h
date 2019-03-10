@@ -16,6 +16,12 @@ class Widget :
     public std::enable_shared_from_this<Widget>
 {
 public:
+	/**
+	 * \brief Create Widget
+	 * \return Smart ptr to Widget
+	 */
+	static Object::Ptr<Widget> create();
+
     /**
      * \brief Widget destructor
      */
@@ -75,9 +81,9 @@ public:
 
     /**
      * \brief Get parent widget container
-     * \return Smart ptr to widget
+     * \return Smart ptr to widget container
      */
-    Object::Ptr<Container> getParent() const;
+	Object::Ptr<Container> getParent() const;
 
 	/**
 	 * \brief Set context
@@ -93,9 +99,14 @@ public:
 
 protected:
     /**
-     * \brief Ptr to parent widget
+	 * \brief Default Widget constructor
+	 */
+	Widget() = default;
+
+    /**
+     * \brief Smart ptr to parent widget
      */
-    Object::WeakPtr<Container> m_parent;
+	Object::WeakPtr<Container> m_parent;
 
     /**
 	 * \brief Widget position
@@ -103,7 +114,7 @@ protected:
 	Vector2u m_position;
 
     /**
-	 * \brief Ptr to context
+	 * \brief Smart ptr to context
 	 */
 	Object::WeakPtr<Context> m_context;
 };

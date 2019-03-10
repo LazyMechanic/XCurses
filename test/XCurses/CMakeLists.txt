@@ -1,5 +1,6 @@
 set(TEST_OUTPUT_DIR ${PROJECT_DIR}/test/bin/${SYSTEM_BIT_POSTFIX})
 set(TEST_SRC_DIR ${PROJECT_DIR}/test/XCurses)
+set(LIBS_DIR ${PROJECT_DIR}/lib/${SYSTEM_BIT_POSTFIX})
 
 file(GLOB SRC_FILES ${TEST_SRC_DIR}/Test*.cpp)
 foreach(SRC_FILE ${SRC_FILES})
@@ -18,7 +19,10 @@ foreach(SRC_FILE ${SRC_FILES})
 		RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIR}
 	)
 
-	target_link_libraries(${FILE_BASENAME} XCurses)
+	target_link_libraries(${FILE_BASENAME} 
+		XCurses
+		${LIBS_DIR}/pdcurses.lib
+	)
 
 	target_include_directories(${FILE_BASENAME} 
 		PRIVATE ${PROJECT_SRC_DIR}

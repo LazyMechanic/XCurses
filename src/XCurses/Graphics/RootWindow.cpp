@@ -8,11 +8,15 @@
 
 namespace xcur {
 namespace detail {
+Object::Ptr<RootWindow> RootWindow::create()
+{
+	return std::shared_ptr<RootWindow>(new RootWindow());
+}
+
 RootWindow::RootWindow() :
 	Window(Vector2u(0, 0), Vector2u(getmaxx(stdscr), getmaxy(stdscr)))
 {
 }
-
 void RootWindow::update(float dt)
 {
 	auto context = getContext();
