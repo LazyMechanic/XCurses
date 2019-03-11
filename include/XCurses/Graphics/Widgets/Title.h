@@ -8,52 +8,11 @@ namespace xcur {
 class Title : public Widget, public HasWindow
 {
 public:
-    /**
-	 * \brief Default Title constructor. Construct title with "-" string
-	 */
-	Title();
-
-    /**
-     * \brief Title construct. Construct title with specific string
-     * \param str String
-     */
-    Title(const String& str);
-
-    /**
-	 * \brief Copy Title constructor
-	 */
-	Title(const Title&) = default;
-
-    /**
-	 * \brief Move Title constructor
-	 */
-	Title(Title&&) = default;
-
-    /**
-	 * \brief Copy assignment operator for String
+	/**
+	 * \brief Create Title. Construct title with specific string
 	 * \param str String
-	 * \return Reference to \a this
 	 */
-	Title& operator =(const String& str);
-
-	/**
-	 * \brief Move assignment operator for String
-	 * \param str String
-	 * \return Reference to \a this
-	 */
-	Title& operator =(String&& str);
-
-	/**
-	 * \brief Default copy assignment operator
-	 * \return Reference to \a this
-	 */
-	Title& operator =(const Title&) = default;
-
-	/**
-	 * \brief Default move assignment operator
-	 * \return Reference to \a this
-	 */
-	Title& operator =(Title&&) = default;
+	static Object::Ptr<Title> create(const String& str = "");
 
     /**
 	 * \brief Title destructor
@@ -78,6 +37,17 @@ public:
     void draw() override;
 
 private:
+	/**
+	 * \brief Default Title constructor. Construct title with "-" string
+	 */
+	Title();
+
+	/**
+	 * \brief Title construct. Construct title with specific string
+	 * \param str String
+	 */
+	Title(const String& str);
+
     /**
 	 * \brief Title string
 	 */

@@ -1,26 +1,14 @@
 #include <XCurses/Graphics/Widgets/Title.h>
 
 namespace xcur {
-Title::Title() :
-    m_string("-")
+Object::Ptr<Title> Title::create(const String& str)
 {
+	return std::shared_ptr<Title>(new Title(str));
 }
 
 Title::Title(const String& str) :
     m_string(str)
 {
-}
-
-Title& Title::operator=(const String& str)
-{
-	m_string = str;
-	return *this;
-}
-
-Title& Title::operator=(String&& str)
-{
-	m_string = str;
-	return *this;
 }
 
 void Title::setString(const String& str)
