@@ -7,7 +7,7 @@ using namespace xcur;
 
 TEST_CASE("Attribute init and edit", "[String]")
 {
-    SECTION("Empty attribute")
+    SECTION("Construct empty attribute")
     {
 		Attribute attr;
 		REQUIRE(attr.value == 0);
@@ -128,54 +128,120 @@ TEST_CASE("Attribute init and edit", "[String]")
 
 TEST_CASE("Char init and edit", "[Char]")
 {
-	SECTION("Empty character") {
+	SECTION("Construct empty character") {
 		Char ch;
-        REQUIRE(ch.toCursesChar() == 0);
+        REQUIRE(ch.colorPairId == 0);
+		REQUIRE(ch.attribute == Attribute::Normal);
+		REQUIRE(ch.symbol == 0);
 
-		ch.setAttr(Attribute::Bold);
-		REQUIRE(ch.getAttr() == Attribute::Bold);
-
-		ch.setColorPairId(10);
-		REQUIRE(static_cast<uint32_t>(ch.getColorPairId()) == 10);
-
-		ch.setChar(25);
-		REQUIRE(static_cast<uint32_t>(ch.getChar()) == 25);
+		ch.colorPairId = 10;
+		ch.attribute = Attribute::Bold;
+		ch.symbol = 25;
 
 		REQUIRE(ch.toCursesChar() == 0x0A800019);
     }
 
-    SECTION("Construct character from uint16_t")
+    SECTION("Construct character from uint32_t")
 	{
-		Char ch(54);
-		REQUIRE(ch.getChar() == 54);
+		SECTION("uint32_t char") {
+			Char ch(54);
+			REQUIRE(static_cast<uint32_t>(ch.colorPairId) == 0);
+			REQUIRE(ch.attribute == Attribute::Normal);
+			REQUIRE(ch.symbol == 54);
+		}
+
+		SECTION("Ansi char") {
+			Char ch('B');
+			REQUIRE(static_cast<uint32_t>(ch.colorPairId) == 0);
+			REQUIRE(ch.attribute == Attribute::Normal);
+			REQUIRE(ch.symbol == static_cast<uint16_t>('B'));
+		}
+
+		SECTION("Wide char") {
+			Char ch(L'B');
+			REQUIRE(static_cast<uint32_t>(ch.colorPairId) == 0);
+			REQUIRE(ch.attribute == Attribute::Normal);
+			REQUIRE(ch.symbol == static_cast<uint16_t>(L'B'));
+		}
 	}
 
 	SECTION("Construct character from colorPairId, attr and char")
 	{
 		Char ch(10, Attribute::Bold, 25);
-
-		REQUIRE(ch.getAttr() == Attribute::Bold);
-		REQUIRE(static_cast<uint32_t>(ch.getColorPairId()) == 10);
-		REQUIRE(static_cast<uint32_t>(ch.getChar()) == 25);
-		REQUIRE(ch.toCursesChar() == 0x0A800019);
+		REQUIRE(static_cast<uint32_t>(ch.colorPairId) == 10);
+		REQUIRE(ch.attribute == Attribute::Bold);
+		REQUIRE(ch.symbol == 25);
 	}
 
-    SECTION("Operators")
+	SECTION("Char::operator=(uint32_t ch)")
 	{
-	    SECTION("Char::operator=(uint16_t ch)")
-	    {
+		SECTION("uint32_t char") {
 			Char ch;
-			ch = 254;
-			REQUIRE(static_cast<uint32_t>(ch.getChar()) == 254);
-	    }
+			ch = 54;
+			REQUIRE(static_cast<uint32_t>(ch.colorPairId) == 0);
+			REQUIRE(ch.attribute == Attribute::Normal);
+			REQUIRE(ch.symbol == 54);
+		}
+
+		SECTION("Ansi char") {
+			Char ch;
+			ch = 'B';
+			REQUIRE(static_cast<uint32_t>(ch.colorPairId) == 0);
+			REQUIRE(ch.attribute == Attribute::Normal);
+			REQUIRE(ch.symbol == static_cast<uint16_t>('B'));
+		}
+
+		SECTION("Wide char") {
+			Char ch;
+			ch = L'B';
+			REQUIRE(static_cast<uint32_t>(ch.colorPairId) == 0);
+			REQUIRE(ch.attribute == Attribute::Normal);
+			REQUIRE(ch.symbol == static_cast<uint16_t>(L'B'));
+		}
 	}
 }
 
-TEST_CASE("String init and edit", "[String]")
+TEST_CASE("String init and edit", "[String][Char]")
 {
-    SECTION("Empty string")
+    SECTION("Construct empty String")
     {
 		String str;
 		REQUIRE(str.size() == 0);
+    }
+
+    SECTION("Construct String from std::string")
+    {
+		std::string rawStr("abcdef");
+		String str(rawStr);
+		auto rawStrIt = rawStr.begin();
+		for (auto& ch : str) {
+			REQUIRE(ch.symbol == static_cast<uint16_t>(*rawStrIt));
+			++rawStrIt;
+		}
+		REQUIRE(str.toString() == rawStr);
+    }
+
+	SECTION("Construct String from std::wstring")
+	{
+		std::wstring rawStr(L"abcdef");
+		String str(rawStr);
+		auto rawStrIt = rawStr.begin();
+        for (auto& ch : str) {
+			REQUIRE(ch.symbol == static_cast<uint16_t>(*rawStrIt));
+			++rawStrIt;
+        }
+		REQUIRE(str.toWString() == rawStr);
+	}
+
+    SECTION("Construct String from const char*")
+    {
+		const char* rawStr = "abcdef";
+		String str(rawStr);
+		size_t i = 0;
+		for (auto& ch : str) {
+			REQUIRE(ch.symbol == static_cast<uint16_t>(rawStr[i]));
+			++i;
+		}
+		REQUIRE(str.toString() == rawStr);
     }
 }
