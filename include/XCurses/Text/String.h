@@ -8,6 +8,11 @@ namespace xcur {
 class String
 {
 public:
+	/**
+	 * \brief Represents an invalid position in the string
+	 */
+	static const size_t InvalidPosition;
+
     /**
      * \brief std::vector<Char>::iterator alias
      */
@@ -17,6 +22,16 @@ public:
 	 * \brief std::vector<Char>::const_iterator alias
 	 */
     using ConstIterator = std::basic_string<Char>::const_iterator;
+
+	/**
+	 * \brief std::vector<Char>::reverse_iterator alias
+	 */
+	using ReverseIterator = std::basic_string<Char>::reverse_iterator;
+
+	/**
+	 * \brief std::vector<Char>::const_reverse_iterator alias
+	 */
+	using ConstReverseIterator = std::basic_string<Char>::const_reverse_iterator;
    
     /**
      * \brief String constructor. Construct String from std::string
@@ -203,13 +218,6 @@ public:
 	 * \param right Right operand
 	 * \return Reference to \a this
 	 */
-	String& operator =(const Char& right);
-
-	/**
-	 * \brief Overload of the binary = operator.
-	 * \param right Right operand
-	 * \return Reference to \a this
-	 */
 	String& operator =(const std::string& right);
 
 	/**
@@ -232,6 +240,13 @@ public:
 	 * \return Reference to \a this
 	 */
 	String& operator =(const wchar_t* right);
+
+	/**
+	 * \brief Overload of the binary = operator.
+	 * \param right Right operand
+	 * \return Reference to \a this
+	 */
+	String& operator =(const Char& right);
 
 	/**
 	 * \brief Overload of the binary = operator.
@@ -367,6 +382,12 @@ public:
      */
     ConstIterator begin() const;
 
+	/**
+	 * \brief Get begin const iterator
+	 * \return Const iterator
+	 */
+	ConstIterator cbegin() const;
+
     /**
      * \brief Get end iterator
      * \return Iterator
@@ -379,6 +400,108 @@ public:
      */
     ConstIterator end() const;
 
+	/**
+	 * \brief Get end const iterator
+	 * \return Const iterator
+	 */
+	ConstIterator cend() const;
+
+	/**
+	 * \brief Get begin reverse iterator
+	 * \return Iterator
+	 */
+	ReverseIterator rbegin();
+
+	/**
+	 * \brief Get begin const reverse iterator
+	 * \return Const iterator
+	 */
+	ConstReverseIterator rbegin() const;
+
+	/**
+	 * \brief Get begin const reverse iterator
+	 * \return Const iterator
+	 */
+	ConstReverseIterator crbegin() const;
+
+	/**
+	 * \brief Get end reverse iterator
+	 * \return Iterator
+	 */
+	ReverseIterator rend();
+
+	/**
+	 * \brief Get end const reverse iterator
+	 * \return Const iterator
+	 */
+	ConstReverseIterator rend() const;
+
+	/**
+	 * \brief Get end const reverse iterator
+	 * \return Const iterator
+	 */
+	ConstReverseIterator crend() const;
+
+    /**
+	 * \brief Find substring into the string
+	 * \param str String which we need to find
+	 * \param startPosition Starting position for search
+	 * \return Position of substring
+	 */
+	size_t find(const String& str, size_t startPosition = 0) const;
+
+    /**
+	 * \brief Check whether the string is empty or not
+	 * \return True if string is empty, false if it is not
+	 */
+	bool isEmpty() const;
+
+    /**
+	 * \brief Clear string
+	 */
+	void clear();
+
+    /**
+	 * \brief Insert string into the string
+	 * \param position Starting position for insert
+	 * \param str String which we need to insert
+	 */
+	void insert(size_t position, const String& str);
+
+    /**
+	 * \brief Erase one or more character from string
+	 * \param position Starting position for erase
+	 * \param count Count of characters
+	 */
+	void erase(size_t position, size_t count = 1);
+
+    /**
+     * \brief Replace a substring with another string
+	 * \param position Position of the first character to be replaced
+	 * \param length Length of the substring to be replaced
+	 * \param replaceWith String that replaces the given substring
+	 */
+	void replace(size_t position, size_t length, const String& replaceWith);
+
+    /**
+     * \brief Replace a substring with another string.
+     * This function replaces all occurrences of \a searchFor in this string
+     * with the string \a replaceWith.
+	 * \param searchFor The value being searched for
+	 * \param replaceWith The value that replaces found \a searchFor values
+	 */
+	void replace(const String& searchFor, const String& replaceWith);
+
+    /**
+	 * \brief Return a part of the string
+	 * \param position Position of the first character
+	 * \param length Number of characters to include in the substring (if
+	 * the string is shorter, as many characters as possible are included). 
+	 * \a InvalidPos can be used to include all characters until the end of the string.
+	 * \return String object containing a substring of this object
+	 */
+	String substring(size_t position, size_t length = InvalidPosition) const;
+
     /**
      * \brief Get size (length) of string
      * \return Size
@@ -386,15 +509,27 @@ public:
     size_t size() const;
 
     /**
-	 * \brief Get raw data
-	 * \return Reference to data
+	 * \brief Get ptr to data of string
+	 * \return Ptr to data
 	 */
-	std::basic_string<Char>& getData();
+	const Char* data() const;
+
+    /**
+	 * \brief Get basic_string which is base of xcur::String
+	 * \return Reference to basic_string
+	 */
+	std::basic_string<Char>& getBasicString();
+
+	/**
+	 * \brief Get basic_string which is base of xcur::String
+	 * \return Const reference to basic_string
+	 */
+	const std::basic_string<Char>& getBasicString() const;
 
 private:
     /**
-     * \brief Data of string
+     * \brief Internal string
      */
-    std::basic_string<Char> m_data;
+    std::basic_string<Char> m_string;
 };
 }
