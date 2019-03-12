@@ -4,19 +4,23 @@
 #include <memory>
 
 #include <XCurses/System/Status.h>
-#include <XCurses/Graphics/Object.h>
+#include <XCurses/System/Object.h>
 #include <XCurses/Graphics/Drawable.h>
 #include <XCurses/Graphics/Behaviour.h>
 
 namespace xcur {
 namespace detail {
 class TreeNode;
+class RootWindow;
 }
 class Widget;
 class Window;
 class Container;
 class ContextSystem;
 
+/**
+ * \brief Class contains and controls widgets
+ */
 class Context :
     public Object,
     public Drawable,
@@ -24,10 +28,11 @@ class Context :
     public std::enable_shared_from_this<Context>
 {
 public:
-    /**
-     * \brief Default Context constructor
-     */
-    Context();
+	/**
+	 * \brief Create Context
+	 * \return Smart ptr to Context
+	 */
+	static Object::Ptr<Context> create();
 
     /**
      * \brief Handle input events
@@ -72,7 +77,7 @@ public:
      * \brief Put widget to front
      * \param widget Widget
      */
-    void widgetToFront(Object::Ptr<Widget> widget);
+    void widgetToFront(Object::Ptr<Widget> widget) const;
 
     /**
 	 * \brief Add window to refresh queue. After call all draw functions will call
@@ -82,22 +87,27 @@ public:
 	void addWindowToRefresh(Object::Ptr<Window> window);
 
     /**
-     * \brief Set ptr to context system
-     * \param contextSystem Context system
-     */
-    void setContextSystem(ContextSystem* contextSystem);
+	 * \brief Set context system
+	 * \param contextSystem Context system
+	 */
+	void setContextSystem(Object::Ptr<ContextSystem> contextSystem);
 
     /**
-     * \brief Get ptr to context system
-     * \return Ptr to context system
-     */
-    ContextSystem* getContextSystem() const;
+	 * \brief Get context system
+	 * \return Smart ptr to context system
+	 */
+	Object::Ptr<ContextSystem> getContextSystem() const;
 
 protected:
+	/**
+	 * \brief Default Context constructor
+	 */
+	Context();
+
     /**
-     * \brief Root widget
+     * \brief Root window
      */
-    Object::Ptr<Container> m_rootWidget;
+    Object::Ptr<detail::RootWindow> m_rootWindow;
 
     /**
      * \brief Widget tree root node. Need for call \a update() and \a draw() functions 
@@ -110,10 +120,10 @@ protected:
 	 */
 	std::list<Object::WeakPtr<Window>> m_windowsToRefresh;
 
-	/**
+    /**
 	 * \brief Ptr to context system
 	 */
-	ContextSystem* m_contextSystem;
+	Object::WeakPtr<ContextSystem> m_contextSystem;
 
 private:
     /**

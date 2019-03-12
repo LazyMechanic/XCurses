@@ -8,6 +8,9 @@
 #include <XCurses/System/Status.h>
 
 namespace xcur {
+/**
+ * \brief Class contains and controls colors and color pairs
+ */
 class ColorPalette
 {
 public:    

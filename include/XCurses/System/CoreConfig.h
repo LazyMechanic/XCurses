@@ -2,7 +2,12 @@
 
 #include <cstdint>
 
+#include <XCurses/System/Vector2.h>
+
 namespace xcur {
+/**
+ * \brief Config of core
+ */
 class CoreConfig
 {
 public:
@@ -13,8 +18,7 @@ public:
 
     /**
      * \brief Construct config with specific params
-     * \param terminalWidth Terminal width
-     * \param terminalHeight Terminal height
+     * \param terminalSize Terminal size
      * \param inputDelay Delay value for input
      * \param enableCBreakMode CBreak mode state
      * \param enableEchoMode Echo mode state
@@ -24,8 +28,7 @@ public:
      * \param enableInputDelay Delay mode state
      */
     CoreConfig(
-        uint32_t terminalWidth,
-		uint32_t terminalHeight,
+        const Vector2u& terminalSize,
 		uint32_t inputDelay,
         bool enableCBreakMode,
         bool enableEchoMode,
@@ -41,14 +44,10 @@ public:
     static const CoreConfig Default;
 
     /**
-     * \brief Terminal width
-     */
-    uint32_t terminalWidth;
-
-    /**
-     * \brief Terminal height
-     */
-    uint32_t terminalHeight;
+	 * \brief Terminal size.
+	 * size.x is width, size.y = height
+	 */
+	Vector2u terminalSize;
 
     /**
      * \brief Delay value for input

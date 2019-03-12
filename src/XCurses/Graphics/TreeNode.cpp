@@ -4,6 +4,11 @@
 
 namespace xcur {
 namespace detail {
+Object::Ptr<TreeNode> TreeNode::create(Object::Ptr<Widget> widget)
+{
+	return std::shared_ptr<TreeNode>(new TreeNode(widget));
+}
+
 TreeNode::TreeNode(Object::Ptr<Widget> widget) :
     m_widget(widget)
 {
@@ -29,7 +34,7 @@ void TreeNode::draw()
 
 void TreeNode::add(Object::Ptr<Widget> widget)
 {
-    auto treeNode = Object::create<TreeNode>(widget);
+    auto treeNode = TreeNode::create(widget);
     treeNode->setParent(shared_from_this());
     m_childNodes.push_back(treeNode);
 }

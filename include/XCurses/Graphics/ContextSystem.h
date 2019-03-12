@@ -3,40 +3,26 @@
 #include <list>
 
 #include <XCurses/System/Status.h>
-#include <XCurses/Graphics/Context.h>
+#include <XCurses/System/Object.h>
 
 namespace xcur {
 class Core;
+class Context;
 
-class ContextSystem
+/**
+ * \brief Class contains and controls contexts. Only one context 
+ * updated and drawn in application cycle
+ */
+class ContextSystem : 
+    public Object,
+	public std::enable_shared_from_this<ContextSystem>
 {
 public:
-    /**
-     * \brief Default ContextSystem constructor
-     */
-    ContextSystem() = default;
-
-    /**
-     * \brief Copy ContextSystem constructor
-     */
-    ContextSystem(const ContextSystem&) = default;
-
-    /**
-     * \brief Move ContextSystem constructor. It is delete
-     */
-    ContextSystem(ContextSystem&&) = delete;
-
-    /**
-     * \brief Default copy assignment operator
-     * \return Reference to \a this
-     */
-    ContextSystem& operator =(const ContextSystem&) = default;
-
-    /**
-     * \brief Default move assignment operator. It is delete
-     * \return Reference to \a this
-     */
-    ContextSystem& operator =(ContextSystem&&) = delete;
+	/**
+	 * \brief Create ContextSystem
+	 * \return Smart ptr to ContextSystem
+	 */
+	static Object::Ptr<ContextSystem> create();
 
     /**
      * \brief ContextSystem destructor
@@ -46,18 +32,18 @@ public:
     /**
      * \brief Handle input events from current context
      */
-    void handleEvents();
+    void handleEvents() const;
 
     /**
      * \brief Update current context state
      * \param dt Delta time
      */
-    void update(float dt);
+    void update(float dt) const;
 
     /**
      * \brief Draw current context state
      */
-    void draw();
+    void draw() const;
     
     /**
      * \brief Add new context and set it as current
@@ -101,18 +87,23 @@ public:
     Object::Ptr<Context> getCurrent() const;
 
     /**
-     * \brief Get ptr to core
-     * \return Ptr to core
-     */
-    Core* getCore() const;
+	 * \brief Set core
+	 * \param core Core
+	 */
+	void setCore(Object::Ptr<Core> core);
 
     /**
-     * \brief Set ptr to core
-     * \param core Ptr to core
-     */
-    void setCore(Core* core);
+	 * \brief Get core
+	 * \return Smart ptr to core
+	 */
+	Object::Ptr<Core> getCore() const;
 
 private:
+	/**
+	 * \brief Default ContextSystem constructor
+	 */
+	ContextSystem() = default;
+
     /**
      * \brief Find the context in m_contexts
      * \param context Context
@@ -131,8 +122,8 @@ private:
     std::list<Object::Ptr<Context>> m_contexts;
 
     /**
-     * \brief Ptr to core
-     */
-    Core* m_core;
+	 * \brief Ptr to core
+	 */
+	Object::WeakPtr<Core> m_core;
 };
 }

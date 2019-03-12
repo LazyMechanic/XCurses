@@ -1,23 +1,30 @@
 #pragma once
 
-#include <XCurses/Graphics/Object.h>
+#include <XCurses/System/Object.h>
 #include <XCurses/System/Vector.h>
 #include <XCurses/Graphics/Drawable.h>
 #include <XCurses/Graphics/Behaviour.h>
-#include <XCurses/Graphics/ContextComponent.h>
 
 namespace xcur {
-class Window;
+class Context;
 class Container;
 
+/**
+ * \brief Base class for make application logic
+ */
 class Widget :
     public Object,
     public Drawable,
     public Behaviour,
-    public ContextComponent,
     public std::enable_shared_from_this<Widget>
 {
 public:
+	/**
+	 * \brief Create Widget
+	 * \return Smart ptr to Widget
+	 */
+	static Object::Ptr<Widget> create();
+
     /**
      * \brief Widget destructor
      */
@@ -77,19 +84,41 @@ public:
 
     /**
      * \brief Get parent widget container
-     * \return Smart ptr to widget
+     * \return Smart ptr to widget container
      */
-    Object::Ptr<Container> getParent() const;
+	Object::Ptr<Container> getParent() const;
+
+	/**
+	 * \brief Set context
+	 * \param context Context
+	 */
+	void setContext(Object::Ptr<Context> context);
+
+	/**
+	 * \brief Get context
+	 * \return Smart ptr to context
+	 */
+	Object::Ptr<Context> getContext() const;
 
 protected:
     /**
-     * \brief Ptr to parent widget
+	 * \brief Default Widget constructor
+	 */
+	Widget() = default;
+
+    /**
+     * \brief Smart ptr to parent widget
      */
-    Object::WeakPtr<Container> m_parent;
+	Object::WeakPtr<Container> m_parent;
 
     /**
 	 * \brief Widget position
 	 */
 	Vector2u m_position;
+
+    /**
+	 * \brief Smart ptr to context
+	 */
+	Object::WeakPtr<Context> m_context;
 };
 }

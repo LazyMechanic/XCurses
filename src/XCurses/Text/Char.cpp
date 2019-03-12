@@ -1,72 +1,134 @@
 #include <XCurses/Text/Char.h>
 
 namespace xcur {
-Char Char::Err(0xffff);
+Char Char::Err(0x0000ffff);
 
 Char::Char() :
-    m_data(0x00000000)
+    colorPairId(0),
+    attribute(Attribute::Normal),
+	symbol(0)
 {
 }
 
-Char::Char(uint16_t ch) :
-    m_data(0x00000000)
+Char::Char(uint8_t colorPairId, Attribute attr, uint16_t symbol) :
+    colorPairId(colorPairId),
+    attribute(attr),
+	symbol(symbol)
 {
-    setColorPairId(0);
-    setAttr(Attribute::Normal);
-    setChar(ch);
 }
 
-Char::Char(uint8_t colorPairId, Attribute attr, uint16_t ch) :
-    m_data(0x00000000)
+Char::Char(uint32_t ch) :
+	colorPairId(Char::getColorPairId(ch)),
+	attribute(Char::getAttribute(ch)),
+	symbol(Char::getSymbol(ch))
 {
-    setColorPairId(colorPairId);
-    setAttr(attr);
-    setChar(ch);
 }
 
-Char& Char::operator=(uint16_t ch)
+Char& Char::operator=(uint32_t right)
 {
-    setChar(ch);
+	colorPairId = Char::getColorPairId(right);
+	attribute = Char::getAttribute(right);
+	symbol = Char::getSymbol(right);
     return *this;
 }
 
-void Char::setChar(uint16_t ch)
+bool Char::operator==(const Char& right) const
 {
-    m_data |= static_cast<uint32_t>(ch);
+	return symbol == right.symbol;
 }
 
-void Char::setAttr(const Attribute& attr)
+bool Char::operator==(uint32_t right) const
 {
-    m_data |= attr.toCursesAttr();
+	return symbol == Char::getSymbol(right);
 }
 
-void Char::setColorPairId(uint8_t id)
+bool Char::operator!=(const Char& right) const
 {
-    m_data |= static_cast<uint32_t>(id) << 24;
+	return !(*this == right);
 }
 
-uint16_t Char::getChar() const
+bool Char::operator!=(uint32_t right) const
 {
-    return static_cast<uint16_t>(m_data & 0x0000ffff);
+	return !(*this == right);
 }
 
-Attribute Char::getAttr() const
+bool Char::operator>(const Char& right) const
 {
-    return Attribute(m_data & 0x00ff0000);
+	return symbol > right.symbol;
 }
 
-uint8_t Char::getColorPairId() const
+bool Char::operator>(uint32_t right) const
 {
-    return static_cast<uint8_t>((m_data & 0xff000000) >> 24);
+	return symbol > Char::getSymbol(right);
 }
 
-Char::operator uint32_t() const
+bool Char::operator<(const Char& right) const
 {
-    return toCursesChar();
+	return symbol < right.symbol;
+}
+
+bool Char::operator<(uint32_t right) const
+{
+	return symbol < Char::getSymbol(right);
+}
+
+bool Char::operator>=(const Char& right) const
+{
+	return symbol >= right.symbol;
+}
+
+bool Char::operator>=(uint32_t right) const
+{
+	return symbol >= Char::getSymbol(right);
+}
+
+bool Char::operator<=(const Char& right) const
+{
+	return symbol <= right.symbol;
+}
+
+bool Char::operator<=(uint32_t right) const
+{
+	return symbol <= Char::getSymbol(right);
 }
 
 uint32_t Char::toCursesChar() const
 {
-    return m_data;
+    return static_cast<uint32_t>(
+		(static_cast<uint32_t>(colorPairId) << 24) |
+		(static_cast<uint32_t>(attribute.value << 16)) |
+		(static_cast<uint32_t>(symbol << 0)));
+}
+
+char Char::toAnsiChar() const
+{
+	return static_cast<char>(symbol);
+}
+
+wchar_t Char::toWideChar() const
+{
+	return static_cast<wchar_t>(symbol);
+}
+
+uint8_t Char::getColorPairId(uint32_t ch)
+{
+	return static_cast<uint8_t>(ch >> 24);
+}
+
+Attribute Char::getAttribute(uint32_t ch)
+{
+	return Attribute(ch);
+}
+
+uint16_t Char::getSymbol(uint32_t ch)
+{
+	return static_cast<uint16_t>(ch >> 0);
+}
+
+bool Char::isFullEqual(const Char& left, const Char& right)
+{
+	return (left.colorPairId == right.colorPairId) &&
+		(left.attribute == right.attribute) &&
+		(left.symbol == right.symbol);
 }
 }

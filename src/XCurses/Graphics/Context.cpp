@@ -9,13 +9,18 @@
 #include <XCurses/Graphics/Window.h>
 #include <XCurses/Graphics/TreeNode.h>
 #include <XCurses/Graphics/Container.h>
+#include <XCurses/Graphics/RootWindow.h>
 #include <XCurses/Graphics/ContextSystem.h>
 
 namespace xcur {
+Object::Ptr<Context> Context::create()
+{
+	return std::shared_ptr<Context>(new Context());
+}
+
 Context::Context() :
-    m_rootWidget(Object::create<Container>()),
-    m_widgetTreeRoot(Object::create<detail::TreeNode>(m_rootWidget)),
-	m_contextSystem(nullptr)
+    m_rootWindow(detail::RootWindow::create()),
+    m_widgetTreeRoot(detail::TreeNode::create(m_rootWindow))
 {
 }
 
@@ -31,6 +36,7 @@ void Context::update(float dt)
 
 void Context::draw()
 {
+	wclear(stdscr);
     m_widgetTreeRoot->draw();
 	refreshWindows();
 	doupdate();
@@ -62,8 +68,8 @@ Status Context::remove(Object::Ptr<Widget> widget)
     }
 
     // If widget parent is root widget of context
-    if (widget->getParent() == m_rootWidget) {
-		m_rootWidget->remove(widget);
+    if (widget->getParent() == m_rootWindow) {
+		m_rootWindow->remove(widget);
     }
 
     foundNode->getParent()->remove(widget);
@@ -76,7 +82,7 @@ bool Context::has(Object::Ptr<Widget> widget) const
     return m_widgetTreeRoot->has(widget);
 }
 
-void Context::widgetToFront(Object::Ptr<Widget> widget)
+void Context::widgetToFront(Object::Ptr<Widget> widget) const
 {
     auto foundNode = m_widgetTreeRoot->findInSubtreeByWidget(widget);
     // if node found
@@ -90,14 +96,14 @@ void Context::addWindowToRefresh(Object::Ptr<Window> window)
 	m_windowsToRefresh.emplace_back(window);
 }
 
-void Context::setContextSystem(ContextSystem* contextSystem)
+void Context::setContextSystem(Object::Ptr<ContextSystem> contextSystem)
 {
-    m_contextSystem = contextSystem;
+	m_contextSystem = contextSystem;
 }
 
-ContextSystem* Context::getContextSystem() const
+Object::Ptr<ContextSystem> Context::getContextSystem() const
 {
-    return m_contextSystem;
+	return m_contextSystem.lock();
 }
 
 Status Context::addContainerWidget(Object::Ptr<Container> container)
@@ -125,7 +131,7 @@ Status Context::addSingleWidget(Object::Ptr<Widget> widget)
         parent->add(widget);
     }
     else {
-        m_rootWidget->add(widget);
+        m_rootWindow->add(widget);
         m_widgetTreeRoot->add(widget);
     }
     widget->setContext(shared_from_this());
@@ -139,6 +145,7 @@ void Context::refreshWindows()
 		auto sharedWindow = window.lock();
         // If window still exists
         if (sharedWindow != nullptr) {
+			touchwin(sharedWindow->getCursesWin());
 			wnoutrefresh(sharedWindow->getCursesWin());
         }
     }

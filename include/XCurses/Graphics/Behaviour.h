@@ -1,6 +1,10 @@
 #pragma once
 
 namespace xcur {
+/**
+ * \brief Abstract class for \a update() function.
+ * You must inherit from this class for objects that has application logic
+ */
 class Behaviour
 {
 public:

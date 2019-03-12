@@ -3,6 +3,10 @@
 #include <XCurses/Graphics/Window.h>
 
 namespace xcur {
+/**
+ * \brief Class provides interface for using xcur::Window.
+ * You must inherit from this class for objects that need Window
+ */
 class HasWindow
 {
 public:
@@ -24,6 +28,11 @@ public:
     Object::Ptr<Window> getWindow() const;
 
 protected:
+	/**
+	 * \brief Default HasWindow constructor.
+	 */
+	HasWindow() = default;
+
     /**
      * \brief Window
      */

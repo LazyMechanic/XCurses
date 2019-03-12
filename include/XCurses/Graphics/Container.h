@@ -6,10 +6,19 @@
 #include <XCurses/Graphics/Widget.h>
 
 namespace xcur {
+/**
+ * \brief Base class of widget container. It contains and controls widgets
+ */
 class Container : 
     public Widget
 {
 public:
+	/**
+	 * \brief Create Container
+	 * \return Smart ptr to Container
+	 */
+	static Object::Ptr<Container> create();
+
     /**
      * \brief Container destructor
      */
@@ -85,6 +94,11 @@ public:
     std::list<Object::Ptr<Widget>>::const_iterator find(Object::Ptr<Widget> widget) const;
 
 protected:
+    /**
+	 * \brief Default Container constructor
+	 */
+	Container() = default;
+
     /**
      * \brief List of child widgets
      */

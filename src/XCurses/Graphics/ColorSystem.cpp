@@ -6,6 +6,11 @@
 
 
 namespace xcur {
+Object::Ptr<ColorSystem> ColorSystem::create()
+{
+	return std::shared_ptr<ColorSystem>(new ColorSystem());
+}
+
 ColorSystem::ColorSystem() :
     m_curColorPalette(nullptr),
     m_palettes(0)

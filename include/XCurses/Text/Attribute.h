@@ -3,6 +3,9 @@
 #include <cstdint>
 
 namespace xcur {
+/**
+ * \brief Wrapper over curses char attributes
+ */
 class Attribute
 {
 public:

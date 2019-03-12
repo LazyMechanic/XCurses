@@ -5,11 +5,21 @@
 #include <PDCurses/curses.h>
 
 #include <XCurses/System/Input.h>
+#include <XCurses/Graphics/Context.h>
 
 namespace xcur {
-Core::Core()
+Object::Ptr<Core> Core::create()
 {
-    initscr();
+	std::shared_ptr<Core> core(new Core());
+	core->m_contextSystem->setCore(core);
+	return core;
+}
+
+Core::Core() :
+	m_contextSystem(ContextSystem::create()),
+	m_colorSystem(ColorSystem::create())
+{
+	initscr();
 }
 
 Core::~Core()
@@ -19,15 +29,14 @@ Core::~Core()
 
 void Core::init(const CoreConfig& config)
 {
-    this->setCBrakeMode(config.enableCBreakMode);
+    this->setCBreakMode(config.enableCBreakMode);
     this->setEchoMode(config.enableEchoMode);
     this->setRawMode(config.enableRawMode);
     this->setNewLineMode(config.enableNewLineMode);
-    this->setTerminalSize(config.terminalWidth, config.terminalHeight);
-
+    this->setTerminalSize(config.terminalSize);
 }
 
-Status Core::setCBrakeMode(bool v)
+Status Core::setCBreakMode(bool v)
 {
     m_config.enableCBreakMode = v;
     if (v) {
@@ -36,6 +45,11 @@ Status Core::setCBrakeMode(bool v)
     else {
         return nocbreak();
     }
+}
+
+bool Core::isCBreakMode() const
+{
+	return m_config.enableCBreakMode;
 }
 
 Status Core::setEchoMode(bool v)
@@ -49,6 +63,11 @@ Status Core::setEchoMode(bool v)
     }
 }
 
+bool Core::isEchoMode() const
+{
+	return m_config.enableEchoMode;
+}
+
 Status Core::setRawMode(bool v)
 {
     m_config.enableRawMode = v;
@@ -58,6 +77,11 @@ Status Core::setRawMode(bool v)
     else {
         return noraw();
     }
+}
+
+bool Core::isRawMode() const
+{
+	return m_config.enableRawMode;
 }
 
 Status Core::setNewLineMode(bool v)
@@ -71,11 +95,21 @@ Status Core::setNewLineMode(bool v)
     }
 }
 
-Status Core::setTerminalSize(unsigned int width, unsigned int height)
+bool Core::isNewLineMode() const
 {
-    m_config.terminalWidth = getmaxx(stdscr);
-    m_config.terminalHeight = getmaxy(stdscr);
-    return resize_term(height, width);
+	return m_config.enableNewLineMode;
+}
+
+Status Core::setTerminalSize(const Vector2u& size)
+{
+	Status result = resize_term(size.y, size.x);
+    m_config.terminalSize = Vector2u(getmaxx(stdscr), getmaxy(stdscr));
+    return result;
+}
+
+Vector2u Core::getTerminalSize() const
+{
+	return m_config.terminalSize;
 }
 
 Status Core::blinkColors() const
@@ -88,30 +122,28 @@ Status Core::playBeepSound() const
     return beep();
 }
 
-void Core::handleEvents()
+Object::Ptr<ContextSystem> Core::getContextSystem() const
 {
-    // TODO: call current context handleEvents() func
+	return m_contextSystem;
 }
 
-void Core::update(const float dt)
+Object::Ptr<ColorSystem> Core::getColorSystem() const
 {
-    // TODO: call current context update() func
+	return m_colorSystem;
+}
+
+void Core::handleEvents()
+{
+	m_contextSystem->handleEvents();
+}
+
+void Core::update(float dt)
+{
+	m_contextSystem->update(dt);
 }
 
 void Core::draw()
 {
-    /*
-        // Clear virtual screen
-        clear();
-        wnoutrefresh(stdscr);
-        // Draw all windows
-        for (auto& window : m_windows) {
-            window->draw();
-        }
-        // Draw all windows
-        doupdate();
-    */
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ all work code, copy to context
-    // TODO: call current context draw() func
+	m_contextSystem->draw();
 }
 }

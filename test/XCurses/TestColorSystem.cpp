@@ -353,11 +353,11 @@ TEST_CASE("ColorPalette init and edit", "[Color][ColorPalette]")
 
 TEST_CASE("ColorSystem init and edit", "[Color][ColorPalette][ColorSystem]")
 {
-	ColorSystem colorSystem;
+	auto colorSystem = ColorSystem::create();
 
     SECTION("Create ColorSystem")
     {
-		REQUIRE(colorSystem.findColorPalette("default") != colorSystem.colorPaletteEnd());
+		REQUIRE(colorSystem->findColorPalette("default") != colorSystem->colorPaletteEnd());
     }
 
 	SECTION("Add the color palette")
@@ -371,27 +371,27 @@ TEST_CASE("ColorSystem init and edit", "[Color][ColorPalette][ColorSystem]")
 
 		SECTION("Color palette name in lower case")
 		{
-			colorSystem.addColorPalette("custom_palette", palette);
-			REQUIRE(colorSystem.findColorPalette("CUSTOM_PALETTE") != colorSystem.colorPaletteEnd());
+			colorSystem->addColorPalette("custom_palette", palette);
+			REQUIRE(colorSystem->findColorPalette("CUSTOM_PALETTE") != colorSystem->colorPaletteEnd());
 		}
 
 		SECTION("Color palette name in upper case")
 		{
-			colorSystem.addColorPalette("CUSTOM_PALETTE", palette);
-			REQUIRE(colorSystem.findColorPalette("custom_palette") != colorSystem.colorPaletteEnd());
+			colorSystem->addColorPalette("CUSTOM_PALETTE", palette);
+			REQUIRE(colorSystem->findColorPalette("custom_palette") != colorSystem->colorPaletteEnd());
 		}
 
 		SECTION("Color palette name in mix case")
 		{
-			colorSystem.addColorPalette("CuStOm_pAlEtTe", palette);
-			REQUIRE(colorSystem.findColorPalette("cUsToM_PaLeTtE") != colorSystem.colorPaletteEnd());
+			colorSystem->addColorPalette("CuStOm_pAlEtTe", palette);
+			REQUIRE(colorSystem->findColorPalette("cUsToM_PaLeTtE") != colorSystem->colorPaletteEnd());
 		}
 
         SECTION("Use the color palette")
 		{
-			colorSystem.addColorPalette("custom_palette", palette);
-			colorSystem.useColorPalette("custom_palette");
-			REQUIRE(colorSystem.getCurrentPalette() == colorSystem.findColorPalette("custom_palette")->second.get());
+			colorSystem->addColorPalette("custom_palette", palette);
+			colorSystem->useColorPalette("custom_palette");
+			REQUIRE(colorSystem->getCurrentPalette() == colorSystem->findColorPalette("custom_palette")->second.get());
 		}
 	}
 }

@@ -1,13 +1,20 @@
 #include <PDCurses/curses.h>
 
 #include <XCurses/Graphics/Window.h>
+#include <XCurses/Graphics/Context.h>
 #include <XCurses/Graphics/Container.h>
 
 namespace xcur {
-Window::Window() :
-    m_backgroundChar(' '),
-    m_border(Border::Default)
+Object::Ptr<Window> Window::create(const Vector2u& position, const Vector2u& size)
 {
+	return std::shared_ptr<Window>(new Window(position, size));
+}
+
+Window::Window(const Vector2u& position, const Vector2u& size) :
+	m_backgroundChar(' '),
+	m_border(Border::Default)
+{
+	m_win = newwin(size.y, size.x, position.y, position.x);
 }
 
 Window::~Window()
@@ -128,13 +135,13 @@ Char Window::getBackground() const
 void Window::drawCursesBorder() const
 {
     wborder(m_win,
-        m_border.leftSide,
-        m_border.rightSide,
-        m_border.topSide,
-        m_border.bottomSide,
-        m_border.topLeftCorner,
-        m_border.topRightCorner,
-        m_border.bottomLeftCorner,
-        m_border.bottomRightCorner);
+        m_border.leftSide.toCursesChar(),
+        m_border.rightSide.toCursesChar(),
+        m_border.topSide.toCursesChar(),
+        m_border.bottomSide.toCursesChar(),
+        m_border.topLeftCorner.toCursesChar(),
+        m_border.topRightCorner.toCursesChar(),
+        m_border.bottomLeftCorner.toCursesChar(),
+        m_border.bottomRightCorner.toCursesChar());
 }
 }

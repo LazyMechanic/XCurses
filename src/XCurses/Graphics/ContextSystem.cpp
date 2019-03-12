@@ -3,9 +3,15 @@
 #include <algorithm>
 
 #include <XCurses/System/Core.h>
+#include <XCurses/Graphics/Context.h>
 
 namespace xcur {
-void ContextSystem::handleEvents()
+Object::Ptr<ContextSystem> ContextSystem::create()
+{
+	return std::shared_ptr<ContextSystem>(new ContextSystem());
+}
+
+void ContextSystem::handleEvents() const
 {
     auto currentContext = m_currentContext.lock();
     // If the current context is set
@@ -14,7 +20,7 @@ void ContextSystem::handleEvents()
     }
 }
 
-void ContextSystem::update(float dt)
+void ContextSystem::update(float dt) const
 {
     auto currentContext = m_currentContext.lock();
     // If the current context is set
@@ -23,7 +29,7 @@ void ContextSystem::update(float dt)
     }
 }
 
-void ContextSystem::draw()
+void ContextSystem::draw() const
 {
     auto currentContext = m_currentContext.lock();
     // If the current context is set
@@ -55,6 +61,7 @@ Status ContextSystem::add(Object::Ptr<Context> context)
         return Status::Err;
     }
 
+	context->setContextSystem(shared_from_this());
     m_contexts.push_back(context);
     return Status::Ok;
 }
@@ -77,6 +84,7 @@ Status ContextSystem::remove(Object::Ptr<Context> context)
         return Status::Err;
     }
 
+	context->setContextSystem(nullptr);
     m_contexts.erase(foundContext);
     return Status::Ok;
 }
@@ -98,14 +106,14 @@ Object::Ptr<Context> ContextSystem::getCurrent() const
     return m_currentContext.lock();
 }
 
-Core* ContextSystem::getCore() const
+void ContextSystem::setCore(Object::Ptr<Core> core)
 {
-    return m_core;
+	m_core = core;
 }
 
-void ContextSystem::setCore(Core* core)
+Object::Ptr<Core> ContextSystem::getCore() const
 {
-    m_core = core;
+	return m_core.lock();
 }
 
 std::list<Object::Ptr<Context>>::iterator ContextSystem::findContext(Object::Ptr<Context> context)

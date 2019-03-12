@@ -3,22 +3,26 @@
 #include <list>
 #include <memory>
 
+#include <XCurses/System/Vector2.h>
 #include <XCurses/Graphics/Border.h>
-#include <XCurses/Graphics/Widget.h>
-#include <XCurses/System/Vector.h>
 #include <XCurses/Graphics/Container.h>
 
 struct _win;
 
 namespace xcur {
+/**
+ * \brief The class controls the curses window and provides an interface to 
+ * handle the curses window.
+ */
 class Window :
     public Container
 {
 public:
-    /**
-     * \brief Default Window constructor
-     */
-    Window();
+	/**
+	 * \brief Create Window
+	 * \return Smart ptr to Window
+	 */
+	static Object::Ptr<Window> create(const Vector2u& position, const Vector2u& size);
 
     /**
      * \brief Window destructor
@@ -117,8 +121,6 @@ public:
 	 */
 	Vector2u getSize() const;
 
-
-
     /**
 	 * \brief Set background character
 	 * \param ch Character
@@ -150,6 +152,14 @@ public:
     _win* getCursesWin() const;
 
 protected:
+	/**
+	 * \brief Window constructor. Construct window with specific position and size.
+	 * position.x is width, position.y is height
+	 * \param position
+	 * \param size
+	 */
+	Window(const Vector2u& position, const Vector2u& size);
+
     /**
      * \brief Call curses function for redraw border
      */

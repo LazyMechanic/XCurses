@@ -4,8 +4,7 @@ namespace xcur {
 const CoreConfig CoreConfig::Default;
 
 CoreConfig::CoreConfig() :
-    terminalWidth(120),
-    terminalHeight(50),
+    terminalSize(120, 50),
     inputDelay(0),
     enableCBreakMode(true),
     enableEchoMode(false),
@@ -17,8 +16,7 @@ CoreConfig::CoreConfig() :
 }
 
 CoreConfig::CoreConfig(
-	uint32_t terminalWidth,
-	uint32_t terminalHeight,
+	const Vector2u& terminalSize,
 	uint32_t inputDelay,
     bool enableCBreakMode,
     bool enableEchoMode,
@@ -27,8 +25,7 @@ CoreConfig::CoreConfig(
     bool enableKeypadMode,
     bool enableInputDelay
 ) :
-    terminalWidth(terminalWidth),
-    terminalHeight(terminalHeight),
+    terminalSize(terminalSize),
     inputDelay(inputDelay),
     enableCBreakMode(enableCBreakMode),
     enableEchoMode(enableEchoMode),
