@@ -63,6 +63,120 @@ public:
      */
     Char& operator =(Char&&) = default;
 
+	/**
+	 * \brief Overload of the == operator
+	 * This operator compares two chars and check if their symbol values are equal
+	 * \param right Right operand
+	 * \return True if symbol values of chars are equal, false if they are different
+	 */
+	bool operator ==(const Char& right) const;
+
+	/**
+	 * \brief Overload of the == operator
+	 * This operator compares char and curses char (uint32_t) and check if their symbol values
+	 * are equal
+	 * \param right Right operand
+	 * \return True if symbol values of chars are equal, false if they are different
+	 */
+	bool operator ==(uint32_t right) const;
+
+	/**
+	 * \brief Overload of the != operator
+	 * This operator compares two chars and check if their symbol values are different
+	 * \param right Right operand
+	 * \return True if symbol values of chars are different, false if they are equal
+	 */
+	bool operator !=(const Char& right) const;
+
+	/**
+	 * \brief Overload of the != operator
+	 * This operator compares char and curses char (uint32_t) and check if their symbol values
+	 * are different
+	 * \param right Right operand
+	 * \return True if symbol values of chars are different, false if they are equal
+	 */
+	bool operator !=(uint32_t right) const;
+
+	/**
+	 * \brief Overload of the > operator
+	 * This operator compares two chars and check if symbol value \a this more than 
+	 * symbol value of \a right
+	 * \param right Right operand
+	 * \return True if symbol value of \a this is more than symbol value of \a right,
+	 * false otherwise
+	 */
+	bool operator >(const Char& right) const;
+
+	/**
+	 * \brief Overload of the > operator
+	 * This operator compares char and curses char (uint32_t) and check if symbol value 
+	 * of \a this more than symbol value of \a right
+	 * \param right Right operand
+	 * \return True if symbol value of \a this is more than symbol value of \a right,
+	 * false otherwise
+	 */
+	bool operator >(uint32_t right) const;
+
+	/**
+	 * \brief Overload of the > operator
+	 * This operator compares two chars and check if symbol value \a this less than
+	 * symbol value of \a right
+	 * \param right Right operand
+	 * \return True if symbol value of \a this is less than symbol value of \a right,
+	 * false otherwise
+	 */
+	bool operator <(const Char& right) const;
+
+	/**
+	 * \brief Overload of the > operator
+	 * This operator compares char and curses char (uint32_t) and check if symbol value
+	 * of \a this less than symbol value of \a right
+	 * \param right Right operand
+	 * \return True if symbol value of \a this is less than symbol value of \a right,
+	 * false otherwise
+	 */
+	bool operator <(uint32_t right) const;
+
+	/**
+	 * \brief Overload of the > operator
+	 * This operator compares two chars and check if symbol value \a this more or equal than
+	 * symbol value of \a right
+	 * \param right Right operand
+	 * \return True if symbol value of \a this is more or equal than symbol value of \a right,
+	 * false otherwise
+	 */
+	bool operator >=(const Char& right) const;
+
+	/**
+	 * \brief Overload of the > operator
+	 * This operator compares char and curses char (uint32_t) and check if symbol value
+	 * of \a this more or equal than symbol value of \a right
+	 * \param right Right operand
+	 * \return True if symbol value of \a this is more or equal than symbol value of \a right,
+	 * false otherwise
+	 */
+	bool operator >=(uint32_t right) const;
+
+	/**
+	 * \brief Overload of the > operator
+	 * This operator compares two chars and check if symbol value \a this less or equal than
+	 * symbol value of \a right
+	 * \param right Right operand
+	 * \return True if symbol value of \a this is less or equal than symbol value of \a right,
+	 * false otherwise
+	 */
+	bool operator <=(const Char& right) const;
+
+	/**
+	 * \brief Overload of the > operator
+	 * This operator compares char and curses char (uint32_t) and check if symbol value
+	 * of \a this less or equal than symbol value of \a right
+	 * \param right Right operand
+	 * \return True if symbol value of \a this is less or equal than symbol value of \a right,
+	 * false otherwise
+	 */
+	bool operator <=(uint32_t right) const;
+
     /**
      * \brief Char destructor
      */
@@ -112,6 +226,15 @@ public:
 	 * \return Symbol
 	 */
 	static uint16_t getSymbol(uint32_t ch);
+
+    /**
+	 * \brief Check if \a left and \a right is equal including color pair id and attribute
+	 * \param left Left operand
+	 * \param right Left operand
+	 * \return True if color pair id, attribute and symbol are equal in two chars, false if
+	 * they different
+	 */
+	static bool isFullEqual(const Char& left, const Char& right);
 
     /**
 	 * \brief Color pair id

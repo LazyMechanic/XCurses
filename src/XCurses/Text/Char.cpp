@@ -32,6 +32,66 @@ Char& Char::operator=(uint32_t right)
     return *this;
 }
 
+bool Char::operator==(const Char& right) const
+{
+	return symbol == right.symbol;
+}
+
+bool Char::operator==(uint32_t right) const
+{
+	return symbol == Char::getSymbol(right);
+}
+
+bool Char::operator!=(const Char& right) const
+{
+	return !(*this == right);
+}
+
+bool Char::operator!=(uint32_t right) const
+{
+	return !(*this == right);
+}
+
+bool Char::operator>(const Char& right) const
+{
+	return symbol > right.symbol;
+}
+
+bool Char::operator>(uint32_t right) const
+{
+	return symbol > Char::getSymbol(right);
+}
+
+bool Char::operator<(const Char& right) const
+{
+	return symbol < right.symbol;
+}
+
+bool Char::operator<(uint32_t right) const
+{
+	return symbol < Char::getSymbol(right);
+}
+
+bool Char::operator>=(const Char& right) const
+{
+	return symbol >= right.symbol;
+}
+
+bool Char::operator>=(uint32_t right) const
+{
+	return symbol >= Char::getSymbol(right);
+}
+
+bool Char::operator<=(const Char& right) const
+{
+	return symbol <= right.symbol;
+}
+
+bool Char::operator<=(uint32_t right) const
+{
+	return symbol <= Char::getSymbol(right);
+}
+
 uint32_t Char::toCursesChar() const
 {
     return static_cast<uint32_t>(
@@ -63,5 +123,12 @@ Attribute Char::getAttribute(uint32_t ch)
 uint16_t Char::getSymbol(uint32_t ch)
 {
 	return static_cast<uint16_t>(ch >> 0);
+}
+
+bool Char::isFullEqual(const Char& left, const Char& right)
+{
+	return (left.colorPairId == right.colorPairId) &&
+		(left.attribute == right.attribute) &&
+		(left.symbol == right.symbol);
 }
 }
