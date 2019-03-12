@@ -5,6 +5,9 @@
 #include <XCurses/System/Vector2.h>
 
 namespace xcur {
+/**
+ * \brief Config of core
+ */
 class CoreConfig
 {
 public:

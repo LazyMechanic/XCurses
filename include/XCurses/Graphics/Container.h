@@ -6,6 +6,9 @@
 #include <XCurses/Graphics/Widget.h>
 
 namespace xcur {
+/**
+ * \brief Base class of widget container. It contains and controls widgets
+ */
 class Container : 
     public Widget
 {

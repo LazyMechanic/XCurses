@@ -8,6 +8,10 @@
 #include <XCurses/Graphics/ContextSystem.h>
 
 namespace xcur {
+/**
+ * \brief Basis xcurses class. It handles the context system, the color system
+ * and curses modes
+ */
 class Core : 
     public Object
 {

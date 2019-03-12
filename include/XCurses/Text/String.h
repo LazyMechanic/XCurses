@@ -5,6 +5,9 @@
 #include <XCurses/Text/Char.h>
 
 namespace xcur {
+/**
+ * \brief Class for contain curses chars and operations over them.
+ */
 class String
 {
 public:

@@ -1,6 +1,10 @@
 #pragma once
 
 namespace xcur {
+/**
+ * \brief Abstract class for \a draw() function.
+ * You must inherit from this class for objects that can drawable
+ */
 class Drawable
 {
 public:

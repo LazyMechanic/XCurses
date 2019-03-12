@@ -11,6 +11,9 @@
 #include <XCurses/Graphics/ColorPalette.h>
 
 namespace xcur {
+/**
+ * \brief Class controls and contains color palettes.
+ */
 class ColorSystem :
     public Object
 {

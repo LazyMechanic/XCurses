@@ -9,6 +9,9 @@ namespace xcur {
 class Context;
 class Container;
 
+/**
+ * \brief Base class for make application logic
+ */
 class Widget :
     public Object,
     public Drawable,

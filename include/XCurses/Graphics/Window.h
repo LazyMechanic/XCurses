@@ -10,6 +10,10 @@
 struct _win;
 
 namespace xcur {
+/**
+ * \brief The class controls the curses window and provides an interface to 
+ * handle the curses window.
+ */
 class Window :
     public Container
 {

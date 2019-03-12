@@ -3,36 +3,13 @@
 #include <XCurses/Graphics/Window.h>
 
 namespace xcur {
+/**
+ * \brief Class provides interface for using xcur::Window.
+ * You must inherit from this class for objects that need Window
+ */
 class HasWindow
 {
 public:
-	/**
-	 * \brief Default HasWindow constructor.
-	 */
-	HasWindow() = default;
-
-	/**
-	 * \brief Copy HasWindow constructor
-	 */
-	HasWindow(const HasWindow&) = default;
-
-	/**
-	 * \brief Move HasWindow constructor
-	 */
-	HasWindow(HasWindow&&) = default;
-
-	/**
-	 * \brief Default copy assignment operator
-	 * \return Reference to \a this
-	 */
-	HasWindow& operator =(const HasWindow&) = default;
-
-	/**
-	 * \brief Default move assignment operator
-	 * \return Reference to \a this
-	 */
-	HasWindow& operator =(HasWindow&&) = default;
-
     /**
      * \brief HasWindow destructor
      */
@@ -51,6 +28,11 @@ public:
     Object::Ptr<Window> getWindow() const;
 
 protected:
+	/**
+	 * \brief Default HasWindow constructor.
+	 */
+	HasWindow() = default;
+
     /**
      * \brief Window
      */

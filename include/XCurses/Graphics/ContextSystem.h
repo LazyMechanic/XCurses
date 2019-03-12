@@ -9,6 +9,10 @@ namespace xcur {
 class Core;
 class Context;
 
+/**
+ * \brief Class contains and controls contexts. Only one context 
+ * updated and drawn in application cycle
+ */
 class ContextSystem : 
     public Object,
 	public std::enable_shared_from_this<ContextSystem>

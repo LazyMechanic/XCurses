@@ -3,6 +3,10 @@
 #include <cstdint>
 
 namespace xcur {
+/**
+ * \brief Class for manipulating 2-dimensional vectors
+ * \tparam T Type of vector components
+ */
 template <typename T>
 class Vector3
 {

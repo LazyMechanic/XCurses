@@ -3,6 +3,9 @@
 #include <cstdint>
 
 namespace xcur {
+/**
+ * \brief Class to display the status of the operation
+ */
 class Status
 {
 public:

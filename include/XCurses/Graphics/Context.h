@@ -18,6 +18,9 @@ class Window;
 class Container;
 class ContextSystem;
 
+/**
+ * \brief Class contains and controls widgets
+ */
 class Context :
     public Object,
     public Drawable,

@@ -5,6 +5,10 @@
 #include <cstdint>
 
 namespace xcur {
+/**
+ * \brief Base class. It contain object id and and operations to get the class name
+ * from type
+ */
 class Object
 {
 public:
