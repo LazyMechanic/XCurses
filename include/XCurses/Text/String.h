@@ -571,12 +571,6 @@ public:
 	static bool isFullEqual(const String& left, const String& right);
 
     /**
-     * \brief Convert String to chtype* (it is equal uint32_t*) 
-     * \return uint32_t*
-     */
-    uint32_t* toCursesStr();
-
-    /**
 	 * \brief Convert String to std::string (ansi string).
      * Characters that do not fit in the target encoding are
      * discarded from the returned string.
@@ -730,9 +724,15 @@ public:
      */
     size_t size() const;
 
-    /**
+	/**
 	 * \brief Get ptr to data of string
 	 * \return Ptr to data
+	 */
+	Char* data();
+
+    /**
+	 * \brief Get ptr to data of string
+	 * \return Const ptr to data
 	 */
 	const Char* data() const;
 

@@ -361,11 +361,6 @@ bool String::isFullEqual(const String& left, const String& right)
 	return true;
 }
 
-uint32_t* String::toCursesStr()
-{
-    return reinterpret_cast<uint32_t*>(m_string.data());
-}
-
 std::string String::toAnsiString() const
 {
 	std::string result(m_string.size(), '\0');
@@ -500,6 +495,11 @@ String String::substring(size_t position, size_t length) const
 size_t String::size() const
 {
     return m_string.size();
+}
+
+Char* String::data()
+{
+	return m_string.data();
 }
 
 const Char* String::data() const
