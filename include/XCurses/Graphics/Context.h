@@ -28,11 +28,11 @@ class Context :
     public std::enable_shared_from_this<Context>
 {
 public:
-	/**
-	 * \brief Create Context
-	 * \return Smart ptr to Context
-	 */
-	static Object::Ptr<Context> create();
+    /**
+     * \brief Create Context
+     * \return Smart ptr to Context
+     */
+    static Object::Ptr<Context> create();
 
     /**
      * \brief Handle input events
@@ -80,29 +80,29 @@ public:
     void widgetToFront(Object::Ptr<Widget> widget) const;
 
     /**
-	 * \brief Add window to refresh queue. After call all draw functions will call
-	 * wnoutrefresh() for all windows
-	 * \param window 
-	 */
-	void addWindowToRefresh(Object::Ptr<Window> window);
+     * \brief Add window to refresh queue. After call all draw functions will call
+     * wnoutrefresh() for all windows
+     * \param window 
+     */
+    void addWindowToRefresh(Object::Ptr<Window> window);
 
     /**
-	 * \brief Set context system
-	 * \param contextSystem Context system
-	 */
-	void setContextSystem(Object::Ptr<ContextSystem> contextSystem);
+     * \brief Set context system
+     * \param contextSystem Context system
+     */
+    void setContextSystem(Object::Ptr<ContextSystem> contextSystem);
 
     /**
-	 * \brief Get context system
-	 * \return Smart ptr to context system
-	 */
-	Object::Ptr<ContextSystem> getContextSystem() const;
+     * \brief Get context system
+     * \return Smart ptr to context system
+     */
+    Object::Ptr<ContextSystem> getContextSystem() const;
 
 protected:
-	/**
-	 * \brief Default Context constructor
-	 */
-	Context();
+    /**
+     * \brief Default Context constructor
+     */
+    Context();
 
     /**
      * \brief Root window
@@ -116,14 +116,14 @@ protected:
     Object::Ptr<detail::TreeNode> m_widgetTreeRoot;
 
     /**
-	 * \brief Windows to refresh
-	 */
-	std::list<Object::WeakPtr<Window>> m_windowsToRefresh;
+     * \brief Windows to refresh
+     */
+    std::list<Object::WeakPtr<Window>> m_windowsToRefresh;
 
     /**
-	 * \brief Ptr to context system
-	 */
-	Object::WeakPtr<ContextSystem> m_contextSystem;
+     * \brief Ptr to context system
+     */
+    Object::WeakPtr<ContextSystem> m_contextSystem;
 
 private:
     /**
@@ -141,8 +141,8 @@ private:
     Status addSingleWidget(Object::Ptr<Widget> widget);
 
     /**
-	 * \brief Refresh all windows
-	 */
-	void refreshWindows();
+     * \brief Refresh all windows
+     */
+    void refreshWindows();
 };
 }

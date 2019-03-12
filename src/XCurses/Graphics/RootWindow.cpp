@@ -10,29 +10,29 @@ namespace xcur {
 namespace detail {
 Object::Ptr<RootWindow> RootWindow::create()
 {
-	return std::shared_ptr<RootWindow>(new RootWindow());
+    return std::shared_ptr<RootWindow>(new RootWindow());
 }
 
 RootWindow::RootWindow() :
-	Window(Vector2u(0, 0), Vector2u(getmaxx(stdscr), getmaxy(stdscr)))
+    Window(Vector2u(0, 0), Vector2u(getmaxx(stdscr), getmaxy(stdscr)))
 {
 }
 void RootWindow::update(float dt)
 {
-	auto context = getContext();
-	if (context != nullptr &&
-		context->getContextSystem() != nullptr)
-	{
-		auto core = context->getContextSystem()->getCore();
+    auto context = getContext();
+    if (context != nullptr &&
+        context->getContextSystem() != nullptr)
+    {
+        auto core = context->getContextSystem()->getCore();
 
-		m_prevTermSize = m_curTermSize;
-		m_curTermSize = core->getTerminalSize();
+        m_prevTermSize = m_curTermSize;
+        m_curTermSize = core->getTerminalSize();
 
         // If terminal was resised
-		if (m_prevTermSize != m_curTermSize) {
+        if (m_prevTermSize != m_curTermSize) {
             resize(core->getTerminalSize());
-		}
-	}
+        }
+    }
 }
 }
 }

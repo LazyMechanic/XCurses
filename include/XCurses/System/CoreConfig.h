@@ -29,7 +29,7 @@ public:
      */
     CoreConfig(
         const Vector2u& terminalSize,
-		uint32_t inputDelay,
+        uint32_t inputDelay,
         bool enableCBreakMode,
         bool enableEchoMode,
         bool enableRawMode,
@@ -44,10 +44,10 @@ public:
     static const CoreConfig Default;
 
     /**
-	 * \brief Terminal size.
-	 * size.x is width, size.y = height
-	 */
-	Vector2u terminalSize;
+     * \brief Terminal size.
+     * size.x is width, size.y = height
+     */
+    Vector2u terminalSize;
 
     /**
      * \brief Delay value for input

@@ -15,14 +15,14 @@ class Context;
  */
 class ContextSystem : 
     public Object,
-	public std::enable_shared_from_this<ContextSystem>
+    public std::enable_shared_from_this<ContextSystem>
 {
 public:
-	/**
-	 * \brief Create ContextSystem
-	 * \return Smart ptr to ContextSystem
-	 */
-	static Object::Ptr<ContextSystem> create();
+    /**
+     * \brief Create ContextSystem
+     * \return Smart ptr to ContextSystem
+     */
+    static Object::Ptr<ContextSystem> create();
 
     /**
      * \brief ContextSystem destructor
@@ -87,22 +87,22 @@ public:
     Object::Ptr<Context> getCurrent() const;
 
     /**
-	 * \brief Set core
-	 * \param core Core
-	 */
-	void setCore(Object::Ptr<Core> core);
+     * \brief Set core
+     * \param core Core
+     */
+    void setCore(Object::Ptr<Core> core);
 
     /**
-	 * \brief Get core
-	 * \return Smart ptr to core
-	 */
-	Object::Ptr<Core> getCore() const;
+     * \brief Get core
+     * \return Smart ptr to core
+     */
+    Object::Ptr<Core> getCore() const;
 
 private:
-	/**
-	 * \brief Default ContextSystem constructor
-	 */
-	ContextSystem() = default;
+    /**
+     * \brief Default ContextSystem constructor
+     */
+    ContextSystem() = default;
 
     /**
      * \brief Find the context in m_contexts
@@ -122,8 +122,8 @@ private:
     std::list<Object::Ptr<Context>> m_contexts;
 
     /**
-	 * \brief Ptr to core
-	 */
-	Object::WeakPtr<Core> m_core;
+     * \brief Ptr to core
+     */
+    Object::WeakPtr<Core> m_core;
 };
 }

@@ -53,33 +53,33 @@ public:
      */
     Status& operator =(const int32_t& right);
 
-	/**
-	 * \brief Overload of the == operator
-	 * \param right Right operand
-	 * \return True if status codes are equal, false if they are different
-	 */
-	bool operator ==(const int32_t& right) const;
+    /**
+     * \brief Overload of the == operator
+     * \param right Right operand
+     * \return True if status codes are equal, false if they are different
+     */
+    bool operator ==(const int32_t& right) const;
 
-	/**
-	 * \brief Overload of the == operator
-	 * \param right Right operand
-	 * \return True if status codes are equal, false if they are different
-	 */
-	bool operator ==(const Status& right) const;
+    /**
+     * \brief Overload of the == operator
+     * \param right Right operand
+     * \return True if status codes are equal, false if they are different
+     */
+    bool operator ==(const Status& right) const;
 
-	/**
-	 * \brief Overload of the != operator
-	 * \param right Right operand
-	 * \return True if status codes are different, false if they are equal
-	 */
-	bool operator !=(const int32_t& right) const;
+    /**
+     * \brief Overload of the != operator
+     * \param right Right operand
+     * \return True if status codes are different, false if they are equal
+     */
+    bool operator !=(const int32_t& right) const;
 
-	/**
-	 * \brief Overload of the != operator
-	 * \param right Right operand
-	 * \return True if status codes are different, false if they are equal
-	 */
-	bool operator !=(const Status& right) const;
+    /**
+     * \brief Overload of the != operator
+     * \param right Right operand
+     * \return True if status codes are different, false if they are equal
+     */
+    bool operator !=(const Status& right) const;
 
     /**
      * \brief Status destructor

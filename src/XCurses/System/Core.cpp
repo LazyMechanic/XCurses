@@ -10,16 +10,16 @@
 namespace xcur {
 Object::Ptr<Core> Core::create()
 {
-	std::shared_ptr<Core> core(new Core());
-	core->m_contextSystem->setCore(core);
-	return core;
+    std::shared_ptr<Core> core(new Core());
+    core->m_contextSystem->setCore(core);
+    return core;
 }
 
 Core::Core() :
-	m_contextSystem(ContextSystem::create()),
-	m_colorSystem(ColorSystem::create())
+    m_contextSystem(ContextSystem::create()),
+    m_colorSystem(ColorSystem::create())
 {
-	initscr();
+    initscr();
 }
 
 Core::~Core()
@@ -49,7 +49,7 @@ Status Core::setCBreakMode(bool v)
 
 bool Core::isCBreakMode() const
 {
-	return m_config.enableCBreakMode;
+    return m_config.enableCBreakMode;
 }
 
 Status Core::setEchoMode(bool v)
@@ -65,7 +65,7 @@ Status Core::setEchoMode(bool v)
 
 bool Core::isEchoMode() const
 {
-	return m_config.enableEchoMode;
+    return m_config.enableEchoMode;
 }
 
 Status Core::setRawMode(bool v)
@@ -81,7 +81,7 @@ Status Core::setRawMode(bool v)
 
 bool Core::isRawMode() const
 {
-	return m_config.enableRawMode;
+    return m_config.enableRawMode;
 }
 
 Status Core::setNewLineMode(bool v)
@@ -97,19 +97,19 @@ Status Core::setNewLineMode(bool v)
 
 bool Core::isNewLineMode() const
 {
-	return m_config.enableNewLineMode;
+    return m_config.enableNewLineMode;
 }
 
 Status Core::setTerminalSize(const Vector2u& size)
 {
-	Status result = resize_term(size.y, size.x);
+    Status result = resize_term(size.y, size.x);
     m_config.terminalSize = Vector2u(getmaxx(stdscr), getmaxy(stdscr));
     return result;
 }
 
 Vector2u Core::getTerminalSize() const
 {
-	return m_config.terminalSize;
+    return m_config.terminalSize;
 }
 
 Status Core::blinkColors() const
@@ -124,26 +124,26 @@ Status Core::playBeepSound() const
 
 Object::Ptr<ContextSystem> Core::getContextSystem() const
 {
-	return m_contextSystem;
+    return m_contextSystem;
 }
 
 Object::Ptr<ColorSystem> Core::getColorSystem() const
 {
-	return m_colorSystem;
+    return m_colorSystem;
 }
 
 void Core::handleEvents()
 {
-	m_contextSystem->handleEvents();
+    m_contextSystem->handleEvents();
 }
 
 void Core::update(float dt)
 {
-	m_contextSystem->update(dt);
+    m_contextSystem->update(dt);
 }
 
 void Core::draw()
 {
-	m_contextSystem->draw();
+    m_contextSystem->draw();
 }
 }

@@ -24,7 +24,7 @@ bool Status::operator==(const int32_t& right) const
 
 bool Status::operator==(const Status& right) const
 {
-	return this->code == right.code;
+    return this->code == right.code;
 }
 
 bool Status::operator!=(const int32_t& right) const

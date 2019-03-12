@@ -31,62 +31,62 @@ Attribute& Attribute::operator=(uint32_t attr)
 
 bool Attribute::operator==(const Attribute& right) const
 {
-	return this->value == right.value;
+    return this->value == right.value;
 }
 
 bool Attribute::operator==(uint32_t right) const
 {
-	return this->value == static_cast<uint8_t>(right >> 16);
+    return this->value == static_cast<uint8_t>(right >> 16);
 }
 
 bool Attribute::operator!=(const Attribute& right) const
 {
-	return !(*this == right);
+    return !(*this == right);
 }
 
 bool Attribute::operator!=(uint32_t right) const
 {
-	return !(*this == right);
+    return !(*this == right);
 }
 
 Attribute Attribute::operator|(const Attribute& right) const
 {
-	return Attribute(this->toCursesAttr() | right.toCursesAttr());
+    return Attribute(this->toCursesAttr() | right.toCursesAttr());
 }
 
 Attribute Attribute::operator|(uint32_t right) const
 {
-	return Attribute(this->toCursesAttr() | right);
+    return Attribute(this->toCursesAttr() | right);
 }
 
 Attribute Attribute::operator&(const Attribute& right) const
 {
-	return Attribute(this->toCursesAttr() & right.toCursesAttr());
+    return Attribute(this->toCursesAttr() & right.toCursesAttr());
 }
 
 Attribute Attribute::operator&(uint32_t right) const
 {
-	return Attribute(this->toCursesAttr() & right);
+    return Attribute(this->toCursesAttr() & right);
 }
 
 Attribute& Attribute::operator|=(const Attribute& right)
 {
-	return *this = *this | right;
+    return *this = *this | right;
 }
 
 Attribute& Attribute::operator|=(uint32_t right)
 {
-	return *this = *this | right;
+    return *this = *this | right;
 }
 
 Attribute& Attribute::operator&=(const Attribute& right)
 {
-	return *this = *this & right;
+    return *this = *this & right;
 }
 
 Attribute& Attribute::operator&=(uint32_t right)
 {
-	return *this = *this & right;
+    return *this = *this & right;
 }
 
 uint32_t Attribute::toCursesAttr() const

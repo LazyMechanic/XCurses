@@ -54,82 +54,82 @@ public:
      */
     Color& operator =(Color&&) = default;
 
-	/**
-	 * \brief Overload of the == operator
-	 * This operator compares two colors and check if they are equal.
-	 * \param right Right operand
-	 * \return True if colors are equal, false if they are different
-	 */
-	bool operator ==(const Color& right) const;
+    /**
+     * \brief Overload of the == operator
+     * This operator compares two colors and check if they are equal.
+     * \param right Right operand
+     * \return True if colors are equal, false if they are different
+     */
+    bool operator ==(const Color& right) const;
 
-	/**
-	 * \brief Overload of the != operator
-	 * This operator compares two colors and check if they are different.
-	 * \param right Right operand
-	 * \return True if colors are different, false if they are equal
-	 */
-	bool operator !=(const Color& right) const;
+    /**
+     * \brief Overload of the != operator
+     * This operator compares two colors and check if they are different.
+     * \param right Right operand
+     * \return True if colors are different, false if they are equal
+     */
+    bool operator !=(const Color& right) const;
 
-	/**
-	 * \brief Overload of the binary + operator
-	 * This operator returns the component-wise sum of two colors.
-	 * Components that exceed 255 are clamped to 255.
-	 * \param right Right operand
-	 * \return Result of \a left + \a right
-	 */
-	Color operator +(const Color& right) const;
+    /**
+     * \brief Overload of the binary + operator
+     * This operator returns the component-wise sum of two colors.
+     * Components that exceed 255 are clamped to 255.
+     * \param right Right operand
+     * \return Result of \a left + \a right
+     */
+    Color operator +(const Color& right) const;
 
-	/**
-	 * \brief Overload of the binary - operator
-	 * This operator returns the component-wise subtraction of two colors.
-	 * Components below 0 are clamped to 0.
-	 * \param right Right operand
-	 * \return Result of \a left - \a right
-	 */
-	Color operator -(const Color& right) const;
+    /**
+     * \brief Overload of the binary - operator
+     * This operator returns the component-wise subtraction of two colors.
+     * Components below 0 are clamped to 0.
+     * \param right Right operand
+     * \return Result of \a left - \a right
+     */
+    Color operator -(const Color& right) const;
 
-	/**
-	 * \brief Overload of the binary * operator
-	 * This operator returns the component-wise multiplication
-	 * (also called "modulation") of two colors.
-	 * Components are then divided by 255 so that the result is
-	 * still in the range [0, 255].
-	 * \param right Right operand
-	 * \return Result of \a left * \a right
-	 */
-	Color operator *(const Color& right) const;
+    /**
+     * \brief Overload of the binary * operator
+     * This operator returns the component-wise multiplication
+     * (also called "modulation") of two colors.
+     * Components are then divided by 255 so that the result is
+     * still in the range [0, 255].
+     * \param right Right operand
+     * \return Result of \a left * \a right
+     */
+    Color operator *(const Color& right) const;
 
-	/**
-	 * \brief Overload of the binary += operator
-	 * This operator computes the component-wise sum of two colors,
-	 * and assigns the result to the left operand.
-	 * Components that exceed 255 are clamped to 255.
-	 * \param right Right operand
-	 * \return Reference to \a left
-	 */
-	Color& operator +=(const Color& right);
+    /**
+     * \brief Overload of the binary += operator
+     * This operator computes the component-wise sum of two colors,
+     * and assigns the result to the left operand.
+     * Components that exceed 255 are clamped to 255.
+     * \param right Right operand
+     * \return Reference to \a left
+     */
+    Color& operator +=(const Color& right);
 
-	/**
-	 * \brief Overload of the binary -= operator
-	 * This operator computes the component-wise subtraction of two colors,
-	 * and assigns the result to the left operand.
-	 * Components below 0 are clamped to 0.
-	 * \param right Right operand
-	 * \return Reference to \a left
-	 */
-	Color& operator -=(const Color& right);
+    /**
+     * \brief Overload of the binary -= operator
+     * This operator computes the component-wise subtraction of two colors,
+     * and assigns the result to the left operand.
+     * Components below 0 are clamped to 0.
+     * \param right Right operand
+     * \return Reference to \a left
+     */
+    Color& operator -=(const Color& right);
 
-	/**
-	 * \brief Overload of the binary *= operator
-	 * This operator returns the component-wise multiplication
-	 * (also called "modulation") of two colors, and assigns
-	 * the result to the left operand.
-	 * Components are then divided by 255 so that the result is
-	 * still in the range [0, 255].
-	 * \param right Right operand
-	 * \return Reference to \a left
-	 */
-	Color& operator *=(const Color& right);
+    /**
+     * \brief Overload of the binary *= operator
+     * This operator returns the component-wise multiplication
+     * (also called "modulation") of two colors, and assigns
+     * the result to the left operand.
+     * Components are then divided by 255 so that the result is
+     * still in the range [0, 255].
+     * \param right Right operand
+     * \return Reference to \a left
+     */
+    Color& operator *=(const Color& right);
 
     /**
      * \brief Color destructor
@@ -141,79 +141,79 @@ public:
      */
     static const Color Black;
 
-	/**
-	 * \brief Red predefined color
-	 */
+    /**
+     * \brief Red predefined color
+     */
     static const Color Red;
 
-	/**
-	 * \brief Green predefined color
-	 */
+    /**
+     * \brief Green predefined color
+     */
     static const Color Green;
 
-	/**
-	 * \brief Blue predefined color
-	 */
+    /**
+     * \brief Blue predefined color
+     */
     static const Color Blue;
 
-	/**
-	 * \brief Yellow predefined color
-	 */
+    /**
+     * \brief Yellow predefined color
+     */
     static const Color Yellow;
 
-	/**
-	 * \brief Magenta predefined color
-	 */
+    /**
+     * \brief Magenta predefined color
+     */
     static const Color Magenta;
 
-	/**
-	 * \brief Cyan predefined color
-	 */
+    /**
+     * \brief Cyan predefined color
+     */
     static const Color Cyan;
 
-	/**
-	 * \brief White predefined color
-	 */
+    /**
+     * \brief White predefined color
+     */
     static const Color White;
 
-	/**
-	 * \brief DarkGray predefined color
-	 */
+    /**
+     * \brief DarkGray predefined color
+     */
     static const Color DarkGray;
 
-	/**
-	 * \brief DarkRed predefined color
-	 */
+    /**
+     * \brief DarkRed predefined color
+     */
     static const Color DarkRed;
 
-	/**
-	 * \brief DarkGreen predefined color
-	 */
-	static const Color DarkGreen;
+    /**
+     * \brief DarkGreen predefined color
+     */
+    static const Color DarkGreen;
 
-	/**
-	 * \brief DarkBlue predefined color
-	 */
+    /**
+     * \brief DarkBlue predefined color
+     */
     static const Color DarkBlue;
 
-	/**
-	 * \brief DarkYellow predefined color
-	 */
+    /**
+     * \brief DarkYellow predefined color
+     */
     static const Color DarkYellow;
 
-	/**
-	 * \brief DarkMagenta predefined color
-	 */
+    /**
+     * \brief DarkMagenta predefined color
+     */
     static const Color DarkMagenta;
 
-	/**
-	 * \brief DarkCyan predefined color
-	 */
+    /**
+     * \brief DarkCyan predefined color
+     */
     static const Color DarkCyan;
 
-	/**
-	 * \brief Gray predefined color
-	 */
+    /**
+     * \brief Gray predefined color
+     */
     static const Color Gray;
 
     /**

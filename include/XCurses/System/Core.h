@@ -16,16 +16,16 @@ class Core :
     public Object
 {
 public:
-	/**
-	 * \brief Create Core
-	 * \return Smart ptr to Core
-	 */
-	static Object::Ptr<Core> create();
+    /**
+     * \brief Create Core
+     * \return Smart ptr to Core
+     */
+    static Object::Ptr<Core> create();
 
-	/**
-	 * \brief Core destructor
-	 */
-	~Core();
+    /**
+     * \brief Core destructor
+     */
+    ~Core();
 
     /**
      * \brief Initialize Core with params
@@ -45,10 +45,10 @@ public:
     Status setCBreakMode(bool v);
 
     /**
-	 * \brief Get cbreak mode state
-	 * \return True if cbreak mode enable, false otherwise
-	 */
-	bool isCBreakMode() const;
+     * \brief Get cbreak mode state
+     * \return True if cbreak mode enable, false otherwise
+     */
+    bool isCBreakMode() const;
 
     /**
      * \brief Toggle echo mode.
@@ -59,10 +59,10 @@ public:
     Status setEchoMode(bool v);
 
     /**
-	 * \brief Get echo mode state
-	 * \return True if echo mode enable, false otherwise
-	 */
-	bool isEchoMode() const;
+     * \brief Get echo mode state
+     * \return True if echo mode enable, false otherwise
+     */
+    bool isEchoMode() const;
 
     /**
      * \brief Toggle raw mode.
@@ -77,10 +77,10 @@ public:
     Status setRawMode(bool v);
 
     /**
-	 * \brief Get raw mode state
-	 * \return True if raw mode enable, false otherwise
-	 */
-	bool isRawMode() const;
+     * \brief Get raw mode state
+     * \return True if raw mode enable, false otherwise
+     */
+    bool isRawMode() const;
 
     /**
      * \brief Toggle newline mode.
@@ -92,10 +92,10 @@ public:
     Status setNewLineMode(bool v);
 
     /**
-	 * \brief Get new line mode state
-	 * \return True if new line mode enable, false otherwise
-	 */
-	bool isNewLineMode() const;
+     * \brief Get new line mode state
+     * \return True if new line mode enable, false otherwise
+     */
+    bool isNewLineMode() const;
 
     /**
      * \brief Set terminal size.
@@ -106,11 +106,11 @@ public:
     Status setTerminalSize(const Vector2u& size);
 
     /**
-	 * \brief Get terminal size.
+     * \brief Get terminal size.
      * size.x is width, size.y is height
-	 * \return Terminal size
-	 */
-	Vector2u getTerminalSize() const;
+     * \return Terminal size
+     */
+    Vector2u getTerminalSize() const;
 
     /**
      * \brief Inverse all colors in terminal for a moment
@@ -125,16 +125,16 @@ public:
     Status playBeepSound() const;
 
     /**
-	 * \brief Get context system
-	 * \return Smart ptr to context system
-	 */
-	Object::Ptr<ContextSystem> getContextSystem() const;
+     * \brief Get context system
+     * \return Smart ptr to context system
+     */
+    Object::Ptr<ContextSystem> getContextSystem() const;
 
     /**
-	 * \brief Get color system
-	 * \return Smart ptr to color system
-	 */
-	Object::Ptr<ColorSystem> getColorSystem() const;
+     * \brief Get color system
+     * \return Smart ptr to color system
+     */
+    Object::Ptr<ColorSystem> getColorSystem() const;
 
     /**
      * \brief Handle input
@@ -153,10 +153,10 @@ public:
     void draw();
 
 private:
-	/**
-	 * \brief Default Core constructor
-	 */
-	Core();
+    /**
+     * \brief Default Core constructor
+     */
+    Core();
 
     /**
      * \brief Current curses config
@@ -164,13 +164,13 @@ private:
     static CoreConfig m_config;
 
     /**
-	 * \brief Smart ptr to context system
-	 */
-	Object::Ptr<ContextSystem> m_contextSystem;
+     * \brief Smart ptr to context system
+     */
+    Object::Ptr<ContextSystem> m_contextSystem;
 
     /**
-	 * \brief Smart ptr to color system
-	 */
-	Object::Ptr<ColorSystem> m_colorSystem;
+     * \brief Smart ptr to color system
+     */
+    Object::Ptr<ColorSystem> m_colorSystem;
 };
 }

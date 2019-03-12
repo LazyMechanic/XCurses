@@ -8,38 +8,38 @@ namespace detail {
 class RootWindow : public Window
 {
 public:
-	/**
-	 * \brief Create RootWindow
-	 * \return Smart ptr to RootWindow
-	 */
-	static Object::Ptr<RootWindow> create();
+    /**
+     * \brief Create RootWindow
+     * \return Smart ptr to RootWindow
+     */
+    static Object::Ptr<RootWindow> create();
 
-	/**
-	 * \brief RootWindow destructor
-	 */
-	~RootWindow() = default;
+    /**
+     * \brief RootWindow destructor
+     */
+    ~RootWindow() = default;
 
-	/**
-	 * \brief Call for update object state
-	 * \param dt Delta time
-	 */
-	void update(float dt) override final;
+    /**
+     * \brief Call for update object state
+     * \param dt Delta time
+     */
+    void update(float dt) override final;
 
 private:
-	/**
-	 * \brief Default RootWindow constructor. Construct window with size is terminal
-	 */
-	RootWindow();
+    /**
+     * \brief Default RootWindow constructor. Construct window with size is terminal
+     */
+    RootWindow();
 
     /**
-	 * \brief Current terminal size
-	 */
-	Vector2u m_curTermSize;
+     * \brief Current terminal size
+     */
+    Vector2u m_curTermSize;
 
     /**
-	 * \brief Previous terminal size
-	 */
-	Vector2u m_prevTermSize;
+     * \brief Previous terminal size
+     */
+    Vector2u m_prevTermSize;
 };
 }
 }

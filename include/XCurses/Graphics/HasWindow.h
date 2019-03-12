@@ -28,10 +28,10 @@ public:
     Object::Ptr<Window> getWindow() const;
 
 protected:
-	/**
-	 * \brief Default HasWindow constructor.
-	 */
-	HasWindow() = default;
+    /**
+     * \brief Default HasWindow constructor.
+     */
+    HasWindow() = default;
 
     /**
      * \brief Window

@@ -49,105 +49,105 @@ public:
      */
     Attribute& operator =(Attribute&&) = default;
 
-	/**
-	 * \brief Overload of the == operator
-	 * This operator compares two attributes and check if they are equal.
-	 * \param right Right operand
-	 * \return True if attributes are equal, false if they are different
-	 */
-	bool operator ==(const Attribute& right) const;
+    /**
+     * \brief Overload of the == operator
+     * This operator compares two attributes and check if they are equal.
+     * \param right Right operand
+     * \return True if attributes are equal, false if they are different
+     */
+    bool operator ==(const Attribute& right) const;
 
-	/**
-	 * \brief Overload of the == operator
-	 * This operator compares the attribute and the value and check if they are equal.
-	 * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
-	 * \return True if attributes are equal, false if they are different
-	 */
-	bool operator ==(uint32_t right) const;
+    /**
+     * \brief Overload of the == operator
+     * This operator compares the attribute and the value and check if they are equal.
+     * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
+     * \return True if attributes are equal, false if they are different
+     */
+    bool operator ==(uint32_t right) const;
 
-	/**
-	 * \brief Overload of the != operator
-	 * This operator compares two attributes and check if they are different.
-	 * \param right Right operand
-	 * \return True if attributes are different, false if they are equal
-	 */
-	bool operator !=(const Attribute& right) const;
+    /**
+     * \brief Overload of the != operator
+     * This operator compares two attributes and check if they are different.
+     * \param right Right operand
+     * \return True if attributes are different, false if they are equal
+     */
+    bool operator !=(const Attribute& right) const;
 
-	/**
-	 * \brief Overload of the != operator
-	 * This operator compares the attribute and the value and check if they are different.
-	 * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
-	 * \return True if attributes are different, false if they are equal
-	 */
-	bool operator !=(uint32_t right) const;
+    /**
+     * \brief Overload of the != operator
+     * This operator compares the attribute and the value and check if they are different.
+     * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
+     * \return True if attributes are different, false if they are equal
+     */
+    bool operator !=(uint32_t right) const;
 
-	/**
-	 * \brief Overload of the binary | operator
-	 * This operator returns the component-wise logic OR of two attributes.
-	 * \param right Right operand
-	 * \return Result of \a left | \a right
-	 */
-	Attribute operator |(const Attribute& right) const;
+    /**
+     * \brief Overload of the binary | operator
+     * This operator returns the component-wise logic OR of two attributes.
+     * \param right Right operand
+     * \return Result of \a left | \a right
+     */
+    Attribute operator |(const Attribute& right) const;
 
-	/**
-	 * \brief Overload of the binary | operator
-	 * This operator returns the component-wise logic OR of two attributes.
-	 * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
-	 * \return Result of \a left | \a right
-	 */
-	Attribute operator |(uint32_t right) const;
+    /**
+     * \brief Overload of the binary | operator
+     * This operator returns the component-wise logic OR of two attributes.
+     * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
+     * \return Result of \a left | \a right
+     */
+    Attribute operator |(uint32_t right) const;
 
-	/**
-	 * \brief Overload of the binary & operator
-	 * This operator returns the component-wise logic AND of two attributes.
-	 * \param right Right operand
-	 * \return Result of \a left & \a right
-	 */
-	Attribute operator &(const Attribute& right) const;
+    /**
+     * \brief Overload of the binary & operator
+     * This operator returns the component-wise logic AND of two attributes.
+     * \param right Right operand
+     * \return Result of \a left & \a right
+     */
+    Attribute operator &(const Attribute& right) const;
 
-	/**
-	 * \brief Overload of the binary & operator
-	 * This operator returns the component-wise logic AND of two attributes.
-	 * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
-	 * \return Result of \a left & \a right
-	 */
-	Attribute operator &(uint32_t right) const;
+    /**
+     * \brief Overload of the binary & operator
+     * This operator returns the component-wise logic AND of two attributes.
+     * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
+     * \return Result of \a left & \a right
+     */
+    Attribute operator &(uint32_t right) const;
 
-	/**
-	 * \brief Overload of the binary | operator
-	 * This operator returns the component-wise logic OR of two attributes,
-	 * and assigns the result to the left operand
-	 * \param right Right operand
-	 * \return Result of \a left | \a right
-	 */
-	Attribute& operator |=(const Attribute& right);
+    /**
+     * \brief Overload of the binary | operator
+     * This operator returns the component-wise logic OR of two attributes,
+     * and assigns the result to the left operand
+     * \param right Right operand
+     * \return Result of \a left | \a right
+     */
+    Attribute& operator |=(const Attribute& right);
 
-	/**
-	 * \brief Overload of the binary | operator
-	 * This operator returns the component-wise logic OR of two attributes,
-	 * and assigns the result to the left operand
-	 * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
-	 * \return Result of \a left | \a right
-	 */
-	Attribute& operator |=(uint32_t right);
+    /**
+     * \brief Overload of the binary | operator
+     * This operator returns the component-wise logic OR of two attributes,
+     * and assigns the result to the left operand
+     * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
+     * \return Result of \a left | \a right
+     */
+    Attribute& operator |=(uint32_t right);
 
-	/**
-	 * \brief Overload of the binary & operator
-	 * This operator returns the component-wise logic AND of two attributes,
-	 * and assigns the result to the left operand
-	 * \param right Right operand
-	 * \return Result of \a left & \a right
-	 */
-	Attribute& operator &=(const Attribute& right);
+    /**
+     * \brief Overload of the binary & operator
+     * This operator returns the component-wise logic AND of two attributes,
+     * and assigns the result to the left operand
+     * \param right Right operand
+     * \return Result of \a left & \a right
+     */
+    Attribute& operator &=(const Attribute& right);
 
-	/**
-	 * \brief Overload of the binary & operator
-	 * This operator returns the component-wise logic AND of two attributes,
-	 * and assigns the result to the left operand
-	 * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
-	 * \return Result of \a left & \a right
-	 */
-	Attribute& operator &=(uint32_t right);
+    /**
+     * \brief Overload of the binary & operator
+     * This operator returns the component-wise logic AND of two attributes,
+     * and assigns the result to the left operand
+     * \param right Right operand. Value like in curses ([24..16]/0x00ff0000 bits)
+     * \return Result of \a left & \a right
+     */
+    Attribute& operator &=(uint32_t right);
 
     /**
      * \brief Attribute destructor
@@ -172,44 +172,44 @@ public:
      */
     static const Attribute Normal;
 
-	/**
-	 * \brief AltCharset predefined attribute
-	 */
+    /**
+     * \brief AltCharset predefined attribute
+     */
     static const Attribute AltCharset;
 
-	/**
-	 * \brief Right predefined attribute
-	 */
+    /**
+     * \brief Right predefined attribute
+     */
     static const Attribute Right;
 
-	/**
-	 * \brief Left predefined attribute
-	 */
+    /**
+     * \brief Left predefined attribute
+     */
     static const Attribute Left;
 
-	/**
-	 * \brief Italic predefined attribute
-	 */
+    /**
+     * \brief Italic predefined attribute
+     */
     static const Attribute Italic;
 
-	/**
-	 * \brief Underline predefined attribute
-	 */
+    /**
+     * \brief Underline predefined attribute
+     */
     static const Attribute Underline;
 
-	/**
-	 * \brief Reverse predefined attribute
-	 */
+    /**
+     * \brief Reverse predefined attribute
+     */
     static const Attribute Reverse;
 
-	/**
-	 * \brief Blink predefined attribute
-	 */
+    /**
+     * \brief Blink predefined attribute
+     */
     static const Attribute Blink;
 
-	/**
-	 * \brief Bold predefined attribute
-	 */
+    /**
+     * \brief Bold predefined attribute
+     */
     static const Attribute Bold;
 
     /**

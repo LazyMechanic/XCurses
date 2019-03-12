@@ -8,7 +8,7 @@
 namespace xcur {
 Object::Ptr<ContextSystem> ContextSystem::create()
 {
-	return std::shared_ptr<ContextSystem>(new ContextSystem());
+    return std::shared_ptr<ContextSystem>(new ContextSystem());
 }
 
 void ContextSystem::handleEvents() const
@@ -61,7 +61,7 @@ Status ContextSystem::add(Object::Ptr<Context> context)
         return Status::Err;
     }
 
-	context->setContextSystem(shared_from_this());
+    context->setContextSystem(shared_from_this());
     m_contexts.push_back(context);
     return Status::Ok;
 }
@@ -84,7 +84,7 @@ Status ContextSystem::remove(Object::Ptr<Context> context)
         return Status::Err;
     }
 
-	context->setContextSystem(nullptr);
+    context->setContextSystem(nullptr);
     m_contexts.erase(foundContext);
     return Status::Ok;
 }
@@ -108,12 +108,12 @@ Object::Ptr<Context> ContextSystem::getCurrent() const
 
 void ContextSystem::setCore(Object::Ptr<Core> core)
 {
-	m_core = core;
+    m_core = core;
 }
 
 Object::Ptr<Core> ContextSystem::getCore() const
 {
-	return m_core.lock();
+    return m_core.lock();
 }
 
 std::list<Object::Ptr<Context>>::iterator ContextSystem::findContext(Object::Ptr<Context> context)

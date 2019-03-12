@@ -8,7 +8,7 @@
 namespace xcur {
 Object::Ptr<ColorSystem> ColorSystem::create()
 {
-	return std::shared_ptr<ColorSystem>(new ColorSystem());
+    return std::shared_ptr<ColorSystem>(new ColorSystem());
 }
 
 ColorSystem::ColorSystem() :
