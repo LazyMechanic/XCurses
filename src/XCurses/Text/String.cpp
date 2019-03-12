@@ -152,22 +152,22 @@ bool String::operator==(const String& right) const
 
 bool String::operator==(const std::string& right) const
 {
-	return toString() == right;
+	return toAnsiString() == right;
 }
 
 bool String::operator==(const std::wstring& right) const
 {
-	return toWString() == right;
+	return toWideString() == right;
 }
 
 bool String::operator==(const char* right) const
 {
-	return toString() == right;
+	return toAnsiString() == right;
 }
 
 bool String::operator==(const wchar_t* right) const
 {
-	return toWString() == right;
+	return toWideString() == right;
 }
 
 bool String::operator!=(const String& right) const
@@ -200,7 +200,7 @@ uint32_t* String::toCursesStr()
     return reinterpret_cast<uint32_t*>(m_string.data());
 }
 
-std::string String::toString() const
+std::string String::toAnsiString() const
 {
 	std::string result(m_string.size(), '\0');
 	auto strIt = m_string.begin();
@@ -211,7 +211,7 @@ std::string String::toString() const
 	return result;
 }
 
-std::wstring String::toWString() const
+std::wstring String::toWideString() const
 {
 	std::wstring result(m_string.size(), L'\0');
 	auto strIt = m_string.begin();

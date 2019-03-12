@@ -359,16 +359,20 @@ public:
     uint32_t* toCursesStr();
 
     /**
-	 * \brief Convert String to std::string
-	 * \return std::string
+	 * \brief Convert String to std::string (ansi string).
+     * Characters that do not fit in the target encoding are
+     * discarded from the returned string.
+	 * \return Ansi string
 	 */
-	std::string toString() const;
+	std::string toAnsiString() const;
 
 	/**
-	 * \brief Convert String to std::wstring
-	 * \return std::wstring
+	 * \brief Convert String to std::wstring (wide string).
+     * Characters that do not fit in the target encoding are
+     * discarded from the returned string.
+	 * \return Wide string
 	 */
-	std::wstring toWString() const;
+	std::wstring toWideString() const;
 
     /**
      * \brief Get begin iterator
