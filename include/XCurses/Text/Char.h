@@ -118,7 +118,7 @@ public:
 	bool operator >(uint32_t right) const;
 
 	/**
-	 * \brief Overload of the > operator
+	 * \brief Overload of the < operator
 	 * This operator compares two chars and check if symbol value \a this less than
 	 * symbol value of \a right
 	 * \param right Right operand
@@ -128,7 +128,7 @@ public:
 	bool operator <(const Char& right) const;
 
 	/**
-	 * \brief Overload of the > operator
+	 * \brief Overload of the < operator
 	 * This operator compares char and curses char (uint32_t) and check if symbol value
 	 * of \a this less than symbol value of \a right
 	 * \param right Right operand
@@ -138,7 +138,7 @@ public:
 	bool operator <(uint32_t right) const;
 
 	/**
-	 * \brief Overload of the > operator
+	 * \brief Overload of the >= operator
 	 * This operator compares two chars and check if symbol value \a this more or equal than
 	 * symbol value of \a right
 	 * \param right Right operand
@@ -148,7 +148,7 @@ public:
 	bool operator >=(const Char& right) const;
 
 	/**
-	 * \brief Overload of the > operator
+	 * \brief Overload of the >= operator
 	 * This operator compares char and curses char (uint32_t) and check if symbol value
 	 * of \a this more or equal than symbol value of \a right
 	 * \param right Right operand
@@ -158,7 +158,7 @@ public:
 	bool operator >=(uint32_t right) const;
 
 	/**
-	 * \brief Overload of the > operator
+	 * \brief Overload of the <= operator
 	 * This operator compares two chars and check if symbol value \a this less or equal than
 	 * symbol value of \a right
 	 * \param right Right operand
@@ -168,7 +168,7 @@ public:
 	bool operator <=(const Char& right) const;
 
 	/**
-	 * \brief Overload of the > operator
+	 * \brief Overload of the <= operator
 	 * This operator compares char and curses char (uint32_t) and check if symbol value
 	 * of \a this less or equal than symbol value of \a right
 	 * \param right Right operand
