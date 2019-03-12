@@ -40,6 +40,16 @@ uint32_t Char::toCursesChar() const
 		(static_cast<uint32_t>(symbol << 0)));
 }
 
+char Char::toAnsiChar() const
+{
+	return static_cast<char>(symbol);
+}
+
+wchar_t Char::toWideChar() const
+{
+	return static_cast<wchar_t>(symbol);
+}
+
 uint8_t Char::getColorPairId(uint32_t ch)
 {
 	return static_cast<uint8_t>(ch >> 24);

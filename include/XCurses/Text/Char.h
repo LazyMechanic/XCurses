@@ -79,6 +79,22 @@ public:
      */
     uint32_t toCursesChar() const;
 
+    /**
+	 * \brief Convert char to ansi char.
+     * Character that does not fit in the target encoding are
+     * discarded from the returned char.
+	 * \return Ansi char
+	 */
+	char toAnsiChar() const;
+
+	/**
+	 * \brief Convert char to wide char.
+	 * Character that does not fit in the target encoding are
+	 * discarded from the returned char.
+	 * \return Wide char
+	 */
+	wchar_t toWideChar() const;
+
 	/**
 	 * \brief Get color pair id from curses char
 	 * \return Color pair id
