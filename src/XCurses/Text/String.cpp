@@ -23,7 +23,7 @@ String::String(const char* str)
 
 			const char* begin = str;
 			const char* end = str + length;
-			auto stringIt = m_string.begin();
+			auto stringIt = std::back_inserter(m_string);
 
             // Pass through ansi string
             while(begin < end) {
@@ -44,7 +44,7 @@ String::String(const wchar_t* str)
 
 			const wchar_t* begin = str;
 			const wchar_t* end = str + length;
-			auto stringIt = m_string.begin();
+			auto stringIt = std::back_inserter(m_string);
 
             // Pass through wide string
 			while (begin < end) {
