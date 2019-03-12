@@ -44,6 +44,11 @@ Char& String::operator[](size_t index)
     return m_string[index];
 }
 
+const Char& String::operator[](size_t index) const
+{
+	return m_string[index];
+}
+
 String String::operator+(const String& right) const
 {
 	return String(m_string + right.m_string);

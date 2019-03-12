@@ -100,6 +100,14 @@ public:
     Char& operator [](size_t index);
 
 	/**
+	 * \brief Overload of [] operator.
+	 * Get char by index. Can out of size
+	 * \param index Index
+	 * \return Const reference to \a char
+	 */
+	const Char& operator [](size_t index) const;
+
+	/**
 	 * \brief Overload of the binary + operator.
      * This operator returns the sum of two strings.
 	 * \param right Right operand
