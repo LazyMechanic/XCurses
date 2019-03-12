@@ -162,7 +162,7 @@ public:
 	 * \param right Right operand
 	 * \return Result of \a left + \a right
 	 */
-	String operator +(uint32_t right);
+	String operator +(uint32_t right) const;
 
     /**
      * \brief Overload of the binary += operator.
@@ -220,6 +220,13 @@ public:
      * \return Reference to \a this
      */
     String& operator +=(uint32_t right);
+
+	/**
+	 * \brief Overload of the binary = operator.
+	 * \param right Right operand
+	 * \return Reference to \a this
+	 */
+	String& operator =(const String& right);
 
 	/**
 	 * \brief Overload of the binary = operator.
@@ -343,11 +350,205 @@ public:
 	 */
 	bool operator !=(const wchar_t* right) const;
 
-    /**
-     * \brief Default copy assignment operator
-     * \return Reference to \a this
-     */
-    String& operator =(const String&) = default;
+	/**
+	 * \brief Overload of the > operator
+	 * This operator compares two strings and check if symbol values \a this more than
+	 * symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is more than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator >(const String& right) const;
+
+	/**
+	 * \brief Overload of the > operator
+	 * This operator compares String and std::string and check if symbol values \a this 
+	 * more than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is more than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator >(const std::string& right) const;
+
+	/**
+	 * \brief Overload of the > operator
+	 * This operator compares String and std::wstring and check if symbol values \a this
+	 * more than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is more than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator >(const std::wstring& right) const;
+
+	/**
+	 * \brief Overload of the > operator
+	 * This operator compares String and const char* and check if symbol values \a this 
+	 * more than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is more than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator >(const char* right) const;
+
+	/**
+	 * \brief Overload of the > operator
+	 * This operator compares String and const wchar_t* and check if symbol values \a this
+	 * more than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is more than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator >(const wchar_t* right) const;
+
+	/**
+	 * \brief Overload of the < operator
+	 * This operator compares two strings and check if symbol values \a this less than
+	 * symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is less than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator <(const String& right) const;
+
+	/**
+	 * \brief Overload of the < operator
+	 * This operator compares String and std::string and check if symbol values \a this
+	 * less than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is less than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator <(const std::string& right) const;
+
+	/**
+	 * \brief Overload of the < operator
+	 * This operator compares String and std::wstring and check if symbol values \a this
+	 * less than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is less than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator <(const std::wstring& right) const;
+
+	/**
+	 * \brief Overload of the < operator
+	 * This operator compares String and const char* and check if symbol values \a this
+	 * less than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is less than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator <(const char* right) const;
+
+	/**
+	 * \brief Overload of the < operator
+	 * This operator compares String and const wchar_t* and check if symbol values \a this
+	 * less than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is less than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator <(const wchar_t* right) const;
+
+	/**
+	 * \brief Overload of the >= operator
+	 * This operator compares two strings and check if symbol values \a this more or equal than
+	 * symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is more or equal than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator >=(const String& right) const;
+
+	/**
+	 * \brief Overload of the >= operator
+	 * This operator compares String and std::string and check if symbol values \a this
+	 * more or equal than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is more or equal than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator >=(const std::string& right) const;
+
+	/**
+	 * \brief Overload of the >= operator
+	 * This operator compares String and std::wstring and check if symbol values \a this
+	 * more or equal than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is more or equal than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator >=(const std::wstring& right) const;
+
+	/**
+	 * \brief Overload of the >= operator
+	 * This operator compares String and const char* and check if symbol values \a this
+	 * more or equal than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is more or equal than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator >=(const char* right) const;
+
+	/**
+	 * \brief Overload of the >= operator
+	 * This operator compares String and const wchar_t* and check if symbol values \a this
+	 * more or equal than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is more or equal than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator >=(const wchar_t* right) const;
+
+	/**
+	 * \brief Overload of the <= operator
+	 * This operator compares two strings and check if symbol values \a this less or equal than
+	 * symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is less or equal than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator <=(const String& right) const;
+
+	/**
+	 * \brief Overload of the <= operator
+	 * This operator compares String and std::string and check if symbol values \a this
+	 * less or equal than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is less or equal than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator <=(const std::string& right) const;
+
+	/**
+	 * \brief Overload of the <= operator
+	 * This operator compares String and std::wstring and check if symbol values \a this
+	 * less or equal than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is less or equal than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator <=(const std::wstring& right) const;
+
+	/**
+	 * \brief Overload of the <= operator
+	 * This operator compares String and const char* and check if symbol values \a this
+	 * less or equal than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is less or equal than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator <=(const char* right) const;
+
+	/**
+	 * \brief Overload of the <= operator
+	 * This operator compares String and const wchar_t* and check if symbol values \a this
+	 * less or equal than symbol values of \a right
+	 * \param right Right operand
+	 * \return True if symbol values of \a this is less or equal than symbol values of \a right,
+	 * false otherwise
+	 */
+	bool operator <=(const wchar_t* right) const;
 
     /**
      * \brief Default move assignment operator
@@ -359,6 +560,15 @@ public:
      * \brief String destructor
      */
     ~String() = default;
+
+	/**
+	 * \brief Check if \a left and \a right is equal including color pair id and attribute
+	 * \param left Left operand
+	 * \param right Left operand
+	 * \return True if color pair id, attribute and symbol are equal in all characters in
+	 * strings, false if they different
+	 */
+	static bool isFullEqual(const String& left, const String& right);
 
     /**
      * \brief Convert String to chtype* (it is equal uint32_t*) 

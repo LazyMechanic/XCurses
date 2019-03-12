@@ -14,14 +14,46 @@ String::String(const std::wstring& str) :
 {
 }
 
-String::String(const char* str) :
-    String(std::string(str))
+String::String(const char* str)
 {
+    if (str != nullptr) {
+		size_t length = std::strlen(str);
+        if (length > 0) {
+			m_string.reserve(length + 1);
+
+			const char* begin = str;
+			const char* end = str + length;
+			auto stringIt = m_string.begin();
+
+            // Pass through ansi string
+            while(begin < end) {
+				*stringIt = *begin;
+				++stringIt;
+				++begin;
+            }
+        }
+    }
 }
 
-String::String(const wchar_t* str) :
-	String(std::wstring(str))
+String::String(const wchar_t* str)
 {
+	if (str != nullptr) {
+		size_t length = std::wcslen(str);
+		if (length > 0) {
+			m_string.reserve(length + 1);
+
+			const wchar_t* begin = str;
+			const wchar_t* end = str + length;
+			auto stringIt = m_string.begin();
+
+            // Pass through wide string
+			while (begin < end) {
+				*stringIt = *begin;
+				++stringIt;
+				++begin;
+			}
+		}
+	}
 }
 
 String::String(const Char& ch) :
@@ -30,7 +62,7 @@ String::String(const Char& ch) :
 }
 
 String::String(uint32_t ch) :
-	String(Char(ch))
+	m_string(1, Char(ch))
 {
 }
 
@@ -79,7 +111,7 @@ String String::operator+(const Char& right) const
 	return String(m_string + right);
 }
 
-String String::operator+(uint32_t right)
+String String::operator+(uint32_t right) const
 {
 	return *this + Char(right);
 }
@@ -117,6 +149,12 @@ String& String::operator+=(const wchar_t* right)
 String& String::operator+=(uint32_t right)
 {
 	return *this = *this + right;
+}
+
+String& String::operator=(const String& right)
+{
+	m_string = right.m_string;
+	return *this;
 }
 
 String& String::operator=(const std::string& right)
@@ -198,6 +236,129 @@ bool String::operator!=(const char* right) const
 bool String::operator!=(const wchar_t* right) const
 {
 	return !(*this == right);
+}
+
+bool String::operator>(const String& right) const
+{
+	return m_string > right.m_string;
+}
+
+bool String::operator>(const std::string& right) const
+{
+	return *this > String(right);
+}
+
+bool String::operator>(const std::wstring& right) const
+{
+	return *this > String(right);
+}
+
+bool String::operator>(const char* right) const
+{
+	return *this > String(right);
+}
+
+bool String::operator>(const wchar_t* right) const
+{
+	return *this > String(right);
+}
+
+bool String::operator<(const String& right) const
+{
+	return String(right) > *this;
+}
+
+bool String::operator<(const std::string& right) const
+{
+	return String(right) > *this;
+}
+
+bool String::operator<(const std::wstring& right) const
+{
+	return String(right) > *this;
+}
+
+bool String::operator<(const char* right) const
+{
+	return String(right) > *this;
+}
+
+bool String::operator<(const wchar_t* right) const
+{
+	return String(right) > *this;
+}
+
+bool String::operator>=(const String& right) const
+{
+	return m_string >= right.m_string;
+}
+
+bool String::operator>=(const std::string& right) const
+{
+	return *this >= String(right);
+}
+
+bool String::operator>=(const std::wstring& right) const
+{
+	return *this >= String(right);
+}
+
+bool String::operator>=(const char* right) const
+{
+	return *this >= String(right);
+}
+
+bool String::operator>=(const wchar_t* right) const
+{
+	return *this >= String(right);
+}
+
+bool String::operator<=(const String& right) const
+{
+	return String(right) >= *this;
+}
+
+bool String::operator<=(const std::string& right) const
+{
+	return String(right) >= *this;
+}
+
+bool String::operator<=(const std::wstring& right) const
+{
+	return String(right) >= *this;
+}
+
+bool String::operator<=(const char* right) const
+{
+	return String(right) >= *this;
+}
+
+bool String::operator<=(const wchar_t* right) const
+{
+	return String(right) >= *this;
+}
+
+bool String::isFullEqual(const String& left, const String& right)
+{
+    // If lengths of left and right is not equal
+    if (left.size() != right.size()) {
+		return false;
+    }
+
+    auto leftIt = left.begin();
+	auto rightIt = right.begin();
+
+    while (leftIt != left.end()) {
+        // If chars is not equal
+        if (!Char::isFullEqual(*leftIt, *rightIt)) {
+			return false;
+        }
+
+		++leftIt;
+		++rightIt;
+    }
+
+	return true;
 }
 
 uint32_t* String::toCursesStr()
@@ -289,7 +450,7 @@ String::ConstReverseIterator String::crend() const
 
 size_t String::find(const String& str, size_t startPosition) const
 {
-	return m_string.find(str.getBasicString(), startPosition);
+	return m_string.find(str.m_string, startPosition);
 }
 
 bool String::isEmpty() const
@@ -304,7 +465,7 @@ void String::clear()
 
 void String::insert(size_t position, const String& str)
 {
-	m_string.insert(position, str.getBasicString());
+	m_string.insert(position, str.m_string);
 }
 
 void String::erase(size_t position, size_t count)
@@ -314,7 +475,7 @@ void String::erase(size_t position, size_t count)
 
 void String::replace(size_t position, size_t length, const String& replaceWith)
 {
-	m_string.replace(position, length, replaceWith.getBasicString());
+	m_string.replace(position, length, replaceWith.m_string);
 }
 
 void String::replace(const String& searchFor, const String& replaceWith)
