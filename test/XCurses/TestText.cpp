@@ -218,7 +218,7 @@ TEST_CASE("String init and edit", "[String][Char]")
 			REQUIRE(ch.symbol == static_cast<uint16_t>(*rawStrIt));
 			++rawStrIt;
 		}
-		REQUIRE(str.toString() == rawStr);
+		REQUIRE(str.toAnsiString() == rawStr);
     }
 
 	SECTION("Construct String from std::wstring")
@@ -230,7 +230,7 @@ TEST_CASE("String init and edit", "[String][Char]")
 			REQUIRE(ch.symbol == static_cast<uint16_t>(*rawStrIt));
 			++rawStrIt;
         }
-		REQUIRE(str.toWString() == rawStr);
+		REQUIRE(str.toWideString() == rawStr);
 	}
 
     SECTION("Construct String from const char*")
@@ -238,10 +238,263 @@ TEST_CASE("String init and edit", "[String][Char]")
 		const char* rawStr = "abcdef";
 		String str(rawStr);
 		size_t i = 0;
+		REQUIRE(str.size() == std::strlen(rawStr));
 		for (auto& ch : str) {
 			REQUIRE(ch.symbol == static_cast<uint16_t>(rawStr[i]));
 			++i;
 		}
-		REQUIRE(str.toString() == rawStr);
+		REQUIRE(str.toAnsiString() == rawStr);
+    }
+
+	SECTION("Construct String from const wchar_t*")
+	{
+		const wchar_t* rawStr = L"abcdef";
+		String str(rawStr);
+		size_t i = 0;
+		REQUIRE(str.size() == std::wcslen(rawStr));
+		for (auto& ch : str) {
+			REQUIRE(ch.symbol == static_cast<uint16_t>(rawStr[i]));
+			++i;
+		}
+		REQUIRE(str.toWideString() == rawStr);
+	}
+
+	SECTION("Construct String from Char")
+	{
+		Char ch = 'A';
+		String str(ch);
+		REQUIRE(str.size() == 1);
+		REQUIRE(str[0] == ch);
+	}
+
+	SECTION("Construct String from uint32_t")
+	{
+		uint32_t ch = 'A';
+		String str(ch);
+		REQUIRE(str.size() == 1);
+		REQUIRE(str[0] == ch);
+	}
+
+    SECTION("Operations")
+    {
+        SECTION("String::toAnsiString()")
+        {
+			String str("abcdefg");
+			std::string ansiString = str.toAnsiString();
+			REQUIRE(ansiString == "abcdefg");
+        }
+
+		SECTION("String::toWideString()")
+		{
+			String str("abcdefg");
+			std::wstring wideString = str.toWideString();
+			REQUIRE(wideString == L"abcdefg");
+		}
+
+		SECTION("String::find(...)")
+		{
+            SECTION("Existed substring")
+            {
+				String str("abcdefghijklmnop");
+			    String substring("ijklm");
+
+				REQUIRE(str.find(substring, -5) == String::InvalidPosition);
+				REQUIRE(str.find(substring) == 8);
+				REQUIRE(str.find(substring, 8) == 8);
+				REQUIRE(str.find(substring, 50) == String::InvalidPosition);
+            }
+
+			SECTION("Nonexisted substring")
+			{
+				String str("abcdefghijklmnop");
+				String substring("hello");
+
+				REQUIRE(str.find(substring, -5) == String::InvalidPosition);
+				REQUIRE(str.find(substring) == String::InvalidPosition);
+				REQUIRE(str.find(substring, 50) == String::InvalidPosition);
+			}
+		}
+
+        SECTION("String::isEmpty()")
+        {
+			String str;
+			REQUIRE(str.isEmpty() == true);
+			str = "abcd";
+			REQUIRE(str.isEmpty() == false);
+			str = "";
+			REQUIRE(str.isEmpty() == true);
+        }
+
+        SECTION("String::clear()")
+        {
+			String str("abcdefghij");
+			str.clear();
+			REQUIRE(str.isEmpty() == true);
+        }
+
+        SECTION("String::insert(...)")
+        {
+			String str("abcdefg");
+			std::string correctStr("abcd_HELLO_efg");
+			SECTION("Position is valid")
+			{
+				str.insert(4, "_HELLO_");
+				REQUIRE(str.toAnsiString() == correctStr);
+			}
+            SECTION("Position is invalid")
+			{
+				bool isExcepted = false;
+			    try {
+					str.insert(50, "_HELLO_");
+			    }
+                catch (...) {
+					isExcepted = true;
+                }
+
+				REQUIRE(isExcepted == true);
+			}
+        }
+
+        SECTION("String::erase(...)")
+        {
+            SECTION("Position is valid")
+            {
+				String str1("abcdefg");
+				str1.erase(3, 3);
+				REQUIRE(str1.toAnsiString() == "abcg");
+
+				String str2("abcdefg");
+				str2.erase(3, -5);
+				REQUIRE(str2.toAnsiString() == "abc");
+
+				String str3("abcdefg");
+				str3.erase(3, String::InvalidPosition);
+				REQUIRE(str3.toAnsiString() == "abc");
+            }
+
+            SECTION("Position is invalid")
+            {
+				String str("abcdefg");
+				bool isExcepted = false;
+				try {
+					str.erase(50);
+				}
+				catch (...) {
+					isExcepted = true;
+				}
+
+				REQUIRE(isExcepted == true);
+            }
+        }
+
+        SECTION("String::replace(...)")
+        {
+            SECTION("Replace by position and length")
+            {
+                SECTION("Position is valid")
+                {
+					String replaceWith("_HELLO_");
+
+					String str1("abcdefg");
+					str1.replace(3, 3, replaceWith);
+					REQUIRE(str1.toAnsiString() == "abc_HELLO_g");
+
+					String str2("abcdefg");
+					str2.replace(3, 50, replaceWith);
+					REQUIRE(str2.toAnsiString() == "abc_HELLO_");
+
+					String str3("abcdefg");
+					str3.replace(3, String::InvalidPosition, replaceWith);
+					REQUIRE(str3.toAnsiString() == "abc_HELLO_");
+                }
+
+				SECTION("Position is invalid")
+				{
+					String str("abcdefg");
+					bool isExcepted = false;
+					try {
+						str.replace(50, 3, String());
+					}
+					catch (...) {
+						isExcepted = true;
+					}
+
+					REQUIRE(isExcepted == true);
+				}
+            }
+
+            SECTION("Replace by search for string")
+            {
+                SECTION("Existed substring")
+                {
+					String str("abcdefghij");
+					String replaceWith("_HELLO_");
+					String searchFor("fgh");
+
+					str.replace(searchFor, replaceWith);
+					REQUIRE(str.toAnsiString() == "abcde_HELLO_ij");
+                }
+
+                SECTION("Several existed substring")
+                {
+
+					String str("abcABCqwertyABCaABC12ABC");
+					String replaceWith("_HELLO_");
+					String searchFor("ABC");
+
+					str.replace(searchFor, replaceWith);
+					REQUIRE(str.toAnsiString() == "abc_HELLO_qwerty_HELLO_a_HELLO_12_HELLO_");
+                }
+
+				SECTION("Nonexisted substring")
+				{
+					String str("abcdefghij");
+					String replaceWith("_HELLO_");
+					String searchFor("hello");
+
+					str.replace(searchFor, replaceWith);
+					REQUIRE(str.toAnsiString() == "abcdefghij");
+				}
+            }
+        }
+
+        SECTION("String::substring(...)")
+        {
+            SECTION("Position is valid")
+            {
+				String str("abcdefghij");
+
+				String substring1 = str.substring(3, 3);
+				REQUIRE(substring1.toAnsiString() == "def");
+
+				String substring2 = str.substring(3, -5);
+				REQUIRE(substring2.toAnsiString() == "defghij");
+
+				String substring3 = str.substring(3, String::InvalidPosition);
+				REQUIRE(substring3.toAnsiString() == "defghij");
+            }
+
+            SECTION("Position is invalid")
+            {
+				String str("abcdefg");
+				bool isExcepted = false;
+				try {
+					str.substring(50, 3);
+				}
+				catch (...) {
+					isExcepted = true;
+				}
+
+				REQUIRE(isExcepted == true);
+            }
+        }
+    }
+
+    SECTION("Operators")
+    {
+        SECTION("")
+        {
+            
+        }
     }
 }
