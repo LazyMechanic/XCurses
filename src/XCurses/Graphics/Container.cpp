@@ -7,7 +7,7 @@
 namespace xcur {
 Object::Ptr<Container> Container::create()
 {
-	return std::shared_ptr<Container>(new Container());
+    return std::shared_ptr<Container>(new Container());
 }
 
 void Container::update(float dt)
@@ -22,15 +22,15 @@ void Container::draw()
 
 void Container::setPosition(const Vector2u& newPos)
 {
-	Widget::setPosition(newPos);
+    Widget::setPosition(newPos);
     for (auto& child : m_childWidgets) {
-		child->setPosition(newPos);
+        child->setPosition(newPos);
     }
 }
 
 void Container::move(const Vector2u& deltaPos)
 {
-	setPosition(getPosition() + deltaPos);
+    setPosition(getPosition() + deltaPos);
 }
 
 Status Container::add(Object::Ptr<Widget> widget)

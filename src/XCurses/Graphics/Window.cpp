@@ -7,14 +7,14 @@
 namespace xcur {
 Object::Ptr<Window> Window::create(const Vector2u& position, const Vector2u& size)
 {
-	return std::shared_ptr<Window>(new Window(position, size));
+    return std::shared_ptr<Window>(new Window(position, size));
 }
 
 Window::Window(const Vector2u& position, const Vector2u& size) :
-	m_backgroundChar(' '),
-	m_border(Border::Default)
+    m_backgroundChar(' '),
+    m_border(Border::Default)
 {
-	m_win = newwin(size.y, size.x, position.y, position.x);
+    m_win = newwin(size.y, size.x, position.y, position.x);
 }
 
 Window::~Window()
@@ -25,7 +25,7 @@ Window::~Window()
 
 void Window::update(const float dt)
 {
-	/* full virtual func */
+    /* full virtual func */
 }
 
 void Window::setBorder(const Border& border)
@@ -48,16 +48,16 @@ void Window::draw()
     // Clear the window
     wclear(m_win);
     // Draw border
-	drawCursesBorder();
+    drawCursesBorder();
     
     if (getContext() != nullptr) {
-		getContext()->addWindowToRefresh(std::dynamic_pointer_cast<Window>(shared_from_this()));
+        getContext()->addWindowToRefresh(std::dynamic_pointer_cast<Window>(shared_from_this()));
     }
 }
 
 void Window::addChar(const Char& ch) const
 {
-	addChar(ch, getCursorPosition());
+    addChar(ch, getCursorPosition());
 }
 
 void Window::addChar(const Char& ch, const Vector2u& pos) const
@@ -67,7 +67,7 @@ void Window::addChar(const Char& ch, const Vector2u& pos) const
 
 Char Window::getChar(const Vector2u& pos) const
 {
-	return Char(mvwinch(m_win, pos.y, pos.x));
+    return Char(mvwinch(m_win, pos.y, pos.x));
 }
 
 void Window::setCursorPosition(const Vector2u& newPos) const
@@ -77,12 +77,12 @@ void Window::setCursorPosition(const Vector2u& newPos) const
 
 uint32_t Window::getCursorPositionX() const
 {
-	return getcurx(m_win);
+    return getcurx(m_win);
 }
 
 uint32_t Window::getCursorPositionY() const
 {
-	return getcury(m_win);
+    return getcury(m_win);
 }
 
 Vector2u Window::getCursorPosition() const
@@ -92,44 +92,44 @@ Vector2u Window::getCursorPosition() const
 
 void Window::setPosition(const Vector2u& newPos)
 {
-	mvwin(m_win, newPos.y, newPos.x);
-	m_position = Vector2u(getbegx(m_win), getbegy(m_win));
+    mvwin(m_win, newPos.y, newPos.x);
+    m_position = Vector2u(getbegx(m_win), getbegy(m_win));
 }
 
 void Window::move(const Vector2u& deltaPos)
 {
-	setPosition(getPosition() + deltaPos);
+    setPosition(getPosition() + deltaPos);
 }
 
 Status Window::resize(const Vector2u& newSize) const
 {
-	return wresize(m_win, newSize.y, newSize.x);
+    return wresize(m_win, newSize.y, newSize.x);
 }
 
 uint32_t Window::getWidth() const
 {
-	return getmaxx(m_win);
+    return getmaxx(m_win);
 }
 
 uint32_t Window::getHeight() const
 {
-	return getmaxy(m_win);
+    return getmaxy(m_win);
 }
 
 Vector2u Window::getSize() const
 {
-	return Vector2u(getWidth(), getHeight());
+    return Vector2u(getWidth(), getHeight());
 }
 
 void Window::setBackground(const Char& ch)
 {
-	m_backgroundChar = ch;
-	bkgdset(m_backgroundChar.toCursesChar());
+    m_backgroundChar = ch;
+    bkgdset(m_backgroundChar.toCursesChar());
 }
 
 Char Window::getBackground() const
 {
-	return m_backgroundChar;
+    return m_backgroundChar;
 }
 
 void Window::drawCursesBorder() const

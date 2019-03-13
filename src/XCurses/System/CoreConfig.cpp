@@ -16,8 +16,8 @@ CoreConfig::CoreConfig() :
 }
 
 CoreConfig::CoreConfig(
-	const Vector2u& terminalSize,
-	uint32_t inputDelay,
+    const Vector2u& terminalSize,
+    uint32_t inputDelay,
     bool enableCBreakMode,
     bool enableEchoMode,
     bool enableRawMode,

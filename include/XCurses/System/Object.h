@@ -13,31 +13,31 @@ class Object
 {
 public:
     /**
-	 * \brief std::shared_ptr<Type> alias
+     * \brief std::shared_ptr<Type> alias
      * \tparam Type Type of ptr object
      */
     template <class Type>
-	using Ptr = std::shared_ptr<Type>;
+    using Ptr = std::shared_ptr<Type>;
 
-	/**
-	 * \brief std::shared_ptr<const Type> alias
+    /**
+     * \brief std::shared_ptr<const Type> alias
      * \tparam Type Type of ptr object
-	 */
-	template <class Type>
-	using PtrConst = std::shared_ptr<const Type>;
+     */
+    template <class Type>
+    using PtrConst = std::shared_ptr<const Type>;
 
-	/**
-	 * \brief std::weak_ptr<Type> alias
+    /**
+     * \brief std::weak_ptr<Type> alias
      * \tparam Type Type of ptr object
-	 */
-	template <class Type>
-	using WeakPtr = std::weak_ptr<Type>;
+     */
+    template <class Type>
+    using WeakPtr = std::weak_ptr<Type>;
 
-	/**
-	 * \brief Create Object
-	 * \return Smart ptr to Object
-	 */
-	static Object::Ptr<Object> create();
+    /**
+     * \brief Create Object
+     * \return Smart ptr to Object
+     */
+    static Object::Ptr<Object> create();
 
     /**
      * \brief Get type name from object
@@ -68,10 +68,10 @@ public:
     uint64_t getId() const;
 
 protected:
-	/**
-	 * \brief Default object constructor
-	 */
-	Object();
+    /**
+     * \brief Default object constructor
+     */
+    Object();
 
     /**
      * \brief Object id

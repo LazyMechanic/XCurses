@@ -15,7 +15,7 @@
 namespace xcur {
 Object::Ptr<Context> Context::create()
 {
-	return std::shared_ptr<Context>(new Context());
+    return std::shared_ptr<Context>(new Context());
 }
 
 Context::Context() :
@@ -36,10 +36,10 @@ void Context::update(float dt)
 
 void Context::draw()
 {
-	wclear(stdscr);
+    wclear(stdscr);
     m_widgetTreeRoot->draw();
-	refreshWindows();
-	doupdate();
+    refreshWindows();
+    doupdate();
 }
 
 Status Context::add(Object::Ptr<Widget> widget)
@@ -69,7 +69,7 @@ Status Context::remove(Object::Ptr<Widget> widget)
 
     // If widget parent is root widget of context
     if (widget->getParent() == m_rootWindow) {
-		m_rootWindow->remove(widget);
+        m_rootWindow->remove(widget);
     }
 
     foundNode->getParent()->remove(widget);
@@ -93,17 +93,17 @@ void Context::widgetToFront(Object::Ptr<Widget> widget) const
 
 void Context::addWindowToRefresh(Object::Ptr<Window> window)
 {
-	m_windowsToRefresh.emplace_back(window);
+    m_windowsToRefresh.emplace_back(window);
 }
 
 void Context::setContextSystem(Object::Ptr<ContextSystem> contextSystem)
 {
-	m_contextSystem = contextSystem;
+    m_contextSystem = contextSystem;
 }
 
 Object::Ptr<ContextSystem> Context::getContextSystem() const
 {
-	return m_contextSystem.lock();
+    return m_contextSystem.lock();
 }
 
 Status Context::addContainerWidget(Object::Ptr<Container> container)
@@ -142,13 +142,13 @@ Status Context::addSingleWidget(Object::Ptr<Widget> widget)
 void Context::refreshWindows()
 {
     for (const auto& window : m_windowsToRefresh) {
-		auto sharedWindow = window.lock();
+        auto sharedWindow = window.lock();
         // If window still exists
         if (sharedWindow != nullptr) {
-			touchwin(sharedWindow->getCursesWin());
-			wnoutrefresh(sharedWindow->getCursesWin());
+            touchwin(sharedWindow->getCursesWin());
+            wnoutrefresh(sharedWindow->getCursesWin());
         }
     }
-	m_windowsToRefresh.clear();
+    m_windowsToRefresh.clear();
 }
 }

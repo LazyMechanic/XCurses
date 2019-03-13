@@ -13,11 +13,11 @@ class Container :
     public Widget
 {
 public:
-	/**
-	 * \brief Create Container
-	 * \return Smart ptr to Container
-	 */
-	static Object::Ptr<Container> create();
+    /**
+     * \brief Create Container
+     * \return Smart ptr to Container
+     */
+    static Object::Ptr<Container> create();
 
     /**
      * \brief Container destructor
@@ -35,17 +35,17 @@ public:
      */
     virtual void draw() override;
 
-	/**
-	 * \brief Set position. Update positions all child widgets
-	 * \param newPos New position
-	 */
-	void setPosition(const Vector2u& newPos) override;
+    /**
+     * \brief Set position. Update positions all child widgets
+     * \param newPos New position
+     */
+    void setPosition(const Vector2u& newPos) override;
 
-	/**
-	 * \brief Set position. New position = Old position + deltaPos. Update positions all child widgets
-	 * \param deltaPos Delta position
-	 */
-	void move(const Vector2u& deltaPos) override;
+    /**
+     * \brief Set position. New position = Old position + deltaPos. Update positions all child widgets
+     * \param deltaPos Delta position
+     */
+    void move(const Vector2u& deltaPos) override;
 
     /**
      * \brief Add widget to container
@@ -95,9 +95,9 @@ public:
 
 protected:
     /**
-	 * \brief Default Container constructor
-	 */
-	Container() = default;
+     * \brief Default Container constructor
+     */
+    Container() = default;
 
     /**
      * \brief List of child widgets

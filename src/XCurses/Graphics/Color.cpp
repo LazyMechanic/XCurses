@@ -44,56 +44,56 @@ Color::Color(uint32_t color) :
 
 bool Color::operator==(const Color& right) const
 {
-	return (this->r == right.r) &&
-		(this->g == right.g) &&
-		(this->b == right.b);
+    return (this->r == right.r) &&
+        (this->g == right.g) &&
+        (this->b == right.b);
 }
 
 bool Color::operator!=(const Color& right) const
 {
-	return !(*this == right);
+    return !(*this == right);
 }
 
 Color Color::operator+(const Color& right) const
 {
-	return Color(
-		static_cast<uint8_t>(std::min(static_cast<int>(this->r) + right.r, 255)),
-		static_cast<uint8_t>(std::min(static_cast<int>(this->g) + right.g, 255)),
-		static_cast<uint8_t>(std::min(static_cast<int>(this->b) + right.b, 255))
-	);
+    return Color(
+        static_cast<uint8_t>(std::min(static_cast<int>(this->r) + right.r, 255)),
+        static_cast<uint8_t>(std::min(static_cast<int>(this->g) + right.g, 255)),
+        static_cast<uint8_t>(std::min(static_cast<int>(this->b) + right.b, 255))
+    );
 }
 
 Color Color::operator-(const Color& right) const
 {
-	return Color(
-		static_cast<uint8_t>(std::max(static_cast<int>(this->r) - right.r, 0)),
-		static_cast<uint8_t>(std::max(static_cast<int>(this->g) - right.g, 0)),
-		static_cast<uint8_t>(std::max(static_cast<int>(this->b) - right.b, 0))
-	);
+    return Color(
+        static_cast<uint8_t>(std::max(static_cast<int>(this->r) - right.r, 0)),
+        static_cast<uint8_t>(std::max(static_cast<int>(this->g) - right.g, 0)),
+        static_cast<uint8_t>(std::max(static_cast<int>(this->b) - right.b, 0))
+    );
 }
 
 Color Color::operator*(const Color& right) const
 {
-	return Color(
-		static_cast<uint8_t>(static_cast<int>(this->r) * right.r / 255),
-		static_cast<uint8_t>(static_cast<int>(this->g) * right.g / 255),
-		static_cast<uint8_t>(static_cast<int>(this->b) * right.b / 255)
-	);
+    return Color(
+        static_cast<uint8_t>(static_cast<int>(this->r) * right.r / 255),
+        static_cast<uint8_t>(static_cast<int>(this->g) * right.g / 255),
+        static_cast<uint8_t>(static_cast<int>(this->b) * right.b / 255)
+    );
 }
 
 Color& Color::operator+=(const Color& right)
 {
-	return *this = *this + right;
+    return *this = *this + right;
 }
 
 Color& Color::operator-=(const Color& right)
 {
-	return *this = *this - right;
+    return *this = *this - right;
 }
 
 Color& Color::operator*=(const Color& right)
 {
-	return *this = *this * right;
+    return *this = *this * right;
 }
 
 uint16_t Color::cursesRed() const

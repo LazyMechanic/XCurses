@@ -72,19 +72,19 @@ public:
      */
     static const Border Blank;
 
-	/**
-	 * \brief Simple predefined border
-	 */
+    /**
+     * \brief Simple predefined border
+     */
     static const Border Simple;
 
-	/**
-	 * \brief Default predefined border
-	 */
+    /**
+     * \brief Default predefined border
+     */
     static const Border Default;
 
-	/**
-	 * \brief Wide predefined border
-	 */
+    /**
+     * \brief Wide predefined border
+     */
     static const Border Wide;
 
     /**

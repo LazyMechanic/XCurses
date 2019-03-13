@@ -23,11 +23,11 @@ public:
      */
     using ColorPaletteIterator = std::unordered_map<std::string, std::unique_ptr<ColorPalette>>::iterator;
 
-	/**
-	 * \brief Create ColorSystem
-	 * \return Smart ptr to ColorSystem
-	 */
-	static Object::Ptr<ColorSystem> create();
+    /**
+     * \brief Create ColorSystem
+     * \return Smart ptr to ColorSystem
+     */
+    static Object::Ptr<ColorSystem> create();
 
     /**
      * \brief ColorSystem destructor
@@ -91,11 +91,11 @@ public:
     ColorPalette* getCurrentPalette() const;
 
 private:
-	/**
-	 * \brief Default color system constructor. Construct with default palette with name is "default".
-	 * Colors use like windows cmd
-	 */
-	ColorSystem();
+    /**
+     * \brief Default color system constructor. Construct with default palette with name is "default".
+     * Colors use like windows cmd
+     */
+    ColorSystem();
 
     /**
      * \brief Raw pointer to current palette

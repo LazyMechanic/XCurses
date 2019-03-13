@@ -6,7 +6,7 @@ namespace xcur {
 namespace detail {
 Object::Ptr<TreeNode> TreeNode::create(Object::Ptr<Widget> widget)
 {
-	return std::shared_ptr<TreeNode>(new TreeNode(widget));
+    return std::shared_ptr<TreeNode>(new TreeNode(widget));
 }
 
 TreeNode::TreeNode(Object::Ptr<Widget> widget) :
