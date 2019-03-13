@@ -72,6 +72,30 @@ public:
     virtual Vector2u getPosition() const;
 
     /**
+     * \brief Set size widget
+     * \param newSize New size
+     */
+    virtual void setSize(const Vector2u& newSize);
+
+    /**
+     * \brief Get widget width
+     * \return Width
+     */
+    virtual uint32_t getWidth() const;
+
+    /**
+     * \brief Get widget height
+     * \return Height
+     */
+    virtual uint32_t getHeight() const;
+
+    /**
+     * \brief Get widget size
+     * \return Widget size
+     */
+    virtual Vector2u getSize() const;
+
+    /**
      * \brief Put widget to front relatively parent
      */
     void toFront();
@@ -104,7 +128,7 @@ protected:
     /**
      * \brief Default Widget constructor
      */
-    Widget() = default;
+    Widget();
 
     /**
      * \brief Smart ptr to parent widget
@@ -115,6 +139,11 @@ protected:
      * \brief Widget position
      */
     Vector2u m_position;
+
+    /**
+     * \brief Widget size
+     */
+    Vector2u m_size;
 
     /**
      * \brief Smart ptr to context
