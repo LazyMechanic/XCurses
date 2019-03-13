@@ -96,6 +96,16 @@ std::list<Object::Ptr<Widget>>::const_iterator Container::end() const
     return m_childWidgets.end();
 }
 
+std::list<Object::Ptr<Widget>>::const_reverse_iterator Container::rbegin() const
+{
+    return m_childWidgets.rbegin();
+}
+
+std::list<Object::Ptr<Widget>>::const_reverse_iterator Container::rend() const
+{
+    return m_childWidgets.rend();
+}
+
 std::list<Object::Ptr<Widget>>::const_iterator Container::find(Object::Ptr<Widget> widget) const
 {
     return std::find_if(

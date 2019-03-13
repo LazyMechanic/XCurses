@@ -52,14 +52,14 @@ public:
      * \param widget Widget
      * \result Ok if successful, Err if widget has another parent
      */
-    Status add(Object::Ptr<Widget> widget);
+    virtual Status add(Object::Ptr<Widget> widget);
 
     /**
      * \brief Remove widget from container
      * \param widget Widget
      * \result Ok if successful, Err if widget has another parent
      */
-    Status remove(Object::Ptr<Widget> widget);
+    virtual Status remove(Object::Ptr<Widget> widget);
 
     /**
      * \brief Check if container storing the widget
@@ -85,6 +85,18 @@ public:
      * \return End const iterator
      */
     std::list<Object::Ptr<Widget>>::const_iterator end() const;
+
+    /**
+     * \brief Begin const reverse iterator of child widgets
+     * \return Begin const reverse iterator
+     */
+    std::list<Object::Ptr<Widget>>::const_reverse_iterator rbegin() const;
+
+    /**
+     * \brief End const reverse iterator of child widgets
+     * \return End const reverse iterator
+     */
+    std::list<Object::Ptr<Widget>>::const_reverse_iterator rend() const;
 
     /**
      * \brief Find widget in child widgets
