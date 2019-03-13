@@ -57,6 +57,9 @@ set(XCURSES_SYSTEM_SRCS
     ${XCURSES_INC_DIR}/System/Vector2.inl
     ${XCURSES_INC_DIR}/System/Vector3.h
     ${XCURSES_INC_DIR}/System/Vector3.inl
+    ${XCURSES_INC_DIR}/System/Inputtable.h
+    ${XCURSES_SRC_DIR}/System/Inputtable.cpp
+    ${XCURSES_INC_DIR}/System/CursorState.h
 )
 
 set(XCURSES_TEXT_SRCS
