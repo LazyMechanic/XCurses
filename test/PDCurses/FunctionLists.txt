@@ -699,8 +699,8 @@ int nc_getmouse(MEVENT *event);
         MEVENT mouseEvent;
         nc_getmouse(&mouseEvent);
         if (mouseEvent.bstate & BUTTON1_PRESSED) {
-			/* do smth ... */
-		}
+            /* do smth ... */
+        }
 int ungetmouse(MEVENT *event);
     Эквивалент ungetch() для мыши. PDCurses не поддерживает очередь для мыши, поэтому просто
     перезаписывается глобальное состояние.
