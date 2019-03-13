@@ -5,6 +5,7 @@
 
 #include <XCurses/System/Vector2.h>
 #include <XCurses/Graphics/Border.h>
+#include <XCurses/System/Inputtable.h>
 #include <XCurses/Graphics/Container.h>
 
 struct _win;
@@ -39,6 +40,20 @@ public:
      * \brief Call function for draw the object
      */
     void draw() override final;
+
+    /**
+     * \brief Add widget to container
+     * \param widget Widget
+     * \result Ok if successful, Err if widget has another parent
+     */
+    Status add(Object::Ptr<Widget> widget) override;
+
+    /**
+     * \brief Remove widget from container
+     * \param widget Widget
+     * \result Ok if successful, Err if widget has another parent
+     */
+    Status remove(Object::Ptr<Widget> widget) override;
 
     /**
      * \brief Add character into window and advance cursor position
@@ -101,25 +116,25 @@ public:
      * \param newSize New size
      * \return Ok if successful, Err otherwise
      */
-    Status resize(const Vector2u& newSize) const;
+    Status resize(const Vector2u& newSize);
 
     /**
      * \brief Get window width
      * \return Width
      */
-    uint32_t getWidth() const;
+    uint32_t getWidth() const override;
 
     /**
      * \brief Get window height
      * \return Height
      */
-    uint32_t getHeight() const;
+    uint32_t getHeight() const override;
 
     /**
      * \brief Get window size
      * \return Window size
      */
-    Vector2u getSize() const;
+    Vector2u getSize() const override;
 
     /**
      * \brief Set background character
@@ -144,6 +159,17 @@ public:
      * \return Border
      */
     Border getBorder() const;
+
+    /**
+     * \brief Set next inputtable widget is active
+     */
+    void nextActiveInputtableWidget();
+
+    /**
+     * \brief Get active inputtable widget
+     * \return Smart ptr to active inputtable widget
+     */
+    Object::Ptr<Inputtable> getActiveInputtableWidget();
 
     /**
      * \brief Get curses window
@@ -175,10 +201,24 @@ protected:
      */
     Border m_border;
 
-private:    
+private:
     /**
-     * \brief PDCurses window pointer
+     * \brief Curses window pointer
      */
     _win* m_win;
+    /**
+     * \brief Active inputtable widget
+     */
+    Object::WeakPtr<Inputtable> m_activeInputtableWidget;
+
+    /**
+     * \brief Active inputtable widget iterator
+     */
+    std::list<Object::WeakPtr<Inputtable>>::iterator m_activeInputtableWidgetIt;
+
+    /**
+     * \brief Inputtable widgets
+     */
+    std::list<Object::WeakPtr<Inputtable>> m_inputtableWidgets;
 };
 }

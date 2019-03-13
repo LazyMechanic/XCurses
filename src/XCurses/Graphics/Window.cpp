@@ -1,5 +1,7 @@
 #include <PDCurses/curses.h>
 
+#include <algorithm>
+
 #include <XCurses/Graphics/Window.h>
 #include <XCurses/Graphics/Context.h>
 #include <XCurses/Graphics/Container.h>
@@ -38,6 +40,24 @@ Border Window::getBorder() const
     return m_border;
 }
 
+void Window::nextActiveInputtableWidget()
+{
+    // if no inputtable widgets
+    if (m_inputtableWidgets.empty()) {
+        m_activeInputtableWidget = Object::WeakPtr<Inputtable>();
+        m_activeInputtableWidgetIt = m_inputtableWidgets.end();
+    } 
+    else {
+        ++m_activeInputtableWidgetIt;
+        m_activeInputtableWidget = *m_activeInputtableWidgetIt;
+    }
+}
+
+Object::Ptr<Inputtable> Window::getActiveInputtableWidget()
+{
+    return m_activeInputtableWidget.lock();
+}
+
 _win* Window::getCursesWin() const
 {
     return m_win;
@@ -53,6 +73,47 @@ void Window::draw()
     if (getContext() != nullptr) {
         getContext()->addWindowToRefresh(std::dynamic_pointer_cast<Window>(shared_from_this()));
     }
+}
+
+Status Window::add(Object::Ptr<Widget> widget)
+{
+    Status result = Container::add(widget);
+    // If add is successful
+    if (result == Status::Ok) {
+        auto inputtableWidget = std::dynamic_pointer_cast<Inputtable>(widget);
+        // If widget is Inputtable
+        if (inputtableWidget != nullptr) {
+            m_inputtableWidgets.push_back(inputtableWidget);
+        }
+    }
+    return result;
+}
+
+Status Window::remove(Object::Ptr<Widget> widget)
+{
+    Status result = Container::remove(widget);
+    // If remove is successful
+    if (result == Status::Ok) {
+        auto inputtableWidget = std::dynamic_pointer_cast<Inputtable>(widget);
+        // If widget is Inputtable
+        if (inputtableWidget != nullptr) {
+            const auto widgetIt = std::find_if(
+                m_inputtableWidgets.begin(),
+                m_inputtableWidgets.end(),
+                [&inputtableWidget](const Object::WeakPtr<Inputtable> & checkWidget) {
+                    return inputtableWidget == checkWidget.lock();
+                });
+            // If widget found
+            if (widgetIt != m_inputtableWidgets.end()) {
+                m_inputtableWidgets.erase(widgetIt);
+                // If found widget is active
+                if (widgetIt == m_activeInputtableWidgetIt) {
+                    nextActiveInputtableWidget();
+                }
+            }
+        }
+    }
+    return result;
 }
 
 void Window::addChar(const Char& ch) const
@@ -101,9 +162,14 @@ void Window::move(const Vector2u& deltaPos)
     setPosition(getPosition() + deltaPos);
 }
 
-Status Window::resize(const Vector2u& newSize) const
+Status Window::resize(const Vector2u& newSize)
 {
-    return wresize(m_win, newSize.y, newSize.x);
+    Status result = wresize(m_win, newSize.y, newSize.x);
+    // If resize is successful
+    if (result == Status::Ok) {
+        m_position = newSize;
+    }
+    return result;
 }
 
 uint32_t Window::getWidth() const
