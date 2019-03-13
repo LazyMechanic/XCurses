@@ -7,9 +7,14 @@
 namespace xcur {
 Char Input::m_pressedChar(ERR);
 
-void Input::handleEvents()
+void Input::handleEvents(Object::Ptr<Window> window)
 {
-
+    if (window == nullptr) {
+        m_pressedChar = wgetch(stdscr);
+    }
+    else {
+        
+    }
 }
 
 Char Input::getPressedKey()
