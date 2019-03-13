@@ -24,9 +24,17 @@ Context::Context() :
 {
 }
 
-void Context::handleEvents()
+void Context::handleEvents() const
 {
-    // TODO: fill handleEvents() function
+    for (auto widgetIt = m_rootWindow->rbegin(); widgetIt != m_rootWindow->rend(); ++widgetIt) {
+        auto window = std::dynamic_pointer_cast<Window>(*widgetIt);
+        if (window != nullptr) {
+            Input::handleEvents(window);
+            return;
+        }
+    }
+
+    Input::handleEvents(nullptr);
 }
 
 void Context::update(float dt)
@@ -67,9 +75,19 @@ Status Context::remove(Object::Ptr<Widget> widget)
         return Status::Err;
     }
 
-    // If widget parent is root widget of context
-    if (widget->getParent() == m_rootWindow) {
-        m_rootWindow->remove(widget);
+    auto window = std::dynamic_pointer_cast<Window>(widget);
+    // If widget is window
+    if (window != nullptr) {
+        auto windowIt = std::find_if(
+            m_windowsToRefresh.begin(),
+            m_windowsToRefresh.end(),
+            [&window](const Object::WeakPtr<Window> & checkWindow) {
+                return window == checkWindow.lock();
+            });
+        // If window has in queue for update
+        if (windowIt != m_windowsToRefresh.end()) {
+            m_windowsToRefresh.erase(windowIt);
+        }
     }
 
     foundNode->getParent()->remove(widget);

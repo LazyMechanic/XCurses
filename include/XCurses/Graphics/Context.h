@@ -37,7 +37,7 @@ public:
     /**
      * \brief Handle input events
      */
-    void handleEvents();
+    void handleEvents() const;
 
     /**
      * \brief Goes through all components and call his \a update() function
