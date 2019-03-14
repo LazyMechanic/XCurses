@@ -2,6 +2,8 @@
 
 #include <XCurses/Text/Attribute.h>
 
+#pragma pack(push, 1)
+
 namespace xcur {
 /**
  * \brief Simple wrapper over curses chtype. Allows easy access to
@@ -237,9 +239,9 @@ public:
     static bool isFullEqual(const Char& left, const Char& right);
 
     /**
-     * \brief Color pair id
+     * \brief Symbol
      */
-    uint8_t colorPairId;
+    uint16_t symbol;
 
     /**
      * \brief Attribute
@@ -247,8 +249,10 @@ public:
     Attribute attribute;
 
     /**
-     * \brief Symbol
+     * \brief Color pair id
      */
-    uint16_t symbol;
+    uint8_t colorPairId;
 };
 }
+
+#pragma pack(pop)
