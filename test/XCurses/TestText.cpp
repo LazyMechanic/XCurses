@@ -277,6 +277,31 @@ TEST_CASE("String init and edit", "[String][Char]")
 
     SECTION("Operations")
     {
+        SECTION("String::toCursesString()")
+        {
+            String str("abcdefg");
+
+            SECTION("Nonconst")
+            {
+                uint32_t* rawStr = str.toCursesString();
+                size_t i = 0;
+                for (auto& ch : str) {
+                    REQUIRE(ch.toCursesChar() == rawStr[i]);
+                    ++i;
+                }
+            }
+
+            SECTION("Const")
+            {
+                const uint32_t* rawStr = str.toCursesString();
+                size_t i = 0;
+                for (auto& ch : str) {
+                    REQUIRE(ch.toCursesChar() == rawStr[i]);
+                    ++i;
+                }
+            }
+        }
+
         SECTION("String::toAnsiString()")
         {
             String str("abcdefg");
