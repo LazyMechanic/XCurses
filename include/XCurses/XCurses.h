@@ -11,8 +11,6 @@
 #include <XCurses/Graphics/Drawable.h>
 #include <XCurses/Graphics/Behaviour.h>
 #include <XCurses/Graphics/Container.h>
-#include <XCurses/Graphics/HasWindow.h>
-#include <XCurses/Graphics/HasWindow.h>
 #include <XCurses/Graphics/ColorSystem.h>
 #include <XCurses/Graphics/ColorPalette.h>
 #include <XCurses/Graphics/ContextSystem.h>

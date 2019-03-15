@@ -21,18 +21,8 @@ String Title::getString() const
     return m_string;
 }
 
-void Title::draw()
+void Title::draw() const
 {
-    const auto window = getWindow();
-    if (window != nullptr) {
-        Vector2u position(1, 0);
-        window->addChar(' ', position);
-        position.x++;
-        for (const auto& ch : m_string) {
-            window->addChar(ch, position);
-            position.x++;
-        }
-        window->addChar(' ', position);
-    }
+
 }
 }

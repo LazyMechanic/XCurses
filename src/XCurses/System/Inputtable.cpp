@@ -4,6 +4,7 @@
 
 namespace xcur {
 Inputtable::Inputtable() :
+    m_size(Vector2u::Zero),
     m_cursorPosition(0, 0),
     m_cursorState(CursorState::Normal)
 {

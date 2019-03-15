@@ -5,14 +5,32 @@
 #include <XCurses/Graphics/Container.h>
 
 namespace xcur {
-Object::Ptr<Widget> Widget::create()
+Widget::Widget() :
+    m_position(Vector2u::Zero)
 {
-    return std::shared_ptr<Widget>(new Widget());
 }
 
-Widget::Widget() :
-    m_position(0, 0),
-    m_size(0, 0)
+Widget::Widget(const Vector2u& position) :
+    m_position(position)
+{
+}
+
+Widget::Widget(const Vector2u& position, Object::Ptr<Container> parent) :
+    m_position(position),
+    m_parent(parent)
+{
+}
+
+Widget::Widget(const Vector2u& position, Object::Ptr<Context> context) :
+    m_position(position),
+    m_context(context)
+{
+}
+
+Widget::Widget(const Vector2u& position, Object::Ptr<Container> parent, Object::Ptr<Context> context) :
+    m_position(position),
+    m_parent(parent),
+    m_context(context)
 {
 }
 
@@ -22,16 +40,6 @@ Widget::~Widget()
     if (getContext() != nullptr) {
         getContext()->remove(shared_from_this());
     }
-}
-
-void Widget::update(float dt)
-{
-    /* full virtual func */
-}
-
-void Widget::draw()
-{
-    /* full virtual func */
 }
 
 void Widget::setPosition(const Vector2u& newPos)
@@ -57,26 +65,6 @@ uint32_t Widget::getPositionY() const
 Vector2u Widget::getPosition() const
 {
     return m_position;
-}
-
-void Widget::setSize(const Vector2u& newSize)
-{
-    m_size = newSize;
-}
-
-uint32_t Widget::getWidth() const
-{
-    return m_size.x;
-}
-
-uint32_t Widget::getHeight() const
-{
-    return m_size.y;
-}
-
-Vector2u Widget::getSize() const
-{
-    return m_size;
 }
 
 void Widget::toFront()

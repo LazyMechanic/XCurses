@@ -13,6 +13,7 @@ endif (UNIX)
 
 set(XCURSES_GRAPHICS_SRCS
     ${XCURSES_INC_DIR}/Graphics/Behaviour.h
+    ${XCURSES_SRC_DIR}/Graphics/Behaviour.cpp
     ${XCURSES_INC_DIR}/Graphics/Border.h
     ${XCURSES_SRC_DIR}/Graphics/Border.cpp
     ${XCURSES_INC_DIR}/Graphics/Color.h
@@ -28,16 +29,15 @@ set(XCURSES_GRAPHICS_SRCS
     ${XCURSES_INC_DIR}/Graphics/ContextSystem.h
     ${XCURSES_SRC_DIR}/Graphics/ContextSystem.cpp
     ${XCURSES_INC_DIR}/Graphics/Drawable.h
-    ${XCURSES_INC_DIR}/Graphics/HasWindow.h
-    ${XCURSES_SRC_DIR}/Graphics/HasWindow.cpp
+    ${XCURSES_SRC_DIR}/Graphics/Drawable.cpp
     ${XCURSES_INC_DIR}/Graphics/Widget.h
     ${XCURSES_SRC_DIR}/Graphics/Widget.cpp
     ${XCURSES_INC_DIR}/Graphics/Window.h
     ${XCURSES_SRC_DIR}/Graphics/Window.cpp
     ${XCURSES_SRC_DIR}/Graphics/TreeNode.h
     ${XCURSES_SRC_DIR}/Graphics/TreeNode.cpp
-    ${XCURSES_SRC_DIR}/Graphics/RootWindow.h
-    ${XCURSES_SRC_DIR}/Graphics/RootWindow.cpp
+    ${XCURSES_SRC_DIR}/Graphics/VirtualScreen.h
+    ${XCURSES_SRC_DIR}/Graphics/VirtualScreen.cpp
 )
 
 set(XCURSES_SYSTEM_SRCS

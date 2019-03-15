@@ -17,6 +17,6 @@ public:
      * \brief Call for update object state
      * \param dt Delta time
      */
-    virtual void update(float dt) = 0;
+    virtual void update(float dt);
 };
 }

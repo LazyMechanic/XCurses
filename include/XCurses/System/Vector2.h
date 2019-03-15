@@ -223,6 +223,11 @@ public:
     ~Vector2() = default;
 
     /**
+     * \brief Predefined zero Vector2
+     */
+    static const Vector2 Zero;
+
+    /**
      * \brief X component
      */
     T x;

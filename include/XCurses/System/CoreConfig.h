@@ -57,32 +57,41 @@ public:
     /**
      * \brief CBreak mode state
      */
-    bool enableCBreakMode;
+    bool isCBreakEnable;
 
     /**
      * \brief Echo mode state
      */
-    bool enableEchoMode;
+    bool isEchoEnable;
 
     /**
      * \brief Raw mode state
      */
-    bool enableRawMode;
+    bool isRawEnable;
 
     /**
      * \brief NewLine mode state
      */
-    bool enableNewLineMode;
+    bool isNewLineEnable;
 
     /**
      * \brief Keypad mode state
      */
-    bool enableKeypadMode;
+    bool isKeypadEnable;
 
     /**
      * \brief Input delay mode state
      */
-    bool enableInputDelay;
+    bool isInputDelayEnable;
 
+    /**
+     * \brief Core state. True if Core::init was called (equal initscr() in curses)
+     */
+    bool isInit;
+
+    /**
+     * \brief Curses mode state
+     */
+    bool isCursesModeEnable;
 };
 }

@@ -20,7 +20,7 @@ void ContextSystem::handleEvents() const
     }
 }
 
-void ContextSystem::update(float dt) const
+void ContextSystem::update(float dt)
 {
     auto currentContext = m_currentContext.lock();
     // If the current context is set

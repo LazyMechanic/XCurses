@@ -1,4 +1,7 @@
 template<typename T>
+const Vector2<T> Vector2<T>::Zero = Vector2<T>(0, 0);
+
+template<typename T>
 Vector2<T>::Vector2() :
     x(0),
     y(0)

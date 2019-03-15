@@ -2,10 +2,9 @@
 
 #include <XCurses/Text/String.h>
 #include <XCurses/Graphics/Widget.h>
-#include <XCurses/Graphics/HasWindow.h>
 
 namespace xcur {
-class Title : public Widget, public HasWindow
+class Title : public Widget
 {
 public:
     /**
@@ -34,7 +33,7 @@ public:
     /**
      * \brief Draw title. Add character into window and add in front and back space characters
      */
-    void draw() override;
+    void draw() const override;
 
 private:
     /**

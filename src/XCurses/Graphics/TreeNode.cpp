@@ -23,7 +23,7 @@ void TreeNode::update(float dt)
     }
 }
 
-void TreeNode::draw()
+void TreeNode::draw() const
 {
     m_widget.lock()->draw();
 

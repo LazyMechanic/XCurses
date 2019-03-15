@@ -1,6 +1,8 @@
 #include <XCurses/System/Core.h>
 
+#include <chrono>
 #include <algorithm>
+#include <stdexcept>
 
 #include <PDCurses/curses.h>
 
@@ -8,6 +10,16 @@
 #include <XCurses/Graphics/Context.h>
 
 namespace xcur {
+CoreConfig Core::m_config(
+    Vector2u::Zero,
+    0,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false);
+
 Object::Ptr<Core> Core::create()
 {
     std::shared_ptr<Core> core(new Core());
@@ -16,29 +28,75 @@ Object::Ptr<Core> Core::create()
 }
 
 Core::Core() :
+    m_isRunning(true),
     m_contextSystem(ContextSystem::create()),
     m_colorSystem(ColorSystem::create())
 {
-    initscr();
 }
 
 Core::~Core()
 {
-    endwin();
+    if (isCursesModeEnable()) {
+        endwin();
+        m_config.isCursesModeEnable = false;
+    }
 }
 
 void Core::init(const CoreConfig& config)
 {
-    this->setCBreakMode(config.enableCBreakMode);
-    this->setEchoMode(config.enableEchoMode);
-    this->setRawMode(config.enableRawMode);
-    this->setNewLineMode(config.enableNewLineMode);
-    this->setTerminalSize(config.terminalSize);
+    initscr();
+
+    setCBreak(config.isCBreakEnable);
+    setEcho(config.isEchoEnable);
+    setRaw(config.isRawEnable);
+    setNewLine(config.isNewLineEnable);
+    setTerminalSize(config.terminalSize);
+
+    m_config.isInit = true;
+
+    onCursesMode();
 }
 
-Status Core::setCBreakMode(bool v)
+bool Core::isInit()
 {
-    m_config.enableCBreakMode = v;
+    return m_config.isInit;
+}
+
+void Core::onCursesMode()
+{
+    // If curses mode disable
+    if (!isCursesModeEnable()) {
+        throw std::runtime_error("Core didn't initialized");
+    }
+
+    doupdate();
+    m_config.isCursesModeEnable = true;
+}
+
+void Core::offCursesMode()
+{
+    // If curses mode disable
+    if (!isCursesModeEnable()) {
+        throw std::runtime_error("Core didn't initialized");
+    }
+
+    endwin();
+    m_config.isCursesModeEnable = false;
+}
+
+bool Core::isCursesModeEnable()
+{
+    return m_config.isCursesModeEnable;
+}
+
+Status Core::setCBreak(bool v)
+{
+    // If curses mode disable
+    if (!isCursesModeEnable()) {
+        throw std::runtime_error("Core didn't initialized");
+    }
+
+    m_config.isCBreakEnable = v;
     if (v) {
         return cbreak();
     }
@@ -47,14 +105,19 @@ Status Core::setCBreakMode(bool v)
     }
 }
 
-bool Core::isCBreakMode() const
+bool Core::isCBreakEnable()
 {
-    return m_config.enableCBreakMode;
+    return m_config.isCBreakEnable;
 }
 
-Status Core::setEchoMode(bool v)
+Status Core::setEcho(bool v)
 {
-    m_config.enableEchoMode = v;
+    // If curses mode disable
+    if (!isCursesModeEnable()) {
+        throw std::runtime_error("Core didn't initialized");
+    }
+
+    m_config.isEchoEnable = v;
     if (v) {
         return echo();
     }
@@ -63,14 +126,19 @@ Status Core::setEchoMode(bool v)
     }
 }
 
-bool Core::isEchoMode() const
+bool Core::isEchoEnable()
 {
-    return m_config.enableEchoMode;
+    return m_config.isEchoEnable;
 }
 
-Status Core::setRawMode(bool v)
+Status Core::setRaw(bool v)
 {
-    m_config.enableRawMode = v;
+    // If curses mode disable
+    if (!isCursesModeEnable()) {
+        throw std::runtime_error("Core didn't initialized");
+    }
+
+    m_config.isRawEnable = v;
     if (v) {
         return raw();
     }
@@ -79,14 +147,19 @@ Status Core::setRawMode(bool v)
     }
 }
 
-bool Core::isRawMode() const
+bool Core::isRawEnable()
 {
-    return m_config.enableRawMode;
+    return m_config.isRawEnable;
 }
 
-Status Core::setNewLineMode(bool v)
+Status Core::setNewLine(bool v)
 {
-    m_config.enableNewLineMode = v;
+    // If curses mode disable
+    if (!isCursesModeEnable()) {
+        throw std::runtime_error("Core didn't initialized");
+    }
+
+    m_config.isNewLineEnable = v;
     if (v) {
         return nl();
     }
@@ -95,30 +168,45 @@ Status Core::setNewLineMode(bool v)
     }
 }
 
-bool Core::isNewLineMode() const
+bool Core::isNewLineEnable()
 {
-    return m_config.enableNewLineMode;
+    return m_config.isNewLineEnable;
 }
 
 Status Core::setTerminalSize(const Vector2u& size)
 {
+    // If curses mode disable
+    if (!isCursesModeEnable()) {
+        throw std::runtime_error("Core didn't initialized");
+    }
+
     Status result = resize_term(size.y, size.x);
     m_config.terminalSize = Vector2u(getmaxx(stdscr), getmaxy(stdscr));
     return result;
 }
 
-Vector2u Core::getTerminalSize() const
+Vector2u Core::getTerminalSize()
 {
     return m_config.terminalSize;
 }
 
-Status Core::blinkColors() const
+Status Core::blinkColors()
 {
+    // If curses mode disable
+    if (!isCursesModeEnable()) {
+        throw std::runtime_error("Core didn't initialized");
+    }
+
     return flash();
 }
 
-Status Core::playBeepSound() const
+Status Core::playBeepSound()
 {
+    // If curses mode disable
+    if (!isCursesModeEnable()) {
+        throw std::runtime_error("Core didn't initialized");
+    }
+
     return beep();
 }
 
@@ -132,6 +220,27 @@ Object::Ptr<ColorSystem> Core::getColorSystem() const
     return m_colorSystem;
 }
 
+void Core::run(const CoreConfig& config)
+{
+    Core::init(config);
+
+    using SecondPartial = std::chrono::duration<float, std::ratio<1>>;
+
+    auto currentTime = std::chrono::steady_clock::now();
+    auto lastTime = currentTime;
+    float dt;
+    while (m_isRunning) {
+        dt = std::chrono::duration_cast<SecondPartial>(currentTime - lastTime).count();
+        currentTime = std::chrono::steady_clock::now();
+
+        handleEvents();
+        update(dt);
+        draw();
+
+        lastTime = currentTime;
+    }
+}
+
 void Core::handleEvents()
 {
     m_contextSystem->handleEvents();
@@ -142,8 +251,18 @@ void Core::update(float dt)
     m_contextSystem->update(dt);
 }
 
-void Core::draw()
+void Core::draw() const
 {
     m_contextSystem->draw();
+}
+
+bool Core::isRunning() const
+{
+    return m_isRunning;
+}
+
+void Core::exit()
+{
+    m_isRunning = true;
 }
 }

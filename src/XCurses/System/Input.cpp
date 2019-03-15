@@ -7,9 +7,9 @@
 namespace xcur {
 Char Input::m_pressedChar(ERR);
 
-void Input::handleEvents(Object::Ptr<Window> window)
+void Input::handleEvents(Object::Ptr<VirtualScreen> screen)
 {
-    if (window == nullptr) {
+    if (screen == nullptr) {
         m_pressedChar = wgetch(stdscr);
     }
     else {

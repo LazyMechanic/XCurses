@@ -6,12 +6,14 @@ const CoreConfig CoreConfig::Default;
 CoreConfig::CoreConfig() :
     terminalSize(120, 50),
     inputDelay(0),
-    enableCBreakMode(true),
-    enableEchoMode(false),
-    enableRawMode(true),
-    enableNewLineMode(false),
-    enableKeypadMode(false),
-    enableInputDelay(false)
+    isCBreakEnable(true),
+    isEchoEnable(false),
+    isRawEnable(true),
+    isNewLineEnable(false),
+    isKeypadEnable(false),
+    isInputDelayEnable(false),
+    isInit(false),
+    isCursesModeEnable(false)
 {
 }
 
@@ -27,12 +29,14 @@ CoreConfig::CoreConfig(
 ) :
     terminalSize(terminalSize),
     inputDelay(inputDelay),
-    enableCBreakMode(enableCBreakMode),
-    enableEchoMode(enableEchoMode),
-    enableRawMode(enableRawMode),
-    enableNewLineMode(enableNewLineMode),
-    enableKeypadMode(enableKeypadMode),
-    enableInputDelay(enableInputDelay)
+    isCBreakEnable(enableCBreakMode),
+    isEchoEnable(enableEchoMode),
+    isRawEnable(enableRawMode),
+    isNewLineEnable(enableNewLineMode),
+    isKeypadEnable(enableKeypadMode),
+    isInputDelayEnable(enableInputDelay),
+    isInit(false),
+    isCursesModeEnable(false)
 {
 }
 }

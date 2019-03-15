@@ -31,7 +31,32 @@ public:
      * \brief Initialize Core with params
      * \param config Configuration object
      */
-    void init(const CoreConfig& config = CoreConfig::Default);
+    static void init(const CoreConfig& config = CoreConfig::Default);
+
+    /**
+     * \brief Check if Core is init
+     * \return True if Core is init, false otherwise
+     */
+    static bool isInit();
+
+    /**
+     * \brief Equal doupdate() from curses for return curses mode.
+     * Use only after call Core::init().
+     * Called automatically when Core will init
+     */
+    static void onCursesMode();
+
+    /**
+     * \brief Equal endwin() from curses.
+     * Called automatically when Core will destroy
+     */
+    static void offCursesMode();
+
+    /**
+     * \brief Check if curses mode enable
+     * \return True if curses mode enable, false otherwise
+     */
+    static bool isCursesModeEnable();
 
     /**
      * \brief Toggle cbreak mode.
@@ -42,13 +67,13 @@ public:
      * \param v Value
      * \return Status
      */
-    Status setCBreakMode(bool v);
+    static Status setCBreak(bool v);
 
     /**
      * \brief Get cbreak mode state
      * \return True if cbreak mode enable, false otherwise
      */
-    bool isCBreakMode() const;
+    static bool isCBreakEnable();
 
     /**
      * \brief Toggle echo mode.
@@ -56,13 +81,13 @@ public:
      * \param v Value
      * \return Status
      */
-    Status setEchoMode(bool v);
+    static Status setEcho(bool v);
 
     /**
      * \brief Get echo mode state
      * \return True if echo mode enable, false otherwise
      */
-    bool isEchoMode() const;
+    static bool isEchoEnable();
 
     /**
      * \brief Toggle raw mode.
@@ -74,13 +99,13 @@ public:
      * \param v Value
      * \return Status
      */
-    Status setRawMode(bool v);
+    static Status setRaw(bool v);
 
     /**
      * \brief Get raw mode state
      * \return True if raw mode enable, false otherwise
      */
-    bool isRawMode() const;
+    static bool isRawEnable();
 
     /**
      * \brief Toggle newline mode.
@@ -89,13 +114,13 @@ public:
      * \param v Value
      * \return Status
      */
-    Status setNewLineMode(bool v);
+    static Status setNewLine(bool v);
 
     /**
      * \brief Get new line mode state
      * \return True if new line mode enable, false otherwise
      */
-    bool isNewLineMode() const;
+    static bool isNewLineEnable();
 
     /**
      * \brief Set terminal size.
@@ -103,26 +128,26 @@ public:
      * \param size New terminal size
      * \return Status
      */
-    Status setTerminalSize(const Vector2u& size);
+    static Status setTerminalSize(const Vector2u& size);
 
     /**
      * \brief Get terminal size.
      * size.x is width, size.y is height
      * \return Terminal size
      */
-    Vector2u getTerminalSize() const;
+    static Vector2u getTerminalSize();
 
     /**
      * \brief Inverse all colors in terminal for a moment
      * \return Status
      */
-    Status blinkColors() const;
+    static Status blinkColors();
 
     /**
      * \brief Beep sound
      * \return Status
      */
-    Status playBeepSound() const;
+    static Status playBeepSound();
 
     /**
      * \brief Get context system
@@ -135,6 +160,14 @@ public:
      * \return Smart ptr to color system
      */
     Object::Ptr<ColorSystem> getColorSystem() const;
+
+    /**
+     * \brief Start in auto mode main loop where will called Core::init(), 
+     * Core::handleEvents(), Core::update() and Core::draw() functions. 
+     * The cycle will continue until called Core::exit() function for close application.
+     * \param config Core config for init
+     */
+    void run(const CoreConfig& config = CoreConfig::Default);
 
     /**
      * \brief Handle input
@@ -150,7 +183,18 @@ public:
     /**
      * \brief Draw all windows
      */
-    void draw();
+    void draw() const;
+
+    /**
+     * \brief Check if application is running
+     * \return True if application didn't close, false otherwise
+     */
+    bool isRunning() const;
+
+    /**
+     * \brief Set isRunning is false
+     */
+    void exit();
 
 private:
     /**
@@ -162,6 +206,11 @@ private:
      * \brief Current curses config
      */
     static CoreConfig m_config;
+
+    /**
+     * \brief State of application. If true then app is running
+     */
+    bool m_isRunning;
 
     /**
      * \brief Smart ptr to context system

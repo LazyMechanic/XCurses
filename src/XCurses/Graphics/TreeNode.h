@@ -31,7 +31,7 @@ public:
     /**
      * \brief Call function for draw the object
      */
-    void draw() override;
+    void draw() const override;
 
     /**
      * \brief Add child tree node with the widget

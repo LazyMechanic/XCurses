@@ -8,8 +8,6 @@ namespace xcur {
 class Inputtable : public Widget
 {
 public:
-    friend class Window;
-
     /**
      * \brief Create Inputtable
      * \return Smart ptr to Inputtable
@@ -57,6 +55,11 @@ protected:
      * \brief Default Inputtable constructor.
      */
     Inputtable();
+
+    /**
+     * \brief Widget size
+     */
+    Vector2u m_size;
 
 private:
     /**
