@@ -5,6 +5,7 @@
 #include <PDCurses/curses.h>
 
 #include <XCurses/System/Core.h>
+#include <XCurses/Graphics/Container.h>
 
 namespace xcur {
 Object::Ptr<VirtualScreen> VirtualScreen::create()
@@ -13,6 +14,8 @@ Object::Ptr<VirtualScreen> VirtualScreen::create()
 }
 
 VirtualScreen::VirtualScreen() :
+    m_cursorPosition(Vector2u::Zero),
+    m_cursorState(CursorState::Hidden),
     m_screenNeedRefresh(true)
 {
     if (!Core::isInit()) {
@@ -32,6 +35,25 @@ void VirtualScreen::update(float dt)
         this->resize(Core::getTerminalSize());
     }
 
+    const auto activeInputWidget = getActiveInputWidget();
+    // If activeInputWidget is not Inputtable::None
+    if (activeInputWidget != nullptr) {
+        Vector2u endPosition = activeInputWidget->getCursorPosition();
+        auto parent = activeInputWidget->getParent();
+        // Pass through all parent widgets
+        while (parent != nullptr) {
+            endPosition += parent->getPosition();
+            parent = parent->getParent();
+        }
+
+        wmove(m_cursesWindow, endPosition.y, endPosition.x);
+        curs_set(activeInputWidget->getCursorState());
+    }
+    else {
+        wmove(m_cursesWindow, 0, 0);
+        curs_set(CursorState::Hidden);
+    }
+
     this->clear();
 }
 
@@ -40,18 +62,6 @@ void VirtualScreen::draw() const
     if (m_screenNeedRefresh) {
         wrefresh(m_cursesWindow);
         touchwin(m_cursesWindow);
-    }
-
-    const auto activeInputWidget = getActiveInputWidget();
-    // If activeInputWidget is not Inputtable::None
-    if (activeInputWidget != nullptr) {
-        wmove(m_cursesWindow, activeInputWidget->getCursorPosition().y, activeInputWidget->getCursorPosition().x);
-        curs_set(activeInputWidget->getCursorState());
-
-    }
-    else {
-        wmove(m_cursesWindow, 0, 0);
-        curs_set(CursorState::Hidden);
     }
 }
 

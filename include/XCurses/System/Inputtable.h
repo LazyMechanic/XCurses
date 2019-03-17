@@ -5,6 +5,9 @@
 #include <XCurses/System/CursorState.h>
 
 namespace xcur {
+/**
+ * \brief Inherit this class if you need widget with input field
+ */
 class Inputtable : public Widget
 {
 public:

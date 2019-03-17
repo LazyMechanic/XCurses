@@ -88,6 +88,16 @@ private:
     Vector2u m_size;
 
     /**
+     * \brief Current cursor position
+     */
+    Vector2u m_cursorPosition;
+
+    /**
+     * \brief Cursor state
+     */
+    CursorState m_cursorState;
+
+    /**
      * \brief Active input widget
      */
     Object::WeakPtr<Inputtable> m_activeInputWidget;
