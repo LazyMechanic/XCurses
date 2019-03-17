@@ -36,6 +36,8 @@ set(XCURSES_GRAPHICS_SRCS
     ${XCURSES_SRC_DIR}/Graphics/TreeNode.cpp
     ${XCURSES_INC_DIR}/Graphics/VirtualScreen.h
     ${XCURSES_SRC_DIR}/Graphics/VirtualScreen.cpp
+    ${XCURSES_INC_DIR}/Graphics/Inputtable.h
+    ${XCURSES_SRC_DIR}/Graphics/Inputtable.cpp
     ${XCURSES_INC_DIR}/Graphics/Widgets/Window.h
     ${XCURSES_SRC_DIR}/Graphics/Widgets/Window.cpp
     ${XCURSES_INC_DIR}/Graphics/Widgets/Title.h
@@ -59,8 +61,6 @@ set(XCURSES_SYSTEM_SRCS
     ${XCURSES_INC_DIR}/System/Vector2.inl
     ${XCURSES_INC_DIR}/System/Vector3.h
     ${XCURSES_INC_DIR}/System/Vector3.inl
-    ${XCURSES_INC_DIR}/System/Inputtable.h
-    ${XCURSES_SRC_DIR}/System/Inputtable.cpp
     ${XCURSES_INC_DIR}/System/CursorState.h
 )
 

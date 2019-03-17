@@ -1,4 +1,4 @@
-#include <XCurses/System/Inputtable.h>
+#include <XCurses/Graphics/Inputtable.h>
 
 #include <algorithm>
 

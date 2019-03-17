@@ -7,7 +7,7 @@
 #include <XCurses/System/Status.h>
 #include <XCurses/System/Object.h>
 #include <XCurses/System/Vector2.h>
-#include <XCurses/System/Inputtable.h>
+#include <XCurses/Graphics/Inputtable.h>
 #include <XCurses/Graphics/Drawable.h>
 #include <XCurses/Graphics/Behaviour.h>
 #include <XCurses/Graphics/VirtualScreen.h>

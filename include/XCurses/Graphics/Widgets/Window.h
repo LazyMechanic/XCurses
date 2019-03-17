@@ -5,7 +5,6 @@
 
 #include <XCurses/System/Vector2.h>
 #include <XCurses/Graphics/Border.h>
-#include <XCurses/System/Inputtable.h>
 #include <XCurses/Graphics/Container.h>
 
 namespace xcur {
