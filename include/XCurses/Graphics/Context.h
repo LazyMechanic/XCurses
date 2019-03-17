@@ -7,6 +7,7 @@
 #include <XCurses/System/Status.h>
 #include <XCurses/System/Object.h>
 #include <XCurses/System/Vector2.h>
+#include <XCurses/System/Inputtable.h>
 #include <XCurses/Graphics/Drawable.h>
 #include <XCurses/Graphics/Behaviour.h>
 #include <XCurses/Graphics/VirtualScreen.h>
@@ -75,6 +76,19 @@ public:
      * \param position Position relative to widget
      */
     void addToVirtualScreen(Object::Ptr<Widget> widget, const Char& ch, const Vector2u& position);
+
+    /**
+     * \brief Set active inputtable widget
+     * \param inputWidget Widget which need set active. If it is Inputtable::None (nullptr) 
+     * then off cursor
+     */
+    void setActiveInputWidget(Object::Ptr<Inputtable> inputWidget);
+
+    /**
+     * \brief Get active inputtable widget
+     * \return Smart ptr to active inputtable widget
+     */
+    Object::Ptr<Inputtable> getActiveInputWidget() const;
 
     /**
      * \brief Find widget in widget tree

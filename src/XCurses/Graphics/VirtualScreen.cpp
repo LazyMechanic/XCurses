@@ -41,6 +41,18 @@ void VirtualScreen::draw() const
         wrefresh(m_cursesWindow);
         touchwin(m_cursesWindow);
     }
+
+    const auto activeInputWidget = getActiveInputWidget();
+    // If activeInputWidget is not Inputtable::None
+    if (activeInputWidget != nullptr) {
+        wmove(m_cursesWindow, activeInputWidget->getCursorPosition().y, activeInputWidget->getCursorPosition().x);
+        curs_set(activeInputWidget->getCursorState());
+
+    }
+    else {
+        wmove(m_cursesWindow, 0, 0);
+        curs_set(CursorState::Hidden);
+    }
 }
 
 void VirtualScreen::addChar(const Char& ch, const Vector2u& position)
@@ -51,6 +63,16 @@ void VirtualScreen::addChar(const Char& ch, const Vector2u& position)
         m_cursesWindow->_y[position.y][position.x] = ch.toCursesChar();
     }
     m_screenNeedRefresh = true;
+}
+
+void VirtualScreen::setActiveInputWidget(Object::Ptr<Inputtable> inputWidget)
+{
+    m_activeInputWidget = inputWidget;
+}
+
+Object::Ptr<Inputtable> VirtualScreen::getActiveInputWidget() const
+{
+    return m_activeInputWidget.lock();
 }
 
 void VirtualScreen::clear() const

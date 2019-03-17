@@ -3,6 +3,8 @@
 #include <algorithm>
 
 namespace xcur {
+const Object::Ptr<Inputtable> Inputtable::None = nullptr;
+
 Inputtable::Inputtable() :
     m_size(Vector2u::Zero),
     m_cursorPosition(0, 0),
@@ -36,8 +38,13 @@ CursorState Inputtable::getCursorState() const
     return m_cursorState;
 }
 
-bool Inputtable::isActive() const
+void Inputtable::setSize(const Vector2u& size)
 {
-    return m_isActive;
+    m_size = size;
+}
+
+Vector2u Inputtable::getSize() const
+{
+    return m_size;
 }
 }

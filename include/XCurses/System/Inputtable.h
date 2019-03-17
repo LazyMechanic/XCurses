@@ -9,6 +9,11 @@ class Inputtable : public Widget
 {
 public:
     /**
+     * \brief Predefined nullptr Inputtable
+     */
+    static const Object::Ptr<Inputtable> None;
+
+    /**
      * \brief Create Inputtable
      * \return Smart ptr to Inputtable
      */
@@ -45,10 +50,16 @@ public:
     CursorState getCursorState() const;
 
     /**
-     * \brief Get active state
-     * \return True if widget is active, false otherwise
+     * \brief Set widget size
+     * \param size New size
      */
-    bool isActive() const;
+    void setSize(const Vector2u& size);
+
+    /**
+     * \brief Get widget size
+     * \return Size
+     */
+    Vector2u getSize() const;
 
 protected:
     /**
@@ -61,7 +72,6 @@ protected:
      */
     Vector2u m_size;
 
-private:
     /**
      * \brief Current cursor position
      */
@@ -71,10 +81,5 @@ private:
      * \brief Cursor state
      */
     CursorState m_cursorState;
-
-    /**
-     * \brief Is widget active
-     */
-    bool m_isActive;
 };
 }

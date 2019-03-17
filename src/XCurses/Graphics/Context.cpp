@@ -84,6 +84,16 @@ void Context::addToVirtualScreen(Object::Ptr<Widget> widget, const Char& ch, con
     m_virtualScreen->addChar(ch, position);
 }
 
+void Context::setActiveInputWidget(Object::Ptr<Inputtable> inputWidget)
+{
+    m_virtualScreen->setActiveInputWidget(inputWidget);
+}
+
+Object::Ptr<Inputtable> Context::getActiveInputWidget() const
+{
+    return m_virtualScreen->getActiveInputWidget();
+}
+
 bool Context::has(Object::Ptr<Widget> widget) const
 {
     return m_widgetTreeRoot->has(widget);

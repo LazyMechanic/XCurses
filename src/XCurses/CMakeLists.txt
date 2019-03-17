@@ -36,7 +36,7 @@ set(XCURSES_GRAPHICS_SRCS
     ${XCURSES_SRC_DIR}/Graphics/Window.cpp
     ${XCURSES_SRC_DIR}/Graphics/TreeNode.h
     ${XCURSES_SRC_DIR}/Graphics/TreeNode.cpp
-    ${XCURSES_SRC_DIR}/Graphics/VirtualScreen.h
+    ${XCURSES_INC_DIR}/Graphics/VirtualScreen.h
     ${XCURSES_SRC_DIR}/Graphics/VirtualScreen.cpp
 )
 

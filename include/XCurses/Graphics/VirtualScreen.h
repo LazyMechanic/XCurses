@@ -5,6 +5,7 @@
 #include <XCurses/Text/Char.h>
 #include <XCurses/System/Object.h>
 #include <XCurses/System/Vector2.h>
+#include <XCurses/System/Inputtable.h>
 #include <XCurses/Graphics/Drawable.h>
 #include <XCurses/Graphics/Behaviour.h>
 
@@ -48,6 +49,18 @@ public:
     void addChar(const Char& ch, const Vector2u& position);
 
     /**
+     * \brief Set active inputtable widget
+     * \param inputWidget Widget which need set active. If it is Inputtable::None then off cursor
+     */
+    void setActiveInputWidget(Object::Ptr<Inputtable> inputWidget);
+
+    /**
+     * \brief Get active inputtable widget
+     * \return Smart ptr to active inputtable widget
+     */
+    Object::Ptr<Inputtable> getActiveInputWidget() const;
+
+    /**
      * \brief Clear screen
      */
     void clear() const;
@@ -73,6 +86,11 @@ private:
      * \brief Virtual screen size
      */
     Vector2u m_size;
+
+    /**
+     * \brief Active input widget
+     */
+    Object::WeakPtr<Inputtable> m_activeInputWidget;
 
     /**
      * \brief Curses window

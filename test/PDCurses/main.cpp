@@ -91,35 +91,11 @@ void main() {
                 wrefresh(win1);
                 touchwin(win1);
             }
+            if (inputChar == 'm') {
+                wmove(win1, 10, 10);
+            }
         }
         //myClear(win1);
-
-        wclear(win1);
-
-        if (inputChar != ERR) {
-            wmove(win1, row, column);
-            waddch(win1, inputChar & A_CHARTEXT);
-            row = getcury(win1);
-            column = getcurx(win1);
-        }
-
-        //win1->_y[20][1] = 'H';
-        //win1->_y[20][2] = 'E';
-        //win1->_y[20][3] = 'L';
-        //win1->_y[20][4] = 'L';
-        //win1->_y[20][5] = 'O';
-        //win1->_y[20][6] = '_';
-        //win1->_y[20][7] = 'W';
-        //win1->_y[20][8] = 'O';
-        //win1->_y[20][9] = 'R';
-        //win1->_y[20][10] = 'L';
-        //win1->_y[20][11] = 'D';
-
-        mvwaddstr(win1, 20, 1, "HELLO_WORLD");
-        wmove(win1, row, column);
-
-        //wrefresh(win1);
-        //touchwin(win1);
     }
     endwin();
 }

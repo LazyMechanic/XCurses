@@ -3,8 +3,8 @@
 namespace xcur {
 enum CursorState
 {
-    Normal = 0,     // Usually an underline
-    Highlighted,    // Usually an block
-    Hidden
+    Hidden = 0,
+    Normal = 1,         // Usually an underline
+    Highlighted = 2,    // Usually an block
 };
 }
