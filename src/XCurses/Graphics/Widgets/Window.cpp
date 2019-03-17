@@ -1,4 +1,4 @@
-#include <XCurses/Graphics/Window.h>
+#include <XCurses/Graphics/Widgets/Window.h>
 
 #include <algorithm>
 

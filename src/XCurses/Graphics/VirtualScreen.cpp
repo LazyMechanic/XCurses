@@ -37,7 +37,7 @@ void VirtualScreen::update(float dt)
 
     const auto activeInputWidget = getActiveInputWidget();
     // If activeInputWidget is not Inputtable::None
-    if (activeInputWidget != nullptr) {
+    if (activeInputWidget != Inputtable::None) {
         Vector2u endPosition = activeInputWidget->getCursorPosition();
         auto parent = activeInputWidget->getParent();
         // Pass through all parent widgets
@@ -94,5 +94,10 @@ void VirtualScreen::resize(const Vector2u& size)
 {
     wresize(m_cursesWindow, size.y, size.x);
     m_size = Vector2u(m_cursesWindow->_maxx, m_cursesWindow->_maxy);
+}
+
+_win* VirtualScreen::getCursesWindow() const
+{
+    return m_cursesWindow;
 }
 }

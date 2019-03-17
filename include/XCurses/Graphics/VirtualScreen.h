@@ -71,6 +71,12 @@ public:
      */
     void resize(const Vector2u& size);
 
+    /**
+     * \brief Get ptr to curses window
+     * \return Ptr to curses window
+     */
+    _win* getCursesWindow() const;
+
 private:
     /**
      * \brief Default VirtualScreen constructor. Construct window with terminal size

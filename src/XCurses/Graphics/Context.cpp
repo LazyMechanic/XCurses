@@ -6,7 +6,6 @@
 
 #include <XCurses/System/Input.h>
 #include <XCurses/Graphics/Widget.h>
-#include <XCurses/Graphics/Window.h>
 #include <XCurses/Graphics/TreeNode.h>
 #include <XCurses/Graphics/Container.h>
 #include <XCurses/Graphics/ContextSystem.h>
@@ -27,7 +26,7 @@ Context::Context() :
 
 void Context::handleEvents() const
 {
-    // TODO: Context::handleEvents()
+    Input::handleEvents(m_virtualScreen);
 }
 
 void Context::update(float dt)

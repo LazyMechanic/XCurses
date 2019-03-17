@@ -32,12 +32,14 @@ set(XCURSES_GRAPHICS_SRCS
     ${XCURSES_SRC_DIR}/Graphics/Drawable.cpp
     ${XCURSES_INC_DIR}/Graphics/Widget.h
     ${XCURSES_SRC_DIR}/Graphics/Widget.cpp
-    ${XCURSES_INC_DIR}/Graphics/Window.h
-    ${XCURSES_SRC_DIR}/Graphics/Window.cpp
     ${XCURSES_SRC_DIR}/Graphics/TreeNode.h
     ${XCURSES_SRC_DIR}/Graphics/TreeNode.cpp
     ${XCURSES_INC_DIR}/Graphics/VirtualScreen.h
     ${XCURSES_SRC_DIR}/Graphics/VirtualScreen.cpp
+    ${XCURSES_INC_DIR}/Graphics/Widgets/Window.h
+    ${XCURSES_SRC_DIR}/Graphics/Widgets/Window.cpp
+    ${XCURSES_INC_DIR}/Graphics/Widgets/Title.h
+    ${XCURSES_SRC_DIR}/Graphics/Widgets/Title.cpp
 )
 
 set(XCURSES_SYSTEM_SRCS

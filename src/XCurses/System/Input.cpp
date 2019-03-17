@@ -9,11 +9,13 @@ Char Input::m_pressedChar(ERR);
 
 void Input::handleEvents(Object::Ptr<VirtualScreen> screen)
 {
-    if (screen == nullptr) {
-        m_pressedChar = wgetch(stdscr);
+    if (screen != nullptr) {
+        do {
+            m_pressedChar = wgetch(screen->getCursesWindow());
+        } while (m_pressedChar != Char::Err);
     }
     else {
-        
+        m_pressedChar = Char::Err;
     }
 }
 

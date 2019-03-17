@@ -1,6 +1,5 @@
 #include <XCurses/Graphics/Widget.h>
 
-#include <XCurses/Graphics/Window.h>
 #include <XCurses/Graphics/Context.h>
 #include <XCurses/Graphics/Container.h>
 
