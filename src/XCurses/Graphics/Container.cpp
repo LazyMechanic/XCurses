@@ -10,27 +10,47 @@ Object::Ptr<Container> Container::create()
     return std::shared_ptr<Container>(new Container());
 }
 
-void Container::update(float dt)
+Object::Ptr<Container> Container::create(const Vector2u& position)
 {
-    /* full virtual func */
+    return std::shared_ptr<Container>(new Container(position));
 }
 
-void Container::draw()
+Object::Ptr<Container> Container::create(const Vector2u& position, Object::Ptr<Container> parent)
 {
-    /* full virtual func */
+    return std::shared_ptr<Container>(new Container(position, parent));
 }
 
-void Container::setPosition(const Vector2u& newPos)
+Object::Ptr<Container> Container::create(const Vector2u& position, Object::Ptr<Context> context)
 {
-    Widget::setPosition(newPos);
-    for (auto& child : m_childWidgets) {
-        child->setPosition(newPos);
-    }
+    return std::shared_ptr<Container>(new Container(position, context));
 }
 
-void Container::move(const Vector2u& deltaPos)
+Object::Ptr<Container> Container::create(
+    const Vector2u& position,
+    Object::Ptr<Container> parent,
+    Object::Ptr<Context> context)
 {
-    setPosition(getPosition() + deltaPos);
+    return std::shared_ptr<Container>(new Container(position, parent, context));
+}
+
+Container::Container(const Vector2u& position) :
+    Widget(position)
+{
+}
+
+Container::Container(const Vector2u& position, Object::Ptr<Container> parent) :
+    Widget(position, parent)
+{
+}
+
+Container::Container(const Vector2u& position, Object::Ptr<Context> context) :
+    Widget(position, context)
+{
+}
+
+Container::Container(const Vector2u& position, Object::Ptr<Container> parent, Object::Ptr<Context> context) :
+    Widget(position, parent, context)
+{
 }
 
 Status Container::add(Object::Ptr<Widget> widget)
@@ -94,6 +114,16 @@ std::list<Object::Ptr<Widget>>::const_iterator Container::begin() const
 std::list<Object::Ptr<Widget>>::const_iterator Container::end() const
 {
     return m_childWidgets.end();
+}
+
+std::list<Object::Ptr<Widget>>::const_reverse_iterator Container::rbegin() const
+{
+    return m_childWidgets.rbegin();
+}
+
+std::list<Object::Ptr<Widget>>::const_reverse_iterator Container::rend() const
+{
+    return m_childWidgets.rend();
 }
 
 std::list<Object::Ptr<Widget>>::const_iterator Container::find(Object::Ptr<Widget> widget) const

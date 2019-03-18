@@ -6,40 +6,40 @@
 
 #include <XCurses/System/Input.h>
 #include <XCurses/Graphics/Widget.h>
-#include <XCurses/Graphics/Window.h>
 #include <XCurses/Graphics/TreeNode.h>
 #include <XCurses/Graphics/Container.h>
-#include <XCurses/Graphics/RootWindow.h>
 #include <XCurses/Graphics/ContextSystem.h>
 
 namespace xcur {
 Object::Ptr<Context> Context::create()
 {
-    return std::shared_ptr<Context>(new Context());
+    auto context = std::shared_ptr<Context>(new Context());
+    context->m_rootContainer->setContext(context);
+    return context;
 }
 
 Context::Context() :
-    m_rootWindow(detail::RootWindow::create()),
-    m_widgetTreeRoot(detail::TreeNode::create(m_rootWindow))
+    m_rootContainer(Container::create()),
+    m_virtualScreen(VirtualScreen::create()),
+    m_widgetTreeRoot(detail::TreeNode::create(m_rootContainer))
 {
 }
 
-void Context::handleEvents()
+void Context::handleEvents() const
 {
-    // TODO: fill handleEvents() function
+    Input::handleEvents(m_virtualScreen);
 }
 
 void Context::update(float dt)
 {
+    m_virtualScreen->update(dt);
     m_widgetTreeRoot->update(dt);
 }
 
-void Context::draw()
+void Context::draw() const
 {
-    wclear(stdscr);
     m_widgetTreeRoot->draw();
-    refreshWindows();
-    doupdate();
+    m_virtualScreen->draw();
 }
 
 Status Context::add(Object::Ptr<Widget> widget)
@@ -67,14 +67,43 @@ Status Context::remove(Object::Ptr<Widget> widget)
         return Status::Err;
     }
 
-    // If widget parent is root widget of context
-    if (widget->getParent() == m_rootWindow) {
-        m_rootWindow->remove(widget);
-    }
-
     foundNode->getParent()->remove(widget);
     widget->setContext(nullptr);
     return Status::Ok;
+}
+
+void Context::addToVirtualScreen(Object::Ptr<Widget> widget, const Char& ch, const Vector2u& position)
+{
+    Vector2u endPosition = position;
+    auto parent = widget->getParent();
+    // Pass through all parent widgets
+    while (parent != nullptr) {
+        endPosition += parent->getPosition();
+        parent = parent->getParent();
+    }
+    m_virtualScreen->addChar(ch, position);
+}
+
+void Context::addToVirtualScreen(Object::PtrConst<Widget> widget, const Char& ch, const Vector2u& position)
+{
+    Vector2u endPosition = position;
+    auto parent = widget->getParent();
+    // Pass through all parent widgets
+    while (parent != nullptr) {
+        endPosition += parent->getPosition();
+        parent = parent->getParent();
+    }
+    m_virtualScreen->addChar(ch, position);
+}
+
+void Context::setActiveInputWidget(Object::Ptr<Inputtable> inputWidget)
+{
+    m_virtualScreen->setActiveInputWidget(inputWidget);
+}
+
+Object::Ptr<Inputtable> Context::getActiveInputWidget() const
+{
+    return m_virtualScreen->getActiveInputWidget();
 }
 
 bool Context::has(Object::Ptr<Widget> widget) const
@@ -89,11 +118,6 @@ void Context::widgetToFront(Object::Ptr<Widget> widget) const
     if (foundNode != nullptr) {
         foundNode->getParent()->widgetToFront(widget);
     }
-}
-
-void Context::addWindowToRefresh(Object::Ptr<Window> window)
-{
-    m_windowsToRefresh.emplace_back(window);
 }
 
 void Context::setContextSystem(Object::Ptr<ContextSystem> contextSystem)
@@ -131,24 +155,11 @@ Status Context::addSingleWidget(Object::Ptr<Widget> widget)
         parent->add(widget);
     }
     else {
-        m_rootWindow->add(widget);
         m_widgetTreeRoot->add(widget);
+        m_rootContainer->add(widget);
     }
     widget->setContext(shared_from_this());
 
     return Status::Ok;
-}
-
-void Context::refreshWindows()
-{
-    for (const auto& window : m_windowsToRefresh) {
-        auto sharedWindow = window.lock();
-        // If window still exists
-        if (sharedWindow != nullptr) {
-            touchwin(sharedWindow->getCursesWin());
-            wnoutrefresh(sharedWindow->getCursesWin());
-        }
-    }
-    m_windowsToRefresh.clear();
 }
 }

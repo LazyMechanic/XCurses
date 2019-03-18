@@ -1,9 +1,11 @@
 #pragma once
 
-#include <XCurses/Graphics/Window.h>
+#include <XCurses/System/Object.h>
+#include "XCurses/Graphics/VirtualScreen.h"
 
 namespace xcur {
 class Char;
+class Window;
 
 class Input
 {
@@ -11,7 +13,7 @@ public:
     /**
      * \brief Update m_pressedChar
      */
-    static void handleEvents();
+    static void handleEvents(Object::Ptr<VirtualScreen> screen);
 
     /**
      * \brief Get pressed key

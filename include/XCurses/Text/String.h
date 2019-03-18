@@ -574,6 +574,18 @@ public:
     static bool isFullEqual(const String& left, const String& right);
 
     /**
+     * \brief Convert String to uint32_t* (curses string)
+     * \return Curses string
+     */
+    uint32_t* toCursesString();
+
+    /**
+     * \brief Convert String to const uint32_t* (curses string)
+     * \return Const curses string
+     */
+    const uint32_t* toCursesString() const;
+
+    /**
      * \brief Convert String to std::string (ansi string).
      * Characters that do not fit in the target encoding are
      * discarded from the returned string.

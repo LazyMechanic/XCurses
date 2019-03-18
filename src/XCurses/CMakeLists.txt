@@ -1,4 +1,4 @@
-set(LIBS_DIR ${PROJECT_DIR}/lib/${SYSTEM_BIT_POSTFIX})
+set(XCURSES_LIBS_DIR ${PROJECT_DIR}/lib/${SYSTEM_BIT_POSTFIX})
 set(XCURSES_OUTPUT_DIR ${PROJECT_DIR}/bin/${SYSTEM_BIT_POSTFIX})
 
 set(XCURSES_INC_DIR ${PROJECT_DIR}/include/XCurses)
@@ -13,6 +13,7 @@ endif (UNIX)
 
 set(XCURSES_GRAPHICS_SRCS
     ${XCURSES_INC_DIR}/Graphics/Behaviour.h
+    ${XCURSES_SRC_DIR}/Graphics/Behaviour.cpp
     ${XCURSES_INC_DIR}/Graphics/Border.h
     ${XCURSES_SRC_DIR}/Graphics/Border.cpp
     ${XCURSES_INC_DIR}/Graphics/Color.h
@@ -28,16 +29,19 @@ set(XCURSES_GRAPHICS_SRCS
     ${XCURSES_INC_DIR}/Graphics/ContextSystem.h
     ${XCURSES_SRC_DIR}/Graphics/ContextSystem.cpp
     ${XCURSES_INC_DIR}/Graphics/Drawable.h
-    ${XCURSES_INC_DIR}/Graphics/HasWindow.h
-    ${XCURSES_SRC_DIR}/Graphics/HasWindow.cpp
+    ${XCURSES_SRC_DIR}/Graphics/Drawable.cpp
     ${XCURSES_INC_DIR}/Graphics/Widget.h
     ${XCURSES_SRC_DIR}/Graphics/Widget.cpp
-    ${XCURSES_INC_DIR}/Graphics/Window.h
-    ${XCURSES_SRC_DIR}/Graphics/Window.cpp
     ${XCURSES_SRC_DIR}/Graphics/TreeNode.h
     ${XCURSES_SRC_DIR}/Graphics/TreeNode.cpp
-    ${XCURSES_SRC_DIR}/Graphics/RootWindow.h
-    ${XCURSES_SRC_DIR}/Graphics/RootWindow.cpp
+    ${XCURSES_INC_DIR}/Graphics/VirtualScreen.h
+    ${XCURSES_SRC_DIR}/Graphics/VirtualScreen.cpp
+    ${XCURSES_INC_DIR}/Graphics/Inputtable.h
+    ${XCURSES_SRC_DIR}/Graphics/Inputtable.cpp
+    ${XCURSES_INC_DIR}/Graphics/Widgets/Window.h
+    ${XCURSES_SRC_DIR}/Graphics/Widgets/Window.cpp
+    ${XCURSES_INC_DIR}/Graphics/Widgets/Title.h
+    ${XCURSES_SRC_DIR}/Graphics/Widgets/Title.cpp
 )
 
 set(XCURSES_SYSTEM_SRCS
@@ -46,8 +50,10 @@ set(XCURSES_SYSTEM_SRCS
     ${XCURSES_SRC_DIR}/System/Object.cpp
     ${XCURSES_INC_DIR}/System/Core.h
     ${XCURSES_SRC_DIR}/System/Core.cpp
-    ${XCURSES_INC_DIR}/System/CoreConfig.h
-    ${XCURSES_SRC_DIR}/System/CoreConfig.cpp
+    ${XCURSES_INC_DIR}/System/Curses.h
+    ${XCURSES_SRC_DIR}/System/Curses.cpp
+    ${XCURSES_INC_DIR}/System/CursesConfig.h
+    ${XCURSES_SRC_DIR}/System/CursesConfig.cpp
     ${XCURSES_INC_DIR}/System/Input.h
     ${XCURSES_SRC_DIR}/System/Input.cpp
     ${XCURSES_INC_DIR}/System/Status.h
@@ -57,6 +63,7 @@ set(XCURSES_SYSTEM_SRCS
     ${XCURSES_INC_DIR}/System/Vector2.inl
     ${XCURSES_INC_DIR}/System/Vector3.h
     ${XCURSES_INC_DIR}/System/Vector3.inl
+    ${XCURSES_INC_DIR}/System/CursorState.h
 )
 
 set(XCURSES_TEXT_SRCS
@@ -76,7 +83,7 @@ set(XCURSES_SRCS
 )
 
 set(XCURSES_LIBS
-    ${LIBS_DIR}/pdcurses.lib
+    ${XCURSES_LIBS_DIR}/pdcurses.lib
 )
 
 add_library(XCurses STATIC 

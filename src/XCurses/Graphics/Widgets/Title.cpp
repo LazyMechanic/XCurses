@@ -1,5 +1,7 @@
 #include <XCurses/Graphics/Widgets/Title.h>
 
+#include <XCurses/Graphics/Context.h>
+
 namespace xcur {
 Object::Ptr<Title> Title::create(const String& str)
 {
@@ -7,6 +9,7 @@ Object::Ptr<Title> Title::create(const String& str)
 }
 
 Title::Title(const String& str) :
+    Widget(Vector2u(0, 2)),
     m_string(str)
 {
 }
@@ -21,18 +24,11 @@ String Title::getString() const
     return m_string;
 }
 
-void Title::draw()
+void Title::draw() const
 {
-    const auto window = getWindow();
-    if (window != nullptr) {
-        Vector2u position(1, 0);
-        window->addChar(' ', position);
-        position.x++;
-        for (const auto& ch : m_string) {
-            window->addChar(ch, position);
-            position.x++;
-        }
-        window->addChar(' ', position);
+    auto context = getContext();
+    if (context != nullptr) {
+        context->addToVirtualScreen(shared_from_this(), ' ', m_position);
     }
 }
 }

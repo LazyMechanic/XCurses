@@ -1,13 +1,36 @@
 #include <XCurses/Graphics/Widget.h>
 
-#include <XCurses/Graphics/Window.h>
 #include <XCurses/Graphics/Context.h>
 #include <XCurses/Graphics/Container.h>
 
 namespace xcur {
-Object::Ptr<Widget> Widget::create()
+Widget::Widget() :
+    m_position(Vector2u::Zero)
 {
-    return std::shared_ptr<Widget>(new Widget());
+}
+
+Widget::Widget(const Vector2u& position) :
+    m_position(position)
+{
+}
+
+Widget::Widget(const Vector2u& position, Object::Ptr<Container> parent) :
+    m_position(position),
+    m_parent(parent)
+{
+}
+
+Widget::Widget(const Vector2u& position, Object::Ptr<Context> context) :
+    m_position(position),
+    m_context(context)
+{
+}
+
+Widget::Widget(const Vector2u& position, Object::Ptr<Container> parent, Object::Ptr<Context> context) :
+    m_position(position),
+    m_parent(parent),
+    m_context(context)
+{
 }
 
 Widget::~Widget()
@@ -16,16 +39,6 @@ Widget::~Widget()
     if (getContext() != nullptr) {
         getContext()->remove(shared_from_this());
     }
-}
-
-void Widget::update(float dt)
-{
-    /* full virtual func */
-}
-
-void Widget::draw()
-{
-    /* full virtual func */
 }
 
 void Widget::setPosition(const Vector2u& newPos)

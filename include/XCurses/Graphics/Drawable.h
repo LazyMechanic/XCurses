@@ -16,6 +16,6 @@ public:
     /**
      * \brief Call function for draw the object
      */
-    virtual void draw() = 0;
+    virtual void draw() const;
 };
 }

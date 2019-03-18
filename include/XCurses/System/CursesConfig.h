@@ -6,15 +6,15 @@
 
 namespace xcur {
 /**
- * \brief Config of core
+ * \brief Config of curses
  */
-class CoreConfig
+class CursesConfig
 {
 public:
     /**
      * \brief Default config constructor
      */
-    CoreConfig();
+    CursesConfig();
 
     /**
      * \brief Construct config with specific params
@@ -27,7 +27,7 @@ public:
      * \param enableKeypadMode Keypad mode state
      * \param enableInputDelay Delay mode state
      */
-    CoreConfig(
+    CursesConfig(
         const Vector2u& terminalSize,
         uint32_t inputDelay,
         bool enableCBreakMode,
@@ -41,7 +41,7 @@ public:
     /**
      * \brief Default predefined config
      */
-    static const CoreConfig Default;
+    static const CursesConfig Default;
 
     /**
      * \brief Terminal size.
@@ -57,32 +57,41 @@ public:
     /**
      * \brief CBreak mode state
      */
-    bool enableCBreakMode;
+    bool isCBreakEnable;
 
     /**
      * \brief Echo mode state
      */
-    bool enableEchoMode;
+    bool isEchoEnable;
 
     /**
      * \brief Raw mode state
      */
-    bool enableRawMode;
+    bool isRawEnable;
 
     /**
      * \brief NewLine mode state
      */
-    bool enableNewLineMode;
+    bool isNewLineEnable;
 
     /**
      * \brief Keypad mode state
      */
-    bool enableKeypadMode;
+    bool isKeypadEnable;
 
     /**
      * \brief Input delay mode state
      */
-    bool enableInputDelay;
+    bool isInputDelayEnable;
 
+    /**
+     * \brief Curses state. True if Curses::init() was called (equal initscr() in curses)
+     */
+    bool isInit;
+
+    /**
+     * \brief Curses mode state
+     */
+    bool isStop;
 };
 }

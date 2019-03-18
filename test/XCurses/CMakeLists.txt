@@ -6,26 +6,26 @@ file(GLOB SRC_FILES ${TEST_SRC_DIR}/Test*.cpp)
 foreach(SRC_FILE ${SRC_FILES})
     get_filename_component(FILE_BASENAME ${SRC_FILE} NAME_WE)
 
-	add_executable(${FILE_BASENAME}
-		${SRC_FILE}
-	)
+    add_executable(${FILE_BASENAME}
+        ${SRC_FILE}
+    )
 
-	add_test(
-		NAME ${FILE_BASENAME}
-		COMMAND ${FILE_BASENAME}
-	)
+    add_test(
+        NAME ${FILE_BASENAME}
+        COMMAND ${FILE_BASENAME}
+    )
 
-	set_target_properties(${FILE_BASENAME} PROPERTIES
-		RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIR}
-	)
+    set_target_properties(${FILE_BASENAME} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIR}
+    )
 
-	target_link_libraries(${FILE_BASENAME} 
-		XCurses
-		${LIBS_DIR}/pdcurses.lib
-	)
+    target_link_libraries(${FILE_BASENAME} 
+        XCurses
+        ${LIBS_DIR}/pdcurses.lib
+    )
 
-	target_include_directories(${FILE_BASENAME} 
-		PRIVATE ${PROJECT_SRC_DIR}
-		PUBLIC ${PROJECT_INC_DIR}
-	)
+    target_include_directories(${FILE_BASENAME} 
+        PRIVATE ${PROJECT_SRC_DIR}
+        PUBLIC ${PROJECT_INC_DIR}
+    )
 endforeach()

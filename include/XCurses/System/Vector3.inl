@@ -1,3 +1,6 @@
+template <typename T>
+const Vector3<T> Vector3<T>::Zero = Vector3<T>(0, 0);
+
 template<typename T>
 Vector3<T>::Vector3() :
     x(0),

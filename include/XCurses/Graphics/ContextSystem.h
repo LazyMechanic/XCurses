@@ -4,6 +4,8 @@
 
 #include <XCurses/System/Status.h>
 #include <XCurses/System/Object.h>
+#include <XCurses/Graphics/Drawable.h>
+#include <XCurses/Graphics/Behaviour.h>
 
 namespace xcur {
 class Core;
@@ -15,6 +17,8 @@ class Context;
  */
 class ContextSystem : 
     public Object,
+    public Drawable,
+    public Behaviour,
     public std::enable_shared_from_this<ContextSystem>
 {
 public:
@@ -38,12 +42,12 @@ public:
      * \brief Update current context state
      * \param dt Delta time
      */
-    void update(float dt) const;
+    void update(float dt) override;
 
     /**
      * \brief Draw current context state
      */
-    void draw() const;
+    void draw() const override;
     
     /**
      * \brief Add new context and set it as current

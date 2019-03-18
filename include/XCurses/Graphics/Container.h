@@ -14,38 +14,65 @@ class Container :
 {
 public:
     /**
-     * \brief Create Container
+     * \brief std::list<Object::Ptr<Widget>>::iterator alias
+     */
+    using Iterator = std::list<Object::Ptr<Widget>>::iterator;
+
+    /**
+     * \brief std::list<Object::Ptr<Widget>>::const_iterator alias
+     */
+    using ConstIterator = std::list<Object::Ptr<Widget>>::const_iterator;
+
+    /**
+     * \brief std::list<Object::Ptr<Widget>>::reverse_iterator alias
+     */
+    using ReverseIterator = std::list<Object::Ptr<Widget>>::reverse_iterator;
+
+    /**
+     * \brief std::list<Object::Ptr<Widget>>::const_reverse_iterator alias
+     */
+    using ConstReverseIterator = std::list<Object::Ptr<Widget>>::const_reverse_iterator;
+
+    /**
+     * \brief Create Container with zero position
      * \return Smart ptr to Container
      */
     static Object::Ptr<Container> create();
 
     /**
+     * \brief Create Container with default position
+     */
+    static Object::Ptr<Container> create(const Vector2u& position);
+
+    /**
+     * \brief Create Container with default position and
+     * set parent
+     * \param position Position
+     * \param parent Smart ptr to parent container
+     */
+    static Object::Ptr<Container> create(const Vector2u& position, Object::Ptr<Container> parent);
+
+    /**
+     * \brief Create Container with default position and
+     * set context
+     * \param position Position
+     * \param context Smart ptr to context
+     */
+    static Object::Ptr<Container> create(const Vector2u& position, Object::Ptr<Context> context);
+
+    /**
+     * \brief Create Container with default position and
+     * set parent and context
+     * \param position Position
+     * \param parent Smart ptr to parent container
+     * \param context Smart ptr to context
+     */
+    static Object::Ptr<Container> create(const Vector2u& position, Object::Ptr<Container> parent, Object::Ptr<Context> context);
+
+    /**
      * \brief Container destructor
      */
     virtual ~Container() = default;
-
-    /**
-     * \brief Call for update object state
-     * \param dt Delta time
-     */
-    virtual void update(float dt) override;
-
-    /**
-     * \brief Call function for draw the object
-     */
-    virtual void draw() override;
-
-    /**
-     * \brief Set position. Update positions all child widgets
-     * \param newPos New position
-     */
-    void setPosition(const Vector2u& newPos) override;
-
-    /**
-     * \brief Set position. New position = Old position + deltaPos. Update positions all child widgets
-     * \param deltaPos Delta position
-     */
-    void move(const Vector2u& deltaPos) override;
 
     /**
      * \brief Add widget to container
@@ -78,26 +105,68 @@ public:
      * \brief Begin const iterator of child widgets
      * \return Begin const iterator
      */
-    std::list<Object::Ptr<Widget>>::const_iterator begin() const;
+    ConstIterator begin() const;
 
     /**
      * \brief End const iterator of child widgets
      * \return End const iterator
      */
-    std::list<Object::Ptr<Widget>>::const_iterator end() const;
+    ConstIterator end() const;
+
+    /**
+     * \brief Begin const reverse iterator of child widgets
+     * \return Begin const reverse iterator
+     */
+    ConstReverseIterator rbegin() const;
+
+    /**
+     * \brief End const reverse iterator of child widgets
+     * \return End const reverse iterator
+     */
+    ConstReverseIterator rend() const;
 
     /**
      * \brief Find widget in child widgets
      * \param widget Widget
      * \return Const iterator
      */
-    std::list<Object::Ptr<Widget>>::const_iterator find(Object::Ptr<Widget> widget) const;
+    ConstIterator find(Object::Ptr<Widget> widget) const;
 
 protected:
     /**
      * \brief Default Container constructor
      */
     Container() = default;
+
+    /**
+     * \brief Container constructor. Construct it with default position
+     */
+    explicit Container(const Vector2u& position);
+
+    /**
+     * \brief Container constructor. Construct it with default position and
+     * set parent
+     * \param position Position
+     * \param parent Smart ptr to parent container
+     */
+    Container(const Vector2u& position, Object::Ptr<Container> parent);
+
+    /**
+     * \brief Container constructor. Construct it with default position and
+     * set context
+     * \param position Position
+     * \param context Smart ptr to context
+     */
+    Container(const Vector2u& position, Object::Ptr<Context> context);
+
+    /**
+     * \brief Container constructor. Construct it with default position and
+     * set parent and context
+     * \param position Position
+     * \param parent Smart ptr to parent container
+     * \param context Smart ptr to context
+     */
+    Container(const Vector2u& position, Object::Ptr<Container> parent, Object::Ptr<Context> context);
 
     /**
      * \brief List of child widgets

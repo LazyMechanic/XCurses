@@ -3,15 +3,18 @@
 #include <list>
 #include <memory>
 
+#include <XCurses/Text/Char.h>
 #include <XCurses/System/Status.h>
 #include <XCurses/System/Object.h>
+#include <XCurses/System/Vector2.h>
+#include <XCurses/Graphics/Inputtable.h>
 #include <XCurses/Graphics/Drawable.h>
 #include <XCurses/Graphics/Behaviour.h>
+#include <XCurses/Graphics/VirtualScreen.h>
 
 namespace xcur {
 namespace detail {
 class TreeNode;
-class RootWindow;
 }
 class Widget;
 class Window;
@@ -37,7 +40,7 @@ public:
     /**
      * \brief Handle input events
      */
-    void handleEvents();
+    void handleEvents() const;
 
     /**
      * \brief Goes through all components and call his \a update() function
@@ -48,7 +51,7 @@ public:
     /**
      * \brief Goes through all components and call his \a draw() function
      */
-    void draw() override final;
+    void draw() const override final;
 
     /**
      * \brief Add widget. Set context ptr and add to \a update() and \a draw() queues.
@@ -67,6 +70,35 @@ public:
     Status remove(Object::Ptr<Widget> widget);
 
     /**
+     * \brief Add character to virtual screen for draw
+     * \param widget Widget for which need draw character
+     * \param ch Character
+     * \param position Position relative to widget
+     */
+    void addToVirtualScreen(Object::Ptr<Widget> widget, const Char& ch, const Vector2u& position);
+
+    /**
+     * \brief Add character to virtual screen for draw
+     * \param widget Widget for which need draw character
+     * \param ch Character
+     * \param position Position relative to widget
+     */
+    void addToVirtualScreen(Object::PtrConst<Widget> widget, const Char& ch, const Vector2u& position);
+
+    /**
+     * \brief Set active inputtable widget
+     * \param inputWidget Widget which need set active. If it is Inputtable::None (nullptr) 
+     * then off cursor
+     */
+    void setActiveInputWidget(Object::Ptr<Inputtable> inputWidget);
+
+    /**
+     * \brief Get active inputtable widget
+     * \return Smart ptr to active inputtable widget
+     */
+    Object::Ptr<Inputtable> getActiveInputWidget() const;
+
+    /**
      * \brief Find widget in widget tree
      * \param widget Widget
      * \return True if context has widget, false otherwise
@@ -80,14 +112,8 @@ public:
     void widgetToFront(Object::Ptr<Widget> widget) const;
 
     /**
-     * \brief Add window to refresh queue. After call all draw functions will call
-     * wnoutrefresh() for all windows
-     * \param window 
-     */
-    void addWindowToRefresh(Object::Ptr<Window> window);
-
-    /**
-     * \brief Set context system
+     * \brief Set context system.
+     * Do not need use manually
      * \param contextSystem Context system
      */
     void setContextSystem(Object::Ptr<ContextSystem> contextSystem);
@@ -105,20 +131,20 @@ protected:
     Context();
 
     /**
-     * \brief Root window
+     * \brief Root container
      */
-    Object::Ptr<detail::RootWindow> m_rootWindow;
+    Object::Ptr<Container> m_rootContainer;
+
+    /**
+     * \brief Buffer for all chars for drawing
+     */
+    Object::Ptr<VirtualScreen> m_virtualScreen;
 
     /**
      * \brief Widget tree root node. Need for call \a update() and \a draw() functions 
      * in the correct sequence
      */
     Object::Ptr<detail::TreeNode> m_widgetTreeRoot;
-
-    /**
-     * \brief Windows to refresh
-     */
-    std::list<Object::WeakPtr<Window>> m_windowsToRefresh;
 
     /**
      * \brief Ptr to context system
@@ -139,10 +165,5 @@ private:
      * \return Ok if remove successful, Err otherwise
      */
     Status addSingleWidget(Object::Ptr<Widget> widget);
-
-    /**
-     * \brief Refresh all windows
-     */
-    void refreshWindows();
 };
 }

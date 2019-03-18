@@ -20,56 +20,39 @@ class Widget :
 {
 public:
     /**
-     * \brief Create Widget
-     * \return Smart ptr to Widget
-     */
-    static Object::Ptr<Widget> create();
-
-    /**
      * \brief Widget destructor
      */
     virtual ~Widget();
 
     /**
-     * \brief Call for update object state
-     * \param dt Delta time
-     */
-    virtual void update(float dt) override;
-
-    /**
-     * \brief Call function for draw the object
-     */
-    virtual void draw() override;
-
-    /**
      * \brief Set position
      * \param newPos New position
      */
-    virtual void setPosition(const Vector2u& newPos);
+    void setPosition(const Vector2u& newPos);
 
     /**
      * \brief Set position. New position = Old position + deltaPos
      * \param deltaPos Delta position
      */
-    virtual void move(const Vector2u& deltaPos);
+    void move(const Vector2u& deltaPos);
 
     /**
      * \brief Get position x component
      * \return X coordinate
      */
-    virtual uint32_t getPositionX() const;
+    uint32_t getPositionX() const;
 
     /**
      * \brief Get position y component
      * \return Y coordinate
      */
-    virtual uint32_t getPositionY() const;
+    uint32_t getPositionY() const;
 
     /**
      * \brief Get position
      * \return Position
      */
-    virtual Vector2u getPosition() const;
+    Vector2u getPosition() const;
 
     /**
      * \brief Put widget to front relatively parent
@@ -77,7 +60,8 @@ public:
     void toFront();
 
     /**
-     * \brief Set parent widget container
+     * \brief Set parent widget container.
+     * Do not need use manually
      * \param parent Parent widget container
      */
     void setParent(Object::Ptr<Container> parent);
@@ -89,7 +73,8 @@ public:
     Object::Ptr<Container> getParent() const;
 
     /**
-     * \brief Set context
+     * \brief Set context.
+     * Do not need use manually
      * \param context Context
      */
     void setContext(Object::Ptr<Context> context);
@@ -104,17 +89,47 @@ protected:
     /**
      * \brief Default Widget constructor
      */
-    Widget() = default;
+    Widget();
 
     /**
-     * \brief Smart ptr to parent widget
+     * \brief Widget constructor. Construct it with default position
      */
-    Object::WeakPtr<Container> m_parent;
+    explicit Widget(const Vector2u& position);
+
+    /**
+     * \brief Widget constructor. Construct it with default position and
+     * set parent
+     * \param position Position
+     * \param parent Smart ptr to parent container
+     */
+    Widget(const Vector2u& position, Object::Ptr<Container> parent);
+
+    /**
+     * \brief Widget constructor. Construct it with default position and
+     * set context
+     * \param position Position
+     * \param context Smart ptr to context
+     */
+    Widget(const Vector2u& position, Object::Ptr<Context> context);
+
+    /**
+     * \brief Widget constructor. Construct it with default position and
+     * set parent and context
+     * \param position Position
+     * \param parent Smart ptr to parent container
+     * \param context Smart ptr to context
+     */
+    Widget(const Vector2u& position, Object::Ptr<Container> parent, Object::Ptr<Context> context);
 
     /**
      * \brief Widget position
      */
     Vector2u m_position;
+
+    /**
+     * \brief Smart ptr to parent widget
+     */
+    Object::WeakPtr<Container> m_parent;
 
     /**
      * \brief Smart ptr to context
