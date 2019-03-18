@@ -1,9 +1,11 @@
 #pragma once
 
-#include <list>
 #include <memory>
 
+#include <XCurses/Text/String.h>
+
 #include <XCurses/System/Vector2.h>
+
 #include <XCurses/Graphics/Border.h>
 #include <XCurses/Graphics/Container.h>
 
@@ -59,13 +61,32 @@ public:
     /**
      * \brief Call function for draw the object
      */
-    void draw() const override final;
+    void draw() const override;
 
     /**
      * \brief Resize window
      * \param size New size
      */
     void resize(const Vector2u& size);
+
+    /**
+     * \brief Add char into window. If position more than window size then do nothing. 
+     * Window size not include border
+     * \param ch Character
+     * \param position Position
+     */
+    void addChar(const Char& ch, const Vector2u& position) const;
+
+    /**
+     * \brief Add string into window. If position more than window size then do nothing.
+     * Add string without line break.
+     * For example: if you have string "abcdefghij" with availableArea = { 10 }, add this string 
+     * into window with size = { 10, 10 } at position = { 5, 5 } then on row[5] will added only
+     * "abcd" before end available area of the window. Window size not include border
+     * \param str String
+     * \param position Position
+     */
+    void addString(const String& str, const Vector2u& position) const;
 
     /**
      * \brief Get window width
@@ -84,6 +105,12 @@ public:
      * \return Window size
      */
     Vector2u getSize() const;
+
+    /**
+     * \brief Get available area. It is not include border
+     * \return Available rectangle
+     */
+    Vector2u getAvailableArea() const;
 
     /**
      * \brief Set background character

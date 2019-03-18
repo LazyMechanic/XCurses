@@ -65,52 +65,15 @@ public:
      */
     void clear() const;
 
-    /**
-     * \brief Resize screen
-     * \param size New size
-     */
-    void resize(const Vector2u& size);
-
-    /**
-     * \brief Get ptr to curses window
-     * \return Ptr to curses window
-     */
-    _win* getCursesWindow() const;
-
 private:
     /**
-     * \brief Default VirtualScreen constructor. Construct window with terminal size
+     * \brief Default VirtualScreen constructor
      */
-    VirtualScreen();
-
-    /**
-     * \brief State of refresh
-     */
-    bool m_screenNeedRefresh;
-
-    /**
-     * \brief Virtual screen size
-     */
-    Vector2u m_size;
-
-    /**
-     * \brief Current cursor position
-     */
-    Vector2u m_cursorPosition;
-
-    /**
-     * \brief Cursor state
-     */
-    CursorState m_cursorState;
+    VirtualScreen() = default;
 
     /**
      * \brief Active input widget
      */
     Object::WeakPtr<Inputtable> m_activeInputWidget;
-
-    /**
-     * \brief Curses window
-     */
-    _win* m_cursesWindow;
 };
 }

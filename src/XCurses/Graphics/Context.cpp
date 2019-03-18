@@ -19,6 +19,7 @@ Object::Ptr<Context> Context::create()
 }
 
 Context::Context() :
+    m_rootContainer(Container::create()),
     m_virtualScreen(VirtualScreen::create()),
     m_widgetTreeRoot(detail::TreeNode::create(m_rootContainer))
 {
@@ -72,6 +73,18 @@ Status Context::remove(Object::Ptr<Widget> widget)
 }
 
 void Context::addToVirtualScreen(Object::Ptr<Widget> widget, const Char& ch, const Vector2u& position)
+{
+    Vector2u endPosition = position;
+    auto parent = widget->getParent();
+    // Pass through all parent widgets
+    while (parent != nullptr) {
+        endPosition += parent->getPosition();
+        parent = parent->getParent();
+    }
+    m_virtualScreen->addChar(ch, position);
+}
+
+void Context::addToVirtualScreen(Object::PtrConst<Widget> widget, const Char& ch, const Vector2u& position)
 {
     Vector2u endPosition = position;
     auto parent = widget->getParent();
@@ -142,8 +155,8 @@ Status Context::addSingleWidget(Object::Ptr<Widget> widget)
         parent->add(widget);
     }
     else {
-        m_rootContainer->add(widget);
         m_widgetTreeRoot->add(widget);
+        m_rootContainer->add(widget);
     }
     widget->setContext(shared_from_this());
 

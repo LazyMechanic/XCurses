@@ -1,4 +1,4 @@
-set(LIBS_DIR ${PROJECT_DIR}/lib/${SYSTEM_BIT_POSTFIX})
+set(XCURSES_LIBS_DIR ${PROJECT_DIR}/lib/${SYSTEM_BIT_POSTFIX})
 set(XCURSES_OUTPUT_DIR ${PROJECT_DIR}/bin/${SYSTEM_BIT_POSTFIX})
 
 set(XCURSES_INC_DIR ${PROJECT_DIR}/include/XCurses)
@@ -50,8 +50,10 @@ set(XCURSES_SYSTEM_SRCS
     ${XCURSES_SRC_DIR}/System/Object.cpp
     ${XCURSES_INC_DIR}/System/Core.h
     ${XCURSES_SRC_DIR}/System/Core.cpp
-    ${XCURSES_INC_DIR}/System/CoreConfig.h
-    ${XCURSES_SRC_DIR}/System/CoreConfig.cpp
+    ${XCURSES_INC_DIR}/System/Curses.h
+    ${XCURSES_SRC_DIR}/System/Curses.cpp
+    ${XCURSES_INC_DIR}/System/CursesConfig.h
+    ${XCURSES_SRC_DIR}/System/CursesConfig.cpp
     ${XCURSES_INC_DIR}/System/Input.h
     ${XCURSES_SRC_DIR}/System/Input.cpp
     ${XCURSES_INC_DIR}/System/Status.h
@@ -81,7 +83,7 @@ set(XCURSES_SRCS
 )
 
 set(XCURSES_LIBS
-    ${LIBS_DIR}/pdcurses.lib
+    ${XCURSES_LIBS_DIR}/pdcurses.lib
 )
 
 add_library(XCurses STATIC 

@@ -1,9 +1,9 @@
-#include <XCurses/System/CoreConfig.h>
+#include <XCurses/System/CursesConfig.h>
 
 namespace xcur {
-const CoreConfig CoreConfig::Default;
+const CursesConfig CursesConfig::Default;
 
-CoreConfig::CoreConfig() :
+CursesConfig::CursesConfig() :
     terminalSize(120, 50),
     inputDelay(0),
     isCBreakEnable(true),
@@ -13,11 +13,11 @@ CoreConfig::CoreConfig() :
     isKeypadEnable(false),
     isInputDelayEnable(false),
     isInit(false),
-    isCursesModeEnable(false)
+    isStop(true)
 {
 }
 
-CoreConfig::CoreConfig(
+CursesConfig::CursesConfig(
     const Vector2u& terminalSize,
     uint32_t inputDelay,
     bool enableCBreakMode,
@@ -36,7 +36,7 @@ CoreConfig::CoreConfig(
     isKeypadEnable(enableKeypadMode),
     isInputDelayEnable(enableInputDelay),
     isInit(false),
-    isCursesModeEnable(false)
+    isStop(true)
 {
 }
 }

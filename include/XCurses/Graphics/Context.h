@@ -78,6 +78,14 @@ public:
     void addToVirtualScreen(Object::Ptr<Widget> widget, const Char& ch, const Vector2u& position);
 
     /**
+     * \brief Add character to virtual screen for draw
+     * \param widget Widget for which need draw character
+     * \param ch Character
+     * \param position Position relative to widget
+     */
+    void addToVirtualScreen(Object::PtrConst<Widget> widget, const Char& ch, const Vector2u& position);
+
+    /**
      * \brief Set active inputtable widget
      * \param inputWidget Widget which need set active. If it is Inputtable::None (nullptr) 
      * then off cursor

@@ -1,30 +1,43 @@
 #include <XCurses/XCurses.h>
 
-class SomeWindow : public xcur::Window
+class HelloWorldWindow : public xcur::Window
 {
 public:
-    SomeWindow() : Window(xcur::Vector2u(0, 0), getContext()->getContextSystem()->getCore()->getTerminalSize())
+    static Object::Ptr<HelloWorldWindow> create()
     {
-        
+        return std::shared_ptr<HelloWorldWindow>(new HelloWorldWindow());
     }
 
-    void update(float dt) override
+private:
+    HelloWorldWindow() : 
+        Window(xcur::Vector2u(0, 0), xcur::Curses::getTerminalSize()),
+        m_str("Hello, World!"),
+        m_pos(getAvailableArea().x / 2 - m_str.size() / 2, getAvailableArea().y / 2)
     {
-        
+        m_border = xcur::Border::Wide;
     }
+
+    void draw() const override
+    {
+        Window::draw();
+        addString(m_str, m_pos);
+    }
+
+    xcur::String m_str;
+    xcur::Vector2u m_pos;
 };
 
 int main()
 {
-	xcur::Object::Ptr<xcur::Core> core = xcur::Object::create<xcur::Core>();
-	xcur::CoreConfig setupCore = xcur::CoreConfig::Default;
+    // Init curses mode
+    xcur::Curses::init();
+    // Create context
+    xcur::Object::Ptr<xcur::Context> myContext = xcur::Context::create();
+    // Create window
+    xcur::Object::Ptr<HelloWorldWindow> helloWorldWindow = HelloWorldWindow::create();
+    // Add window into context root container
+    myContext->add(helloWorldWindow);
 
-	core->init(setupCore);
-
-	bool isRunning = true;
-    while (isRunning) {
-		core->handleEvents();
-		core->update(0.0f);
-		core->draw();
-    }
+    // Create Core and run main loop
+    xcur::Core::create()->run(myContext);
 }

@@ -54,7 +54,7 @@ void main() {
     wborder(win1, '-', '-', '-', '-', '-', '-', '-', '-');
     wrefresh(win1);
 
-    nodelay(win1, true);
+    nodelay(stdscr, true);
 
     mousemask(ALL_MOUSE_EVENTS, 0);
     mouseinterval(150);
@@ -66,23 +66,23 @@ void main() {
 
     bool isRunning = true;
     while (isRunning) {
-        chtype inputChar = wgetch(win1);
+        chtype inputChar = wgetch(stdscr);
         if (inputChar != ERR) {
             if (inputChar == '1') {
                 mvaddch(30, 30, 'A');
             }
             if (inputChar == 'r') {
-                wrefresh(win1); 
-                touchwin(win1);
+                wrefresh(stdscr);
+                touchwin(stdscr);
             }
             if (inputChar == 'c') {
-                myClear(win1);
+                myClear(stdscr);
             }
             if (inputChar == 'o') {
                 clearok(win1, true);
             }
             if (inputChar == 'e') {
-                win1->_y[20][20] = 'L';
+                stdscr->_y[20][20] = 'L';
             }
             if (inputChar == 't') {
                 myClear(win1);
@@ -95,7 +95,10 @@ void main() {
                 wmove(win1, 10, 10);
             }
         }
-        //myClear(win1);
+        myClear(stdscr);
+
+        wrefresh(stdscr);
+        touchwin(stdscr);
     }
     endwin();
 }

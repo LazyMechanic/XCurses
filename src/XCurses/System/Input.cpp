@@ -11,7 +11,7 @@ void Input::handleEvents(Object::Ptr<VirtualScreen> screen)
 {
     if (screen != nullptr) {
         do {
-            m_pressedChar = wgetch(screen->getCursesWindow());
+            m_pressedChar = wgetch(stdscr);
         } while (m_pressedChar != Char::Err);
     }
     else {
