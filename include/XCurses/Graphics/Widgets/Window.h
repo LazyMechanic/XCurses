@@ -9,6 +9,8 @@
 #include <XCurses/Graphics/Border.h>
 #include <XCurses/Graphics/Container.h>
 
+#include <XCurses/Graphics/Widgets/Title.h>
+
 namespace xcur {
 /**
  * \brief The class controls the curses window and provides an interface to 
@@ -31,7 +33,8 @@ public:
     /**
      * \brief Create Window with default position and size and
      * set parent
-     * \param position Position
+     * \param position Window position
+     * \param size Window size
      * \param parent Smart ptr to parent container
      */
     static Object::Ptr<Window> create(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent);
@@ -39,7 +42,8 @@ public:
     /**
      * \brief Create Window with default position and size and
      * set context
-     * \param position Position
+     * \param position Window position
+     * \param size Window size
      * \param context Smart ptr to context
      */
     static Object::Ptr<Window> create(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context);
@@ -47,7 +51,8 @@ public:
     /**
      * \brief Create Window with default position and size and
      * set parent and context
-     * \param position Position
+     * \param position Window position
+     * \param size Window size
      * \param parent Smart ptr to parent container
      * \param context Smart ptr to context
      */
@@ -57,11 +62,6 @@ public:
      * \brief Window destructor
      */
     virtual ~Window() = default;
-
-    /**
-     * \brief Call function for draw the object
-     */
-    void draw() const override;
 
     /**
      * \brief Resize window
@@ -89,24 +89,6 @@ public:
     void addString(const String& str, const Vector2u& position) const;
 
     /**
-     * \brief Get window width
-     * \return Width
-     */
-    uint32_t getWidth() const;
-
-    /**
-     * \brief Get window height
-     * \return Height
-     */
-    uint32_t getHeight() const;
-
-    /**
-     * \brief Get window size
-     * \return Window size
-     */
-    Vector2u getSize() const;
-
-    /**
      * \brief Get available area. It is not include border
      * \return Available rectangle
      */
@@ -125,16 +107,28 @@ public:
     Char getBackground() const;
 
     /**
-     * \brief Set new border
-     * \param border Border
+     * \brief Set window border
+     * \param border Window border
      */
-    void setBorder(const Border& border);
+    void setBorder(Object::Ptr<Border> border);
 
     /**
-     * \brief Get current border
-     * \return Border
+     * \brief Get ptr to window border
+     * \return Smart ptr to window border
      */
-    Border getBorder() const;
+    Object::Ptr<Border> getBorder() const;
+
+    /**
+     * \brief Set window title
+     * \param title Window title
+     */
+    void setTitle(Object::Ptr<Title> title);
+
+    /**
+     * \brief Get ptr to window title
+     * \return Smart ptr to window title
+     */
+    Object::Ptr<Title> getTitle() const;
 
 protected:
     /**
@@ -144,6 +138,8 @@ protected:
 
     /**
      * \brief Window constructor. Construct it with default position and size
+     * \param position Window position
+     * \param size Window size
      */
     Window(const Vector2u& position, const Vector2u& size);
 
@@ -151,6 +147,7 @@ protected:
      * \brief Window constructor. Construct it with default position and size and
      * set parent
      * \param position Position
+     * \param size Window size
      * \param parent Smart ptr to parent container
      */
     Window(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent);
@@ -159,6 +156,7 @@ protected:
      * \brief Window constructor. Construct it with default position and size and
      * set context
      * \param position Position
+     * \param size Window size
      * \param context Smart ptr to context
      */
     Window(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context);
@@ -167,20 +165,11 @@ protected:
      * \brief Window constructor. Construct it with default position and size and
      * set parent and context
      * \param position Position
+     * \param size Window size
      * \param parent Smart ptr to parent container
      * \param context Smart ptr to context
      */
     Window(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent, Object::Ptr<Context> context);
-
-    /**
-     * \brief Draw borders
-     */
-    void drawBorders() const;
-
-    /**
-     * \brief Window size
-     */
-    Vector2u m_size;
 
     /**
      * \brief Background char
@@ -190,6 +179,11 @@ protected:
     /**
      * \brief Border container
      */
-    Border m_border;
+    Object::Ptr<Border> m_border;
+
+    /**
+     * \brief Windows title
+     */
+    Object::Ptr<Title> m_title;
 };
 }

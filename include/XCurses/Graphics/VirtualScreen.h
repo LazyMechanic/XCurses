@@ -1,8 +1,7 @@
 #pragma once
 
-#include <vector>
-
 #include <XCurses/Text/Char.h>
+#include <XCurses/Text/String.h>
 #include <XCurses/System/Object.h>
 #include <XCurses/System/Vector2.h>
 #include <XCurses/Graphics/Inputtable.h>
@@ -47,6 +46,14 @@ public:
      * \param position Position
      */
     void addChar(const Char& ch, const Vector2u& position);
+
+    /**
+     * \brief Add string in virtual screen. If position more than screen size then
+     * do nothing, also add only string partial that can fit in the row at position
+     * \param str String
+     * \param position Position
+     */
+    void addString(const String& str, const Vector2u& position);
 
     /**
      * \brief Set active inputtable widget

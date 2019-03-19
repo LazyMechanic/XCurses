@@ -34,40 +34,45 @@ public:
     using ConstReverseIterator = std::list<Object::Ptr<Widget>>::const_reverse_iterator;
 
     /**
-     * \brief Create Container with zero position
+     * \brief Create Container with zero position and size
      * \return Smart ptr to Container
      */
     static Object::Ptr<Container> create();
 
     /**
-     * \brief Create Container with default position
+     * \brief Create Container with default position and size
+     * \param position Container position
+     * \param size Container size
      */
-    static Object::Ptr<Container> create(const Vector2u& position);
+    static Object::Ptr<Container> create(const Vector2u& position, const Vector2u& size);
 
     /**
-     * \brief Create Container with default position and
+     * \brief Create Container with default position, size and
      * set parent
-     * \param position Position
+     * \param position Container position
+     * \param size Container size
      * \param parent Smart ptr to parent container
      */
-    static Object::Ptr<Container> create(const Vector2u& position, Object::Ptr<Container> parent);
+    static Object::Ptr<Container> create(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent);
 
     /**
-     * \brief Create Container with default position and
+     * \brief Create Container with default position, size and
      * set context
-     * \param position Position
+     * \param position Container position
+     * \param size Container size
      * \param context Smart ptr to context
      */
-    static Object::Ptr<Container> create(const Vector2u& position, Object::Ptr<Context> context);
+    static Object::Ptr<Container> create(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context);
 
     /**
-     * \brief Create Container with default position and
+     * \brief Create Container with default position, size and
      * set parent and context
-     * \param position Position
+     * \param position Container position
+     * \param size Container size
      * \param parent Smart ptr to parent container
      * \param context Smart ptr to context
      */
-    static Object::Ptr<Container> create(const Vector2u& position, Object::Ptr<Container> parent, Object::Ptr<Context> context);
+    static Object::Ptr<Container> create(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent, Object::Ptr<Context> context);
 
     /**
      * \brief Container destructor
@@ -134,39 +139,44 @@ public:
 
 protected:
     /**
-     * \brief Default Container constructor
+     * \brief Default Container constructor. Construct it with zero position and size
      */
     Container() = default;
 
     /**
-     * \brief Container constructor. Construct it with default position
+     * \brief Container constructor. Construct it with default position and size
+     * \param position Container position
+     * \param size Container size
      */
-    explicit Container(const Vector2u& position);
+    Container(const Vector2u& position, const Vector2u& size);
 
     /**
-     * \brief Container constructor. Construct it with default position and
+     * \brief Container constructor. Construct it with default position, size and
      * set parent
-     * \param position Position
+     * \param position Container position
+     * \param size Container size
      * \param parent Smart ptr to parent container
      */
-    Container(const Vector2u& position, Object::Ptr<Container> parent);
+    Container(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent);
 
     /**
-     * \brief Container constructor. Construct it with default position and
+     * \brief Container constructor. Construct it with default position, size and
      * set context
-     * \param position Position
+     * \param position Container position
+     * \param size Container size
      * \param context Smart ptr to context
      */
-    Container(const Vector2u& position, Object::Ptr<Context> context);
+    Container(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context);
 
     /**
-     * \brief Container constructor. Construct it with default position and
+     * \brief Container constructor. Construct it with default position, size and
      * set parent and context
-     * \param position Position
+     * \param position Container position
+     * \param size Container size
      * \param parent Smart ptr to parent container
      * \param context Smart ptr to context
      */
-    Container(const Vector2u& position, Object::Ptr<Container> parent, Object::Ptr<Context> context);
+    Container(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent, Object::Ptr<Context> context);
 
     /**
      * \brief List of child widgets

@@ -1,51 +1,117 @@
 #include <XCurses/Graphics/Border.h>
 
+#include <algorithm>
+
+#include <XCurses/Graphics/Context.h>
+#include <XCurses/Graphics/Container.h>
+
 namespace xcur {
-const Border Border::Blank(Char(' '), Char(' '), Char(' '), Char(' '), Char(' '), Char(' '), Char(' '), Char(' '));
-const Border Border::Simple(Char('|'), Char('|'), Char('-'), Char('-'), Char('+'), Char('+'), Char('+'), Char('+'));
-const Border Border::Default(Char(0x2502), Char(0x2502), Char(0x2500), Char(0x2500), Char(0x250c), Char(0x2510), Char(0x2514), Char(0x2518));
-const Border Border::Wide(Char(0x2551), Char(0x2551), Char(0x2550), Char(0x2550), Char(0x2554), Char(0x2557), Char(0x255a), Char(0x255d));
+const BorderTraits BorderTraits::Blank = {
+    Char(' '),
+    Char(' '), 
+    Char(' '),
+    Char(' '),
+    Char(' '), 
+    Char(' '),
+    Char(' '),
+    Char(' ') };
+const BorderTraits BorderTraits::Simple = {
+    Char('|'),
+    Char('|'),
+    Char('-'),
+    Char('-'),
+    Char('+'),
+    Char('+'),
+    Char('+'),
+    Char('+') };
+const BorderTraits BorderTraits::Default = {
+    Char(0x2502), 
+    Char(0x2502), 
+    Char(0x2500), 
+    Char(0x2500), 
+    Char(0x250c), 
+    Char(0x2510), 
+    Char(0x2514), 
+    Char(0x2518) };
+const BorderTraits BorderTraits::Wide = {
+    Char(0x2551),
+    Char(0x2551),
+    Char(0x2550),
+    Char(0x2550),
+    Char(0x2554),
+    Char(0x2557),
+    Char(0x255a),
+    Char(0x255d) };
 
-Border::Border() :
-    leftSide(0x2502),
-    rightSide(0x2502),
-    topSide(0x2500),
-    bottomSide(0x2500),
-    topLeftCorner(0x250c),
-    topRightCorner(0x2510),
-    bottomLeftCorner(0x2514),
-    bottomRightCorner(0x2518)
+Object::Ptr<Border> Border::create()
 {
+    return Border::create(BorderTraits::Blank);
 }
 
-Border::Border(const Char& ch) :
-    leftSide(ch),
-    rightSide(ch),
-    topSide(ch),
-    bottomSide(ch),
-    topLeftCorner(ch),
-    topRightCorner(ch),
-    bottomLeftCorner(ch),
-    bottomRightCorner(ch)
+Object::Ptr<Border> Border::create(const Char& ch)
 {
+    BorderTraits bt = {
+        ch,
+        ch,
+        ch,
+        ch,
+        ch,
+        ch,
+        ch,
+        ch
+    };
+
+    return Border::create(bt);
 }
 
-Border::Border(Char _leftSide,
-    Char _rightSide,
-    Char _topSide,
-    Char _bottomSide,
-    Char _topLeftCorner,
-    Char _topRightCorner,
-    Char _bottomLeftCorner,
-    Char _bottomRightCorner) :
-    leftSide(_leftSide),
-    rightSide(_rightSide),
-    topSide(_topSide),
-    bottomSide(_bottomSide),
-    topLeftCorner(_topLeftCorner),
-    topRightCorner(_topRightCorner),
-    bottomLeftCorner(_bottomLeftCorner),
-    bottomRightCorner(_bottomRightCorner)
+Object::Ptr<Border> Border::create(const BorderTraits& borderTraits)
+{
+    return std::shared_ptr<Border>(new Border(borderTraits));
+}
+
+void Border::draw() const
+{
+    auto context = getContext();
+    auto parent = getParent();
+    if (context != nullptr &&
+        parent != nullptr) {
+        // Draw verticals
+        Vector2u topSidePosition = Vector2u::Zero;
+        Vector2u bottomSidePosition = Vector2u(0, std::max<uint32_t>(static_cast<int32_t>(parent->getSize().y) - 1, 0));
+
+        for (uint32_t i = 1; i < parent->getSize().x; ++i) {
+            topSidePosition.x = i;
+            bottomSidePosition.x = i;
+            context->addToVirtualScreen(shared_from_this(), borderTraits.topSide, topSidePosition);
+            context->addToVirtualScreen(shared_from_this(), borderTraits.bottomSide, bottomSidePosition);
+        }
+
+        // Draw horizontals
+        Vector2u leftSidePosition = Vector2u::Zero;
+        Vector2u rightSidePosition = Vector2u(std::max<uint32_t>(static_cast<int32_t>(parent->getSize().x) - 1, 0), 0);
+
+        for (uint32_t i = 1; i < parent->getSize().y; ++i) {
+            leftSidePosition.y = i;
+            rightSidePosition.y = i;
+            context->addToVirtualScreen(shared_from_this(), borderTraits.leftSide, leftSidePosition);
+            context->addToVirtualScreen(shared_from_this(), borderTraits.rightSide, rightSidePosition);
+        }
+
+        // Draw corners
+        Vector2u topLeftCornerPosition = Vector2u::Zero;
+        Vector2u topRightCornerPosition = Vector2u(std::max<uint32_t>(static_cast<int32_t>(parent->getSize().x) - 1, 0), 0);
+        Vector2u bottomLeftCornerPosition = Vector2u(0, std::max<uint32_t>(static_cast<int32_t>(parent->getSize().y) - 1, 0));
+        Vector2u bottomRightCornerPosition = Vector2u(std::max<uint32_t>(static_cast<int32_t>(parent->getSize().x) - 1, 0), std::max<uint32_t>(static_cast<int32_t>(parent->getSize().y) - 1, 0));
+
+        context->addToVirtualScreen(shared_from_this(), borderTraits.topLeftCorner, topLeftCornerPosition);
+        context->addToVirtualScreen(shared_from_this(), borderTraits.topRightCorner, topRightCornerPosition);
+        context->addToVirtualScreen(shared_from_this(), borderTraits.bottomLeftCorner, bottomLeftCornerPosition);
+        context->addToVirtualScreen(shared_from_this(), borderTraits.bottomRightCorner, bottomRightCornerPosition);
+    }
+}
+
+Border::Border(const BorderTraits& borderTraits) :
+    borderTraits(borderTraits)
 {
 }
 }
