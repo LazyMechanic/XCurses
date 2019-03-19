@@ -5,29 +5,34 @@
 
 namespace xcur {
 Widget::Widget() :
-    m_position(Vector2u::Zero)
+    m_position(Vector2u::Zero),
+    m_size(Vector2u::Zero)
 {
 }
 
-Widget::Widget(const Vector2u& position) :
-    m_position(position)
-{
-}
-
-Widget::Widget(const Vector2u& position, Object::Ptr<Container> parent) :
+Widget::Widget(const Vector2u& position, const Vector2u& size) :
     m_position(position),
+    m_size(size)
+{
+}
+
+Widget::Widget(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent) :
+    m_position(position),
+    m_size(size),
     m_parent(parent)
 {
 }
 
-Widget::Widget(const Vector2u& position, Object::Ptr<Context> context) :
+Widget::Widget(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context) :
     m_position(position),
+    m_size(size),
     m_context(context)
 {
 }
 
-Widget::Widget(const Vector2u& position, Object::Ptr<Container> parent, Object::Ptr<Context> context) :
+Widget::Widget(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent, Object::Ptr<Context> context) :
     m_position(position),
+    m_size(size),
     m_parent(parent),
     m_context(context)
 {
@@ -71,6 +76,21 @@ void Widget::toFront()
     if (getParent() != nullptr) {
         getParent()->widgetToFront(shared_from_this());
     }
+}
+
+uint32_t Widget::getWidth() const
+{
+    return m_size.x;
+}
+
+uint32_t Widget::getHeight() const
+{
+    return m_size.y;
+}
+
+Vector2u Widget::getSize() const
+{
+    return m_size;
 }
 
 void Widget::setParent(Object::Ptr<Container> parent)

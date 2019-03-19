@@ -8,22 +8,22 @@
 namespace xcur {
 Object::Ptr<Window> Window::create()
 {
-    return std::shared_ptr<Window>(new Window());
+    return Window::create(Vector2u::Zero, Vector2u::Zero, nullptr, nullptr);
 }
 
 Object::Ptr<Window> Window::create(const Vector2u& position, const Vector2u& size)
 {
-    return std::shared_ptr<Window>(new Window(position, size));
+    return Window::create(position, size, nullptr, nullptr);
 }
 
 Object::Ptr<Window> Window::create(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent)
 {
-    return std::shared_ptr<Window>(new Window(position, size, parent));
+    return Window::create(position, size, parent, nullptr);
 }
 
 Object::Ptr<Window> Window::create(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context)
 {
-    return std::shared_ptr<Window>(new Window(position, size, context));
+    return Window::create(position, size, nullptr, context);
 }
 
 Object::Ptr<Window> Window::create(
@@ -32,37 +32,29 @@ Object::Ptr<Window> Window::create(
     Object::Ptr<Container> parent,
     Object::Ptr<Context> context)
 {
-    return std::shared_ptr<Window>(new Window(position, size, parent, context));
+    std::shared_ptr<Window> result(new Window(position, size, parent, context));
+    result->add(result->m_title);
+    result->add(result->m_border);
+    return result;
 }
 
 Window::Window() :
-    m_size(Vector2u::Zero),
-    m_backgroundChar(' '),
-    m_border(Border::Default)
+    Window(Vector2u::Zero, Vector2u::Zero, nullptr, nullptr)
 {
 }
 
 Window::Window(const Vector2u& position, const Vector2u& size) :
-    Container(position),
-    m_size(size),
-    m_backgroundChar(' '),
-    m_border(Border::Default)
+    Window(position, size, nullptr, nullptr)
 {
 }
 
 Window::Window(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent) :
-    Container(position, parent),
-    m_size(size),
-    m_backgroundChar(' '),
-    m_border(Border::Default)
+    Window(position, size, parent, nullptr)
 {
 }
 
 Window::Window(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context) :
-    Container(position, context),
-    m_size(size),
-    m_backgroundChar(' '),
-    m_border(Border::Default)
+    Window(position, size, nullptr, context)
 {
 }
 
@@ -71,26 +63,11 @@ Window::Window(
     const Vector2u& size,
     Object::Ptr<Container> parent,
     Object::Ptr<Context> context) :
-    Container(position, parent, context),
-    m_size(size),
+    Container(position, size, parent, context),
     m_backgroundChar(' '),
-    m_border(Border::Default)
+    m_border(Border::create()),
+    m_title(Title::create(Vector2u(2, 0)))
 {
-}
-
-void Window::setBorder(const Border& border)
-{
-    m_border = border;
-}
-
-Border Window::getBorder() const
-{
-    return m_border;
-}
-
-void Window::draw() const
-{
-    drawBorders();
 }
 
 void Window::resize(const Vector2u& newSize)
@@ -134,21 +111,6 @@ void Window::addString(const String& str, const Vector2u& position) const
     }
 }
 
-uint32_t Window::getWidth() const
-{
-    return m_size.x;
-}
-
-uint32_t Window::getHeight() const
-{
-    return m_size.y;
-}
-
-Vector2u Window::getSize() const
-{
-    return m_size;
-}
-
 Vector2u Window::getAvailableArea() const
 {
     Vector2u result = Vector2u::Zero;
@@ -172,42 +134,27 @@ Char Window::getBackground() const
     return m_backgroundChar;
 }
 
-void Window::drawBorders() const
+void Window::setBorder(Object::Ptr<Border> border)
 {
-    auto context = getContext();
-    if (context != nullptr) {
-        // Draw verticals
-        Vector2u topSidePosition = Vector2u::Zero;
-        Vector2u bottomSidePosition = Vector2u(0, std::max<uint32_t>(static_cast<int32_t>(m_size.y) - 1, 0));
+    remove(m_border);
+    add(border);
+    m_border = border;
+}
 
-        for (uint32_t i = 1; i <= m_size.x; ++i) {
-            topSidePosition.x = i;
-            bottomSidePosition.x = i;
-            context->addToVirtualScreen(shared_from_this(), m_border.topSide, topSidePosition);
-            context->addToVirtualScreen(shared_from_this(), m_border.bottomSide, bottomSidePosition);
-        }
+Object::Ptr<Border> Window::getBorder() const
+{
+    return m_border;
+}
 
-        // Draw horizontals
-        Vector2u leftSidePosition = Vector2u::Zero;
-        Vector2u rightSidePosition = Vector2u(std::max<uint32_t>(static_cast<int32_t>(m_size.x) - 1, 0), 0);
+void Window::setTitle(Object::Ptr<Title> title)
+{
+    remove(m_title);
+    add(title);
+    m_title = title;
+}
 
-        for (uint32_t i = 1; i <= m_size.y; ++i) {
-            leftSidePosition.y = i;
-            rightSidePosition.y = i;
-            context->addToVirtualScreen(shared_from_this(), m_border.leftSide, leftSidePosition);
-            context->addToVirtualScreen(shared_from_this(), m_border.rightSide, rightSidePosition);
-        }
-
-        // Draw corners
-        Vector2u topLeftCornerPosition = Vector2u::Zero;
-        Vector2u topRightCornerPosition = Vector2u(std::max<uint32_t>(static_cast<int32_t>(m_size.x) - 1, 0), 0);
-        Vector2u bottomLeftCornerPosition = Vector2u(0, std::max<uint32_t>(static_cast<int32_t>(m_size.y) - 1, 0));
-        Vector2u bottomRightCornerPosition = Vector2u(std::max<uint32_t>(static_cast<int32_t>(m_size.x) - 1, 0), std::max<uint32_t>(m_size.y - 1, 0));
-
-        context->addToVirtualScreen(shared_from_this(), m_border.topLeftCorner, topLeftCornerPosition);
-        context->addToVirtualScreen(shared_from_this(), m_border.topRightCorner, topRightCornerPosition);
-        context->addToVirtualScreen(shared_from_this(), m_border.bottomLeftCorner, bottomLeftCornerPosition);
-        context->addToVirtualScreen(shared_from_this(), m_border.bottomRightCorner, bottomRightCornerPosition);
-    }
+Object::Ptr<Title> Window::getTitle() const
+{
+    return m_title;
 }
 }

@@ -4,19 +4,28 @@
 #include <XCurses/Graphics/Widget.h>
 
 namespace xcur {
+class Window;
+
 class Title : public Widget
 {
 public:
     /**
      * \brief Create Title. Construct title with specific string
+     * \param position Title position
+     * Do not change parent size
      * \param str String
      */
-    static Object::Ptr<Title> create(const String& str = "");
+    static Object::Ptr<Title> create(const Vector2u& position, const String& str = "");
 
     /**
      * \brief Title destructor
      */
     ~Title() = default;
+
+    /**
+     * \brief Draw title. Add character into window and add in front and back space characters
+     */
+    void draw() const override;
 
     /**
      * \brief Set title string
@@ -30,22 +39,13 @@ public:
      */
     String getString() const;
 
-    /**
-     * \brief Draw title. Add character into window and add in front and back space characters
-     */
-    void draw() const override;
-
 private:
     /**
-     * \brief Default Title constructor. Construct title with "-" string
-     */
-    Title();
-
-    /**
      * \brief Title construct. Construct title with specific string
+     * \param position Title position
      * \param str String
      */
-    Title(const String& str);
+    Title(const Vector2u& position, const String& str);
 
     /**
      * \brief Title string

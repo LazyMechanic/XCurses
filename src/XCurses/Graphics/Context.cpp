@@ -96,6 +96,30 @@ void Context::addToVirtualScreen(Object::PtrConst<Widget> widget, const Char& ch
     m_virtualScreen->addChar(ch, position);
 }
 
+void Context::addToVirtualScreen(Object::Ptr<Widget> widget, const String& str, const Vector2u& position)
+{
+    Vector2u endPosition = position;
+    auto parent = widget->getParent();
+    // Pass through all parent widgets
+    while (parent != nullptr) {
+        endPosition += parent->getPosition();
+        parent = parent->getParent();
+    }
+    m_virtualScreen->addString(str, position);
+}
+
+void Context::addToVirtualScreen(Object::PtrConst<Widget> widget, const String& str, const Vector2u& position)
+{
+    Vector2u endPosition = position;
+    auto parent = widget->getParent();
+    // Pass through all parent widgets
+    while (parent != nullptr) {
+        endPosition += parent->getPosition();
+        parent = parent->getParent();
+    }
+    m_virtualScreen->addString(str, position);
+}
+
 void Context::setActiveInputWidget(Object::Ptr<Inputtable> inputWidget)
 {
     m_virtualScreen->setActiveInputWidget(inputWidget);

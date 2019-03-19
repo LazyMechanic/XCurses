@@ -86,6 +86,24 @@ public:
     void addToVirtualScreen(Object::PtrConst<Widget> widget, const Char& ch, const Vector2u& position);
 
     /**
+     * \brief Add string to virtual screen for draw. If position more than screen size then
+     * do nothing
+     * \param widget Widget for which need draw character
+     * \param str String
+     * \param position Position relative to widget
+     */
+    void addToVirtualScreen(Object::Ptr<Widget> widget, const String& str, const Vector2u& position);
+
+    /**
+     * \brief Add string to virtual screen for draw. If position more than screen size then
+     * do nothing, also add only string partial that can fit in the row at position
+     * \param widget Widget for which need draw character
+     * \param str String
+     * \param position Position relative to widget
+     */
+    void addToVirtualScreen(Object::PtrConst<Widget> widget, const String& str, const Vector2u& position);
+
+    /**
      * \brief Set active inputtable widget
      * \param inputWidget Widget which need set active. If it is Inputtable::None (nullptr) 
      * then off cursor

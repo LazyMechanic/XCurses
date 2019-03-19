@@ -7,49 +7,54 @@
 namespace xcur {
 Object::Ptr<Container> Container::create()
 {
-    return std::shared_ptr<Container>(new Container());
+    return Container::create(Vector2u::Zero, Vector2u::Zero, nullptr, nullptr);
 }
 
-Object::Ptr<Container> Container::create(const Vector2u& position)
+Object::Ptr<Container> Container::create(const Vector2u& position, const Vector2u& size)
 {
-    return std::shared_ptr<Container>(new Container(position));
+    return Container::create(position, position, nullptr, nullptr);
 }
 
-Object::Ptr<Container> Container::create(const Vector2u& position, Object::Ptr<Container> parent)
+Object::Ptr<Container> Container::create(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent)
 {
-    return std::shared_ptr<Container>(new Container(position, parent));
+    return Container::create(position, position, parent, nullptr);
 }
 
-Object::Ptr<Container> Container::create(const Vector2u& position, Object::Ptr<Context> context)
+Object::Ptr<Container> Container::create(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context)
 {
-    return std::shared_ptr<Container>(new Container(position, context));
+    return Container::create(position, position, nullptr, context);
 }
 
 Object::Ptr<Container> Container::create(
     const Vector2u& position,
+    const Vector2u& size,
     Object::Ptr<Container> parent,
     Object::Ptr<Context> context)
 {
-    return std::shared_ptr<Container>(new Container(position, parent, context));
+    return std::shared_ptr<Container>(new Container(position, size, parent, context));
 }
 
-Container::Container(const Vector2u& position) :
-    Widget(position)
+Container::Container(const Vector2u& position, const Vector2u& size) :
+    Widget(position, size)
 {
 }
 
-Container::Container(const Vector2u& position, Object::Ptr<Container> parent) :
-    Widget(position, parent)
+Container::Container(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent) :
+    Widget(position, size, parent)
 {
 }
 
-Container::Container(const Vector2u& position, Object::Ptr<Context> context) :
-    Widget(position, context)
+Container::Container(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context) :
+    Widget(position, size, context)
 {
 }
 
-Container::Container(const Vector2u& position, Object::Ptr<Container> parent, Object::Ptr<Context> context) :
-    Widget(position, parent, context)
+Container::Container(
+    const Vector2u& position,
+    const Vector2u& size,
+    Object::Ptr<Container> parent,
+    Object::Ptr<Context> context) :
+    Widget(position, size, parent, context)
 {
 }
 

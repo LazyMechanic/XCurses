@@ -1,11 +1,15 @@
 #include <XCurses/XCurses.h>
+#include <iostream>
 
 class HelloWorldWindow : public xcur::Window
 {
 public:
     static Object::Ptr<HelloWorldWindow> create()
     {
-        return std::shared_ptr<HelloWorldWindow>(new HelloWorldWindow());
+        std::shared_ptr<HelloWorldWindow> result(new HelloWorldWindow());
+        result->setBorder(xcur::Border::create(xcur::BorderTraits::Simple));
+        result->setTitle(xcur::Title::create(xcur::Vector2u(2, 0),"Hello_World"));
+        return result;
     }
 
 private:
@@ -14,12 +18,10 @@ private:
         m_str("Hello, World!"),
         m_pos(getAvailableArea().x / 2 - m_str.size() / 2, getAvailableArea().y / 2)
     {
-        m_border = xcur::Border::Wide;
     }
 
     void draw() const override
     {
-        Window::draw();
         addString(m_str, m_pos);
     }
 

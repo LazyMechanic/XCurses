@@ -60,6 +60,24 @@ public:
     void toFront();
 
     /**
+     * \brief Get widget width
+     * \return Width
+     */
+    uint32_t getWidth() const;
+
+    /**
+     * \brief Get widget height
+     * \return Height
+     */
+    uint32_t getHeight() const;
+
+    /**
+     * \brief Get widget size
+     * \return Widget size
+     */
+    Vector2u getSize() const;
+
+    /**
      * \brief Set parent widget container.
      * Do not need use manually
      * \param parent Parent widget container
@@ -92,39 +110,49 @@ protected:
     Widget();
 
     /**
-     * \brief Widget constructor. Construct it with default position
+     * \brief Widget constructor. Construct it with default position and size
+     * \param position Widget position
+     * \param size Widget size
      */
-    explicit Widget(const Vector2u& position);
+    Widget(const Vector2u& position, const Vector2u& size);
 
     /**
-     * \brief Widget constructor. Construct it with default position and
+     * \brief Widget constructor. Construct it with default position, size and
      * set parent
      * \param position Position
+     * \param size Widget size
      * \param parent Smart ptr to parent container
      */
-    Widget(const Vector2u& position, Object::Ptr<Container> parent);
+    Widget(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent);
 
     /**
-     * \brief Widget constructor. Construct it with default position and
+     * \brief Widget constructor. Construct it with default position, size and
      * set context
      * \param position Position
+     * \param size Widget size
      * \param context Smart ptr to context
      */
-    Widget(const Vector2u& position, Object::Ptr<Context> context);
+    Widget(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context);
 
     /**
-     * \brief Widget constructor. Construct it with default position and
+     * \brief Widget constructor. Construct it with default position, size and
      * set parent and context
      * \param position Position
+     * \param size Widget size
      * \param parent Smart ptr to parent container
      * \param context Smart ptr to context
      */
-    Widget(const Vector2u& position, Object::Ptr<Container> parent, Object::Ptr<Context> context);
+    Widget(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent, Object::Ptr<Context> context);
 
     /**
      * \brief Widget position
      */
     Vector2u m_position;
+
+    /**
+     * \brief Widget size. Meaning depends on implementation of the heir
+     */
+    Vector2u m_size;
 
     /**
      * \brief Smart ptr to parent widget

@@ -52,6 +52,27 @@ void VirtualScreen::addChar(const Char& ch, const Vector2u& position)
     }
 }
 
+void VirtualScreen::addString(const String& str, const Vector2u& position)
+{
+    // If position out of stdscr size
+    if (position.x > stdscr->_maxx ||
+        position.y > stdscr->_maxy)
+    {
+        return;
+    }
+
+    Vector2u nextPosition = position;
+    for (auto& ch : str) {
+        // If next X position is end of row
+        if (nextPosition.x > stdscr->_maxx) {
+            break;
+        }
+
+        addChar(ch, nextPosition);
+        nextPosition.x++;
+    }
+}
+
 void VirtualScreen::setActiveInputWidget(Object::Ptr<Inputtable> inputWidget)
 {
     m_activeInputWidget = inputWidget;
