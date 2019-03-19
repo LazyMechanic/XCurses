@@ -769,4 +769,59 @@ private:
      */
     std::basic_string<Char> m_string;
 };
+
+/**
+ * \brief Overload of the binary + operator.
+ * This operator returns the sum of two strings.
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left + \a right
+ */
+String operator +(const std::string& left, const String& right);
+
+/**
+ * \brief Overload of the binary + operator.
+ * This operator returns the sum of two strings.
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left + \a right
+ */
+String operator +(const std::wstring& left, const String& right);
+
+/**
+ * \brief Overload of the binary + operator.
+ * This operator returns the sum of two strings.
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left + \a right
+ */
+String operator +(const char* left, const String& right);
+
+/**
+ * \brief Overload of the binary + operator.
+ * This operator returns the sum of two strings.
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left + \a right
+ */
+String operator +(const wchar_t* left, const String& right);
+
+/**
+ * \brief Overload of the binary + operator.
+ * This operator returns the sum of string and char.
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left + \a right
+ */
+String operator +(const Char& left, const String& right);
+
+/**
+ * \brief Overload of the binary + operator.
+ * This operator returns the sum of char and string.
+ * Character may be ansi char, wide char or curses char
+ * \param left Left operand
+ * \param right Right operand
+ * \return Result of \a left + \a right
+ */
+String operator +(uint32_t left, const String& right);
 }

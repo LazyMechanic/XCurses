@@ -526,4 +526,40 @@ const std::basic_string<Char>& String::getBasicString() const
 {
     return m_string;
 }
+
+String operator+(const std::string& left, const String& right)
+{
+    String result = right + left;
+    return result;
+}
+
+String operator+(const std::wstring& left, const String& right)
+{
+    String result = right + left;
+    return result;
+}
+
+String operator+(const char* left, const String& right)
+{
+    String result = right + left;
+    return result;
+}
+
+String operator+(const wchar_t* left, const String& right)
+{
+    String result = right + left;
+    return result;
+}
+
+String operator+(const Char& left, const String& right)
+{
+    String result = right + left;
+    return result;
+}
+
+String operator+(uint32_t left, const String& right)
+{
+    String result = right + left;
+    return result;
+}
 }
