@@ -17,12 +17,6 @@ public:
     static const Object::Ptr<Inputtable> None;
 
     /**
-     * \brief Create Inputtable
-     * \return Smart ptr to Inputtable
-     */
-    static Object::Ptr<Inputtable> create();
-
-    /**
      * \brief Inputtable destructor.
      */
     virtual ~Inputtable() = default;
@@ -52,28 +46,11 @@ public:
      */
     CursorState getCursorState() const;
 
-    /**
-     * \brief Set widget size
-     * \param size New size
-     */
-    void setSize(const Vector2u& size);
-
-    /**
-     * \brief Get widget size
-     * \return Size
-     */
-    Vector2u getSize() const;
-
 protected:
     /**
-     * \brief Default Inputtable constructor.
+     * \brief Default Inputtable constructor
      */
     Inputtable();
-
-    /**
-     * \brief Widget size
-     */
-    Vector2u m_size;
 
     /**
      * \brief Current cursor position

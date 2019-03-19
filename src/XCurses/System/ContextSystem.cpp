@@ -1,9 +1,9 @@
-#include <XCurses/Graphics/ContextSystem.h>
+#include <XCurses/System/ContextSystem.h>
 
 #include <algorithm>
 
 #include <XCurses/System/Core.h>
-#include <XCurses/Graphics/Context.h>
+#include <XCurses/System/Context.h>
 
 namespace xcur {
 Object::Ptr<ContextSystem> ContextSystem::create()

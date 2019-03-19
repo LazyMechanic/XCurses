@@ -2,7 +2,7 @@
 #include <Catch2/catch.hpp>
 
 #include <XCurses/Graphics/Color.h>
-#include <XCurses/Graphics/ColorSystem.h>
+#include <XCurses/System/ColorSystem.h>
 #include <XCurses/Graphics/ColorPalette.h>
 
 using namespace xcur;

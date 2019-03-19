@@ -9,7 +9,7 @@
 #include <XCurses/Graphics/Border.h>
 #include <XCurses/Graphics/Container.h>
 
-#include <XCurses/Graphics/Widgets/Title.h>
+#include <XCurses/Graphics/Title.h>
 
 namespace xcur {
 /**

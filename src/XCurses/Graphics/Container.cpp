@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include <XCurses/Graphics/Context.h>
+#include <XCurses/System/Context.h>
 
 namespace xcur {
 Object::Ptr<Container> Container::create()

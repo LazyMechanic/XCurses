@@ -1,6 +1,6 @@
-#include <XCurses/Graphics/Widgets/Title.h>
+#include <XCurses/Graphics/Title.h>
 
-#include <XCurses/Graphics/Context.h>
+#include <XCurses/System/Context.h>
 #include <XCurses/Graphics/Container.h>
 
 namespace xcur {

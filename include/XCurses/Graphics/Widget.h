@@ -2,8 +2,8 @@
 
 #include <XCurses/System/Object.h>
 #include <XCurses/System/Vector.h>
-#include <XCurses/Graphics/Drawable.h>
-#include <XCurses/Graphics/Behaviour.h>
+#include <XCurses/System/Drawable.h>
+#include <XCurses/System/Behaviour.h>
 
 namespace xcur {
 class Context;
@@ -58,6 +58,12 @@ public:
      * \brief Put widget to front relatively parent
      */
     void toFront();
+
+    /**
+     * \brief Set widget size. Meaning depends on implementation of the heir
+     * \param size New size
+     */
+    virtual void setSize(const Vector2u& size);
 
     /**
      * \brief Get widget width

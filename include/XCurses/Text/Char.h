@@ -15,6 +15,14 @@ namespace xcur {
 class Char
 {
 public:
+    enum Key
+    {
+        Backspace = 0x08,
+        Tab = 0x09,
+        LineFeed = 0x0A,
+        Delete = 0x7F,
+    };
+
     /**
      * \brief Default char constructor. Construct the char with normal attribute
      * 0 color pair and 0 character

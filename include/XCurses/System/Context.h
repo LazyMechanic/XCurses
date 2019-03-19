@@ -8,8 +8,8 @@
 #include <XCurses/System/Object.h>
 #include <XCurses/System/Vector2.h>
 #include <XCurses/Graphics/Inputtable.h>
-#include <XCurses/Graphics/Drawable.h>
-#include <XCurses/Graphics/Behaviour.h>
+#include <XCurses/System/Drawable.h>
+#include <XCurses/System/Behaviour.h>
 #include <XCurses/Graphics/VirtualScreen.h>
 
 namespace xcur {
@@ -115,6 +115,12 @@ public:
      * \return Smart ptr to active inputtable widget
      */
     Object::Ptr<Inputtable> getActiveInputWidget() const;
+
+    /**
+     * \brief Check if inputWidget is active
+     * \return True if inputWidget is active, false otherwise
+     */
+    bool isActiveInputWidget(Object::Ptr<Inputtable> inputWidget) const;
 
     /**
      * \brief Find widget in widget tree

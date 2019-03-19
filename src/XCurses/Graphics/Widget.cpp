@@ -1,6 +1,6 @@
 #include <XCurses/Graphics/Widget.h>
 
-#include <XCurses/Graphics/Context.h>
+#include <XCurses/System/Context.h>
 #include <XCurses/Graphics/Container.h>
 
 namespace xcur {
@@ -76,6 +76,11 @@ void Widget::toFront()
     if (getParent() != nullptr) {
         getParent()->widgetToFront(shared_from_this());
     }
+}
+
+void Widget::setSize(const Vector2u& size)
+{
+    m_size = size;
 }
 
 uint32_t Widget::getWidth() const

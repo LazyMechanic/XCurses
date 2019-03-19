@@ -1,8 +1,8 @@
-#include <XCurses/Graphics/Widgets/Window.h>
+#include <XCurses/Graphics/Window.h>
 
 #include <algorithm>
 
-#include <XCurses/Graphics/Context.h>
+#include <XCurses/System/Context.h>
 #include <XCurses/Graphics/Container.h>
 
 namespace xcur {

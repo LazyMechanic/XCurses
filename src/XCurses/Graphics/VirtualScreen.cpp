@@ -83,6 +83,11 @@ Object::Ptr<Inputtable> VirtualScreen::getActiveInputWidget() const
     return m_activeInputWidget.lock();
 }
 
+bool VirtualScreen::isActiveInputWidget(Object::Ptr<Inputtable> inputWidget) const
+{
+    return inputWidget == m_activeInputWidget.lock();
+}
+
 void VirtualScreen::clear() const
 {
     for (int column = 0; column < stdscr->_maxx; ++column) {

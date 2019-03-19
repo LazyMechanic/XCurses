@@ -1,4 +1,4 @@
-#include <XCurses/Graphics/Behaviour.h>
+#include <XCurses/System/Behaviour.h>
 
 namespace xcur {
 void Behaviour::update(float dt)

@@ -4,31 +4,31 @@ namespace xcur {
 Char Char::Err(0x0000ffff);
 
 Char::Char() :
-    colorPairId(0),
+    symbol(0),
     attribute(Attribute::Normal),
-    symbol(0)
+    colorPairId(0)
 {
 }
 
 Char::Char(uint8_t colorPairId, Attribute attr, uint16_t symbol) :
-    colorPairId(colorPairId),
+    symbol(symbol),
     attribute(attr),
-    symbol(symbol)
+    colorPairId(colorPairId)
 {
 }
 
 Char::Char(uint32_t ch) :
-    colorPairId(Char::getColorPairId(ch)),
+    symbol(Char::getSymbol(ch)),
     attribute(Char::getAttribute(ch)),
-    symbol(Char::getSymbol(ch))
+    colorPairId(Char::getColorPairId(ch))
 {
 }
 
 Char& Char::operator=(uint32_t right)
 {
-    colorPairId = Char::getColorPairId(right);
-    attribute = Char::getAttribute(right);
     symbol = Char::getSymbol(right);
+    attribute = Char::getAttribute(right);
+    colorPairId = Char::getColorPairId(right);
     return *this;
 }
 

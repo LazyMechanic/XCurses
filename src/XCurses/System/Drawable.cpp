@@ -1,4 +1,4 @@
-#include <XCurses/Graphics/Drawable.h>
+#include <XCurses/System/Drawable.h>
 
 namespace xcur {
 void Drawable::draw() const

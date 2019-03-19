@@ -7,7 +7,7 @@
 #include <PDCurses/curses.h>
 
 #include <XCurses/System/Input.h>
-#include <XCurses/Graphics/Context.h>
+#include <XCurses/System/Context.h>
 
 namespace xcur {
 

@@ -1,4 +1,4 @@
-#include <XCurses/Graphics/Context.h>
+#include <XCurses/System/Context.h>
 
 #include <algorithm>
 
@@ -6,9 +6,9 @@
 
 #include <XCurses/System/Input.h>
 #include <XCurses/Graphics/Widget.h>
-#include <XCurses/Graphics/TreeNode.h>
+#include <XCurses/System/TreeNode.h>
 #include <XCurses/Graphics/Container.h>
-#include <XCurses/Graphics/ContextSystem.h>
+#include <XCurses/System/ContextSystem.h>
 
 namespace xcur {
 Object::Ptr<Context> Context::create()
@@ -128,6 +128,11 @@ void Context::setActiveInputWidget(Object::Ptr<Inputtable> inputWidget)
 Object::Ptr<Inputtable> Context::getActiveInputWidget() const
 {
     return m_virtualScreen->getActiveInputWidget();
+}
+
+bool Context::isActiveInputWidget(Object::Ptr<Inputtable> inputWidget) const
+{
+    return m_virtualScreen->isActiveInputWidget(inputWidget);
 }
 
 bool Context::has(Object::Ptr<Widget> widget) const
