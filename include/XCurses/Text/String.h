@@ -674,6 +674,14 @@ public:
     ConstReverseIterator crend() const;
 
     /**
+     * \brief Reserve string capacity. New memory is allocated if necessary
+     * \param size New string capacity
+     */
+    void reserve(size_t size);
+
+    size_t capacity() const;
+
+    /**
      * \brief Find substring into the string
      * \param str String which we need to find
      * \param startPosition Starting position for search

@@ -453,6 +453,16 @@ String::ConstReverseIterator String::crend() const
     return m_string.crend();
 }
 
+void String::reserve(size_t size)
+{
+    m_string.reserve(size);
+}
+
+size_t String::capacity() const
+{
+    return m_string.capacity();
+}
+
 size_t String::find(const String& str, size_t startPosition) const
 {
     return m_string.find(str.m_string, startPosition);
