@@ -674,6 +674,15 @@ public:
     ConstReverseIterator crend() const;
 
     /**
+     * \brief Resize string that can storage "count" characters.
+     * If current size less than count then add additional characters.
+     * If current size more than count then string reduce to first count characters
+     * \param count New string size
+     * \param ch Character for additional characters
+     */
+    void resize(size_t count, Char ch = Char());
+
+    /**
      * \brief Reserve string capacity. New memory is allocated if necessary
      * \param size New string capacity
      */

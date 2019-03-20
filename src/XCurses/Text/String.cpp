@@ -453,6 +453,11 @@ String::ConstReverseIterator String::crend() const
     return m_string.crend();
 }
 
+void String::resize(size_t count, Char ch)
+{
+    m_string.resize(count, ch);
+}
+
 void String::reserve(size_t size)
 {
     m_string.reserve(size);
