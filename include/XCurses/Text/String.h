@@ -679,6 +679,10 @@ public:
      */
     void reserve(size_t size);
 
+    /**
+     * \brief Get string capacity
+     * \return Capacity
+     */
     size_t capacity() const;
 
     /**
