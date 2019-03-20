@@ -29,23 +29,32 @@ void Form::update(float dt)
             
             // TODO: Input handler in Form::update()
             Char ch = Input::getPressedKey();
+            // If no input char
             if (ch == Char::Err) {
                 return;
             }
-            else if (ch == Char::Key::Backspace) {
-
-            }
-            else if (ch == Char::Key::Delete) {
-
-            }
-            else if (ch == Char::Key::Tab) {
-
-            }
-            else if (ch == Char::Key::Delete) {
-
-            }
+            // If char is not spec key, but common symbol
             else if (ch > Char::Key::Delete) {
-                
+                m_content.insert(m_contentCursorPosition, ch);
+                moveContentCursorPosition(1, rightDirection);
+            }
+            else if (ch == Char::Key::Backspace) {
+                if (m_contentCursorPosition > 0) {
+                    m_content.erase(m_contentCursorPosition - 1);
+                    moveContentCursorPosition(1, leftDirection);
+                }
+            }
+            else if (ch == Char::Key::Tab ||
+                ch == Char::Key::LineFeed) 
+            {
+                m_content.insert(m_contentCursorPosition, ch);
+                moveContentCursorPosition(1, rightDirection);
+            }
+            else if (ch == Char::Key::Delete) {
+                // If content cursor position points to symbol
+                if (m_contentCursorPosition < m_content.size()) {
+                    m_content.erase(m_contentCursorPosition + 1);
+                }
             }
         }
     }
@@ -76,7 +85,7 @@ void Form::moveContentCursorPosition(size_t deltaPosition, LeftDirection)
 
 void Form::moveContentCursorPosition(size_t deltaPosition, RightDirection)
 {
-    m_contentCursorPosition = std::min(m_contentCursorPosition + deltaPosition, m_content.size())
+    m_contentCursorPosition = std::min(m_contentCursorPosition + deltaPosition, m_content.size());
 }
 
 size_t Form::getContentCursorPosition() const
