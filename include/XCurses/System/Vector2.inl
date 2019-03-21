@@ -27,61 +27,61 @@ Vector2<T>::Vector2(const Vector2<From>& vector) :
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::operator+(const T& right)
+Vector2<T> Vector2<T>::operator+(const T& right) const
 {
     return Vector2<T>(this->x + right, this->y + right);
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator-(const T& right)
+Vector2<T> Vector2<T>::operator-(const T& right) const
 {
     return Vector2<T>(this->x - right, this->y - right);
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator*(const T& right)
+Vector2<T> Vector2<T>::operator*(const T& right) const
 {
     return Vector2<T>(this->x * right, this->y * right);
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator/(const T& right)
+Vector2<T> Vector2<T>::operator/(const T& right) const
 {
     return Vector2<T>(this->x / right, this->y / right);
 }
 
 template <typename T>
-Vector2<T> Vector2<T>::operator+(const Vector2<T>& right)
+Vector2<T> Vector2<T>::operator+(const Vector2<T>& right) const
 {
     return Vector2<T>(this->x + right.x, this->y + right.y);
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator-(const Vector2<T>& right)
+Vector2<T> Vector2<T>::operator-(const Vector2<T>& right) const
 {
     return Vector2<T>(this->x - right.x, this->y - right.y);
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator*(const Vector2<T>& right)
+Vector2<T> Vector2<T>::operator*(const Vector2<T>& right) const
 {
     return Vector2<T>(this->x * right.x, this->y * right.y);
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator/(const Vector2<T>& right)
+Vector2<T> Vector2<T>::operator/(const Vector2<T>& right) const
 {
     return Vector2<T>(this->x / right.x, this->y / right.y);
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator+()
+Vector2<T> Vector2<T>::operator+() const
 {
     return *this;
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator-()
+Vector2<T> Vector2<T>::operator-() const
 {
     return Vector2<T>(-this->x, -this->y);
 }

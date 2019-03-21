@@ -30,8 +30,8 @@ set(XCURSES_GRAPHICS_SRCS
     ${XCURSES_SRC_DIR}/Graphics/Window.cpp
     ${XCURSES_INC_DIR}/Graphics/Title.h
     ${XCURSES_SRC_DIR}/Graphics/Title.cpp
-    ${XCURSES_INC_DIR}/Graphics/Form.h
-    ${XCURSES_SRC_DIR}/Graphics/Form.cpp
+    ${XCURSES_INC_DIR}/Graphics/TextArea.h
+    ${XCURSES_SRC_DIR}/Graphics/TextArea.cpp
 )
 
 set(XCURSES_SYSTEM_SRCS
@@ -66,6 +66,7 @@ set(XCURSES_SYSTEM_SRCS
     ${XCURSES_INC_DIR}/System/Vector3.h
     ${XCURSES_INC_DIR}/System/Vector3.inl
     ${XCURSES_INC_DIR}/System/CursorState.h
+	${XCURSES_INC_DIR}/System/Direction.h
 )
 
 set(XCURSES_TEXT_SRCS

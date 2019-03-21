@@ -1,21 +1,20 @@
 #pragma once
 
-#include <XCurses/Graphics/Title.h>
-
-#include <XCurses/Graphics/Color.h>
 #include <XCurses/System/Object.h>
-#include <XCurses/Graphics/Widget.h>
-#include <XCurses/Graphics/Border.h>
 #include <XCurses/System/Context.h>
 #include <XCurses/System/Drawable.h>
 #include <XCurses/System/Behaviour.h>
-#include <XCurses/Graphics/Container.h>
 #include <XCurses/System/ColorSystem.h>
-#include <XCurses/Graphics/ColorPalette.h>
 #include <XCurses/System/ContextSystem.h>
 
+#include <XCurses/Graphics/Color.h>
 #include <XCurses/Graphics/Title.h>
 #include <XCurses/Graphics/Window.h>
+#include <XCurses/Graphics/Widget.h>
+#include <XCurses/Graphics/Border.h>
+#include <XCurses/Graphics/TextArea.h>
+#include <XCurses/Graphics/Container.h>
+#include <XCurses/Graphics/ColorPalette.h>
 
 #include <XCurses/System/Core.h>
 #include <XCurses/System/Input.h>

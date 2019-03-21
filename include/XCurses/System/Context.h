@@ -11,6 +11,7 @@
 #include <XCurses/System/Drawable.h>
 #include <XCurses/System/Behaviour.h>
 #include <XCurses/Graphics/VirtualScreen.h>
+#include "Input.h"
 
 namespace xcur {
 namespace detail {
@@ -105,22 +106,28 @@ public:
 
     /**
      * \brief Set active inputtable widget
-     * \param inputWidget Widget which need set active. If it is Inputtable::None (nullptr) 
+     * \tparam Type Widget type
+     * \param inputWidget Widget which need set active. If it is nullptr)
      * then off cursor
      */
-    void setActiveInputWidget(Object::Ptr<Inputtable> inputWidget);
+    template <
+        class Type, 
+        class = typename std::enable_if<
+            std::is_base_of<Inputtable, Type>::value &&
+            std::is_base_of<Widget, Type>::value>::type>
+    void setActiveInputWidget(Object::Ptr<Type> inputWidget);
 
     /**
      * \brief Get active inputtable widget
-     * \return Smart ptr to active inputtable widget
+     * \return Smart ptr to active input widget
      */
-    Object::Ptr<Inputtable> getActiveInputWidget() const;
+    Object::Ptr<Widget> getActiveInputWidget() const;
 
     /**
      * \brief Check if inputWidget is active
      * \return True if inputWidget is active, false otherwise
      */
-    bool isActiveInputWidget(Object::Ptr<Inputtable> inputWidget) const;
+    bool isActiveInputWidget(Object::Ptr<Widget> inputWidget) const;
 
     /**
      * \brief Find widget in widget tree
@@ -190,4 +197,10 @@ private:
      */
     Status addSingleWidget(Object::Ptr<Widget> widget);
 };
+
+template <class Type, class>
+void Context::setActiveInputWidget(Object::Ptr<Type> inputWidget)
+{
+    m_virtualScreen->setActiveInputWidget(inputWidget);
+}
 }

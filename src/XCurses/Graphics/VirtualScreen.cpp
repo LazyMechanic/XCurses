@@ -6,6 +6,7 @@
 
 #include <XCurses/System/Core.h>
 #include <XCurses/Graphics/Container.h>
+#include <complex.h>
 
 namespace xcur {
 Object::Ptr<VirtualScreen> VirtualScreen::create()
@@ -15,11 +16,12 @@ Object::Ptr<VirtualScreen> VirtualScreen::create()
 
 void VirtualScreen::update(float dt)
 {
-    const auto activeInputWidget = getActiveInputWidget();
+    const auto activeWidget = getActiveInputWidget();
+    const auto activeInputWidget = std::reinterpret_pointer_cast<Inputtable>(activeWidget);
     // If activeInputWidget is not Inputtable::None
-    if (activeInputWidget != Inputtable::None) {
+    if (activeWidget != nullptr) {
         Vector2u endPosition = activeInputWidget->getCursorPosition();
-        auto parent = activeInputWidget->getParent();
+        auto parent = activeWidget->getParent();
         // Pass through all parent widgets
         while (parent != nullptr) {
             endPosition += parent->getPosition();
@@ -73,17 +75,12 @@ void VirtualScreen::addString(const String& str, const Vector2u& position)
     }
 }
 
-void VirtualScreen::setActiveInputWidget(Object::Ptr<Inputtable> inputWidget)
-{
-    m_activeInputWidget = inputWidget;
-}
-
-Object::Ptr<Inputtable> VirtualScreen::getActiveInputWidget() const
+Object::Ptr<Widget> VirtualScreen::getActiveInputWidget() const
 {
     return m_activeInputWidget.lock();
 }
 
-bool VirtualScreen::isActiveInputWidget(Object::Ptr<Inputtable> inputWidget) const
+bool VirtualScreen::isActiveInputWidget(Object::Ptr<Widget> inputWidget) const
 {
     return inputWidget == m_activeInputWidget.lock();
 }

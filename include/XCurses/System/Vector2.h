@@ -59,7 +59,7 @@ public:
      * \param right Right operand
      * \return Result of \a left + \a right
      */
-    Vector2 operator+(const T& right);
+    Vector2 operator+(const T& right) const;
 
     /**
      * \brief Overload of the binary - operator.
@@ -67,7 +67,7 @@ public:
      * \param right Right operand
      * \return Result of \a left - \a right
      */
-    Vector2 operator-(const T& right);
+    Vector2 operator-(const T& right) const;
 
     /**
      * \brief Overload of the binary * operator.
@@ -75,7 +75,7 @@ public:
      * \param right Right operand
      * \return Result of \a left * \a right
      */
-    Vector2 operator*(const T& right);
+    Vector2 operator*(const T& right) const;
 
     /**
      * \brief Overload of the binary * operator.
@@ -83,7 +83,7 @@ public:
      * \param right Right operand
      * \return Result of \a left * \a right
      */
-    Vector2 operator/(const T& right);
+    Vector2 operator/(const T& right) const;
 
     /**
      * \brief Overload of the binary + operator.
@@ -91,7 +91,7 @@ public:
      * \param right Right operand
      * \return Result of \a left + \a right
      */
-    Vector2 operator+(const Vector2& right);
+    Vector2 operator+(const Vector2& right) const;
 
     /**
      * \brief Overload of the binary - operator.
@@ -99,7 +99,7 @@ public:
      * \param right Right operand
      * \return Result of \a left - \a right
      */
-    Vector2 operator-(const Vector2& right);
+    Vector2 operator-(const Vector2& right) const;
 
     /**
      * \brief Overload of the binary * operator.
@@ -107,7 +107,7 @@ public:
      * \param right Right operand
      * \return Result of \a left * \a right
      */
-    Vector2 operator*(const Vector2& right);
+    Vector2 operator*(const Vector2& right) const;
 
     /**
      * \brief Overload of the binary * operator.
@@ -115,19 +115,19 @@ public:
      * \param right Right operand
      * \return Result of \a left * \a right
      */
-    Vector2 operator/(const Vector2& right);
+    Vector2 operator/(const Vector2& right) const;
 
     /**
      * \brief Overload of the unary + operator
      * \return Result of \a +left
      */
-    Vector2 operator+();
+    Vector2 operator+() const;
 
     /**
      * \brief Overload of the unary - operator
      * \return Result of \a -left
      */
-    Vector2 operator-();
+    Vector2 operator-() const;
 
     /**
      * \brief Overload of the binary += operator

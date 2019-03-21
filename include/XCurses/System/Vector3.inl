@@ -30,61 +30,61 @@ Vector3<T>::Vector3(const Vector3<From>& vector) :
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator+(const T& right)
+Vector3<T> Vector3<T>::operator+(const T& right) const
 {
     return Vector3<T>(this->x + right, this->y + right, this->z + right);
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator-(const T& right)
+Vector3<T> Vector3<T>::operator-(const T& right) const
 {
     return Vector3<T>(this->x - right, this->y - right, this->z - right);
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator*(const T& right)
+Vector3<T> Vector3<T>::operator*(const T& right) const
 {
     return Vector3<T>(this->x * right, this->y * right, this->z * right);
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator/(const T& right)
+Vector3<T> Vector3<T>::operator/(const T& right) const
 {
     return Vector3<T>(this->x / right, this->y / right, this->z / right);
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator+(const Vector3<T>& right)
+Vector3<T> Vector3<T>::operator+(const Vector3<T>& right) const
 {
     return Vector3<T>(this->x + right.x, this->y + right.y, this->z + right.z);
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator-(const Vector3<T>& right)
+Vector3<T> Vector3<T>::operator-(const Vector3<T>& right) const
 {
     return Vector3<T>(this->x - right.x, this->y - right.y, this->z - right.z);
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator*(const Vector3<T>& right)
+Vector3<T> Vector3<T>::operator*(const Vector3<T>& right) const
 {
     return Vector3<T>(this->x * right.x, this->y * right.y, this->z * right.z);
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator/(const Vector3<T>& right)
+Vector3<T> Vector3<T>::operator/(const Vector3<T>& right) const
 {
     return Vector3<T>(this->x / right.x, this->y / right.y, this->z / right.z);
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator+()
+Vector3<T> Vector3<T>::operator+() const
 {
     return *this;
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::operator-()
+Vector3<T> Vector3<T>::operator-() const
 {
     return Vector3<T>(-this->x, -this->y, -this->z);
 }
