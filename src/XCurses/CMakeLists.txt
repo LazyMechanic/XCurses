@@ -32,6 +32,8 @@ set(XCURSES_GRAPHICS_SRCS
     ${XCURSES_SRC_DIR}/Graphics/Title.cpp
     ${XCURSES_INC_DIR}/Graphics/TextArea.h
     ${XCURSES_SRC_DIR}/Graphics/TextArea.cpp
+    ${XCURSES_INC_DIR}/Graphics/InputTextArea.h
+    ${XCURSES_SRC_DIR}/Graphics/InputTextArea.cpp
 )
 
 set(XCURSES_SYSTEM_SRCS

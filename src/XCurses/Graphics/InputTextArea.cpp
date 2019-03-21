@@ -42,7 +42,7 @@ void InputTextArea::updateContent()
                 moveContentCursorPosition(1, direction::right);
 
                 // Mark content as changed
-                m_isContentChanged = true;
+                m_needUpdateDisplayString = true;
             }
             else if (ch == Char::Key::Backspace) {
                 // If on the left of cursor position has character
@@ -52,7 +52,7 @@ void InputTextArea::updateContent()
                     moveContentCursorPosition(1, direction::left);
 
                     // Mark content as changed
-                    m_isContentChanged = true;
+                    m_needUpdateDisplayString = true;
                 }
             }
             else if (ch == Char::Key::Delete) {
@@ -61,7 +61,7 @@ void InputTextArea::updateContent()
                     m_content.erase(m_contentCursorPosition + 1);
 
                     // Mark content as changed
-                    m_isContentChanged = true;
+                    m_needUpdateDisplayString = true;
                 }
             }
         }

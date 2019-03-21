@@ -104,6 +104,19 @@ public:
      */
     bool isScrollEnable() const;
 
+    /**
+     * \brief 
+     * \param deltaRowOffset 
+     */
+    void scroll(size_t deltaRowOffset, direction::Up);
+
+    /**
+     * \brief 
+     * Result row offset that less then 0 are clamped to 0 offset
+     * \param deltaRowOffset Delta row offset
+     */
+    void scroll(size_t deltaRowOffset, direction::Down);
+
 protected:
     /**
      * \brief TextArea constructor. Construct TextArea with specific position and size
@@ -117,6 +130,11 @@ protected:
      * \brief Update display string if content has changed
      */
     void updateDisplayString();
+
+    /**
+     * \brief Compute max row offset 
+     */
+    void computeMaxRowOffset();
 
     /**
      * \brief Position for next character
@@ -139,9 +157,14 @@ protected:
     size_t m_rowOffset;
 
     /**
-     * \brief Whether the content has changed
+     * \brief Max display row offset
      */
-    bool m_isContentChanged;
+    size_t m_maxRowOffset;
+
+    /**
+     * \brief Whether the content has changed or scrolled
+     */
+    bool m_needUpdateDisplayString;
 
     /**
      * \brief Whether the text area can scroll

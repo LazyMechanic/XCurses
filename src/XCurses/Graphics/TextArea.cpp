@@ -15,7 +15,8 @@ TextArea::TextArea(const Vector2u& position, const Vector2u& size) :
     Widget(position, size),
     m_contentCursorPosition(0),
     m_rowOffset(0),
-    m_isContentChanged(true),
+    m_maxRowOffset(0),
+    m_needUpdateDisplayString(true),
     m_isScrollEnable(true)
 {
 }
@@ -23,7 +24,7 @@ TextArea::TextArea(const Vector2u& position, const Vector2u& size) :
 void TextArea::update(float dt)
 {
     updateDisplayString();
-    m_isContentChanged = false;
+    m_needUpdateDisplayString = false;
 }
 
 void TextArea::draw() const
@@ -76,7 +77,8 @@ void TextArea::setContent(const String& str)
 {
     m_content = str;
     m_contentCursorPosition = str.size();
-    m_isContentChanged = true;
+    m_needUpdateDisplayString = true;
+    computeMaxRowOffset();
 }
 
 String TextArea::getContent() const
@@ -87,7 +89,7 @@ String TextArea::getContent() const
 void TextArea::setSize(const Vector2u& size)
 {
     Widget::setSize(size);
-    m_isContentChanged = true;
+    m_needUpdateDisplayString = true;
 }
 
 void TextArea::setScroll(bool state)
@@ -115,45 +117,90 @@ bool TextArea::isScrollEnable() const
     return m_isScrollEnable;
 }
 
+void TextArea::scroll(size_t deltaRowOffset, direction::Up)
+{
+    if (m_rowOffset > deltaRowOffset) {
+        m_rowOffset -= deltaRowOffset;
+    }
+    else {
+        m_rowOffset = 0;
+    }
+    m_needUpdateDisplayString = true;
+}
+
+void TextArea::scroll(size_t deltaRowOffset, direction::Down)
+{
+    m_rowOffset = std::min(m_rowOffset + deltaRowOffset, m_maxRowOffset);
+    m_needUpdateDisplayString = true;
+}
+
 void TextArea::updateDisplayString()
 {
     auto context = getContext();
     if (context != nullptr) {
         // If Content changed with input or other ways
-        if (m_isContentChanged) {
+        if (m_needUpdateDisplayString) {
+            computeMaxRowOffset();
 
             size_t displayStringCursorBegin = 0;
-            size_t displayStringLength = 0;
-            size_t currentRowOffset = 0;
 
-            const size_t maxTextAreaFilling = m_size.x * m_size.y;
-
-            do {
-                displayStringCursorBegin += displayStringLength;
-
-                size_t currentTextAreaFilling = 0;
-                size_t contentIndex = displayStringCursorBegin;
-                for (;
-                    (contentIndex < m_content.size()) &&
-                    (currentTextAreaFilling < maxTextAreaFilling);
-                    ++contentIndex, ++currentTextAreaFilling)
-                {
-                    // If meet line feed character then add to currentTextAreaFilling
-                    // the difference between used row size and max row size.
-                    // It is the unused row size including line feed character
-                    if (m_content[contentIndex] == Char::Key::LineFeed) {
-                        // Add "-1" because after "continue" currentFromFilling will increase again
-                        currentTextAreaFilling += (m_size.x - contentIndex % m_size.x) - 1;
-                        continue;
+            for (size_t currentRowOffset = 0; currentRowOffset <= m_rowOffset; ++currentRowOffset) {
+                // Scroll only 1 row
+                if (currentRowOffset > 0) {
+                    // Pass through content from display begin position
+                    for (size_t i = displayStringCursorBegin + 1; i < m_content.size(); ++i) {
+                        Char ch = m_content[i];
+                        if (i % m_size.x == 0 ||
+                            ch == Char::Key::LineFeed)
+                        {
+                            displayStringCursorBegin = i;
+                            break;
+                        }
                     }
                 }
+            }
 
-                displayStringLength = contentIndex - displayStringCursorBegin;
-                ++currentRowOffset;
-            } while (currentRowOffset < m_rowOffset);
+            const size_t maxTextAreaFilling = m_size.x * m_size.y;
+            size_t currentTextAreaFilling = 0;
+            size_t contentIndex = displayStringCursorBegin;
+            for (;
+                (contentIndex < m_content.size()) &&
+                (currentTextAreaFilling < maxTextAreaFilling);
+                ++contentIndex, ++currentTextAreaFilling)
+            {
+                // If meet line feed character then add to currentTextAreaFilling
+                // the difference between used row size and max row size.
+                // It is the unused row size including line feed character
+                if (m_content[contentIndex] == Char::Key::LineFeed) {
+                    // Add "-1" because after "continue" currentFromFilling will increase again
+                    currentTextAreaFilling += (m_size.x - contentIndex % m_size.x) - 1;
+                }
+            }
 
+            const size_t displayStringLength = contentIndex - displayStringCursorBegin;
             m_displayString = m_content.substring(displayStringCursorBegin, displayStringLength);
         }
     }
+}
+
+void TextArea::computeMaxRowOffset()
+{
+    m_maxRowOffset = 0;
+    size_t chCount = 0;
+    for (size_t i = 0; i < m_content.size(); ++i) {
+        ++chCount;
+        if (m_content[i] == Char::Key::LineFeed ||
+            chCount % m_size.x == 0 ||
+            (i + 1) == m_content.size()) {
+            chCount = 0;
+            ++m_maxRowOffset;
+        }
+    }
+    
+    if (m_maxRowOffset > 2) {
+        m_maxRowOffset -= 3;
+    }
+
+    m_rowOffset = std::min(m_rowOffset, m_maxRowOffset);
 }
 }
