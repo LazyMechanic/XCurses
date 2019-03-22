@@ -28,7 +28,7 @@ public:
      * \param enableInputDelay Delay mode state
      */
     CursesConfig(
-        const Vector2u& terminalSize,
+        const Vector2i& terminalSize,
         uint32_t inputDelay,
         bool enableCBreakMode,
         bool enableEchoMode,
@@ -47,7 +47,7 @@ public:
      * \brief Terminal size.
      * size.x is width, size.y = height
      */
-    Vector2u terminalSize;
+    Vector2i terminalSize;
 
     /**
      * \brief Delay value for input

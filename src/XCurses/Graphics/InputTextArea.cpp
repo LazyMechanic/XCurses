@@ -3,14 +3,14 @@
 #include <XCurses/System/Context.h>
 
 namespace xcur {
-Object::Ptr<InputTextArea> InputTextArea::create(const Vector2u& position, const Vector2u& size)
+Object::Ptr<InputTextArea> InputTextArea::create(const Area& area)
 {
-    return std::shared_ptr<InputTextArea>(new InputTextArea(position, size));
+    return std::shared_ptr<InputTextArea>(new InputTextArea(area));
 }
 
-InputTextArea::InputTextArea(const Vector2u& position, const Vector2u& size) :
-    TextArea(position, size),
-    Inputtable(m_size)
+InputTextArea::InputTextArea(const Area& area) :
+    TextArea(area),
+    Inputtable(m_area.size)
 {
 }
 

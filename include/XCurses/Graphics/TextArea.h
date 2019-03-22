@@ -14,11 +14,10 @@ class TextArea :
 public:
     /**
      * \brief Create TextArea with specific position and size
-     * \param position TextArea position
-     * \param size TextArea size
+     * \param area TextArea area
      * \return Smart ptr to TextArea
      */
-    static Object::Ptr<TextArea> create(const Vector2u& position, const Vector2u& size);
+    static Object::Ptr<TextArea> create(const Area& area);
 
     /**
      * \brief TextArea destructor
@@ -79,7 +78,7 @@ public:
      * \brief Set widget size
      * \param size New size
      */
-    void setSize(const Vector2u& size) override;
+    void setSize(const Vector2i& size) override;
 
     /**
      * \brief Set scroll mode
@@ -120,11 +119,10 @@ public:
 protected:
     /**
      * \brief TextArea constructor. Construct TextArea with specific position and size
-     * \param position TextArea position
-     * \param size TextArea size
+     * \param area TextArea area
      * \return Smart ptr to TextArea
      */
-    TextArea(const Vector2u& position, const Vector2u& size);
+    TextArea(const Area& area);
 
     /**
      * \brief Update display string if content has changed

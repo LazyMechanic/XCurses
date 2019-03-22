@@ -11,11 +11,10 @@ class InputTextArea :
 public:
     /**
      * \brief Create InputTextArea with specific position and size
-     * \param position InputTextArea position
-     * \param size InputTextArea size
+     * \param area InputTextArea area
      * \return Smart ptr to InputTextArea
      */
-    static Object::Ptr<InputTextArea> create(const Vector2u& position, const Vector2u& size);
+    static Object::Ptr<InputTextArea> create(const Area& area);
 
     /**
      * \brief InputTextArea destructor
@@ -31,10 +30,9 @@ public:
 protected:
     /**
      * \brief InputTextArea constructor. Construct it with specific position and size
-     * \param position InputTextArea position
-     * \param size InputTextArea size
+     * \param area InputTextArea area
      */
-    InputTextArea(const Vector2u& position, const Vector2u& size);
+    InputTextArea(const Area& area);
 
     /**
      * \brief Update content string

@@ -6,7 +6,7 @@
 
 namespace xcur {
 CursesConfig Curses::m_config(
-    Vector2u::Zero,
+    Vector2i::Zero,
     0,
     false,
     false,
@@ -146,7 +146,7 @@ bool Curses::isNewLineEnable()
     return m_config.isNewLineEnable;
 }
 
-Status Curses::setTerminalSize(const Vector2u& size)
+Status Curses::setTerminalSize(const Vector2i& size)
 {
     // If curses mode stop
     if (!Curses::isInit()) {
@@ -154,11 +154,11 @@ Status Curses::setTerminalSize(const Vector2u& size)
     }
 
     Status result = resize_term(size.y, size.x);
-    m_config.terminalSize = Vector2u(getmaxx(stdscr), getmaxy(stdscr));
+    m_config.terminalSize = Vector2i(getmaxx(stdscr), getmaxy(stdscr));
     return result;
 }
 
-Vector2u Curses::getTerminalSize()
+Vector2i Curses::getTerminalSize()
 {
     return m_config.terminalSize;
 }

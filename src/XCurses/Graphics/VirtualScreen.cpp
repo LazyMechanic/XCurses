@@ -20,7 +20,7 @@ void VirtualScreen::update(float dt)
     const auto activeInputWidget = std::reinterpret_pointer_cast<Inputtable>(activeWidget);
     // If activeInputWidget is not Inputtable::None
     if (activeWidget != nullptr) {
-        Vector2u endPosition = activeInputWidget->getCursorPosition();
+        Vector2i endPosition = activeInputWidget->getCursorPosition();
         auto parent = activeWidget->getParent();
         // Pass through all parent widgets
         while (parent != nullptr) {
@@ -45,7 +45,7 @@ void VirtualScreen::draw() const
     touchwin(stdscr);
 }
 
-void VirtualScreen::addChar(const Char& ch, const Vector2u& position)
+void VirtualScreen::addChar(const Char& ch, const Vector2i& position)
 {
     if (position.x < stdscr->_maxx && 
         position.y < stdscr->_maxy) 
@@ -54,7 +54,7 @@ void VirtualScreen::addChar(const Char& ch, const Vector2u& position)
     }
 }
 
-void VirtualScreen::addString(const String& str, const Vector2u& position)
+void VirtualScreen::addString(const String& str, const Vector2i& position)
 {
     // If position out of stdscr size
     if (position.x > stdscr->_maxx ||
@@ -63,7 +63,7 @@ void VirtualScreen::addString(const String& str, const Vector2u& position)
         return;
     }
 
-    Vector2u nextPosition = position;
+    Vector2i nextPosition = position;
     for (auto& ch : str) {
         // If next X position is end of row
         if (nextPosition.x > stdscr->_maxx) {

@@ -41,38 +41,34 @@ public:
 
     /**
      * \brief Create Container with default position and size
-     * \param position Container position
-     * \param size Container size
+     * \param area Container area
      */
-    static Object::Ptr<Container> create(const Vector2u& position, const Vector2u& size);
+    static Object::Ptr<Container> create(const Area& area);
 
     /**
      * \brief Create Container with default position, size and
      * set parent
-     * \param position Container position
-     * \param size Container size
+     * \param area Container area
      * \param parent Smart ptr to parent container
      */
-    static Object::Ptr<Container> create(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent);
+    static Object::Ptr<Container> create(const Area& area, Object::Ptr<Container> parent);
 
     /**
      * \brief Create Container with default position, size and
      * set context
-     * \param position Container position
-     * \param size Container size
+     * \param area Container area
      * \param context Smart ptr to context
      */
-    static Object::Ptr<Container> create(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context);
+    static Object::Ptr<Container> create(const Area& area, Object::Ptr<Context> context);
 
     /**
      * \brief Create Container with default position, size and
      * set parent and context
-     * \param position Container position
-     * \param size Container size
+     * \param area Container area
      * \param parent Smart ptr to parent container
      * \param context Smart ptr to context
      */
-    static Object::Ptr<Container> create(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent, Object::Ptr<Context> context);
+    static Object::Ptr<Container> create(const Area& area, Object::Ptr<Container> parent, Object::Ptr<Context> context);
 
     /**
      * \brief Container destructor
@@ -137,6 +133,14 @@ public:
      */
     ConstIterator find(Object::Ptr<Widget> widget) const;
 
+    /**
+     * \brief Recursive check if area of \a this contain \a point in \a widget 
+     * \param widget Widget which need check
+     * \param point Point in widget relatively his own
+     * \return True if container area contain point, false otherwise
+     */
+    bool isIntoVisibleArea(Object::PtrConst<Widget> widget, const Vector2i& point) const;
+
 protected:
     /**
      * \brief Default Container constructor. Construct it with zero position and size
@@ -145,39 +149,36 @@ protected:
 
     /**
      * \brief Container constructor. Construct it with default position and size
-     * \param position Container position
-     * \param size Container size
+     * \param area Container area
      */
-    Container(const Vector2u& position, const Vector2u& size);
+    Container(const Area& area);
 
     /**
      * \brief Container constructor. Construct it with default position, size and
      * set parent
-     * \param position Container position
-     * \param size Container size
+     * \param area Container area
      * \param parent Smart ptr to parent container
      */
-    Container(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent);
+    Container(const Area& area, Object::Ptr<Container> parent);
 
     /**
      * \brief Container constructor. Construct it with default position, size and
      * set context
-     * \param position Container position
-     * \param size Container size
+     * \param area Container area
      * \param context Smart ptr to context
      */
-    Container(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context);
+    Container(const Area& area, Object::Ptr<Context> context);
 
     /**
      * \brief Container constructor. Construct it with default position, size and
      * set parent and context
-     * \param position Container position
-     * \param size Container size
+     * \param area Container area
      * \param parent Smart ptr to parent container
      * \param context Smart ptr to context
      */
-    Container(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent, Object::Ptr<Context> context);
+    Container(const Area& area, Object::Ptr<Container> parent, Object::Ptr<Context> context);
 
+private:
     /**
      * \brief List of child widgets
      */

@@ -1,6 +1,7 @@
 #include <XCurses/System/Context.h>
 
 #include <algorithm>
+#include <stdexcept>
 
 #include <PDCurses/curses.h>
 
@@ -72,9 +73,18 @@ Status Context::remove(Object::Ptr<Widget> widget)
     return Status::Ok;
 }
 
-void Context::addToVirtualScreen(Object::Ptr<Widget> widget, const Char& ch, const Vector2u& position)
+void Context::addToVirtualScreen(Object::PtrConst<Widget> widget, const Char& ch, const Vector2i& position) const
 {
-    Vector2u endPosition = position + widget->getPosition();
+    if (widget == nullptr) {
+        throw std::runtime_error("Widget pointer is nullptr");
+    }
+
+    // If widget can't draw on the position
+    if (!widget->isIntoVisibleArea(position)) {
+        return;
+    }
+
+    Vector2i endPosition = position + widget->getPosition();
     auto parent = widget->getParent();
     // Pass through all parent widgets
     while (parent != nullptr) {
@@ -84,33 +94,18 @@ void Context::addToVirtualScreen(Object::Ptr<Widget> widget, const Char& ch, con
     m_virtualScreen->addChar(ch, endPosition);
 }
 
-void Context::addToVirtualScreen(Object::PtrConst<Widget> widget, const Char& ch, const Vector2u& position)
+void Context::addToVirtualScreen(Object::PtrConst<Widget> widget, const String& str, const Vector2i& position) const
 {
-    Vector2u endPosition = position + widget->getPosition();
-    auto parent = widget->getParent();
-    // Pass through all parent widgets
-    while (parent != nullptr) {
-        endPosition += parent->getPosition();
-        parent = parent->getParent();
+    if (widget == nullptr) {
+        throw std::runtime_error("Widget pointer is nullptr");
     }
-    m_virtualScreen->addChar(ch, endPosition);
-}
 
-void Context::addToVirtualScreen(Object::Ptr<Widget> widget, const String& str, const Vector2u& position)
-{
-    Vector2u endPosition = position + widget->getPosition();
-    auto parent = widget->getParent();
-    // Pass through all parent widgets
-    while (parent != nullptr) {
-        endPosition += parent->getPosition();
-        parent = parent->getParent();
+    // If widget can't draw on the position
+    if (!widget->isIntoVisibleArea(position)) {
+        return;
     }
-    m_virtualScreen->addString(str, endPosition);
-}
 
-void Context::addToVirtualScreen(Object::PtrConst<Widget> widget, const String& str, const Vector2u& position)
-{
-    Vector2u endPosition = position + widget->getPosition();
+    Vector2i endPosition = position + widget->getPosition();
     auto parent = widget->getParent();
     // Pass through all parent widgets
     while (parent != nullptr) {

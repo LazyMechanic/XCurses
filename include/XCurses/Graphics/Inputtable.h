@@ -18,15 +18,16 @@ public:
     /**
      * \brief Set screen cursor position. 
      * Position coordinates that exceed widget size are clamped to widget size.
+     * If size components less zero then will undefined behaviour.
      * \param position New cursor position
      */
-    void setScreenCursorPosition(const Vector2u& position);
+    void setScreenCursorPosition(const Vector2i& position);
 
     /**
      * \brief Get current cursor position
      * \return Coordinate
      */
-    Vector2u getCursorPosition() const;
+    Vector2i getCursorPosition() const;
 
     /**
      * \brief Set new cursor state
@@ -46,12 +47,13 @@ protected:
      * \param size Widget size. The value do not changes by this class.
      * It needed for clamping cursor position
      */
-    explicit Inputtable(Vector2u& size);
+    explicit Inputtable(Vector2i& size);
 
     /**
-     * \brief Current screen cursor position
+     * \brief Current screen cursor position. 
+     * If cursor components less zero then will undefined behaviour.
      */
-    Vector2u m_screenCursorPosition;
+    Vector2i m_screenCursorPosition;
 
     /**
      * \brief Cursor state
@@ -62,6 +64,6 @@ private:
     /**
      * \brief Heir widget size
      */
-    Vector2u& m_widgetSize;
+    Vector2i& m_widgetSize;
 };
 }

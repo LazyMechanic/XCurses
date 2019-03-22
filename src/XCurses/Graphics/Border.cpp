@@ -76,8 +76,8 @@ void Border::draw() const
     if (context != nullptr &&
         parent != nullptr) {
         // Draw verticals
-        Vector2u topSidePosition = Vector2u::Zero;
-        Vector2u bottomSidePosition = Vector2u(0, std::max<uint32_t>(static_cast<int32_t>(parent->getSize().y) - 1, 0));
+        Vector2i topSidePosition = Vector2i::Zero;
+        Vector2i bottomSidePosition = Vector2i(0, std::max<uint32_t>(static_cast<int32_t>(parent->getSize().y) - 1, 0));
 
         for (uint32_t i = 1; i < parent->getSize().x; ++i) {
             topSidePosition.x = i;
@@ -87,8 +87,8 @@ void Border::draw() const
         }
 
         // Draw horizontals
-        Vector2u leftSidePosition = Vector2u::Zero;
-        Vector2u rightSidePosition = Vector2u(std::max<uint32_t>(static_cast<int32_t>(parent->getSize().x) - 1, 0), 0);
+        Vector2i leftSidePosition = Vector2i::Zero;
+        Vector2i rightSidePosition = Vector2i(std::max<uint32_t>(static_cast<int32_t>(parent->getSize().x) - 1, 0), 0);
 
         for (uint32_t i = 1; i < parent->getSize().y; ++i) {
             leftSidePosition.y = i;
@@ -98,10 +98,10 @@ void Border::draw() const
         }
 
         // Draw corners
-        Vector2u topLeftCornerPosition = Vector2u::Zero;
-        Vector2u topRightCornerPosition = Vector2u(std::max<uint32_t>(static_cast<int32_t>(parent->getSize().x) - 1, 0), 0);
-        Vector2u bottomLeftCornerPosition = Vector2u(0, std::max<uint32_t>(static_cast<int32_t>(parent->getSize().y) - 1, 0));
-        Vector2u bottomRightCornerPosition = Vector2u(std::max<uint32_t>(static_cast<int32_t>(parent->getSize().x) - 1, 0), std::max<uint32_t>(static_cast<int32_t>(parent->getSize().y) - 1, 0));
+        Vector2i topLeftCornerPosition = Vector2i::Zero;
+        Vector2i topRightCornerPosition = Vector2i(std::max<uint32_t>(static_cast<int32_t>(parent->getSize().x) - 1, 0), 0);
+        Vector2i bottomLeftCornerPosition = Vector2i(0, std::max<uint32_t>(static_cast<int32_t>(parent->getSize().y) - 1, 0));
+        Vector2i bottomRightCornerPosition = Vector2i(std::max<uint32_t>(static_cast<int32_t>(parent->getSize().x) - 1, 0), std::max<uint32_t>(static_cast<int32_t>(parent->getSize().y) - 1, 0));
 
         context->addToVirtualScreen(shared_from_this(), borderTraits.topLeftCorner, topLeftCornerPosition);
         context->addToVirtualScreen(shared_from_this(), borderTraits.topRightCorner, topRightCornerPosition);

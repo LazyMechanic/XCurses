@@ -46,7 +46,7 @@ public:
      * \param ch Character
      * \param position Position
      */
-    void addChar(const Char& ch, const Vector2u& position);
+    void addChar(const Char& ch, const Vector2i& position);
 
     /**
      * \brief Add string in virtual screen. If position more than screen size then
@@ -54,7 +54,7 @@ public:
      * \param str String
      * \param position Position
      */
-    void addString(const String& str, const Vector2u& position);
+    void addString(const String& str, const Vector2i& position);
 
     /**
      * \brief Set active inputtable widget

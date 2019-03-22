@@ -8,120 +8,92 @@
 namespace xcur {
 Object::Ptr<Window> Window::create()
 {
-    return Window::create(Vector2u::Zero, Vector2u::Zero, nullptr, nullptr);
+    return Window::create(Area(Vector2i::Zero, Vector2i::Zero), nullptr, nullptr);
 }
 
-Object::Ptr<Window> Window::create(const Vector2u& position, const Vector2u& size)
+Object::Ptr<Window> Window::create(const Area& area)
 {
-    return Window::create(position, size, nullptr, nullptr);
+    return Window::create(area, nullptr, nullptr);
 }
 
-Object::Ptr<Window> Window::create(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent)
+Object::Ptr<Window> Window::create(const Area& area, Object::Ptr<Container> parent)
 {
-    return Window::create(position, size, parent, nullptr);
+    return Window::create(area, parent, nullptr);
 }
 
-Object::Ptr<Window> Window::create(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context)
+Object::Ptr<Window> Window::create(const Area& area, Object::Ptr<Context> context)
 {
-    return Window::create(position, size, nullptr, context);
+    return Window::create(area, nullptr, context);
 }
 
-Object::Ptr<Window> Window::create(
-    const Vector2u& position,
-    const Vector2u& size,
+Object::Ptr<Window> Window::create(const Area& area,
     Object::Ptr<Container> parent,
     Object::Ptr<Context> context)
 {
-    std::shared_ptr<Window> result(new Window(position, size, parent, context));
+    std::shared_ptr<Window> result(new Window(area, parent, context));
     result->add(result->m_title);
     result->add(result->m_border);
     return result;
 }
 
 Window::Window() :
-    Window(Vector2u::Zero, Vector2u::Zero, nullptr, nullptr)
+    Window(Area(Vector2i::Zero, Vector2i::Zero), nullptr, nullptr)
 {
 }
 
-Window::Window(const Vector2u& position, const Vector2u& size) :
-    Window(position, size, nullptr, nullptr)
+Window::Window(const Area& area) :
+    Window(area, nullptr, nullptr)
 {
 }
 
-Window::Window(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent) :
-    Window(position, size, parent, nullptr)
+Window::Window(const Area& area, Object::Ptr<Container> parent) :
+    Window(area, parent, nullptr)
 {
 }
 
-Window::Window(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context) :
-    Window(position, size, nullptr, context)
+Window::Window(const Area& area, Object::Ptr<Context> context) :
+    Window(area, nullptr, context)
 {
 }
 
-Window::Window(
-    const Vector2u& position,
-    const Vector2u& size,
-    Object::Ptr<Container> parent,
-    Object::Ptr<Context> context) :
-    Container(position, size, parent, context),
+Window::Window(const Area& area, Object::Ptr<Container> parent, Object::Ptr<Context> context) :
+    Container(area, parent, context),
     m_backgroundChar(' '),
     m_border(Border::create()),
-    m_title(Title::create(Vector2u(2, 0)))
+    m_title(Title::create(Vector2i(2, 0)))
 {
 }
 
-void Window::resize(const Vector2u& newSize)
-{
-    m_size = newSize;
-}
-
-void Window::addChar(const Char& ch, const Vector2u& position) const
+void Window::addChar(const Char& ch, const Vector2i& position) const
 {
     auto context = getContext();
     // If context exists
     if (context != nullptr) {
-        Vector2u availableArea = getAvailableArea();
-        if (position.x < availableArea.x && 
-            position.y < availableArea.y)
+        if (m_area.contain(position))
         {
             context->addToVirtualScreen(shared_from_this(), ch, position);
         }
     }
 }
 
-void Window::addString(const String& str, const Vector2u& position) const
+void Window::addString(const String& str, const Vector2i& position) const
 {
     auto context = getContext();
     // If context exists
     if (context != nullptr) {
-        Vector2u availableArea = getAvailableArea();
-        Vector2u nextPosition = position;
+        Vector2i nextPosition = position;
         // Pass through string and add all character if position is correct
         for (auto& ch : str) {
-            if (nextPosition.x < availableArea.x &&
-                nextPosition.y < availableArea.y)
+            if (m_area.contain(nextPosition))
             {
                 context->addToVirtualScreen(shared_from_this(), ch, nextPosition);
-                nextPosition += Vector2u(1, 0);
+                nextPosition += Vector2i(1, 0);
             }
             else {
                 break;
             }
         }
     }
-}
-
-Vector2u Window::getAvailableArea() const
-{
-    Vector2u result = Vector2u::Zero;
-    if (m_size.x > 2) {
-        result.x = m_size.x - 2;
-    }
-    if (m_size.y > 2) {
-        result.y = m_size.y - 2;
-    }
-
-    return result;
 }
 
 void Window::setBackground(const Char& ch)

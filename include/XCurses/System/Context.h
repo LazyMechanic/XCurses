@@ -76,24 +76,7 @@ public:
      * \param ch Character
      * \param position Position relative to widget
      */
-    void addToVirtualScreen(Object::Ptr<Widget> widget, const Char& ch, const Vector2u& position);
-
-    /**
-     * \brief Add character to virtual screen for draw
-     * \param widget Widget for which need draw character
-     * \param ch Character
-     * \param position Position relative to widget
-     */
-    void addToVirtualScreen(Object::PtrConst<Widget> widget, const Char& ch, const Vector2u& position);
-
-    /**
-     * \brief Add string to virtual screen for draw. If position more than screen size then
-     * do nothing
-     * \param widget Widget for which need draw character
-     * \param str String
-     * \param position Position relative to widget
-     */
-    void addToVirtualScreen(Object::Ptr<Widget> widget, const String& str, const Vector2u& position);
+    void addToVirtualScreen(Object::PtrConst<Widget> widget, const Char& ch, const Vector2i& position) const;
 
     /**
      * \brief Add string to virtual screen for draw. If position more than screen size then
@@ -102,7 +85,7 @@ public:
      * \param str String
      * \param position Position relative to widget
      */
-    void addToVirtualScreen(Object::PtrConst<Widget> widget, const String& str, const Vector2u& position);
+    void addToVirtualScreen(Object::PtrConst<Widget> widget, const String& str, const Vector2i& position) const;
 
     /**
      * \brief Set active inputtable widget

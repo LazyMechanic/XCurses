@@ -6,13 +6,13 @@
 #include <XCurses/System/Context.h>
 
 namespace xcur {
-Object::Ptr<TextArea> TextArea::create(const Vector2u& position, const Vector2u& size)
+Object::Ptr<TextArea> TextArea::create(const Area& area)
 {
-    return std::shared_ptr<TextArea>(new TextArea(position, size));
+    return std::shared_ptr<TextArea>(new TextArea(area));
 }
 
-TextArea::TextArea(const Vector2u& position, const Vector2u& size) :
-    Widget(position, size),
+TextArea::TextArea(const Area& area) :
+    Widget(area),
     m_contentCursorPosition(0),
     m_rowOffset(0),
     m_maxRowOffset(0),
@@ -31,10 +31,10 @@ void TextArea::draw() const
 {
     auto context = getContext();
     if (context != nullptr) {
-        Vector2u position = Vector2u::Zero;
+        Vector2i position = Vector2i::Zero;
         size_t i = 0;
-        for (; (position.y < m_size.y) && (i < m_displayString.size()); ++position.y) {
-            for (position.x = 0; (position.x < m_size.x) && (i < m_displayString.size()); ++position.x) {
+        for (; (position.y < m_area.size.y) && (i < m_displayString.size()); ++position.y) {
+            for (position.x = 0; (position.x < m_area.size.x) && (i < m_displayString.size()); ++position.x) {
                 // If character is line feed then go to next row
                 if (m_displayString[i] == Char::Key::LineFeed) {
                     ++i;
@@ -86,7 +86,7 @@ String TextArea::getContent() const
     return m_content;
 }
 
-void TextArea::setSize(const Vector2u& size)
+void TextArea::setSize(const Vector2i& size)
 {
     Widget::setSize(size);
     m_needUpdateDisplayString = true;
@@ -150,7 +150,7 @@ void TextArea::updateDisplayString()
                     // Pass through content from display begin position
                     for (size_t i = displayStringCursorBegin + 1; i < m_content.size(); ++i) {
                         Char ch = m_content[i];
-                        if (i % m_size.x == 0 ||
+                        if (i % m_area.size.x == 0 ||
                             ch == Char::Key::LineFeed)
                         {
                             displayStringCursorBegin = i;
@@ -160,7 +160,7 @@ void TextArea::updateDisplayString()
                 }
             }
 
-            const size_t maxTextAreaFilling = m_size.x * m_size.y;
+            const size_t maxTextAreaFilling = m_area.size.x * m_area.size.y;
             size_t currentTextAreaFilling = 0;
             size_t contentIndex = displayStringCursorBegin;
             for (;
@@ -173,7 +173,7 @@ void TextArea::updateDisplayString()
                 // It is the unused row size including line feed character
                 if (m_content[contentIndex] == Char::Key::LineFeed) {
                     // Add "-1" because after "continue" currentFromFilling will increase again
-                    currentTextAreaFilling += (m_size.x - contentIndex % m_size.x) - 1;
+                    currentTextAreaFilling += (m_area.size.x - contentIndex % m_area.size.x) - 1;
                 }
             }
 
@@ -190,7 +190,7 @@ void TextArea::computeMaxRowOffset()
     for (size_t i = 0; i < m_content.size(); ++i) {
         ++chCount;
         if (m_content[i] == Char::Key::LineFeed ||
-            chCount % m_size.x == 0 ||
+            chCount % m_area.size.x == 0 ||
             (i + 1) == m_content.size()) {
             chCount = 0;
             ++m_maxRowOffset;

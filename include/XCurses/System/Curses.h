@@ -111,14 +111,14 @@ public:
      * \param size New terminal size
      * \return Status
      */
-    static Status setTerminalSize(const Vector2u& size);
+    static Status setTerminalSize(const Vector2i& size);
 
     /**
      * \brief Get terminal size.
      * size.x is width, size.y is height
      * \return Terminal size
      */
-    static Vector2u getTerminalSize();
+    static Vector2i getTerminalSize();
 
     /**
      * \brief Inverse all colors in terminal for a moment

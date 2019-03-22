@@ -18,7 +18,7 @@ CursesConfig::CursesConfig() :
 }
 
 CursesConfig::CursesConfig(
-    const Vector2u& terminalSize,
+    const Vector2i& terminalSize,
     uint32_t inputDelay,
     bool enableCBreakMode,
     bool enableEchoMode,
