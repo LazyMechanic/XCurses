@@ -34,8 +34,9 @@ void InputTextArea::updateContent()
             if (ch == Char::Err) {
                 return;
             }
+
             // If char is not control key, but common symbol
-            else if (ch == Char::Key::Tab ||
+            if (ch == Char::Key::Tab ||
                 ch == Char::Key::LineFeed ||
                 ch > Char::Key::Delete)
             {

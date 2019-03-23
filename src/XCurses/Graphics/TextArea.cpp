@@ -173,10 +173,12 @@ void TextArea::updateDisplayString()
                     // Pass through content from display begin position
                     for (size_t i = displayStringCursorBegin + 1; i < m_content.size(); ++i) {
                         Char ch = m_content[i];
-                        if (i % m_area.size.x == 0 ||
-                            ch == Char::Key::LineFeed)
-                        {
+                        if (i % m_area.size.x == 0) {
                             displayStringCursorBegin = i;
+                            break;
+                        }
+                        if (ch == Char::Key::LineFeed) {
+                            displayStringCursorBegin = i + 1;
                             break;
                         }
                     }
