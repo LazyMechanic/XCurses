@@ -14,8 +14,8 @@ Object::Ptr<TextArea> TextArea::create(const Area& area)
 TextArea::TextArea(const Area& area) :
     Widget(area),
     m_contentCursorPosition(0),
-    m_rowOffset(0),
-    m_maxRowOffset(0),
+    m_currentScrollOffset(0),
+    m_maxScrollOffset(0),
     m_needUpdateDisplayString(true),
     m_isScrollEnable(true)
 {
@@ -78,7 +78,7 @@ void TextArea::setContent(const String& str)
     m_content = str;
     m_contentCursorPosition = str.size();
     m_needUpdateDisplayString = true;
-    computeMaxRowOffset();
+    computeMaxScrollOffset();
 }
 
 String TextArea::getContent() const
@@ -92,7 +92,17 @@ void TextArea::setSize(const Vector2i& size)
     m_needUpdateDisplayString = true;
 }
 
-void TextArea::setScroll(bool state)
+size_t TextArea::getMaxScrollOffset() const
+{
+    return m_maxScrollOffset;
+}
+
+size_t TextArea::getCurrentScrollOffset() const
+{
+    return m_currentScrollOffset;
+}
+
+void TextArea::setScrollMode(bool state)
 {
     if (state) {
         enableScroll();
@@ -109,6 +119,7 @@ void TextArea::enableScroll()
 
 void TextArea::disableScroll()
 {
+    m_currentScrollOffset = 0;
     m_isScrollEnable = false;
 }
 
@@ -117,21 +128,33 @@ bool TextArea::isScrollEnable() const
     return m_isScrollEnable;
 }
 
-void TextArea::scroll(size_t deltaRowOffset, direction::Up)
+void TextArea::scroll(size_t deltaScrollOffset, direction::Up)
 {
-    if (m_rowOffset > deltaRowOffset) {
-        m_rowOffset -= deltaRowOffset;
+    if (m_isScrollEnable) {
+        if (m_currentScrollOffset > deltaScrollOffset) {
+            m_currentScrollOffset -= deltaScrollOffset;
+        }
+        else {
+            m_currentScrollOffset = 0;
+        }
+        m_needUpdateDisplayString = true;
     }
-    else {
-        m_rowOffset = 0;
-    }
-    m_needUpdateDisplayString = true;
 }
 
-void TextArea::scroll(size_t deltaRowOffset, direction::Down)
+void TextArea::scroll(size_t deltaScrollOffset, direction::Down)
 {
-    m_rowOffset = std::min(m_rowOffset + deltaRowOffset, m_maxRowOffset);
-    m_needUpdateDisplayString = true;
+    if (m_isScrollEnable) {
+        m_currentScrollOffset = std::min(m_currentScrollOffset + deltaScrollOffset, m_maxScrollOffset);
+        m_needUpdateDisplayString = true;
+    }
+}
+
+void TextArea::setScroll(size_t scrollOffset)
+{
+    if (m_isScrollEnable) {
+        m_currentScrollOffset = std::min(scrollOffset, m_maxScrollOffset);
+        m_needUpdateDisplayString = true;
+    }
 }
 
 void TextArea::updateDisplayString()
@@ -140,13 +163,13 @@ void TextArea::updateDisplayString()
     if (context != nullptr) {
         // If Content changed with input or other ways
         if (m_needUpdateDisplayString) {
-            computeMaxRowOffset();
+            computeMaxScrollOffset();
 
             size_t displayStringCursorBegin = 0;
 
-            for (size_t currentRowOffset = 0; currentRowOffset <= m_rowOffset; ++currentRowOffset) {
+            for (size_t scrollOffset = 0; scrollOffset <= m_currentScrollOffset; ++scrollOffset) {
                 // Scroll only 1 row
-                if (currentRowOffset > 0) {
+                if (scrollOffset > 0) {
                     // Pass through content from display begin position
                     for (size_t i = displayStringCursorBegin + 1; i < m_content.size(); ++i) {
                         Char ch = m_content[i];
@@ -183,9 +206,9 @@ void TextArea::updateDisplayString()
     }
 }
 
-void TextArea::computeMaxRowOffset()
+void TextArea::computeMaxScrollOffset()
 {
-    m_maxRowOffset = 0;
+    m_maxScrollOffset = 0;
     size_t chCount = 0;
     for (size_t i = 0; i < m_content.size(); ++i) {
         ++chCount;
@@ -193,14 +216,14 @@ void TextArea::computeMaxRowOffset()
             chCount % m_area.size.x == 0 ||
             (i + 1) == m_content.size()) {
             chCount = 0;
-            ++m_maxRowOffset;
+            ++m_maxScrollOffset;
         }
     }
     
-    if (m_maxRowOffset > 2) {
-        m_maxRowOffset -= 3;
+    if (m_maxScrollOffset > 2) {
+        m_maxScrollOffset -= 3;
     }
 
-    m_rowOffset = std::min(m_rowOffset, m_maxRowOffset);
+    m_currentScrollOffset = std::min(m_currentScrollOffset, m_maxScrollOffset);
 }
 }

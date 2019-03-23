@@ -81,11 +81,23 @@ public:
     void setSize(const Vector2i& size) override;
 
     /**
+     * \brief Get max scroll offset
+     * \return Max scroll offset
+     */
+    size_t getMaxScrollOffset() const;
+
+    /**
+     * \brief Get current scroll offset
+     * \return Current scroll offset
+     */
+    size_t getCurrentScrollOffset() const;
+
+    /**
      * \brief Set scroll mode
      * \param state Scroll mode state. 
      * True equal enableScroll(), false equal disableScroll()
      */
-    void setScroll(bool state);
+    void setScrollMode(bool state);
 
     /**
      * \brief Enable scroll mode
@@ -93,7 +105,8 @@ public:
     void enableScroll();
 
     /**
-     * \brief Disable scroll mode
+     * \brief Disable scroll mode. Scroll offset change to 0. Content will changing, 
+     * but display string do not. This meaning that content always display with 0 scroll offset
      */
     void disableScroll();
 
@@ -104,17 +117,25 @@ public:
     bool isScrollEnable() const;
 
     /**
-     * \brief 
-     * \param deltaRowOffset 
+     * \brief Scroll text area to up
+     * Result scroll offset that less then 0 are clamped to 0 offset
+     * \param deltaScrollOffset Delta scroll offset
      */
-    void scroll(size_t deltaRowOffset, direction::Up);
+    void scroll(size_t deltaScrollOffset, direction::Up);
 
     /**
-     * \brief 
-     * Result row offset that less then 0 are clamped to 0 offset
-     * \param deltaRowOffset Delta row offset
+     * \brief Scroll text area to down
+     * Result scroll offset that more then max scroll offset are clamped to max scroll offset
+     * \param deltaScrollOffset Delta scroll offset
      */
-    void scroll(size_t deltaRowOffset, direction::Down);
+    void scroll(size_t deltaScrollOffset, direction::Down);
+
+    /**
+     * \brief Set scroll offset relatively first row.
+     * If \a scrollOffset that more then max scroll offset are clamped to max scroll offset
+     * \param scrollOffset Scroll offset
+     */
+    void setScroll(size_t scrollOffset);
 
 protected:
     /**
@@ -130,9 +151,9 @@ protected:
     void updateDisplayString();
 
     /**
-     * \brief Compute max row offset 
+     * \brief Compute max scroll offset 
      */
-    void computeMaxRowOffset();
+    void computeMaxScrollOffset();
 
     /**
      * \brief Position for next character
@@ -150,14 +171,14 @@ protected:
     String m_displayString;
 
     /**
-     * \brief Display row offset
+     * \brief Display current scroll offset
      */
-    size_t m_rowOffset;
+    size_t m_currentScrollOffset;
 
     /**
-     * \brief Max display row offset
+     * \brief Max display current scroll offset
      */
-    size_t m_maxRowOffset;
+    size_t m_maxScrollOffset;
 
     /**
      * \brief Whether the content has changed or scrolled
