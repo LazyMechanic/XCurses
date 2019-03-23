@@ -171,13 +171,11 @@ void TextArea::updateDisplayString()
                 // Scroll only 1 row
                 if (scrollOffset > 0) {
                     // Pass through content from display begin position
-                    for (size_t i = displayStringCursorBegin + 1; i < m_content.size(); ++i) {
+                    int32_t chCounter = 0;
+                    for (size_t i = displayStringCursorBegin; i < m_content.size(); ++i, ++chCounter) {
                         Char ch = m_content[i];
-                        if (i % m_area.size.x == 0) {
-                            displayStringCursorBegin = i;
-                            break;
-                        }
-                        if (ch == Char::Key::LineFeed) {
+                        if (chCounter % m_area.size.x == (m_area.size.x - 1) ||
+                            ch == Char::Key::LineFeed) {
                             displayStringCursorBegin = i + 1;
                             break;
                         }
@@ -222,8 +220,8 @@ void TextArea::computeMaxScrollOffset()
         }
     }
     
-    if (m_maxScrollOffset > 2) {
-        m_maxScrollOffset -= 3;
+    if (m_maxScrollOffset >= m_area.size.y) {
+        m_maxScrollOffset -= m_area.size.y;
     }
 
     m_currentScrollOffset = std::min(m_currentScrollOffset, m_maxScrollOffset);
