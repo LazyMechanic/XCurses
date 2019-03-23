@@ -1,5 +1,7 @@
 #include <XCurses/Graphics/InputTextArea.h>
 
+#include <XCurses/System/Input.h>
+#include <XCurses/Graphics/Inputtable.h>
 #include <XCurses/System/Context.h>
 
 namespace xcur {

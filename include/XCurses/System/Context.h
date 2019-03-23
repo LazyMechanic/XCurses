@@ -7,11 +7,10 @@
 #include <XCurses/System/Status.h>
 #include <XCurses/System/Object.h>
 #include <XCurses/System/Vector2.h>
-#include <XCurses/Graphics/Inputtable.h>
 #include <XCurses/System/Drawable.h>
 #include <XCurses/System/Behaviour.h>
+#include <XCurses/Graphics/Inputtable.h>
 #include <XCurses/Graphics/VirtualScreen.h>
-#include "Input.h"
 
 namespace xcur {
 namespace detail {
@@ -20,6 +19,7 @@ class TreeNode;
 class Widget;
 class Window;
 class Container;
+class RootContainer;
 class ContextSystem;
 
 /**
@@ -147,7 +147,7 @@ protected:
     /**
      * \brief Root container
      */
-    Object::Ptr<Container> m_rootContainer;
+    Object::Ptr<RootContainer> m_rootContainer;
 
     /**
      * \brief Buffer for all chars for drawing

@@ -10,10 +10,11 @@ Object::Ptr<Title> Title::create(const Vector2i& position, const String& str)
 }
 
 Title::Title(const Vector2i& position, const String& str) :
-    Widget(Area(position, Vector2i(str.size(), 1))),
+    Widget(Area(position, Vector2i(str.size() + 2, 1))),
     m_string(str)
 {
 }
+
 void Title::draw() const
 {
     auto context = getContext();
@@ -21,8 +22,8 @@ void Title::draw() const
         auto parent = getParent();
         if (parent != nullptr) {
             String resultString = ' ' + m_string + ' ';
-            if (resultString.size() < (parent->getSize().x - m_area.position.x)) {
-                context->addToVirtualScreen(shared_from_this(), resultString, m_area.position);
+            if (resultString.size() < parent->getSize().x) {
+                context->addToVirtualScreen(shared_from_this(), resultString, Vector2i::Zero);
             }
         }
     }
@@ -31,6 +32,7 @@ void Title::draw() const
 void Title::setString(const String& str)
 {
     m_string = str;
+    setSize(Vector2i(m_string.size() + 2, 1));
 }
 
 String Title::getString() const

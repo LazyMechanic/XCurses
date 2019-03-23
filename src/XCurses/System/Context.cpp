@@ -10,6 +10,7 @@
 #include <XCurses/System/TreeNode.h>
 #include <XCurses/Graphics/Container.h>
 #include <XCurses/System/ContextSystem.h>
+#include <XCurses/Graphics/RootContainer.h>
 
 namespace xcur {
 Object::Ptr<Context> Context::create()
@@ -20,7 +21,7 @@ Object::Ptr<Context> Context::create()
 }
 
 Context::Context() :
-    m_rootContainer(Container::create()),
+    m_rootContainer(RootContainer::create()),
     m_virtualScreen(VirtualScreen::create()),
     m_widgetTreeRoot(detail::TreeNode::create(m_rootContainer))
 {
