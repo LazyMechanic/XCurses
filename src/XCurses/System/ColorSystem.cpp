@@ -1,4 +1,4 @@
-#include <XCurses/Graphics/ColorSystem.h>
+#include <XCurses/System/ColorSystem.h>
 
 #include <PDCurses/curses.h>
 

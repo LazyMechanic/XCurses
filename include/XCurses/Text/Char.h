@@ -1,5 +1,6 @@
 #pragma once
 
+#include <XCurses/Text/Key.h>
 #include <XCurses/Text/Attribute.h>
 
 #pragma pack(push, 1)
@@ -237,6 +238,21 @@ public:
      * they different
      */
     static bool isFullEqual(const Char& left, const Char& right);
+
+    /**
+     * \brief Check if ch is control character
+     * \param ch Character
+     * \return True if ch is control character (0x00-0x1F, 0x7F, arrow keys, home, end, etc.),
+     * false otherwise
+     */
+    static bool isControl(const Char& ch);
+
+    /**
+     * \brief Check if ch is any line feed including \n, \r, \f, \v
+     * \param ch Character
+     * \return True if ch is line feed character (\n, \r, \f, \v), false otherwise
+     */
+    static bool isLineFeed(const Char& ch);
 
     /**
      * \brief Symbol

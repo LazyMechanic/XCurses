@@ -6,7 +6,7 @@
 
 namespace xcur {
 CursesConfig Curses::m_config(
-    Vector2u::Zero,
+    Vector2i::Zero,
     0,
     false,
     false,
@@ -27,6 +27,7 @@ void Curses::init(const CursesConfig& config)
     setRaw(config.isRawEnable);
     setNewLine(config.isNewLineEnable);
     setTerminalSize(config.terminalSize);
+    setKeypad(config.isKeypadEnable);
     nodelay(stdscr, true);
 }
 
@@ -146,7 +147,23 @@ bool Curses::isNewLineEnable()
     return m_config.isNewLineEnable;
 }
 
-Status Curses::setTerminalSize(const Vector2u& size)
+Status Curses::setKeypad(bool v)
+{
+    // If curses mode stop
+    if (!Curses::isInit()) {
+        throw std::runtime_error("Curses didn't initialized");
+    }
+
+    m_config.isKeypadEnable = v;
+    return keypad(stdscr, v);
+}
+
+bool Curses::isKeypadEnable()
+{
+    return m_config.isKeypadEnable;
+}
+
+Status Curses::setTerminalSize(const Vector2i& size)
 {
     // If curses mode stop
     if (!Curses::isInit()) {
@@ -154,11 +171,11 @@ Status Curses::setTerminalSize(const Vector2u& size)
     }
 
     Status result = resize_term(size.y, size.x);
-    m_config.terminalSize = Vector2u(getmaxx(stdscr), getmaxy(stdscr));
+    m_config.terminalSize = Vector2i(getmaxx(stdscr), getmaxy(stdscr));
     return result;
 }
 
-Vector2u Curses::getTerminalSize()
+Vector2i Curses::getTerminalSize()
 {
     return m_config.terminalSize;
 }

@@ -1,4 +1,4 @@
-#include <XCurses/Graphics/TreeNode.h>
+#include <XCurses/System/TreeNode.h>
 
 #include <algorithm>
 

@@ -106,19 +106,34 @@ public:
     static bool isNewLineEnable();
 
     /**
+     * \brief Toggle keypad mode.
+     * controls whether Input::getPressedKey() returns function/special
+     *  keys as single key codes (e.g., the left arrow key as KEY_LEFT)
+     * \param v Value
+     * \return Status
+     */
+    static Status setKeypad(bool v);
+
+    /**
+     * \brief Get keypad mode state
+     * \return True if keypad mode enable, false otherwise
+     */
+    static bool isKeypadEnable();
+
+    /**
      * \brief Set terminal size.
      * size.x is width, size.y is height
      * \param size New terminal size
      * \return Status
      */
-    static Status setTerminalSize(const Vector2u& size);
+    static Status setTerminalSize(const Vector2i& size);
 
     /**
      * \brief Get terminal size.
      * size.x is width, size.y is height
      * \return Terminal size
      */
-    static Vector2u getTerminalSize();
+    static Vector2i getTerminalSize();
 
     /**
      * \brief Inverse all colors in terminal for a moment

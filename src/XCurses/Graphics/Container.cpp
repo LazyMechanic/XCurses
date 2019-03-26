@@ -1,60 +1,53 @@
 #include <XCurses/Graphics/Container.h>
 
 #include <algorithm>
+#include <stdexcept>
 
-#include <XCurses/Graphics/Context.h>
+#include <XCurses/System/Context.h>
 
 namespace xcur {
 Object::Ptr<Container> Container::create()
 {
-    return Container::create(Vector2u::Zero, Vector2u::Zero, nullptr, nullptr);
+    return Container::create(Area(Vector2i::Zero, Vector2i::Zero), nullptr, nullptr);
 }
 
-Object::Ptr<Container> Container::create(const Vector2u& position, const Vector2u& size)
+Object::Ptr<Container> Container::create(const Area& area)
 {
-    return Container::create(position, position, nullptr, nullptr);
+    return Container::create(area, nullptr, nullptr);
 }
 
-Object::Ptr<Container> Container::create(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent)
+Object::Ptr<Container> Container::create(const Area& area, Object::Ptr<Container> parent)
 {
-    return Container::create(position, position, parent, nullptr);
+    return Container::create(area, parent, nullptr);
 }
 
-Object::Ptr<Container> Container::create(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context)
+Object::Ptr<Container> Container::create(const Area& area, Object::Ptr<Context> context)
 {
-    return Container::create(position, position, nullptr, context);
+    return Container::create(area, nullptr, context);
 }
 
-Object::Ptr<Container> Container::create(
-    const Vector2u& position,
-    const Vector2u& size,
-    Object::Ptr<Container> parent,
-    Object::Ptr<Context> context)
+Object::Ptr<Container> Container::create(const Area& area, Object::Ptr<Container> parent, Object::Ptr<Context> context)
 {
-    return std::shared_ptr<Container>(new Container(position, size, parent, context));
+    return std::shared_ptr<Container>(new Container(area, parent, context));
 }
 
-Container::Container(const Vector2u& position, const Vector2u& size) :
-    Widget(position, size)
+Container::Container(const Area& area) :
+    Container(area, nullptr, nullptr)
 {
 }
 
-Container::Container(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent) :
-    Widget(position, size, parent)
+Container::Container(const Area& area, Object::Ptr<Container> parent) :
+    Container(area, parent, nullptr)
 {
 }
 
-Container::Container(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context) :
-    Widget(position, size, context)
+Container::Container(const Area& area, Object::Ptr<Context> context) :
+    Container(area, nullptr, context)
 {
 }
 
-Container::Container(
-    const Vector2u& position,
-    const Vector2u& size,
-    Object::Ptr<Container> parent,
-    Object::Ptr<Context> context) :
-    Widget(position, size, parent, context)
+Container::Container(const Area& area, Object::Ptr<Container> parent, Object::Ptr<Context> context) :
+    Widget(area, parent, context)
 {
 }
 
@@ -139,5 +132,21 @@ std::list<Object::Ptr<Widget>>::const_iterator Container::find(Object::Ptr<Widge
         [&widget](const Object::Ptr<Widget>& checkWidget) {
         return widget == checkWidget;
     });
+}
+
+bool Container::isIntoVisibleArea(Object::PtrConst<Widget> widget, const Vector2i& point) const
+{
+    if (widget == nullptr) {
+        throw std::runtime_error("Widget pointer is nullptr");
+    }
+
+    Vector2i endPoint = point + widget->getPosition();
+    auto parent = getParent();
+    if (parent != nullptr) {
+        return m_area.contain(endPoint) && parent->isIntoVisibleArea(shared_from_this(), endPoint);
+    }
+    else {
+        return m_area.contain(endPoint);
+    }
 }
 }

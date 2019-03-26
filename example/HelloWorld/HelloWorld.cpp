@@ -8,15 +8,15 @@ public:
     {
         std::shared_ptr<HelloWorldWindow> result(new HelloWorldWindow());
         result->setBorder(xcur::Border::create(xcur::BorderTraits::Simple));
-        result->setTitle(xcur::Title::create(xcur::Vector2u(2, 0),"Hello_World"));
+        result->setTitle(xcur::Title::create(xcur::Vector2i(2, 0),"Hello_World"));
         return result;
     }
 
 private:
     HelloWorldWindow() : 
-        Window(xcur::Vector2u(0, 0), xcur::Curses::getTerminalSize()),
+        Window(xcur::Area(xcur::Vector2i(0, 0), xcur::Curses::getTerminalSize())),
         m_str("Hello, World!"),
-        m_pos(getAvailableArea().x / 2 - m_str.size() / 2, getAvailableArea().y / 2)
+        m_pos(getSize().x / 2 - m_str.size() / 2, getSize().y / 2)
     {
     }
 
@@ -26,7 +26,7 @@ private:
     }
 
     xcur::String m_str;
-    xcur::Vector2u m_pos;
+    xcur::Vector2i m_pos;
 };
 
 int main()

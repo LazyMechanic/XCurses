@@ -1,38 +1,31 @@
 #include <XCurses/Graphics/Widget.h>
 
-#include <XCurses/Graphics/Context.h>
+#include <XCurses/System/Context.h>
 #include <XCurses/Graphics/Container.h>
 
 namespace xcur {
 Widget::Widget() :
-    m_position(Vector2u::Zero),
-    m_size(Vector2u::Zero)
+    Widget(Area(Vector2i::Zero, Vector2i::Zero), nullptr, nullptr)
 {
 }
 
-Widget::Widget(const Vector2u& position, const Vector2u& size) :
-    m_position(position),
-    m_size(size)
+Widget::Widget(const Area& area) :
+    Widget(area, nullptr, nullptr)
 {
 }
 
-Widget::Widget(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent) :
-    m_position(position),
-    m_size(size),
-    m_parent(parent)
+Widget::Widget(const Area& area, Object::Ptr<Container> parent) :
+    Widget(area, parent, nullptr)
 {
 }
 
-Widget::Widget(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context) :
-    m_position(position),
-    m_size(size),
-    m_context(context)
+Widget::Widget(const Area& area, Object::Ptr<Context> context) :
+    Widget(area, nullptr, context)
 {
 }
 
-Widget::Widget(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent, Object::Ptr<Context> context) :
-    m_position(position),
-    m_size(size),
+Widget::Widget(const Area& area, Object::Ptr<Container> parent, Object::Ptr<Context> context) :
+    m_area(area),
     m_parent(parent),
     m_context(context)
 {
@@ -46,31 +39,6 @@ Widget::~Widget()
     }
 }
 
-void Widget::setPosition(const Vector2u& newPos)
-{
-    m_position = newPos;
-}
-
-void Widget::move(const Vector2u& deltaPos)
-{
-    setPosition(getPosition() + deltaPos);
-}
-
-uint32_t Widget::getPositionX() const
-{
-    return m_position.x;
-}
-
-uint32_t Widget::getPositionY() const
-{
-    return m_position.y;
-}
-
-Vector2u Widget::getPosition() const
-{
-    return m_position;
-}
-
 void Widget::toFront()
 {
     if (getParent() != nullptr) {
@@ -78,19 +46,40 @@ void Widget::toFront()
     }
 }
 
-uint32_t Widget::getWidth() const
+void Widget::setArea(const Area& area)
 {
-    return m_size.x;
+    setPosition(area.position);
+    setSize(area.size);
 }
 
-uint32_t Widget::getHeight() const
+Area Widget::getArea() const
 {
-    return m_size.y;
+    return m_area;
 }
 
-Vector2u Widget::getSize() const
+void Widget::setPosition(const Vector2i& position)
 {
-    return m_size;
+    m_area.position = position;
+}
+
+void Widget::move(const Vector2i& deltaPos)
+{
+    setPosition(getPosition() + deltaPos);
+}
+
+Vector2i Widget::getPosition() const
+{
+    return m_area.position;
+}
+
+void Widget::setSize(const Vector2i& size)
+{
+    m_area.size = size;
+}
+
+Vector2i Widget::getSize() const
+{
+    return m_area.size;
 }
 
 void Widget::setParent(Object::Ptr<Container> parent)
@@ -111,5 +100,16 @@ void Widget::setContext(Object::Ptr<Context> context)
 Object::Ptr<Context> Widget::getContext() const
 {
     return m_context.lock();
+}
+
+bool Widget::isIntoVisibleArea(const Vector2i& point) const
+{
+    auto parent = getParent();
+    if (parent != nullptr) {
+        return parent->isIntoVisibleArea(shared_from_this(), point);
+    }
+    else {
+        return false;
+    }
 }
 }

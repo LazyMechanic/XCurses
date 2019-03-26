@@ -1,9 +1,10 @@
 #pragma once
 
+#include <XCurses/System/Area.h>
 #include <XCurses/System/Object.h>
 #include <XCurses/System/Vector.h>
-#include <XCurses/Graphics/Drawable.h>
-#include <XCurses/Graphics/Behaviour.h>
+#include <XCurses/System/Drawable.h>
+#include <XCurses/System/Behaviour.h>
 
 namespace xcur {
 class Context;
@@ -25,57 +26,54 @@ public:
     virtual ~Widget();
 
     /**
-     * \brief Set position
-     * \param newPos New position
-     */
-    void setPosition(const Vector2u& newPos);
-
-    /**
-     * \brief Set position. New position = Old position + deltaPos
-     * \param deltaPos Delta position
-     */
-    void move(const Vector2u& deltaPos);
-
-    /**
-     * \brief Get position x component
-     * \return X coordinate
-     */
-    uint32_t getPositionX() const;
-
-    /**
-     * \brief Get position y component
-     * \return Y coordinate
-     */
-    uint32_t getPositionY() const;
-
-    /**
-     * \brief Get position
-     * \return Position
-     */
-    Vector2u getPosition() const;
-
-    /**
      * \brief Put widget to front relatively parent
      */
     void toFront();
 
     /**
-     * \brief Get widget width
-     * \return Width
+     * \brief Set area. It is widget size and position relatively parent. 
+     * Equal setPosition(...) and setSize(...) together
+     * \param area Widget area
      */
-    uint32_t getWidth() const;
+    void setArea(const Area& area);
 
     /**
-     * \brief Get widget height
-     * \return Height
+     * \brief Get area. It is widget size and position relatively parent
+     * \return Widget area
      */
-    uint32_t getHeight() const;
+    Area getArea() const;
+
+    /**
+     * \brief Set position relatively parent. Meaning depends on implementation of the heir
+     * \param position New position
+     */
+    virtual void setPosition(const Vector2i& position);
+
+    /**
+     * \brief Set position. New position = Old position + deltaPos
+     * \param deltaPos Delta position
+     */
+    void move(const Vector2i& deltaPos);
+
+    /**
+     * \brief Get position
+     * \return Position
+     */
+    Vector2i getPosition() const;
+
+    /**
+     * \brief Set widget size. 
+     * If size components less zero then will undefined behaviour.
+     * Meaning depends on implementation of the heir
+     * \param size New size
+     */
+    virtual void setSize(const Vector2i& size);
 
     /**
      * \brief Get widget size
      * \return Widget size
      */
-    Vector2u getSize() const;
+    Vector2i getSize() const;
 
     /**
      * \brief Set parent widget container.
@@ -103,6 +101,14 @@ public:
      */
     Object::Ptr<Context> getContext() const;
 
+    /**
+     * \brief Recursive check if parent area contain \a point
+     * \param point Point in widget relatively his own
+     * \return True if parent area contain point, false if widget has no parent or
+     * if parent area doesn't contain point
+     */
+    bool isIntoVisibleArea(const Vector2i& point) const;
+
 protected:
     /**
      * \brief Default Widget constructor
@@ -110,49 +116,41 @@ protected:
     Widget();
 
     /**
-     * \brief Widget constructor. Construct it with default position and size
-     * \param position Widget position
-     * \param size Widget size
+     * \brief Widget constructor. Construct it with default area
+     * \param area Widget area
      */
-    Widget(const Vector2u& position, const Vector2u& size);
+    Widget(const Area& area);
 
     /**
-     * \brief Widget constructor. Construct it with default position, size and
+     * \brief Widget constructor. Construct it with default area and
      * set parent
-     * \param position Position
-     * \param size Widget size
+     * \param area Widget area
      * \param parent Smart ptr to parent container
      */
-    Widget(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent);
+    Widget(const Area& area, Object::Ptr<Container> parent);
 
     /**
-     * \brief Widget constructor. Construct it with default position, size and
+     * \brief Widget constructor. Construct it with default area and
      * set context
-     * \param position Position
-     * \param size Widget size
+     * \param area Widget area
      * \param context Smart ptr to context
      */
-    Widget(const Vector2u& position, const Vector2u& size, Object::Ptr<Context> context);
+    Widget(const Area& area, Object::Ptr<Context> context);
 
     /**
-     * \brief Widget constructor. Construct it with default position, size and
+     * \brief Widget constructor. Construct it with default area and
      * set parent and context
-     * \param position Position
-     * \param size Widget size
+     * \param area Widget area
      * \param parent Smart ptr to parent container
      * \param context Smart ptr to context
      */
-    Widget(const Vector2u& position, const Vector2u& size, Object::Ptr<Container> parent, Object::Ptr<Context> context);
+    Widget(const Area& area, Object::Ptr<Container> parent, Object::Ptr<Context> context);
 
     /**
-     * \brief Widget position
+     * \brief Storage widget size and local position relatively parent. 
+     * If size components less zero then will undefined behaviour.
      */
-    Vector2u m_position;
-
-    /**
-     * \brief Widget size. Meaning depends on implementation of the heir
-     */
-    Vector2u m_size;
+    Area m_area;
 
     /**
      * \brief Smart ptr to parent widget

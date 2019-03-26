@@ -10,31 +10,31 @@ CursesConfig::CursesConfig() :
     isEchoEnable(false),
     isRawEnable(true),
     isNewLineEnable(false),
-    isKeypadEnable(false),
     isInputDelayEnable(false),
+    isKeypadEnable(true),
     isInit(false),
     isStop(true)
 {
 }
 
 CursesConfig::CursesConfig(
-    const Vector2u& terminalSize,
+    const Vector2i& terminalSize,
     uint32_t inputDelay,
-    bool enableCBreakMode,
-    bool enableEchoMode,
-    bool enableRawMode,
-    bool enableNewLineMode,
-    bool enableKeypadMode,
-    bool enableInputDelay
+    bool isCBreakEnable,
+    bool isEchoEnable,
+    bool isRawEnable,
+    bool isNewLineEnable,
+    bool isInputDelayEnable,
+    bool isKeypadEnable
 ) :
     terminalSize(terminalSize),
     inputDelay(inputDelay),
-    isCBreakEnable(enableCBreakMode),
-    isEchoEnable(enableEchoMode),
-    isRawEnable(enableRawMode),
-    isNewLineEnable(enableNewLineMode),
-    isKeypadEnable(enableKeypadMode),
-    isInputDelayEnable(enableInputDelay),
+    isCBreakEnable(isCBreakEnable),
+    isEchoEnable(isEchoEnable),
+    isRawEnable(isRawEnable),
+    isNewLineEnable(isNewLineEnable),
+    isInputDelayEnable(isInputDelayEnable),
+    isKeypadEnable(isKeypadEnable),
     isInit(false),
     isStop(true)
 {

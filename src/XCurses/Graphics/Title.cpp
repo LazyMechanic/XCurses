@@ -1,19 +1,20 @@
-#include <XCurses/Graphics/Widgets/Title.h>
+#include <XCurses/Graphics/Title.h>
 
-#include <XCurses/Graphics/Context.h>
+#include <XCurses/System/Context.h>
 #include <XCurses/Graphics/Container.h>
 
 namespace xcur {
-Object::Ptr<Title> Title::create(const Vector2u& position, const String& str)
+Object::Ptr<Title> Title::create(const Vector2i& position, const String& str)
 {
     return std::shared_ptr<Title>(new Title(position, str));
 }
 
-Title::Title(const Vector2u& position, const String& str) :
-    Widget(position, Vector2u::Zero),
+Title::Title(const Vector2i& position, const String& str) :
+    Widget(Area(position, Vector2i(str.size() + 2, 1))),
     m_string(str)
 {
 }
+
 void Title::draw() const
 {
     auto context = getContext();
@@ -21,8 +22,8 @@ void Title::draw() const
         auto parent = getParent();
         if (parent != nullptr) {
             String resultString = ' ' + m_string + ' ';
-            if (resultString.size() < (parent->getSize().x - m_position.x)) {
-                context->addToVirtualScreen(shared_from_this(), resultString, m_position);
+            if (resultString.size() < parent->getSize().x) {
+                context->addToVirtualScreen(shared_from_this(), resultString, Vector2i::Zero);
             }
         }
     }
@@ -31,6 +32,7 @@ void Title::draw() const
 void Title::setString(const String& str)
 {
     m_string = str;
+    setSize(Vector2i(m_string.size() + 2, 1));
 }
 
 String Title::getString() const

@@ -4,8 +4,8 @@
 
 #include <XCurses/System/Status.h>
 #include <XCurses/System/Object.h>
-#include <XCurses/Graphics/Drawable.h>
-#include <XCurses/Graphics/Behaviour.h>
+#include <XCurses/System/Drawable.h>
+#include <XCurses/System/Behaviour.h>
 
 namespace xcur {
 class Core;

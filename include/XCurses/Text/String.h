@@ -574,6 +574,15 @@ public:
     static bool isFullEqual(const String& left, const String& right);
 
     /**
+     * \brief Convert number (integer or float) to String
+     * \tparam Type Type of number (int, float, double, etc.)
+     * \param number Number
+     * \return String from number
+     */
+    template <typename Type, typename = typename std::enable_if<std::is_arithmetic<Type>::value, Type>::type>
+    static String toString(Type number);
+
+    /**
      * \brief Convert String to uint32_t* (curses string)
      * \return Curses string
      */
@@ -674,6 +683,27 @@ public:
     ConstReverseIterator crend() const;
 
     /**
+     * \brief Resize string that can storage "count" characters.
+     * If current size less than count then add additional characters.
+     * If current size more than count then string reduce to first count characters
+     * \param count New string size
+     * \param ch Character for additional characters
+     */
+    void resize(size_t count, Char ch = Char());
+
+    /**
+     * \brief Reserve string capacity. New memory is allocated if necessary
+     * \param size New string capacity
+     */
+    void reserve(size_t size);
+
+    /**
+     * \brief Get string capacity
+     * \return Capacity
+     */
+    size_t capacity() const;
+
+    /**
      * \brief Find substring into the string
      * \param str String which we need to find
      * \param startPosition Starting position for search
@@ -769,6 +799,12 @@ private:
      */
     std::basic_string<Char> m_string;
 };
+
+template <typename Type, typename>
+String String::toString(Type number)
+{
+    return String(std::to_string(number));
+} 
 
 /**
  * \brief Overload of the binary + operator.

@@ -1,34 +1,38 @@
 #include <XCurses/Text/Char.h>
 
+#include <cctype>
+
+#include <XCurses/Text/Key.h>
+
 namespace xcur {
 Char Char::Err(0x0000ffff);
 
 Char::Char() :
-    colorPairId(0),
+    symbol(0),
     attribute(Attribute::Normal),
-    symbol(0)
+    colorPairId(0)
 {
 }
 
 Char::Char(uint8_t colorPairId, Attribute attr, uint16_t symbol) :
-    colorPairId(colorPairId),
+    symbol(symbol),
     attribute(attr),
-    symbol(symbol)
+    colorPairId(colorPairId)
 {
 }
 
 Char::Char(uint32_t ch) :
-    colorPairId(Char::getColorPairId(ch)),
+    symbol(Char::getSymbol(ch)),
     attribute(Char::getAttribute(ch)),
-    symbol(Char::getSymbol(ch))
+    colorPairId(Char::getColorPairId(ch))
 {
 }
 
 Char& Char::operator=(uint32_t right)
 {
-    colorPairId = Char::getColorPairId(right);
-    attribute = Char::getAttribute(right);
     symbol = Char::getSymbol(right);
+    attribute = Char::getAttribute(right);
+    colorPairId = Char::getColorPairId(right);
     return *this;
 }
 
@@ -130,5 +134,40 @@ bool Char::isFullEqual(const Char& left, const Char& right)
     return (left.colorPairId == right.colorPairId) &&
         (left.attribute == right.attribute) &&
         (left.symbol == right.symbol);
+}
+
+bool Char::isControl(const Char& ch)
+{
+    return std::iscntrl(ch.symbol) > 0 ||
+        ch == Key::Insert ||
+        ch == Key::Delete ||
+        ch == Key::Down ||
+        ch == Key::Up ||
+        ch == Key::Left ||
+        ch == Key::Right ||
+        ch == Key::Home ||
+        ch == Key::End ||
+        ch == Key::PageUp ||
+        ch == Key::PageDown ||
+        ch == Key::F1 ||
+        ch == Key::F2 ||
+        ch == Key::F3 ||
+        ch == Key::F4 ||
+        ch == Key::F5 ||
+        ch == Key::F6 ||
+        ch == Key::F7 ||
+        ch == Key::F8 ||
+        ch == Key::F9 ||
+        ch == Key::F10 ||
+        ch == Key::F11 ||
+        ch == Key::F12;
+}
+
+bool Char::isLineFeed(const Char& ch)
+{
+    return ch.symbol == '\f' ||
+        ch.symbol == '\n' ||
+        ch.symbol == '\r' ||
+        ch.symbol == '\v';
 }
 }

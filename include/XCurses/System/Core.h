@@ -5,8 +5,8 @@
 #include <XCurses/System/Object.h>
 #include <XCurses/System/Vector2.h>
 #include <XCurses/System/CursesConfig.h>
-#include <XCurses/Graphics/ColorSystem.h>
-#include <XCurses/Graphics/ContextSystem.h>
+#include <XCurses/System/ColorSystem.h>
+#include <XCurses/System/ContextSystem.h>
 
 namespace xcur {
 /**

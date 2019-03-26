@@ -45,7 +45,9 @@ void main() {
     //nocbreak();
 
     // Allow input CTRL+Z, CTRL+C etc.
-    //raw();
+    raw();
+
+    keypad(stdscr, true);
 
     // Set no new line
     //nonl();

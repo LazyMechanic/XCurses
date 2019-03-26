@@ -7,9 +7,9 @@
 #include <XCurses/System/Status.h>
 #include <XCurses/System/Object.h>
 #include <XCurses/System/Vector2.h>
+#include <XCurses/System/Drawable.h>
+#include <XCurses/System/Behaviour.h>
 #include <XCurses/Graphics/Inputtable.h>
-#include <XCurses/Graphics/Drawable.h>
-#include <XCurses/Graphics/Behaviour.h>
 #include <XCurses/Graphics/VirtualScreen.h>
 
 namespace xcur {
@@ -19,6 +19,7 @@ class TreeNode;
 class Widget;
 class Window;
 class Container;
+class RootContainer;
 class ContextSystem;
 
 /**
@@ -75,24 +76,7 @@ public:
      * \param ch Character
      * \param position Position relative to widget
      */
-    void addToVirtualScreen(Object::Ptr<Widget> widget, const Char& ch, const Vector2u& position);
-
-    /**
-     * \brief Add character to virtual screen for draw
-     * \param widget Widget for which need draw character
-     * \param ch Character
-     * \param position Position relative to widget
-     */
-    void addToVirtualScreen(Object::PtrConst<Widget> widget, const Char& ch, const Vector2u& position);
-
-    /**
-     * \brief Add string to virtual screen for draw. If position more than screen size then
-     * do nothing
-     * \param widget Widget for which need draw character
-     * \param str String
-     * \param position Position relative to widget
-     */
-    void addToVirtualScreen(Object::Ptr<Widget> widget, const String& str, const Vector2u& position);
+    void addToVirtualScreen(Object::PtrConst<Widget> widget, const Char& ch, const Vector2i& position) const;
 
     /**
      * \brief Add string to virtual screen for draw. If position more than screen size then
@@ -101,20 +85,32 @@ public:
      * \param str String
      * \param position Position relative to widget
      */
-    void addToVirtualScreen(Object::PtrConst<Widget> widget, const String& str, const Vector2u& position);
+    void addToVirtualScreen(Object::PtrConst<Widget> widget, const String& str, const Vector2i& position) const;
 
     /**
      * \brief Set active inputtable widget
-     * \param inputWidget Widget which need set active. If it is Inputtable::None (nullptr) 
+     * \tparam Type Widget type
+     * \param inputWidget Widget which need set active. If it is nullptr)
      * then off cursor
      */
-    void setActiveInputWidget(Object::Ptr<Inputtable> inputWidget);
+    template <
+        class Type, 
+        class = typename std::enable_if<
+            std::is_base_of<Inputtable, Type>::value &&
+            std::is_base_of<Widget, Type>::value>::type>
+    void setActiveInputWidget(Object::Ptr<Type> inputWidget);
 
     /**
      * \brief Get active inputtable widget
-     * \return Smart ptr to active inputtable widget
+     * \return Smart ptr to active input widget
      */
-    Object::Ptr<Inputtable> getActiveInputWidget() const;
+    Object::Ptr<Widget> getActiveInputWidget() const;
+
+    /**
+     * \brief Check if inputWidget is active
+     * \return True if inputWidget is active, false otherwise
+     */
+    bool isActiveInputWidget(Object::Ptr<Widget> inputWidget) const;
 
     /**
      * \brief Find widget in widget tree
@@ -151,7 +147,7 @@ protected:
     /**
      * \brief Root container
      */
-    Object::Ptr<Container> m_rootContainer;
+    Object::Ptr<RootContainer> m_rootContainer;
 
     /**
      * \brief Buffer for all chars for drawing
@@ -184,4 +180,10 @@ private:
      */
     Status addSingleWidget(Object::Ptr<Widget> widget);
 };
+
+template <class Type, class>
+void Context::setActiveInputWidget(Object::Ptr<Type> inputWidget)
+{
+    m_virtualScreen->setActiveInputWidget(inputWidget);
+}
 }

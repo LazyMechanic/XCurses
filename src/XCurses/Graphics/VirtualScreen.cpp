@@ -1,11 +1,10 @@
 #include <XCurses/Graphics/VirtualScreen.h>
 
-#include <stdexcept>
-
 #include <PDCurses/curses.h>
 
 #include <XCurses/System/Core.h>
 #include <XCurses/Graphics/Container.h>
+#include <complex.h>
 
 namespace xcur {
 Object::Ptr<VirtualScreen> VirtualScreen::create()
@@ -15,11 +14,12 @@ Object::Ptr<VirtualScreen> VirtualScreen::create()
 
 void VirtualScreen::update(float dt)
 {
-    const auto activeInputWidget = getActiveInputWidget();
-    // If activeInputWidget is not Inputtable::None
-    if (activeInputWidget != Inputtable::None) {
-        Vector2u endPosition = activeInputWidget->getCursorPosition();
-        auto parent = activeInputWidget->getParent();
+    const auto activeWidget = getActiveInputWidget();
+    const auto activeInputWidget = std::dynamic_pointer_cast<Inputtable>(activeWidget);
+    // If activeInputWidget is not nullptr
+    if (activeWidget != nullptr) {
+        Vector2i endPosition = activeInputWidget->getScreenCursorPosition() + activeWidget->getPosition();
+        auto parent = activeWidget->getParent();
         // Pass through all parent widgets
         while (parent != nullptr) {
             endPosition += parent->getPosition();
@@ -43,7 +43,7 @@ void VirtualScreen::draw() const
     touchwin(stdscr);
 }
 
-void VirtualScreen::addChar(const Char& ch, const Vector2u& position)
+void VirtualScreen::addChar(const Char& ch, const Vector2i& position)
 {
     if (position.x < stdscr->_maxx && 
         position.y < stdscr->_maxy) 
@@ -52,7 +52,7 @@ void VirtualScreen::addChar(const Char& ch, const Vector2u& position)
     }
 }
 
-void VirtualScreen::addString(const String& str, const Vector2u& position)
+void VirtualScreen::addString(const String& str, const Vector2i& position)
 {
     // If position out of stdscr size
     if (position.x > stdscr->_maxx ||
@@ -61,7 +61,7 @@ void VirtualScreen::addString(const String& str, const Vector2u& position)
         return;
     }
 
-    Vector2u nextPosition = position;
+    Vector2i nextPosition = position;
     for (auto& ch : str) {
         // If next X position is end of row
         if (nextPosition.x > stdscr->_maxx) {
@@ -73,14 +73,14 @@ void VirtualScreen::addString(const String& str, const Vector2u& position)
     }
 }
 
-void VirtualScreen::setActiveInputWidget(Object::Ptr<Inputtable> inputWidget)
-{
-    m_activeInputWidget = inputWidget;
-}
-
-Object::Ptr<Inputtable> VirtualScreen::getActiveInputWidget() const
+Object::Ptr<Widget> VirtualScreen::getActiveInputWidget() const
 {
     return m_activeInputWidget.lock();
+}
+
+bool VirtualScreen::isActiveInputWidget(Object::Ptr<Widget> inputWidget) const
+{
+    return inputWidget == m_activeInputWidget.lock();
 }
 
 void VirtualScreen::clear() const

@@ -20,22 +20,22 @@ public:
      * \brief Construct config with specific params
      * \param terminalSize Terminal size
      * \param inputDelay Delay value for input
-     * \param enableCBreakMode CBreak mode state
-     * \param enableEchoMode Echo mode state
-     * \param enableRawMode Raw mode state
-     * \param enableNewLineMode NewLine mode state
-     * \param enableKeypadMode Keypad mode state
-     * \param enableInputDelay Delay mode state
+     * \param isCBreakEnable CBreak mode state
+     * \param isEchoEnable Echo mode state
+     * \param isRawEnable Raw mode state
+     * \param isNewLineEnable NewLine mode state
+     * \param isInputDelayEnable Delay mode state
+     * \param isKeypadEnable Keypad mode state
      */
     CursesConfig(
-        const Vector2u& terminalSize,
+        const Vector2i& terminalSize,
         uint32_t inputDelay,
-        bool enableCBreakMode,
-        bool enableEchoMode,
-        bool enableRawMode,
-        bool enableNewLineMode,
-        bool enableKeypadMode,
-        bool enableInputDelay
+        bool isCBreakEnable,
+        bool isEchoEnable,
+        bool isRawEnable,
+        bool isNewLineEnable,
+        bool isInputDelayEnable,
+        bool isKeypadEnable
     );
 
     /**
@@ -47,7 +47,7 @@ public:
      * \brief Terminal size.
      * size.x is width, size.y = height
      */
-    Vector2u terminalSize;
+    Vector2i terminalSize;
 
     /**
      * \brief Delay value for input
@@ -75,14 +75,14 @@ public:
     bool isNewLineEnable;
 
     /**
-     * \brief Keypad mode state
-     */
-    bool isKeypadEnable;
-
-    /**
      * \brief Input delay mode state
      */
     bool isInputDelayEnable;
+
+    /**
+     * \brief Keypad mode state
+     */
+    bool isKeypadEnable;
 
     /**
      * \brief Curses state. True if Curses::init() was called (equal initscr() in curses)

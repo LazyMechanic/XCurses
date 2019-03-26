@@ -3,48 +3,31 @@
 #include <algorithm>
 
 namespace xcur {
-const Object::Ptr<Inputtable> Inputtable::None = nullptr;
-
-Inputtable::Inputtable() :
-    m_size(Vector2u::Zero),
-    m_cursorPosition(0, 0),
-    m_cursorState(CursorState::Normal)
+Inputtable::Inputtable(Vector2i& size) :
+    m_screenCursorPosition(0, 0),
+    m_cursorState(CursorState::Normal),
+    m_widgetSize(size)
 {
 }
 
-Object::Ptr<Inputtable> Inputtable::create()
+void Inputtable::setScreenCursorPosition(const Vector2i& position)
 {
-    return std::shared_ptr<Inputtable>(new Inputtable());
+    m_screenCursorPosition.x = std::min(position.x, m_widgetSize.x);
+    m_screenCursorPosition.y = std::min(position.y, m_widgetSize.y);
 }
 
-void Inputtable::setCursorPosition(const Vector2u& newPosition)
+Vector2i Inputtable::getScreenCursorPosition() const
 {
-    m_cursorPosition.x = std::min<uint32_t>(newPosition.x, m_size.x);
-    m_cursorPosition.y = std::min<uint32_t>(newPosition.y, m_size.y);
+    return m_screenCursorPosition;
 }
 
-Vector2u Inputtable::getCursorPosition() const
+void Inputtable::setScreenCursorState(CursorState state)
 {
-    return m_cursorPosition;
-}
-
-void Inputtable::setCursorState(CursorState newState)
-{
-    m_cursorState = newState;
+    m_cursorState = state;
 }
 
 CursorState Inputtable::getCursorState() const
 {
     return m_cursorState;
-}
-
-void Inputtable::setSize(const Vector2u& size)
-{
-    m_size = size;
-}
-
-Vector2u Inputtable::getSize() const
-{
-    return m_size;
 }
 }

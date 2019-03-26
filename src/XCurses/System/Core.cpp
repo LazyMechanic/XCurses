@@ -7,7 +7,7 @@
 #include <PDCurses/curses.h>
 
 #include <XCurses/System/Input.h>
-#include <XCurses/Graphics/Context.h>
+#include <XCurses/System/Context.h>
 
 namespace xcur {
 
@@ -58,13 +58,13 @@ void Core::run(Object::Ptr<Context> context)
     float dt;
     while (m_isRunning) {
         dt = std::chrono::duration_cast<SecondPartial>(currentTime - lastTime).count();
-        currentTime = std::chrono::steady_clock::now();
+        lastTime = currentTime;
 
         handleEvents();
         update(dt);
         draw();
 
-        lastTime = currentTime;
+        currentTime = std::chrono::steady_clock::now();
     }
 }
 

@@ -15,7 +15,7 @@ public:
      * Do not change parent size
      * \param str String
      */
-    static Object::Ptr<Title> create(const Vector2u& position, const String& str = "");
+    static Object::Ptr<Title> create(const Vector2i& position, const String& str = "");
 
     /**
      * \brief Title destructor
@@ -45,7 +45,7 @@ private:
      * \param position Title position
      * \param str String
      */
-    Title(const Vector2u& position, const String& str);
+    Title(const Vector2i& position, const String& str);
 
     /**
      * \brief Title string
