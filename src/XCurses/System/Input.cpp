@@ -10,9 +10,7 @@ Char Input::m_pressedChar(ERR);
 void Input::handleEvents(Object::Ptr<VirtualScreen> screen)
 {
     if (screen != nullptr) {
-        do {
-            m_pressedChar = wgetch(stdscr);
-        } while (m_pressedChar != Char::Err);
+        m_pressedChar = wgetch(stdscr);
     }
     else {
         m_pressedChar = Char::Err;

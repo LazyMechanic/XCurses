@@ -15,6 +15,7 @@
 #include <XCurses/Graphics/TextArea.h>
 #include <XCurses/Graphics/Container.h>
 #include <XCurses/Graphics/ColorPalette.h>
+#include <XCurses/Graphics/InputTextArea.h>
 
 #include <XCurses/System/Core.h>
 #include <XCurses/System/Input.h>

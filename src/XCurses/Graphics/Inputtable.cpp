@@ -16,12 +16,12 @@ void Inputtable::setScreenCursorPosition(const Vector2i& position)
     m_screenCursorPosition.y = std::min(position.y, m_widgetSize.y);
 }
 
-Vector2i Inputtable::getCursorPosition() const
+Vector2i Inputtable::getScreenCursorPosition() const
 {
     return m_screenCursorPosition;
 }
 
-void Inputtable::setCursorState(CursorState state)
+void Inputtable::setScreenCursorState(CursorState state)
 {
     m_cursorState = state;
 }

@@ -27,6 +27,7 @@ void Curses::init(const CursesConfig& config)
     setRaw(config.isRawEnable);
     setNewLine(config.isNewLineEnable);
     setTerminalSize(config.terminalSize);
+    setKeypad(config.isKeypadEnable);
     nodelay(stdscr, true);
 }
 
@@ -144,6 +145,22 @@ Status Curses::setNewLine(bool v)
 bool Curses::isNewLineEnable()
 {
     return m_config.isNewLineEnable;
+}
+
+Status Curses::setKeypad(bool v)
+{
+    // If curses mode stop
+    if (!Curses::isInit()) {
+        throw std::runtime_error("Curses didn't initialized");
+    }
+
+    m_config.isKeypadEnable = v;
+    return keypad(stdscr, v);
+}
+
+bool Curses::isKeypadEnable()
+{
+    return m_config.isKeypadEnable;
 }
 
 Status Curses::setTerminalSize(const Vector2i& size)

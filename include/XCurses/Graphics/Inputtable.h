@@ -19,21 +19,21 @@ public:
      * \brief Set screen cursor position. 
      * Position coordinates that exceed widget size are clamped to widget size.
      * If size components less zero then will undefined behaviour.
-     * \param position New cursor position
+     * \param position New screen cursor position
      */
     void setScreenCursorPosition(const Vector2i& position);
 
     /**
      * \brief Get current cursor position
-     * \return Coordinate
+     * \return Screen cursor position
      */
-    Vector2i getCursorPosition() const;
+    Vector2i getScreenCursorPosition() const;
 
     /**
      * \brief Set new cursor state
      * \param state Cursor state
      */
-    void setCursorState(CursorState state);
+    void setScreenCursorState(CursorState state);
 
     /**
      * \brief Get cursor state

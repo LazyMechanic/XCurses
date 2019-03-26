@@ -1,13 +1,19 @@
 #pragma once
 
+#include <vector>
+
 #include <XCurses/Text/String.h>
 
 #include <XCurses/System/Vector2.h>
-#include <XCurses/System/Direction.h>
 
 #include <XCurses/Graphics/Widget.h>
 
 namespace xcur {
+struct DisplayString {
+    int32_t beginPosition = { 0 };
+    String data = { };
+};
+
 class TextArea :
     public Widget
 {
@@ -36,33 +42,6 @@ public:
     void draw() const override;
 
     /**
-     * \brief Set content cursor position.
-     * Position that exceed content size are clamped to end of content.
-     * \param position Content cursor position
-     */
-    void setContentCursorPosition(size_t position);
-
-    /**
-     * \brief Move content cursor to deltaPosition to left relative to the current position.
-     * Result position that exceed content size are clamped to end of content.
-     * \param deltaPosition Delta position
-     */
-    void moveContentCursorPosition(size_t deltaPosition, direction::Left);
-
-    /**
-     * \brief Move content cursor to deltaPosition to right relative to the current position.
-     * Result position that less then 0 are clamped to begin of content.
-     * \param deltaPosition Delta position
-     */
-    void moveContentCursorPosition(size_t deltaPosition, direction::Right);
-
-    /**
-     * \brief Get content cursor position
-     * \return Content cursor position
-     */
-    size_t getContentCursorPosition() const;
-
-    /**
      * \brief Set content string. Content cursor position set to end 
      * \param str String
      */
@@ -84,58 +63,32 @@ public:
      * \brief Get max scroll offset
      * \return Max scroll offset
      */
-    size_t getMaxScrollOffset() const;
+    int32_t getMaxScrollOffset() const;
 
     /**
      * \brief Get current scroll offset
      * \return Current scroll offset
      */
-    size_t getCurrentScrollOffset() const;
+    int32_t getCurrentScrollOffset() const;
 
     /**
-     * \brief Set scroll mode
-     * \param state Scroll mode state. 
-     * True equal enableScroll(), false equal disableScroll()
-     */
-    void setScrollMode(bool state);
-
-    /**
-     * \brief Enable scroll mode
-     */
-    void enableScroll();
-
-    /**
-     * \brief Disable scroll mode. Scroll offset change to 0. Content will changing, 
-     * but display string do not. This meaning that content always display with 0 scroll offset
-     */
-    void disableScroll();
-
-    /**
-     * \brief Check if scroll enable
-     * \return True if scroll enable, false otherwise
-     */
-    bool isScrollEnable() const;
-
-    /**
-     * \brief Scroll text area to up
-     * Result scroll offset that less then 0 are clamped to 0 offset
-     * \param deltaScrollOffset Delta scroll offset
-     */
-    void scroll(size_t deltaScrollOffset, direction::Up);
-
-    /**
-     * \brief Scroll text area to down
+     * \brief Scroll text area to up or down.
+     * Equal setScroll(getCurrentScrollOffset() + deltaScrollOffset).
+     * 
+     * Result scroll offset that less then 0 are clamped to 0 offset.
      * Result scroll offset that more then max scroll offset are clamped to max scroll offset
-     * \param deltaScrollOffset Delta scroll offset
+     * \param deltaScrollOffset Delta scroll offset. Negative offset use for scroll up, positive
+     * offset use for scroll down
      */
-    void scroll(size_t deltaScrollOffset, direction::Down);
+    void scroll(int32_t deltaScrollOffset);
 
     /**
      * \brief Set scroll offset relatively first row.
-     * If \a scrollOffset that more then max scroll offset are clamped to max scroll offset
+     * Result scroll offset that less then 0 are clamped to 0 offset.
+     * Result scroll offset that more then max scroll offset are clamped to max scroll offset
      * \param scrollOffset Scroll offset
      */
-    void setScroll(size_t scrollOffset);
+    void setScroll(int32_t scrollOffset);
 
 protected:
     /**
@@ -156,9 +109,12 @@ protected:
     void computeMaxScrollOffset();
 
     /**
-     * \brief Position for next character
+     * \brief Get 
+     * \param contentIndex 
+     * \return Index of display string which contain character from content by index contentIndex,
+     * "-1" if none contain character
      */
-    size_t m_contentCursorPosition;
+    int32_t getDisplayStringIndex(size_t contentIndex);
 
     /**
      * \brief Text area data
@@ -166,19 +122,14 @@ protected:
     String m_content;
 
     /**
-     * \brief Display string
-     */
-    String m_displayString;
-
-    /**
      * \brief Display current scroll offset
      */
-    size_t m_currentScrollOffset;
+    int32_t m_currentScrollOffset;
 
     /**
      * \brief Max display current scroll offset
      */
-    size_t m_maxScrollOffset;
+    int32_t m_maxScrollOffset;
 
     /**
      * \brief Whether the content has changed or scrolled
@@ -189,5 +140,10 @@ protected:
      * \brief Whether the text area can scroll
      */
     bool m_isScrollEnable;
+
+    /**
+     * \brief Array of strings for display
+     */
+    std::vector<DisplayString> m_displayStrings;
 };
 }

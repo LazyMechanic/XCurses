@@ -70,7 +70,6 @@ set(XCURSES_SYSTEM_SRCS
     ${XCURSES_INC_DIR}/System/Vector3.h
     ${XCURSES_INC_DIR}/System/Vector3.inl
     ${XCURSES_INC_DIR}/System/CursorState.h
-	${XCURSES_INC_DIR}/System/Direction.h
 	${XCURSES_INC_DIR}/System/Area.h
 	${XCURSES_SRC_DIR}/System/Area.cpp
 )
@@ -82,6 +81,8 @@ set(XCURSES_TEXT_SRCS
     ${XCURSES_SRC_DIR}/Text/Char.cpp
     ${XCURSES_INC_DIR}/Text/String.h
     ${XCURSES_SRC_DIR}/Text/String.cpp
+    ${XCURSES_INC_DIR}/Text/Key.h
+    ${XCURSES_SRC_DIR}/Text/Key.cpp
 )
 
 set(XCURSES_SRCS

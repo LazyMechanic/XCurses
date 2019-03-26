@@ -13,11 +13,12 @@ Object::Ptr<TextArea> TextArea::create(const Area& area)
 
 TextArea::TextArea(const Area& area) :
     Widget(area),
-    m_contentCursorPosition(0),
+    m_content(' '),
     m_currentScrollOffset(0),
     m_maxScrollOffset(0),
     m_needUpdateDisplayString(true),
-    m_isScrollEnable(true)
+    m_isScrollEnable(true),
+    m_displayStrings(area.size.y)
 {
 }
 
@@ -31,52 +32,32 @@ void TextArea::draw() const
 {
     auto context = getContext();
     if (context != nullptr) {
-        Vector2i position = Vector2i::Zero;
-        size_t i = 0;
-        for (; (position.y < m_area.size.y) && (i < m_displayString.size()); ++position.y) {
-            for (position.x = 0; (position.x < m_area.size.x) && (i < m_displayString.size()); ++position.x) {
-                // If character is line feed then go to next row
-                if (m_displayString[i] == Char::Key::LineFeed) {
-                    ++i;
+        Vector2i positionToDraw = Vector2i::Zero;
+
+        for (auto& str : m_displayStrings) {
+            positionToDraw.x = 0;
+            for (auto& ch : str.data) {
+                if (Char::isLineFeed(ch)) {
                     break;
                 }
 
-                context->addToVirtualScreen(shared_from_this(), m_displayString[i], position);
-                ++i;
+                context->addToVirtualScreen(shared_from_this(), ch, positionToDraw);
+                ++positionToDraw.x;
             }
+            ++positionToDraw.y;
         }
     }
-}
-
-void TextArea::setContentCursorPosition(size_t position)
-{
-    m_contentCursorPosition = std::min(position, m_content.size());
-}
-
-void TextArea::moveContentCursorPosition(size_t deltaPosition, direction::Left)
-{
-    if (m_contentCursorPosition > deltaPosition) {
-        m_contentCursorPosition -= deltaPosition;
-    }
-    else {
-        m_contentCursorPosition = 0;
-    }
-}
-
-void TextArea::moveContentCursorPosition(size_t deltaPosition, direction::Right)
-{
-    m_contentCursorPosition = std::min(m_contentCursorPosition + deltaPosition, m_content.size());
-}
-
-size_t TextArea::getContentCursorPosition() const
-{
-    return m_contentCursorPosition;
 }
 
 void TextArea::setContent(const String& str)
 {
     m_content = str;
-    m_contentCursorPosition = str.size();
+    if (m_content.size() > 0 &&
+        *m_content.rbegin() != ' ')
+    {
+        m_content += ' ';
+    }
+
     m_needUpdateDisplayString = true;
     computeMaxScrollOffset();
 }
@@ -89,72 +70,34 @@ String TextArea::getContent() const
 void TextArea::setSize(const Vector2i& size)
 {
     Widget::setSize(size);
+    m_displayStrings.resize(size.y);
     m_needUpdateDisplayString = true;
 }
 
-size_t TextArea::getMaxScrollOffset() const
+int32_t TextArea::getMaxScrollOffset() const
 {
     return m_maxScrollOffset;
 }
 
-size_t TextArea::getCurrentScrollOffset() const
+int32_t TextArea::getCurrentScrollOffset() const
 {
     return m_currentScrollOffset;
 }
 
-void TextArea::setScrollMode(bool state)
+void TextArea::scroll(int32_t deltaScrollOffset)
 {
-    if (state) {
-        enableScroll();
+    setScroll(m_currentScrollOffset + deltaScrollOffset);
+}
+
+void TextArea::setScroll(int32_t scrollOffset)
+{
+    // If new scroll offset equal current scroll offset then do nothing
+    if (m_currentScrollOffset == scrollOffset) {
+        return;
     }
-    else {
-        disableScroll();
-    }
-}
 
-void TextArea::enableScroll()
-{
-    m_isScrollEnable = true;
-}
-
-void TextArea::disableScroll()
-{
-    m_currentScrollOffset = 0;
-    m_isScrollEnable = false;
-}
-
-bool TextArea::isScrollEnable() const
-{
-    return m_isScrollEnable;
-}
-
-void TextArea::scroll(size_t deltaScrollOffset, direction::Up)
-{
-    if (m_isScrollEnable) {
-        if (m_currentScrollOffset > deltaScrollOffset) {
-            m_currentScrollOffset -= deltaScrollOffset;
-        }
-        else {
-            m_currentScrollOffset = 0;
-        }
-        m_needUpdateDisplayString = true;
-    }
-}
-
-void TextArea::scroll(size_t deltaScrollOffset, direction::Down)
-{
-    if (m_isScrollEnable) {
-        m_currentScrollOffset = std::min(m_currentScrollOffset + deltaScrollOffset, m_maxScrollOffset);
-        m_needUpdateDisplayString = true;
-    }
-}
-
-void TextArea::setScroll(size_t scrollOffset)
-{
-    if (m_isScrollEnable) {
-        m_currentScrollOffset = std::min(scrollOffset, m_maxScrollOffset);
-        m_needUpdateDisplayString = true;
-    }
+    m_currentScrollOffset = std::max(0, std::min(scrollOffset, m_maxScrollOffset));
+    m_needUpdateDisplayString = true;
 }
 
 void TextArea::updateDisplayString()
@@ -165,43 +108,52 @@ void TextArea::updateDisplayString()
         if (m_needUpdateDisplayString) {
             computeMaxScrollOffset();
 
-            size_t displayStringCursorBegin = 0;
+            // Begin index in content for display string
+            size_t contentStringIndexBegin = 0;
 
-            for (size_t scrollOffset = 0; scrollOffset <= m_currentScrollOffset; ++scrollOffset) {
-                // Scroll only 1 row
-                if (scrollOffset > 0) {
-                    // Pass through content from display begin position
-                    int32_t chCounter = 0;
-                    for (size_t i = displayStringCursorBegin; i < m_content.size(); ++i, ++chCounter) {
-                        Char ch = m_content[i];
-                        if (chCounter % m_area.size.x == (m_area.size.x - 1) ||
-                            ch == Char::Key::LineFeed) {
-                            displayStringCursorBegin = i + 1;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            const size_t maxTextAreaFilling = m_area.size.x * m_area.size.y;
-            size_t currentTextAreaFilling = 0;
-            size_t contentIndex = displayStringCursorBegin;
-            for (;
-                (contentIndex < m_content.size()) &&
-                (currentTextAreaFilling < maxTextAreaFilling);
-                ++contentIndex, ++currentTextAreaFilling)
+            // Scroll through the text area to the desired offset
+            for (int32_t scrollOffset = 0;
+                scrollOffset <= m_currentScrollOffset;
+                ++scrollOffset)
             {
-                // If meet line feed character then add to currentTextAreaFilling
-                // the difference between used row size and max row size.
-                // It is the unused row size including line feed character
-                if (m_content[contentIndex] == Char::Key::LineFeed) {
-                    // Add "-1" because after "continue" currentFromFilling will increase again
-                    currentTextAreaFilling += (m_area.size.x - contentIndex % m_area.size.x) - 1;
+                // Increase contentStringIndexBegin to 1 row
+                if (scrollOffset > 0 && m_displayStrings.size() > 1) {
+                    contentStringIndexBegin = m_displayStrings[1].beginPosition;
+                }
+
+                // Pass through display strings
+                for (size_t displayStringIndex = 0; 
+                    displayStringIndex < m_displayStrings.size(); 
+                    ++displayStringIndex)
+                {
+                    // If display string is not first in vector
+                    if (displayStringIndex > 0) {
+                        m_displayStrings[displayStringIndex].beginPosition = 
+                            m_displayStrings[displayStringIndex - 1].beginPosition +
+                            m_displayStrings[displayStringIndex - 1].data.size();
+                    }
+                    else {
+                        m_displayStrings[displayStringIndex].beginPosition = contentStringIndexBegin;
+                    }
+
+                    // Pass through content string
+                    size_t contentStringIndex = contentStringIndexBegin;
+                    for (; 
+                        contentStringIndex < m_content.size() &&
+                        ((contentStringIndex - contentStringIndexBegin + 1) % m_area.size.x != 0) &&
+                        !Char::isLineFeed(m_content[contentStringIndex]);
+                        ++contentStringIndex)
+                    {
+                    }
+
+                    // Copy content substring to one of display strings
+                    m_displayStrings[displayStringIndex].data =
+                        m_content.substring(contentStringIndexBegin, contentStringIndex - contentStringIndexBegin + 1);
+
+                    // Increase begin index
+                    contentStringIndexBegin += m_displayStrings[displayStringIndex].data.size();
                 }
             }
-
-            const size_t displayStringLength = contentIndex - displayStringCursorBegin;
-            m_displayString = m_content.substring(displayStringCursorBegin, displayStringLength);
         }
     }
 }
@@ -212,18 +164,33 @@ void TextArea::computeMaxScrollOffset()
     size_t chCount = 0;
     for (size_t i = 0; i < m_content.size(); ++i) {
         ++chCount;
-        if (m_content[i] == Char::Key::LineFeed ||
+        if (m_content[i] == Key::LineFeed ||
             chCount % m_area.size.x == 0 ||
-            (i + 1) == m_content.size()) {
+            (i + 1) == m_content.size()) 
+        {
             chCount = 0;
             ++m_maxScrollOffset;
         }
     }
-    
-    if (m_maxScrollOffset >= m_area.size.y) {
-        m_maxScrollOffset -= m_area.size.y;
-    }
+
+    // Set count of display strings less or equal than height of text area
+    m_displayStrings.resize(std::min(m_maxScrollOffset, m_area.size.y));
+
+    m_maxScrollOffset = std::max(m_maxScrollOffset - m_area.size.y, 0);
 
     m_currentScrollOffset = std::min(m_currentScrollOffset, m_maxScrollOffset);
+}
+
+int32_t TextArea::getDisplayStringIndex(size_t contentIndex)
+{
+    for (int32_t index = 0; index < m_displayStrings.size(); ++index) {
+        if (contentIndex >= m_displayStrings[index].beginPosition &&
+            contentIndex < m_displayStrings[index].beginPosition + m_displayStrings[index].data.size())
+        {
+            return index;
+        }
+    }
+
+    return -1;
 }
 }

@@ -1,7 +1,5 @@
 #include <XCurses/Graphics/VirtualScreen.h>
 
-#include <stdexcept>
-
 #include <PDCurses/curses.h>
 
 #include <XCurses/System/Core.h>
@@ -17,10 +15,10 @@ Object::Ptr<VirtualScreen> VirtualScreen::create()
 void VirtualScreen::update(float dt)
 {
     const auto activeWidget = getActiveInputWidget();
-    const auto activeInputWidget = std::reinterpret_pointer_cast<Inputtable>(activeWidget);
-    // If activeInputWidget is not Inputtable::None
+    const auto activeInputWidget = std::dynamic_pointer_cast<Inputtable>(activeWidget);
+    // If activeInputWidget is not nullptr
     if (activeWidget != nullptr) {
-        Vector2i endPosition = activeInputWidget->getCursorPosition();
+        Vector2i endPosition = activeInputWidget->getScreenCursorPosition() + activeWidget->getPosition();
         auto parent = activeWidget->getParent();
         // Pass through all parent widgets
         while (parent != nullptr) {

@@ -574,6 +574,15 @@ public:
     static bool isFullEqual(const String& left, const String& right);
 
     /**
+     * \brief Convert number (integer or float) to String
+     * \tparam Type Type of number (int, float, double, etc.)
+     * \param number Number
+     * \return String from number
+     */
+    template <typename Type, typename = typename std::enable_if<std::is_arithmetic<Type>::value, Type>::type>
+    static String toString(Type number);
+
+    /**
      * \brief Convert String to uint32_t* (curses string)
      * \return Curses string
      */
@@ -790,6 +799,12 @@ private:
      */
     std::basic_string<Char> m_string;
 };
+
+template <typename Type, typename>
+String String::toString(Type number)
+{
+    return String(std::to_string(number));
+} 
 
 /**
  * \brief Overload of the binary + operator.
