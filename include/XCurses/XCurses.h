@@ -14,6 +14,7 @@
 #include <XCurses/Graphics/Border.h>
 #include <XCurses/Graphics/TextArea.h>
 #include <XCurses/Graphics/Container.h>
+#include <XCurses/Graphics/ScrollBar.h>
 #include <XCurses/Graphics/ColorPalette.h>
 #include <XCurses/Graphics/InputTextArea.h>
 

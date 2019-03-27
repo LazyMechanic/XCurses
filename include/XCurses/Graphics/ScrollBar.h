@@ -1,5 +1,7 @@
 #pragma once
 
+#include <XCurses/Text/Char.h>
+
 #include <XCurses/Graphics/Widget.h>
 
 namespace xcur {
@@ -8,9 +10,10 @@ class ScrollBar : public Widget
 public:
     /**
      * \brief Create ScrollBar
+     * \param area ScrollBar area
      * \return Smart ptr to ScrollBar
      */
-    static Object::Ptr<ScrollBar> create();
+    static Object::Ptr<ScrollBar> create(const Area& area);
 
     /**
      * \brief ScrollBar destructor
@@ -40,11 +43,36 @@ public:
      */
     void setCurrentValue(uint32_t value);
 
+    /**
+     * \brief Set background character
+     * \param ch New background character
+     */
+    void setBackgroundChar(const Char& ch);
+
+    /**
+     * \brief Get background character
+     * \return Background character
+     */
+    Char getBackgroundChar() const;
+
+    /**
+     * \brief Set bar character
+     * \param ch New bar character
+     */
+    void setBarChar(const Char& ch);
+
+    /**
+     * \brief Get bar character
+     * \return Bar character
+     */
+    Char getBarChar() const;
+
 protected:
     /**
      * \brief Default ScrollBar constructor
+     * \param area ScrollBar area
      */
-    ScrollBar();
+    ScrollBar(const Area& area);
 
     /**
      * \brief Max value
@@ -55,5 +83,15 @@ protected:
      * \brief Current value
      */
     uint32_t m_currentValue;
+
+    /**
+     * \brief Bar character
+     */
+    Char m_barChar;
+
+    /**
+     * \brief Background character
+     */
+    Char m_backgroundChar;
 };
 }
