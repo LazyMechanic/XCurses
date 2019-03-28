@@ -38,6 +38,8 @@ set(XCURSES_GRAPHICS_SRCS
     ${XCURSES_SRC_DIR}/Graphics/RootContainer.cpp
     ${XCURSES_INC_DIR}/Graphics/ScrollBar.h
     ${XCURSES_SRC_DIR}/Graphics/ScrollBar.cpp
+    ${XCURSES_INC_DIR}/Graphics/TextBox.h
+    ${XCURSES_SRC_DIR}/Graphics/TextBox.cpp
 )
 
 set(XCURSES_SYSTEM_SRCS

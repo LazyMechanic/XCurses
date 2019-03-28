@@ -64,6 +64,11 @@ Window::Window(const Area& area, Object::Ptr<Container> parent, Object::Ptr<Cont
 {
 }
 
+void Window::onResize()
+{
+    m_border->setSize(m_area.size);
+}
+
 void Window::addChar(const Char& ch, const Vector2i& position) const
 {
     auto context = getContext();

@@ -60,6 +60,7 @@ Area Widget::getArea() const
 void Widget::setPosition(const Vector2i& position)
 {
     m_area.position = position;
+    onReposition();
 }
 
 void Widget::move(const Vector2i& deltaPos)
@@ -72,14 +73,25 @@ Vector2i Widget::getPosition() const
     return m_area.position;
 }
 
+void Widget::onReposition()
+{
+    /* full virtual function */
+}
+
 void Widget::setSize(const Vector2i& size)
 {
     m_area.size = size;
+    onResize();
 }
 
 Vector2i Widget::getSize() const
 {
     return m_area.size;
+}
+
+void Widget::onResize()
+{
+    /* full virtual function */
 }
 
 void Widget::setParent(Object::Ptr<Container> parent)

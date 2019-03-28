@@ -6,7 +6,6 @@ public:
     static Object::Ptr<MyTextArea> create(const xcur::Area& area)
     {
         std::shared_ptr<MyTextArea> result(new MyTextArea(area));
-        //result->setContent("Hello buddies.\nThis is text area, which automatically scroll up and down every " + xcur::String::toString(result->m_maxTime) + " seconds");
         return result;
     }
 
@@ -98,7 +97,7 @@ int main()
     xcur::Object::Ptr<xcur::Context> myContext = xcur::Context::create();
 
     // Create text areas
-    xcur::Object::Ptr<MyTextArea> myTextArea_1 = MyTextArea::create(xcur::Area(xcur::Vector2i(5, 5), xcur::Vector2i(10, 3)));
+    xcur::Object::Ptr<MyTextArea> myTextArea_1 = MyTextArea::create(xcur::Area(5, 5, 10, 3));
     myTextArea_1->setContent(
         xcur::String("1. abcdefg") +
         xcur::String("2. abcdefg") +
@@ -107,7 +106,7 @@ int main()
         xcur::String("5. abcdefg") +
         xcur::String("6. abcdefg"));
 
-    xcur::Object::Ptr<MyTextArea> myTextArea_2 = MyTextArea::create(xcur::Area(xcur::Vector2i(20, 5), xcur::Vector2i(3, 10)));
+    xcur::Object::Ptr<MyTextArea> myTextArea_2 = MyTextArea::create(xcur::Area(20, 5, 3, 10));
     myTextArea_2->setContent(
         xcur::String("1. ") +
         xcur::String("2. ") +
@@ -122,7 +121,7 @@ int main()
         xcur::String("11.") +
         xcur::String("12."));
 
-    xcur::Object::Ptr<MyTextArea> myTextArea_3 = MyTextArea::create(xcur::Area(xcur::Vector2i(30, 5), xcur::Vector2i(10, 7)));
+    xcur::Object::Ptr<MyTextArea> myTextArea_3 = MyTextArea::create(xcur::Area(30, 5, 10, 7));
     myTextArea_3->setContent(
         xcur::String("1. abcdefg") +
         xcur::String("2. abcdefg") +
@@ -131,18 +130,43 @@ int main()
         xcur::String("5. abcdefg") +
         xcur::String("6. abcdefg"));
 
-    xcur::Object::Ptr<MyScrollBar> myScrollBar = MyScrollBar::create(xcur::Area(xcur::Vector2i(1, 10), xcur::Vector2i(3, 15)));
-    myContext->add(myScrollBar);
+    // Create scroll bar
+    xcur::Object::Ptr<MyScrollBar> myScrollBar = MyScrollBar::create(xcur::Area(1, 10, 3, 15));
 
     // Create input text area
-    xcur::Object::Ptr<xcur::InputTextArea> myInputTextArea = xcur::InputTextArea::create(xcur::Area(xcur::Vector2i(30, 20), xcur::Vector2i(10, 3)));
-    myContext->add(myInputTextArea);
-    myContext->setActiveInputWidget(myInputTextArea);
+    xcur::Object::Ptr<xcur::InputTextArea> myInputTextArea_1 = xcur::InputTextArea::create(xcur::Area(30, 20,10, 3));
+    myContext->setActiveInputWidget(myInputTextArea_1);
 
-    // Add text area into context root container
+    // Create text box
+    xcur::Object::Ptr<xcur::TextBox> myTextBox_1 = xcur::TextBox::create(xcur::Area(25, 25, 15, 10));
+    myTextBox_1->setTextArea(MyTextArea::create(xcur::Area(0, 0, 0, 0)));
+    myTextBox_1->getTextArea()->setContent(
+        xcur::String("1. abcdefghij") +
+        xcur::String("2. abcdefghij") +
+        xcur::String("3. abcdefghij") +
+        xcur::String("4. abcdefghij") +
+        xcur::String("5. abcdefghij") +
+        xcur::String("6. abcdefghij") +
+        xcur::String("7. abcdefghij") +
+        xcur::String("8. abcdefghij") +
+        xcur::String("9. abcdefghij") +
+        xcur::String("10.abcdefghij") +
+        xcur::String("11.abcdefghij") +
+        xcur::String("12.abcdefghij"));
+
+    // Add text areas into context
     myContext->add(myTextArea_1);
     myContext->add(myTextArea_2);
     myContext->add(myTextArea_3);
+
+    // Add scroll bars into context
+    myContext->add(myScrollBar);
+
+    // Add input text areas into context
+    myContext->add(myInputTextArea_1);
+
+    // Add text boxes into context
+    myContext->add(myTextBox_1);
 
     // Create Core and run main loop
     xcur::Core::create()->run(myContext);

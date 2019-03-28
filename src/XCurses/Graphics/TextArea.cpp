@@ -6,9 +6,19 @@
 #include <XCurses/System/Context.h>
 
 namespace xcur {
+Object::Ptr<TextArea> TextArea::create()
+{
+    return TextArea::create(Area(Vector2i::Zero, Vector2i::Zero));
+}
+
 Object::Ptr<TextArea> TextArea::create(const Area& area)
 {
     return std::shared_ptr<TextArea>(new TextArea(area));
+}
+
+TextArea::TextArea() :
+    TextArea(Area(Vector2i::Zero, Vector2i::Zero))
+{
 }
 
 TextArea::TextArea(const Area& area) :
@@ -67,10 +77,9 @@ String TextArea::getContent() const
     return m_content;
 }
 
-void TextArea::setSize(const Vector2i& size)
+void TextArea::onResize()
 {
-    Widget::setSize(size);
-    m_displayStrings.resize(size.y);
+    m_displayStrings.resize(m_area.size.y);
     m_needUpdateDisplayString = true;
 }
 
@@ -109,7 +118,7 @@ void TextArea::updateDisplayString()
             computeMaxScrollOffset();
 
             // Begin index in content for display string
-            size_t contentStringIndexBegin = 0;
+            int32_t contentStringIndexBegin = 0;
 
             // Scroll through the text area to the desired offset
             for (int32_t scrollOffset = 0;
@@ -130,7 +139,7 @@ void TextArea::updateDisplayString()
                     if (displayStringIndex > 0) {
                         m_displayStrings[displayStringIndex].beginPosition = 
                             m_displayStrings[displayStringIndex - 1].beginPosition +
-                            m_displayStrings[displayStringIndex - 1].data.size();
+                            static_cast<int32_t>(m_displayStrings[displayStringIndex - 1].data.size());
                     }
                     else {
                         m_displayStrings[displayStringIndex].beginPosition = contentStringIndexBegin;
@@ -151,7 +160,7 @@ void TextArea::updateDisplayString()
                         m_content.substring(contentStringIndexBegin, contentStringIndex - contentStringIndexBegin + 1);
 
                     // Increase begin index
-                    contentStringIndexBegin += m_displayStrings[displayStringIndex].data.size();
+                    contentStringIndexBegin += static_cast<int32_t>(m_displayStrings[displayStringIndex].data.size());
                 }
             }
         }
@@ -160,25 +169,27 @@ void TextArea::updateDisplayString()
 
 void TextArea::computeMaxScrollOffset()
 {
-    m_maxScrollOffset = 0;
-    size_t chCount = 0;
-    for (size_t i = 0; i < m_content.size(); ++i) {
-        ++chCount;
-        if (m_content[i] == Key::LineFeed ||
-            chCount % m_area.size.x == 0 ||
-            (i + 1) == m_content.size()) 
-        {
-            chCount = 0;
-            ++m_maxScrollOffset;
+    if (m_area.size.x > 0 && m_area.size.y > 0) {
+        m_maxScrollOffset = 0;
+        size_t chCount = 0;
+        for (size_t i = 0; i < m_content.size(); ++i) {
+            ++chCount;
+            if (m_content[i] == Key::LineFeed ||
+                chCount % m_area.size.x == 0 ||
+                (i + 1) == m_content.size())
+            {
+                chCount = 0;
+                ++m_maxScrollOffset;
+            }
         }
+
+        // Set count of display strings less or equal than height of text area
+        m_displayStrings.resize(std::min(m_maxScrollOffset, m_area.size.y));
+
+        m_maxScrollOffset = std::max(m_maxScrollOffset - m_area.size.y, 0);
+
+        m_currentScrollOffset = std::min(m_currentScrollOffset, m_maxScrollOffset);
     }
-
-    // Set count of display strings less or equal than height of text area
-    m_displayStrings.resize(std::min(m_maxScrollOffset, m_area.size.y));
-
-    m_maxScrollOffset = std::max(m_maxScrollOffset - m_area.size.y, 0);
-
-    m_currentScrollOffset = std::min(m_currentScrollOffset, m_maxScrollOffset);
 }
 
 int32_t TextArea::getDisplayStringIndex(size_t contentIndex)

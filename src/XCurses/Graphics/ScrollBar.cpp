@@ -6,16 +6,26 @@
 #include <XCurses/System/Context.h>
 
 namespace xcur {
+Object::Ptr<ScrollBar> ScrollBar::create()
+{
+    return ScrollBar::create(Area(Vector2i::Zero, Vector2i::Zero));
+}
+
 Object::Ptr<ScrollBar> ScrollBar::create(const Area& area)
 {
     return std::shared_ptr<ScrollBar>(new ScrollBar(area));
+}
+
+ScrollBar::ScrollBar() :
+    ScrollBar(Area(Vector2i::Zero, Vector2i::Zero))
+{
 }
 
 ScrollBar::ScrollBar(const Area& area) :
     Widget(area),
     m_maxValue(0),
     m_currentValue(0),
-    m_barChar('X'),
+    m_barChar('='),
     m_backgroundChar('.')
 {
 }
@@ -38,7 +48,7 @@ void ScrollBar::draw() const
         int32_t barSize = 0;
         int32_t barOffset = 0;
         if (m_maxValue != 0) {
-            barSize = static_cast<int32_t>(std::floor(static_cast<float>(m_area.size.y) / (m_maxValue)));
+            barSize = static_cast<int32_t>(std::ceil(static_cast<float>(m_area.size.y) / (m_maxValue)));
             barOffset = static_cast<int32_t>(std::floor((static_cast<float>(m_currentValue) / (m_maxValue)) * (m_area.size.y - barSize)));
         }
         

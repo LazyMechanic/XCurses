@@ -9,7 +9,13 @@ class ScrollBar : public Widget
 {
 public:
     /**
-     * \brief Create ScrollBar
+     * \brief Create ScrollBar with zero position and size
+     * \return Smart ptr to ScrollBar
+     */
+    static Object::Ptr<ScrollBar> create();
+
+    /**
+     * \brief Create ScrollBar with specific position and size
      * \param area ScrollBar area
      * \return Smart ptr to ScrollBar
      */
@@ -69,7 +75,12 @@ public:
 
 protected:
     /**
-     * \brief Default ScrollBar constructor
+     * \brief Default ScrollBar constructor. Construct it with zero position and size
+     */
+    ScrollBar();
+
+    /**
+     * \brief ScrollBar constructor. Construct it with specific position and size
      * \param area ScrollBar area
      */
     ScrollBar(const Area& area);

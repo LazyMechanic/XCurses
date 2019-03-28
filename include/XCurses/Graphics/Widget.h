@@ -44,10 +44,10 @@ public:
     Area getArea() const;
 
     /**
-     * \brief Set position relatively parent. Meaning depends on implementation of the heir
+     * \brief Set position relatively parent. After set position calling onReposition()
      * \param position New position
      */
-    virtual void setPosition(const Vector2i& position);
+    void setPosition(const Vector2i& position);
 
     /**
      * \brief Set position. New position = Old position + deltaPos
@@ -62,18 +62,28 @@ public:
     Vector2i getPosition() const;
 
     /**
+     * \brief Automatically call this function after setPosition()
+     */
+    virtual void onReposition();
+
+    /**
      * \brief Set widget size. 
      * If size components less zero then will undefined behaviour.
-     * Meaning depends on implementation of the heir
+     * After set size calling onResize()
      * \param size New size
      */
-    virtual void setSize(const Vector2i& size);
+    void setSize(const Vector2i& size);
 
     /**
      * \brief Get widget size
      * \return Widget size
      */
     Vector2i getSize() const;
+
+    /**
+     * \brief Automatically call this function after setSize()
+     */
+    virtual void onResize();
 
     /**
      * \brief Set parent widget container.

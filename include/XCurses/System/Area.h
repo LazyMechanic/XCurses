@@ -19,6 +19,15 @@ public:
     Area(const Vector2i& position, const Vector2i& size);
 
     /**
+     * \brief Area constructor. Construct it with specific position and size
+     * \param positionX X component of position
+     * \param positionY Y component of position
+     * \param sizeX X component of size
+     * \param sizeY Y component of size
+     */
+    Area(int32_t positionX, int32_t positionY, int32_t sizeX, int32_t sizeY);
+
+    /**
      * \brief Default Area copy constructor
      */
     Area(const Area&) = default;

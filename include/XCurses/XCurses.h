@@ -12,6 +12,7 @@
 #include <XCurses/Graphics/Window.h>
 #include <XCurses/Graphics/Widget.h>
 #include <XCurses/Graphics/Border.h>
+#include <XCurses/Graphics/TextBox.h>
 #include <XCurses/Graphics/TextArea.h>
 #include <XCurses/Graphics/Container.h>
 #include <XCurses/Graphics/ScrollBar.h>

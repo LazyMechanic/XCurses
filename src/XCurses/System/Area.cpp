@@ -13,6 +13,11 @@ Area::Area(const Vector2i& position, const Vector2i& size) :
 {
 }
 
+Area::Area(int32_t positionX, int32_t positionY, int32_t sizeX, int32_t sizeY) :
+    Area(Vector2i(positionX, positionY), Vector2i(sizeX, sizeY))
+{
+}
+
 bool Area::contain(const Vector2i& point) const
 {
     return point.x >= 0 && // 0 is beginning position by x of this area

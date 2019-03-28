@@ -19,6 +19,12 @@ class TextArea :
 {
 public:
     /**
+     * \brief Create TextArea with zero position and size
+     * \return Smart ptr to TextArea
+     */
+    static Object::Ptr<TextArea> create();
+
+    /**
      * \brief Create TextArea with specific position and size
      * \param area TextArea area
      * \return Smart ptr to TextArea
@@ -54,10 +60,9 @@ public:
     String getContent() const;
 
     /**
-     * \brief Set widget size
-     * \param size New size
+     * \brief Automatically call this function after setPosition()
      */
-    void setSize(const Vector2i& size) override;
+    void onResize() override;
 
     /**
      * \brief Get max scroll offset
@@ -92,11 +97,15 @@ public:
 
 protected:
     /**
+     * \brief Default TextArea constructor. Construct TextArea with zero position and size
+     */
+    TextArea();
+
+    /**
      * \brief TextArea constructor. Construct TextArea with specific position and size
      * \param area TextArea area
-     * \return Smart ptr to TextArea
      */
-    TextArea(const Area& area);
+    explicit TextArea(const Area& area);
 
     /**
      * \brief Update display string if content has changed

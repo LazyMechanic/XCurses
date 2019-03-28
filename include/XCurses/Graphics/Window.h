@@ -61,6 +61,11 @@ public:
     virtual ~Window() = default;
 
     /**
+     * \brief Automatically call this function after setSize()
+     */
+    void onResize() override;
+
+    /**
      * \brief Add char into window. If position more than window size then do nothing. 
      * Window size not include border
      * \param ch Character
